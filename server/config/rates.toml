@@ -1,0 +1,29 @@
+# Game rates configuration
+# Change these values and they take effect on next hot-reload cycle.
+# No server restart needed.
+
+[exp]
+solo = 1.0
+group = 1.5
+quest = 1.0
+crafting = 1.0
+
+[drop]
+normal = 2.0       # 200% = original dropMultiple value
+boss = 3.0
+event = 5.0
+
+[kinah]
+mob = 1.0
+quest = 1.0
+sell = 1.0
+
+[pvp]
+ap_gain = 1.0      # Abyss Points
+ap_loss = 1.0
+glory_gain = 1.0
+
+[misc]
+chat_cooldown_ms = 1000
+trade_level_req = 10
+legion_create_cost = 100000

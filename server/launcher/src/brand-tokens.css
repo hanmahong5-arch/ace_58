@@ -1,0 +1,107 @@
+/* brand-tokens.css — Re-export of brand/palette.css CSS custom properties.
+   Copied here so the launcher frontend can reference tokens without a symlink.
+   Source of truth: D:/拾光ai/brand/palette.css */
+
+:root {
+  /* Core Brand Colors */
+  --color-bg-primary:        #0D1B2A;
+  --color-bg-secondary:      #122336;
+  --color-bg-tertiary:       #1A3048;
+  --color-bg-elevated:       #1F3A57;
+
+  --color-accent-blue:       #3A8FBF;
+  --color-accent-blue-light: #5BAFDF;
+  --color-accent-blue-dim:   #1E6A96;
+
+  --color-accent-dawn:       #FF9E40;
+  --color-accent-dawn-light: #FFB86C;
+  --color-accent-dawn-dim:   #CC7820;
+
+  --color-gold:              #D4AF37;
+  --color-gold-light:        #E8CC6A;
+  --color-gold-dim:          #9E821A;
+
+  /* Text Colors */
+  --color-text-on-dark:      #F0F4F8;
+  --color-text-secondary:    #9FAFC0;
+  --color-text-disabled:     #4A5A6B;
+  --color-text-on-light:     #0D1B2A;
+  --color-text-accent:       #FF9E40;
+  --color-text-link:         #5BAFDF;
+
+  /* Neutral Palette */
+  --color-neutral-100:       #FFFFFF;
+  --color-neutral-900:       #0D1B2A;
+
+  /* Semantic / Functional */
+  --color-success:           #4CAF82;
+  --color-warning:           #FF9E40;
+  --color-error:             #E05050;
+  --color-info:              #3A8FBF;
+
+  /* Gradients */
+  --gradient-brand:          linear-gradient(135deg, #0D1B2A 0%, #1A3048 100%);
+  --gradient-dawn:           linear-gradient(135deg, #FF9E40 0%, #D4AF37 100%);
+  --gradient-blue-deep:      linear-gradient(135deg, #1E6A96 0%, #3A8FBF 100%);
+  --gradient-hero:           linear-gradient(180deg, #0D1B2A 0%, #122336 60%, #1A3048 100%);
+
+  /* Borders */
+  --color-border-default:    #2E3E50;
+  --color-border-subtle:     #1F3048;
+  --color-border-accent:     #3A8FBF;
+  --color-border-gold:       #D4AF37;
+
+  /* Shadows */
+  --shadow-sm:               0 1px 3px rgba(13, 27, 42, 0.6);
+  --shadow-md:               0 4px 16px rgba(13, 27, 42, 0.8);
+  --shadow-lg:               0 8px 32px rgba(13, 27, 42, 0.9);
+  --shadow-glow-dawn:        0 0 20px rgba(255, 158, 64, 0.35);
+  --shadow-glow-blue:        0 0 20px rgba(58, 143, 191, 0.35);
+
+  /* Spacing Scale */
+  --space-1:   4px;
+  --space-2:   8px;
+  --space-3:   12px;
+  --space-4:   16px;
+  --space-5:   24px;
+  --space-6:   32px;
+  --space-7:   48px;
+  --space-8:   64px;
+
+  /* Border Radius */
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius-lg:   16px;
+  --radius-xl:   24px;
+  --radius-full: 9999px;
+
+  /* Typography */
+  --font-display-zh:  "Source Han Serif SC", "Noto Serif CJK SC", "思源宋体", serif;
+  --font-body-zh:     "Source Han Sans SC", "Noto Sans CJK SC", "思源黑体", sans-serif;
+  --font-display-la:  "Cinzel", "Times New Roman", serif;
+  --font-body-la:     "Inter", "Helvetica Neue", Arial, sans-serif;
+
+  --font-size-xs:   0.75rem;
+  --font-size-sm:   0.875rem;
+  --font-size-md:   1rem;
+  --font-size-lg:   1.125rem;
+  --font-size-xl:   1.25rem;
+  --font-size-2xl:  1.5rem;
+
+  --font-weight-regular: 400;
+  --font-weight-medium:  500;
+  --font-weight-bold:    700;
+
+  --line-height-tight:  1.2;
+  --line-height-base:   1.6;
+
+  /* Z-Index */
+  --z-base:    0;
+  --z-raised:  10;
+  --z-overlay: 100;
+
+  /* Transitions */
+  --transition-fast:   150ms ease;
+  --transition-base:   250ms ease;
+  --transition-slow:   400ms ease;
+}

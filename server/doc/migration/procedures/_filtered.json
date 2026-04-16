@@ -1,0 +1,561 @@
+[
+  {
+    "type": "deploy",
+    "db": "aion_account_db",
+    "func": "account_input",
+    "error": "错误:  括号不匹配 在 \")\" 或附近的 | LINE 18: ...ey,27,4,v_accountNo,v_genderCode,v_legalBirthday,v_retCode); |                                                                       ^ | ",
+    "original_tsql_preview": "--exec account_InPut 'leileiyu'\r\nCREATE proc [dbo].[account_InPut]\r\n@allianceUserKey varchar(255)\r\nas\r\ndeclare @accountNo int\r\ndeclare @genderCode smallint\r\ndeclare @legalBirthday datetime\r\ndeclare @account_name nvarchar(14)\r\ndeclare @retCode int\r\nset @retCode=2\r\nset @accountNo=0\r\nset @genderCode=0\r\nset @legalBirthday='1900-01-01 00:00:00:000'\r\nset @account_name='_sd_0000000_'\r\n\r\n--1、判断帐号是否登录过该区\r\n\r\nexec GlobalAccountDB.dbo.pap_GetAllianceCompanyAccount @allianceUserKey,27,4,@accountNo output,@genderCode output,@legalBirthday output,@retCode output\r\n\r\n--1.1、如果未登录过该区\r\nIF @accountNo=0 and @retCode=2\r\nbegin\r\n--select count(1) from AionAccountDB.dbo.AccountAuth \r\n--select count(1) from AionAccountDB.dbo.AccountETC \r\n--1.1.1、把帐号信息插入AionAccountDB的AccountAuth与AccountETC表\r\nset @accountno=0\r\nexec Ai",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "deploy",
+    "db": "aion_account_db",
+    "func": "ap_gpwdwithflag",
+    "error": "错误:  在SQL表达式的结尾处丢失\"THEN\" | LINE 9: ...ccount from AccountAuth where gameAccount=p_account)) begin; |                                                                       ^ | ",
+    "original_tsql_preview": "/**\r\n*Purpose            : 拌沥狼厚剐锅龋沥焊甫啊廉柯促.\r\n*Record Set         : 厚剐锅龋, 鞠龋拳规侥, otp荤侩咯何, 傈拳牢刘荤侩咯何\r\n*Error Code         : 绝澜\r\n*Description\t\t: L2AuthD config俊辑 UseOTPServer, UseNCTASServer 荤侩咯何俊 蝶扼\r\n* Input Pram苞 SELECT 拿烦狼 林籍贸府甫 茄促.\r\n* ex) UseOTPServer = false, UseNCTASServer = false\r\n* --,@otpFlag\tSMALLINT OUTPUT\t\t-- When otp option has been set.\r\n* --,@tasFlag\tSMALLINT OUTPUT\t\t-- When tas option has been set.\r\n* --, @otpFlag = dbo.fn_ap_GetOtpFlag (gameAccountNo)\t-- When otp option has been set\r\n* --, @tasFlag = dbo.fn_ap_GetTasFlag (gameAccountNo)\t-- When tas option has been set\r\n*History            : 2008-10-20 Jaewon Ryu 弥檬累己\r\n* 2009-07-24 Seunghyeon Choe Datatype 荐沥 棺 tasFlag(傈拳牢刘辑厚胶) 眠啊\r\n*/\r\n\r\nCREATE PROCEDURE [dbo].[ap_GPwdWithFlag]  \r\n@account\tVARCHAR(16)\r\n,@pwd\t\tBINARY(16) OUTPUT\r\n",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "deploy",
+    "db": "aion_account_db",
+    "func": "ap_setaccountrestirction",
+    "error": "错误:  语法错误 在输入的末尾 | LINE 21: ...trictionCode := CASE p_restrictionReasonCode WHEN 0 THEN 43; |                                                                        ^ | ",
+    "original_tsql_preview": "/**\r\n*Purpose\t\t\t: account BAN with gameAccountNo and restirctionReasonCode (AION)\r\n*Record Set\t\t\t: None\r\n*Error Code\t\t\t: 1 - not exist accountNo\r\n*\t\t\t\t\t  2 - already banned with same restrictionReasonCode\r\n*\t\t\t\t\t  3 - db insert/update error\r\n*\t\t\t\t\t  999 - system error\r\n*History\t\t\t: 2010-06-23, surym, created\r\n*/\r\n    \r\nCREATE PROCEDURE [dbo].[ap_SetAccountRestirction]\r\n      @gameAccountNo           INT              -- 霸烙 拌沥 锅龋\r\n    , @restrictionReasonCode   SMALLINT         -- 力犁荤蜡内靛\r\n\t, @gameAccount             VARCHAR(32) OUT  -- 霸烙 拌沥\r\n    , @restrictionNo           INT OUTPUT       -- 力犁锅龋\r\nAS      \r\n      \r\nSET NOCOUNT ON      \r\n\r\nDECLARE @restrictionEndDate DATETIME\r\nDECLARE @SysErrorCode int, @AffectedRowCnt int      \r\nDECLARE @retcode       INT      \r\nDECLARE @restrictionCode INT",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "deploy",
+    "db": "aion_account_cache_db",
+    "func": "aion_getplaytimesforpolls",
+    "error": "错误:  语法错误 在 \"IF\" 或附近的 | LINE 34:     END IF; |                  ^ | ",
+    "original_tsql_preview": "CREATE procedure [dbo].[aion_GetPlayTimesForPolls]\r\n\t@pollIds\tNVARCHAR(MAX),\r\n\t@account_id\tINT\r\nas\r\nBEGIN\r\n\tSET NOCOUNT ON;\r\n\tDECLARE @S_VAL NVARCHAR(MAX)\r\n\tDECLARE @S_SPLIT_CHAR NVARCHAR(1)\r\n\tDECLARE @oPos INT, @nPos INT, @i INT\r\n\tDECLARE @tempVar NVARCHAR(4000)\r\n\tDECLARE @T_SPLIT TABLE(\r\n\t\tNUM INT, \r\n\t\tVAL NVARCHAR(4000)\r\n\t)\r\n\tDECLARE @PollIDList TABLE(poll_id INT)\r\n\r\n\tBEGIN\r\n\t\tSET @S_VAL = @pollIds\r\n\t\tSET @S_SPLIT_CHAR = N','\r\n\t\tSET @oPos = 1\r\n\t\tSET @nPos = 1\r\n\t\tSET @i = 0\r\n\r\n\t\tWHILE(@nPos > 0)\r\n\t\tBEGIN\r\n\t\t\tSET @nPos = CHARINDEX(@S_SPLIT_CHAR, @S_VAL, @oPos)\r\n\t\t\r\n\t\t\tIF @nPos = 0\r\n\t\t\t\tSET @tempVar = RIGHT(@S_VAL, LEN(@S_VAL) - @oPos + 1)\r\n\t\t\tELSE\r\n\t\t\t\tSET @tempVar = SUBSTRING(@S_VAL, @oPos, @nPos - @oPos)\r\n\r\n\t\t\tIF LEN(@tempVar) > 0\r\n\t\t\tINSERT INTO @T_SPLIT VALUES (@i, @tempVar)\r\n\r\n\t\t\tSET",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "deploy",
+    "db": "aion_account_cache_db",
+    "func": "aion_querycancreatejumpingcharacter",
+    "error": "错误:  语法错误 在 \"ELSE\" 或附近的 | LINE 31:     ELSE |              ^ | ",
+    "original_tsql_preview": "CREATE PROCEDURE [dbo].[aion_QueryCanCreateJumpingCharacter]\r\n\t@account_id int,\r\n\t@server_id int,\t\t\t\t\t-- 특정서버에서 생성 가능한가\r\n\t@from_special tinyint,\t\t\t-- 일반서버군/스페셜서버군 에서 조건체크할 것인가\r\n\t\r\n\t@can_create_num int output,\t\t-- 만들 수 있는 점핑 캐릭터 수\r\n\t@satisfy_date tinyint output,\r\n\t@satisfy_char_lev tinyint output\r\nAS\r\nBEGIN\r\n\t-- SET NOCOUNT ON added to prevent extra result sets from\r\n\t-- interfering with SELECT statements.\r\n\tSET NOCOUNT ON;\r\n    -- Insert statements for procedure here\r\n    declare @cur_date datetime\r\n    set @cur_date = getdate()\r\n    \r\n    declare @max_creation_count int\r\n    declare @required_char_level int\r\n    declare @start_date datetime\r\n    declare @end_date datetime\r\n    SELECT @max_creation_count = max_creation_count, @required_char_level = required_char_level, @start_date = start_",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "deploy",
+    "db": "aion_account_cache_db",
+    "func": "aion_querycancreatejumpingcharacter_20170428",
+    "error": "错误:  语法错误 在 \"ELSE\" 或附近的 | LINE 38:     ELSE |              ^ | ",
+    "original_tsql_preview": "CREATE PROCEDURE [dbo].[aion_QueryCanCreateJumpingCharacter_20170428]\r\n\t@account_id int,\r\n\t@server_id int,\t\t\t\t\t-- 특정서버에서 생성 가능한가\r\n\t@from_special tinyint,\t\t\t-- 일반서버군/스페셜서버군 에서 조건체크할 것인가\r\n\t\r\n\t@can_create_num int output,\t\t-- 만들 수 있는 점핑 캐릭터 수\r\n\t@satisfy_date tinyint output,\r\n\t@satisfy_char_lev tinyint output,\r\n\r\n\t@limit_reset_time int output,\r\n\t@limit_play_time int output\r\nAS\r\nBEGIN\r\n\t-- SET NOCOUNT ON added to prevent extra result sets from\r\n\t-- interfering with SELECT statements.\r\n\tSET NOCOUNT ON;\r\n    -- Insert statements for procedure here\r\n    declare @cur_date datetime\r\n    set @cur_date = getdate()\r\n    \r\n    declare @max_creation_count int\r\n    declare @required_char_level int\r\n    declare @start_date datetime\r\n    declare @end_date datetime\r\n    SELECT @max_creation_count = max_creati",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "deploy",
+    "db": "aion_account_cache_db",
+    "func": "aion_updateplaytimesforpolls",
+    "error": "错误:  语法错误 在 \"IF\" 或附近的 | LINE 50:     END IF; |                  ^ | ",
+    "original_tsql_preview": "CREATE procedure [dbo].[aion_UpdatePlayTimesForPolls]\r\n\t@pollIds\tNVARCHAR(MAX),\r\n\t@playTimes\tNVARCHAR(MAX),\r\n\t@account_id\tINT\r\nas\r\nBEGIN\r\n\tSET NOCOUNT ON;\r\n\tDECLARE @S_VAL NVARCHAR(MAX)\r\n    DECLARE @S_VAL_TIME NVARCHAR(MAX)\r\n    DECLARE @S_SPLIT_CHAR NVARCHAR(1)\r\n    DECLARE @oPos INT, @nPos INT, @oPos_t INT, @nPos_t INT, @i INT\r\n    DECLARE @tempVar NVARCHAR(4000), @tempVar_t NVARCHAR(4000)\r\n    DECLARE @tempPollId INT\r\n    DECLARE @tempPlayTime BIGINT\r\n\r\n    SET @S_VAL = @pollIds\r\n    SET @S_VAL_TIME = @playTimes\r\n    SET @S_SPLIT_CHAR = N','\r\n    SET @oPos = 1\r\n    SET @oPos_t = 1\r\n    SET @nPos = 1\r\n    SET @nPos_t = 1\r\n\r\n    DECLARE @PollIDTimeList TABLE\r\n    (\r\n            poll_id INT,\r\n            PlayTime BIGINT \r\n    )\r\n\r\n    WHILE(@nPos > 0 AND @nPos_t > 0)\r\n\t\tBEGIN\r\n\t\t\tSET @nPo",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "deploy",
+    "db": "aion_gm",
+    "func": "tbladminuserda_srchgmbyidornmorisdel",
+    "error": "错误:  语法错误 在 \"ELSE\" 或附近的 | LINE 29:     ELSE |              ^ | ",
+    "original_tsql_preview": "\r\nCREATE proc [dbo].[TblAdminUserDA_SrchGMByIDorNMorISDEL]\r\n\t\t\t@login_id nvarchar(30),\r\n\t\t\t@login_nm nvarchar(50),\t\t\t\r\n\t\t\t@is_deleted nvarchar(5),\r\n\t\t\t@is_correct nvarchar(10)\r\n\t\tas\r\n\t\t\tset nocount on\r\n\t\t\tset transaction isolation level read uncommitted\r\n\t\t\tset ansi_warnings off\t\r\n\t\t\t\r\n\t\t\tdeclare @sql nvarchar(1000), @tmp int\r\n\t\t\t\t\t\t\r\n\t\t\tset @sql = ' SELECT T1.ADMIN_LEVEL, T2.ORGANIZATION_NM, T2.ORGANIZATION_ID, T1.ADMIN_ID, T1.LOGIN_ID, T1.LOGIN_PW, T1.LOGIN_NM, T1.LOGIN_EMAIL, T1.IS_DELETED, T1.ETC, convert(nvarchar,T1.regdate,20) regdate, convert(nvarchar,T1.AUTH_UPDATE_DATE,20) AUTH_UPDATE_DATE ' +\r\n\t\t\t\t\t' FROM TBL_ADMIN_USER T1(nolock), TBL_ADMIN_ORGANIZATION T2(nolock) ' +\r\n\t\t\t\t\t' WHERE T1.ORGANIZATION_ID = T2.ORGANIZATION_ID  '\r\n\r\n\t\t\tset @tmp = 0\r\n\t\t\t\r\n\t\t\tIF @login_id != 'null'\r\n\t\t\t",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_account_db",
+    "func": "aop_getaccountnoticelist",
+    "error_code": "42P01",
+    "error": "错误:  关系 \"commondb.commoncode\" 不存在 | LINE 1: ..., ALN.noticeEndDate FROM accountLoginNotice ALN , commondb.c... |                                                              ^ | QUERY:  SELECT ALN.gameAccountNo, ALN.noticeTypeCode, CC.codeName, ALN.noticeStartDate, ALN.noticeEndDate FROM accountLogi",
+    "original_tsql_preview": "/**\r\n*Creator            :   kamkami\r\n*SP Name            :   dbo.aop_GetAccountNoticeList\r\n*Purpose            :   酒捞柯 霸烙 拌沥烹瘤 格废阑 炼雀茄促.\r\n*E-Mail             :   kamkami@ncsoft.net\r\n*Date               :   2008-10-20\r\n*Usage              :\r\n*===============================================================================\r\nDECLARE @ErrorCode INT\r\nEXEC dbo.aop_GetAccountNoticeList @account = \r\n\t, @ErrorCode = @ErrorCode OUTPUT\r\nPRINT @ErrorCode\r\n*===============================================================================\r\n*Input Parameter    :   [@account = ]\r\n*                       霸烙拌沥 @account绰 varchar(16)捞哥 扁夯蔼篮 绝嚼聪促.\r\n*Output Parameter   :   [@ErrorCode = ]@ErrorCode OUTPUT\r\n*                       稠府坷幅内靛涝聪促. @ErrorCode int涝聪促.\r\n*                       000 : 俊矾啊 绝嚼聪促.\r\n*           ",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_account_db",
+    "func": "aop_getgameserverchargegrouplist",
+    "error_code": "42P01",
+    "error": "错误:  关系 \"sn.gameserverchargegroup\" 不存在 | LINE 1: SELECT gameServerNo, gameServerChargeGroupNo FROM SN.GameSer... |                                                           ^ | QUERY:  SELECT\tgameServerNo, gameServerChargeGroupNo FROM\tSN.GameServerChargeGroup ORDER BY gameServerNo | CONTEXT:  在RETUR",
+    "original_tsql_preview": "/**\r\n*Creator\t:   Saymond H. Kim\r\n*SP Name\t:   [SN].[aop_GetGameServerChargeGroupList]\r\n*Purpose\t:   Get charge group information of the servers\r\n*E-Mail\t\t:   saymondhkim@ncsoft.net\r\n*Date\t\t:   12/03/2012\r\n*Usage\t\t:\r\n*M.History\t:\t\r\n*===============================================================================\r\n*Input Parameter    :   \r\n*\tNone\r\n*\t\t\r\n*/\r\n\r\nCREATE\tPROCEDURE [SN].[aop_GetGameServerChargeGroupList]\r\nAS\r\n\r\nSELECT\tgameServerNo, gameServerChargeGroupNo\r\nFROM\tSN.GameServerChargeGroup WITH (NOLOCK)\r\nORDER BY gameServerNo\r\n",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_account_db",
+    "func": "ap_autoreg",
+    "error_code": "42846",
+    "error": "错误:  无法把类型 integer 转换为 bytea | LINE 1: ...e, authLimitTypeBitSet) VALUES (v_ssn, p_account, CAST(0 AS ... |                                                              ^ | QUERY:  INSERT INTO AccountAuth (gameAccountNo, gameAccount, password, cryptographTypeCode, legalBirthday, genderCode, authLimi",
+    "original_tsql_preview": "-- =============================================\r\n-- Author:\t\t<Author,,Name>\r\n-- Create date: <Create Date,,>\r\n-- Description:\t<Description,,>\r\n-- =============================================\r\nCREATE PROCEDURE [dbo].[ap_AutoReg]\r\n\t-- Add the parameters for the stored procedure here\r\n@account varchar(14)\r\nAS\r\nBEGIN\r\nset nocount on\r\ndeclare @ssn char(13)\r\nset @ssn=  (select  ISNULL(max(gameAccountNo),0) from AccountAuth) + 1\r\nINSERT AccountAuth (gameAccountNo, gameAccount, password, cryptographTypeCode, legalBirthday, genderCode, authLimitTypeBitSet)\r\nVALUES (@ssn, @account, CONVERT(binary(16),0x00000000000000000000000000000000), 3, 0, 0, 1)\r\nINSERT AccountETC (gameAccountNo, banServerBitSet, accountCreateDate)\r\nVALUES (@ssn, CONVERT(binary(16),0), '1999-01-01')\r\nset nocount off\r\nEND\r\n",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_account_db",
+    "func": "ap_gstat",
+    "error_code": "42883",
+    "error": "错误:  函数 fn_ap_getloginflag(integer, boolean, integer, smallint, timestamp with time zone) 不存在 | LINE 1: SELECT AA.gameAccountNo, 0, fn_ap_GetLoginFlag (AA.gameAccou... |                                     ^ | HINT:  没有匹配指定名称和参数类型的函数. 您也许需要增加明确的类型转换. | QUERY:  SELECT AA.gameAccountNo, 0, fn_ap_GetLo",
+    "original_tsql_preview": "/**\r\n*Purpose            : 拌沥狼惑怕沥焊甫啊廉柯促.\r\n*Record Set         : 搬力咯何(荤侩救窃), 肺弊牢何啊沥焊, 版绊沥焊, 呕硼脚没咯何, 力犁沥焊,\r\n\t\t\t\t\t  殿废咯何, 付瘤阜肺弊牢辑滚, 力犁辆丰老(荤侩救窃), 陛瘤辑滚府胶飘\r\n*Error Code         : 绝澜\r\n*History            : 2008-10-20 Jaewon Ryu 弥檬累己\r\n*/\r\n\r\nCREATE       PROCEDURE [dbo].[ap_GStat]\r\n@account\t\tVARCHAR(14)\r\n, @uid\t\t\tINT OUTPUT \r\n, @payStat\t\tINT OUTPUT \r\n, @loginFlag\t\tINT OUTPUT\r\n, @warnFlag\t\tINT OUTPUT\r\n, @blockFlag\t\tINT OUTPUT\r\n, @blockFlag2\t\tINT OUTPUT \r\n, @subFlag\t\tINT OUTPUT\r\n, @lastworld\t\tTINYINT OUTPUT\r\n, @block_end_date\t\tDATETIME OUTPUT\r\n, @forbidden_servers\tBINARY(16) OUTPUT\t-- When forbidden server option is on\r\n-- , @dormantFlag\t\tINT OUTPUT\t\t\t-- When dormant option is on\r\nAS\r\n\r\nSELECT\t@uid = AA.gameAccountNo,\r\n\t\t@payStat = 0,\r\n\t\t@loginFlag = dbo.fn_ap_GetLoginFlag (AA.gameAccountNo, noticeFl",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_account_db",
+    "func": "ap_slog",
+    "error_code": "42703",
+    "error": "错误:  字段 \"hardware\" 不存在 | LINE 1: SELECT hardware                 WHERE gameAccountNo = p_uid |                ^ | QUERY:  SELECT hardware                 WHERE gameAccountNo = p_uid | CONTEXT:  在SQL语句的第6行的PL/pgSQL函数ap_slog(integer,timestamp without time zone,timestamp without time zone,integer,small",
+    "original_tsql_preview": "/**\r\n*Purpose            : 拌沥肺弊酒眶矫沥焊甫扁废茄促. \r\n*Record Set         : 绝澜\r\n*Error Code         : 绝澜\r\n*History            : 2008-10-20 Jaewon Ryu 弥檬累己\r\n*/\r\n\r\nCREATE  PROCEDURE [dbo].[ap_SLog] \r\n  @uid\t\t\tINT\t\t\t\t-- 霸烙拌沥锅龋\r\n, @lastlogin\tDATETIME\t\t-- 付瘤阜肺弊牢矫埃\r\n, @lastlogout\tDATETIME\t\t-- 付瘤阜肺弊酒眶矫埃\r\n, @LastGame\t\tINT\t\t\t\t-- 付瘤阜肺弊牢茄霸烙\r\n, @LastWorld\tTINYINT\t\t\t-- 付瘤阜肺弊牢茄霸烙辑滚\r\n, @LastIP\t\tVARCHAR(15)\t\t-- 付瘤阜肺弊牢茄IP\r\nAS\r\n\r\nDECLARE @hardware varchar(16)\r\n\r\nUPDATE\tAccountETC\r\nSET\tlastLoginDate = @lastlogin,\r\n\t\tlastLogoutDate = @lastlogout,\r\n\t\tlastLoginGameServerNo = @LastWorld\r\nWHERE\tgameAccountNo = @uid\r\n\r\nSELECT @hardware = hardware FROM AccountETC WHERE gameAccountNo = @uid\r\n",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_account_db",
+    "func": "ap_suserdata",
+    "error_code": "42P01",
+    "error": "错误:  关系 \"ae\" 不存在 | LINE 1: UPDATE AE SET  accountCustomizeBitSet = p_userdata FROM Acco... |                ^ | QUERY:  UPDATE\tAE SET\t\taccountCustomizeBitSet = p_userdata FROM\tAccountAuth AA INNER JOIN AccountETC AE ON (AA.gameAccountNo = AE.gameAccountNo) WHERE\tAA.gameAccount = p_account | CONTEXT:",
+    "original_tsql_preview": "/**\r\n*Purpose            : 荤侩磊何啊沥焊甫扁废茄促. \r\n*Record Set         : 绝澜\r\n*Error Code         : 绝澜\r\n*History            : 2008-10-20 Jaewon Ryu 弥檬累己\r\n*/\r\n\r\nCREATE PROCEDURE [dbo].[ap_SUserData]\r\n  @account\t\t\tVARCHAR (14)\t\t-- 霸烙拌沥\r\n, @userdata_size\tSMALLINT\t\t\t-- 荤侩磊何啊沥焊农扁\r\n, @userdata\t\t\tVARBINARY(128)\t\t-- 荤侩磊何啊沥焊\r\nAS\r\n\r\nUPDATE\tAE\r\nSET\t\taccountCustomizeBitSet = @userdata\r\nFROM\tAccountAuth AA INNER JOIN AccountETC AE ON (AA.gameAccountNo = AE.gameAccountNo)\r\nWHERE\tAA.gameAccount = @account\r\n",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_account_db",
+    "func": "convert",
+    "error_code": "42804",
+    "error": "错误:  无法确定多态类型, 因为输入类型为unknown | ",
+    "original_tsql_preview": "",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_account_db",
+    "func": "pap_getaccountbyuserid",
+    "error_code": "42883",
+    "error": "错误:  函数 pap_getaccount(character varying, integer, bytea, smallint, timestamp without time zone, smallint) 不存在 | LINE 1: v_ret := pap_GetAccount(p_account, p_uid, p_password, p_pass... |                  ^ | HINT:  没有匹配指定名称和参数类型的函数. 您也许需要增加明确的类型转换. | QUERY:  v_ret := pap_GetAccount(p_account, p_uid,",
+    "original_tsql_preview": "/**\r\n*Creator\t\t\t\t:   Park, Seunghoon\r\n*SP Name\t\t\t\t:   dbo.pap_GetAccountByUserId\r\n*Purpose            \t:   Get an account information from (each) game account db by an account user id\r\n*E-Mail             \t:   surym@ncsoft.net\r\n*Date               \t:   09/10/2008\r\n*Usage              \t:\r\n*===============================================================================\r\nUse Only For Portal Auth\r\n*===============================================================================\r\n*Input Parameter    :   \r\n*\t@uid\r\n*\t\tuid\r\n*\r\n*Output Parameter   :   \r\n*\t@account\r\n*\t\taccount\r\n*\t@password\r\n*\t\tpassword\r\n*\t@passwordFlag\r\n*\t\tpassword status. It's used only for lineage\r\n*\t@statusCode\r\n*\t\tthis code is used to indicate whether an account is dormant\r\n\r\n*RecordSet          \t\t: 馆券窍瘤臼嚼聪促.\r\n*Process Number    ",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_account_db",
+    "func": "pap_getgameinfo",
+    "error_code": "42883",
+    "error": "错误:  操作符不存在: boolean = integer | LINE 1: v_isNoticed = 1 |                     ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  v_isNoticed = 1 | CONTEXT:  在IF的第22行的PL/pgSQL函数pap_getgameinfo(integer) | ",
+    "original_tsql_preview": "/**\r\n*Creator\t\t:   Ryu, Jaewon\r\n*SP Name\t:   dbo.pap_GetGameInfo\r\n*Purpose            \t:   Get an account information associated with the game\r\n*E-Mail             \t:   veni@ncsoft.net\r\n*Date               \t:   04/10/2007\r\n*Usage              \t:\r\n*===============================================================================\r\nUse Only For Portal Auth\r\n*===============================================================================\r\n*Input Parameter    :   \r\n*\t@uid\r\n*\t\tuid\r\n*Output Parameter   :   \r\n*\t@account\r\n*\t@statusFlag\r\n*\t@activeFlag\r\n*\t@warnStat\r\n*\t@otpStat\r\n*\t@macStat\r\n*\t@blockFlag\r\n*\t@blockFlag2\r\n*\t@loginFlag\r\n\r\n*RecordSet          \t: 馆券窍瘤 臼嚼聪促.\r\n*Process Number     \t:   \r\n*Call               \t:   \r\n*Modification Memo  \t:\t2008.10.20, surym, add default value and isnull checker\r\n\t\t",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_account_db",
+    "func": "write_gameuser_counts",
+    "error_code": "42883",
+    "error": "错误:  操作符不存在: character varying + character varying | LINE 1: v_txt := v_txt + v_gamename || '=' || CAST(v_cnt AS varchar(... |                        ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  v_txt := v_txt + v_gamename || '=' || CAST(v_cnt AS varchar(10)) || '; ' | CONTEXT:  在赋值的第13行的",
+    "original_tsql_preview": "CREATE procedure [dbo].[write_gameuser_counts]\r\nas\r\n\r\ndeclare @gamename  nvarchar(50)\r\ndeclare @cnt int\r\ndeclare @txt nvarchar(500)\r\nset @gamename ='AION'\r\nset @txt = 'OK|'\r\n\r\nset @cnt = (  \r\n--扁粮 select top 1 concurrentUserCount from AionAccountDB..ConcurrentUserStat (nolock)\r\n--扁粮 where serverNo=0 and concurrentUserStatTypeCode=2 order by registerDate desc\r\n\t\r\n\t-- 抛胶飘辑滚客 夯辑滚 牢刘阑 盒府窍搁辑 笛促甫 荐侩且荐 乐绰 备炼肺 函版窃\r\n\t-- 2009.04.30 by compleus\r\n\tselect sum(concurrentUserCount)\r\n\tfrom dbo.ConcurrentUserStat\r\n\twhere serverNo=0 and concurrentUserStatTypeCode=2 \r\n\tand registerdate > Dateadd(minute, -5, Getdate()) /* 5盒 */\r\n\tgroup by serverNo \r\n)\r\nset @txt  = @txt + @gamename+'='+cast( @cnt as nvarchar(10) )+'; '\r\n\r\nDECLARE @FS int, @OLEResult int, @FileID int\r\n\r\nEXECUTE @OLEResult = sp_OACreate 'Scripti",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_account_cache_db",
+    "func": "aion_getoldestcreatedate",
+    "error_code": "42804",
+    "error": "错误:  COALESCE 的类型 timestamp without time zone 和 integer 不匹配 | LINE 1: SELECT COALESCE(min(create_date), 0) FROM global_user_data W... |                                           ^ | QUERY:  SELECT COALESCE(min(create_date), 0) FROM global_user_data WHERE account_id = p_accountId | CONTEXT:  在RETURN ",
+    "original_tsql_preview": "CREATE PROCEDURE [dbo].[aion_GetOldestCreateDate]\r\n\t@accountId int\r\nAS\r\nBEGIN\r\n\t-- SET NOCOUNT ON added to prevent extra result sets from\r\n\t-- interfering with SELECT statements.\r\n\tSET NOCOUNT ON;\r\n\r\n    -- Insert statements for procedure here\r\n\tSELECT ISNULL(min(create_date), 0)\r\n\tFROM global_user_data with (NOLOCK)\r\n\tWHERE account_id = @accountId \r\n\r\nEND\r\n",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_account_cache_db",
+    "func": "aion_loadlunaprice",
+    "error_code": "42P01",
+    "error": "错误:  关系 \"user_luna_price\" 不存在 | LINE 1: ...et_week_value, reset_time_value, create_time from user_luna_... |                                                              ^ | QUERY:  SELECT luna_id, use_count, reset_type, reset_week_value, reset_time_value, create_time from user_luna_price where char",
+    "original_tsql_preview": "create procedure [dbo].[aion_LoadLunaPrice]\r\n\t@char_id int\r\nas \r\nbegin\r\n\tselect luna_id, use_count, reset_type, reset_week_value, reset_time_value, create_time from user_luna_price where char_id = @char_id\r\nend\r\n",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_account_cache_db",
+    "func": "aion_updatelunaprice",
+    "error_code": "42P01",
+    "error": "错误:  关系 \"user_luna_price\" 不存在 | LINE 1: update user_luna_price set use_count = p_use_count, update_t... |                ^ | QUERY:  update user_luna_price set use_count = p_use_count, update_time = CURRENT_TIMESTAMP where char_id = p_char_id and luna_id = p_luna_id and create_time != 0 | CONTEXT:  ",
+    "original_tsql_preview": "CREATE procedure [dbo].[aion_UpdateLunaPrice]\r\n\t@char_id int,\r\n\t@luna_id int,\r\n\t@use_count int,\r\n\t@reset_type tinyint,\r\n\t@reset_week_value tinyint,\r\n\t@reset_time_value int,\r\n\t@create_time bigint\r\nas\r\nbegin\t\r\n\tbegin tran\r\n\tif @use_count = 0 and @create_time = 0\t--지우는 경우다.\r\n\tbegin\r\n\t\tupdate user_luna_price set use_count = @use_count, create_time = @create_time where char_id = @char_id and luna_id = @luna_id\r\n\tend\r\n\telse\t-- 일반 업데이트인데\r\n\tbegin\r\n\t\tupdate user_luna_price set use_count = @use_count, update_time = GETDATE() where char_id = @char_id and luna_id = @luna_id and create_time != 0 -- 정상적인 상황에 대해서 시도해보고\r\n\t\t\r\n\t\tif @@ROWCOUNT = 0 --실패라면 일단 지워짐 표시된 (create_time이 0인 레코드) 경우를 업데이트 시도.\r\n\t\tbegin\r\n\t\t\tupdate user_luna_price set use_count = @use_count, update_time = GETDATE(), create_time = @create",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_account_cache_db",
+    "func": "ap_getservers",
+    "error_code": "42P01",
+    "error": "错误:  关系 \"aion_myserver\" 不存在 | LINE 1: SELECT * FROM aion_myserver |                       ^ | QUERY:  SELECT * FROM aion_myserver | CONTEXT:  在RETURN QUERY的第3行的PL/pgSQL函数ap_getservers(integer) | ",
+    "original_tsql_preview": "CREATE PROCEDURE [dbo].[ap_getservers]    \r\n   (    \r\n       @server_id INT=1\r\n       --@datasource INT \r\n       --SELECT * FROM aion_serverlist\r\n    )    \r\n    AS    \r\nSELECT * FROM aion_myserver\r\n",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_account_cache_db",
+    "func": "convert",
+    "error_code": "42804",
+    "error": "错误:  无法确定多态类型, 因为输入类型为unknown | ",
+    "original_tsql_preview": "",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_account_cache_db",
+    "func": "gm_accountcacheda_srchhiddenfatiguelist",
+    "error_code": "42883",
+    "error": "错误:  操作符不存在: timestamp without time zone >= bytea | LINE 1: ...WHERE server_id = p_world_id AND  last_login_time >= binary(... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT\ta.account_id, hidden_fatigue_point, hidden_fati",
+    "original_tsql_preview": "CREATE PROC [dbo].[GM_AccountCacheDA_SrchHiddenFatigueList]\r\n\t@world_id\t\t\tint,\r\n\t@last_login_date\tvarchar(24)\r\nAS\r\n\tset nocount on\r\n\tset transaction isolation level read uncommitted\r\n\r\n\tSELECT\ta.account_id, hidden_fatigue_point, hidden_fatigue_updatetime, hidden_fatigue_npckill, u.last_login_time, u.char_id, u.server_id\r\n\tFROM\taccount_data a (nolock)\r\n\tJOIN\r\n\t(\r\n\t\tSELECT\taccount_id, char_id, last_login_time, server_id, ROW_NUMBER() over (partition by account_id order by last_login_time desc) as LOGIN_TIME_ROWNUM\r\n\t\tFROM\tglobal_user_data (nolock)\r\n\t\tWHERE\tserver_id = @world_id\r\n\t\tAND\t\tlast_login_time >= CONVERT(datetime, @last_login_date)\r\n\t) u ON a.account_id = u.account_id AND u.LOGIN_TIME_ROWNUM = 1\r\n\tORDER BY account_id DESC\r\n",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_account_cache_db",
+    "func": "gm_accountcacheda_srchhiddenfatiguelistforexcel",
+    "error_code": "42883",
+    "error": "错误:  操作符不存在: timestamp without time zone >= bytea | LINE 1: ...WHERE server_id = p_world_id AND  last_login_time >= binary(... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT\ta.account_id, hidden_fatigue_point, hidden_fati",
+    "original_tsql_preview": "CREATE PROC [dbo].[GM_AccountCacheDA_SrchHiddenFatigueListForExcel]\r\n\t@world_id\t\t\tint,\r\n\t@last_login_date\tvarchar(24)\r\nAS\r\n\tset nocount on\r\n\tset transaction isolation level read uncommitted\r\n\r\n\tSELECT\ta.account_id, hidden_fatigue_point, hidden_fatigue_updatetime, hidden_fatigue_npckill, u.last_login_time, u.char_id, u.server_id\r\n\tFROM\taccount_data a (nolock)\r\n\tJOIN\r\n\t(\r\n\t\tSELECT\taccount_id, char_id, last_login_time, server_id, ROW_NUMBER() over (partition by account_id order by last_login_time desc) as LOGIN_TIME_ROWNUM\r\n\t\tFROM\tglobal_user_data (nolock)\r\n\t\tWHERE\tserver_id = @world_id\r\n\t\tAND\t\tlast_login_time >= CONVERT(datetime, @last_login_date)\r\n\t) u ON a.account_id = u.account_id AND u.LOGIN_TIME_ROWNUM = 1\r\n\tORDER BY account_id DESC\r\n",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_gm",
+    "func": "commit_test",
+    "error_code": "42P01",
+    "error": "错误:  关系 \"test\" 不存在 | LINE 1: insert into test values('222','ok','10') |                     ^ | QUERY:  insert into test values('222','ok','10') | CONTEXT:  在SQL语句的第4行的PL/pgSQL函数commit_test() | ",
+    "original_tsql_preview": "create proc [dbo].[commit_test]\r\nas\r\nset nocount on\r\n\r\nbegin transaction\r\n\r\ninsert into test values('222','ok','10')\r\ninsert into test values('한글','ok','10')\r\n\r\ncommit transaction\r\n\r\nset nocount off\r\nreturn\t\r\n\r\n",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_gm",
+    "func": "convert",
+    "error_code": "42804",
+    "error": "错误:  无法确定多态类型, 因为输入类型为unknown | ",
+    "original_tsql_preview": "",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_gm",
+    "func": "dbmanager_dbmanager",
+    "error_code": "42883",
+    "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...ver_url from tbl_world_server_info where world_id = p_world_... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT server_url from tbl_world_server_info where world_id = p",
+    "original_tsql_preview": "\t\t\t\r\n\t\tcreate proc [dbo].[DBManager_DBManager]\r\n\t\t\t@world_id nvarchar(5),\r\n\t\t\t@server_nm nvarchar(50)\r\n\t\tas\r\n\t\t\tset nocount on\r\n\t\t\tset transaction isolation level read uncommitted\r\n\t\t\tset ansi_warnings off\r\n\t\t\t\r\n\t\t\tselect server_url from tbl_world_server_info \r\n\t\t\twhere world_id = @world_id and server_nm = @server_nm\r\n\t\t\t\r\n\t\t\tset nocount off\r\n\t\t\treturn\r\n\t\r\n",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_gm",
+    "func": "gm_userdatada_srchabuseqina",
+    "error_code": "42883",
+    "error": "错误:  操作符不存在: character varying + character varying | LINE 1: v_sql := v_sql + v_sql_etc |                        ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  v_sql := v_sql + v_sql_etc | CONTEXT:  在赋值的第18行的PL/pgSQL函数gm_userdatada_srchabuseqina(character varying,character varying,character",
+    "original_tsql_preview": "create proc [dbo].[GM_UserDataDA_SrchAbuseQina]\r\n\t\t\t@world_id nvarchar(5),\r\n\t\t\t@user_id nvarchar(30),\r\n\t\t\t@account_name nvarchar(50),\r\n\t\t\t@bx_char_id nvarchar(25),\r\n\t\t\t@view_count nvarchar(5),\r\n\t\t\t@top_count nvarchar(5)\r\n\t\tas\r\n\t\t\tset nocount on\r\n\t\t\tset transaction isolation level read uncommitted\r\n\t\t\tset ansi_warnings off\t\r\n\t\t\t\r\n\t\t\tdeclare @sql nvarchar(4000), @tmp int, @sql_etc nvarchar(1000)\r\n\r\n\t\t\tset @sql_etc = ' and delete_type != ''10000'' '\r\n\r\n\t\t\tIF @user_id != 'null'\r\n\t\t\tBEGIN\r\n\t\t\t\tset @sql_etc = @sql_etc + ' and user_id = N'''+@user_id+''''\t\t\t\t\r\n\t\t\tEND\r\n\t\t\t\r\n\t\t\tIF @bx_char_id != 'null'\r\n\t\t\tBEGIN\r\n\t\t\t\tset @sql_etc = @sql_etc + ' and char_id = '''+@bx_char_id+''''\t\t\t\t\r\n\t\t\tEND \r\n\t\t\t\r\n\t\t\tIF @account_name != 'null'\r\n\t\t\tBEGIN\r\n\t\t\t\t\tset @sql_etc = @sql_etc + ' AND account_name = '''+@acco",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_gm",
+    "func": "gm_useritemda_srchmycompounditems",
+    "error_code": "42P01",
+    "error": "错误:  关系 \"user_item\" 不存在 | LINE 1: ..., t2.stat_enchant_val5 sub_stat_enchant_val5 from user_item ... |                                                              ^ | QUERY:  SELECT t1.tid, t1.obtain_skin_type, t1.expire_skin_time, t1.expired_time, t1.buy_amount, t1.buy_duration, t1.option_count, t",
+    "original_tsql_preview": "create proc [dbo].[GM_UserItemDA_SrchMyCompoundItems]\r\n\t\t\t@char_id nvarchar(20)\r\n\t\tas\r\n\t\t\tset nocount on\r\n\t\t\tset transaction isolation level read uncommitted\r\n\t\t\tset ansi_warnings off\r\n\t\t\t\r\n\t\t\tselect \r\n\t\t\tt1.tid, t1.obtain_skin_type, t1.expire_skin_time, t1.expired_time, t1.buy_amount, t1.buy_duration, t1.option_count, t1.id, t1.char_id, t1.name_id, t1.amount, t1.slot_id, t1.slot, \r\n\t\t\tt1.warehouse, convert(nvarchar,t1.create_date,21 ) create_date, convert(nvarchar,t1.update_date,21 ) update_date, t1.soul_bound, t1.enchant_count, t1.skin_name_id, \r\n\t\t\tt1.stat_enchant_0, t1.stat_enchant_val0, t1.stat_enchant_1, t1.stat_enchant_val1, t1.stat_enchant_2, t1.stat_enchant_val2, t1.stat_enchant_3, t1.stat_enchant_val3, t1.stat_enchant_4, \r\n\t\t\tt1.stat_enchant_val4, t1.stat_enchant_5, t1.stat_encha",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_gm",
+    "func": "gm_useritemdao_addcompound",
+    "error_code": "42P01",
+    "error": "错误:  关系 \"user_item\" 不存在 | LINE 1: EXISTS (select id from user_item where id = p_main_item_dbid... |                                ^ | QUERY:  EXISTS (select id from user_item where id = p_main_item_dbid and main_item_dbid != 0 and char_id = p_char_id) | CONTEXT:  在IF的第4行的PL/pgSQL函数gm_useritemdao_ad",
+    "original_tsql_preview": "create PROCEDURE [dbo].[GM_UserItemDAO_AddCompound]\r\n\t\t\t@char_id\t\tint\r\n\t\t,\t@item_id\t\tbigint -- sub_id\r\n\t\t,\t@main_item_dbid bigint\r\n\t\tAS\r\n\t\tSET NOCOUNT ON\r\n\t\t\r\n\t\tbegin tran\t\r\n\t\t\r\n\t\t-- 주무기가 보조무기로 들어갈 경우 체크 : 현재 합성 주무기가 보조무기로 사용중인지\r\n\t\tif EXISTS (select id from user_item(UPDLOCK) where id = @main_item_dbid and main_item_dbid != 0 and char_id = @char_id)\r\n\t\tbegin\r\n\t\t\trollback tran\r\n\t\t\treturn 1\r\n\t\tend\t\t\r\n\t\t\r\n\t\t-- 주무기가 보조무기로 들어갈 경우 체크 : 주무기가 다른 아이템의 보조무기로 사용중인지\r\n\t\tif EXISTS (select id from user_item(UPDLOCK) where main_item_dbid = @main_item_dbid and warehouse != 10 and char_id = @char_id)\r\n\t\tbegin\r\n\t\t\trollback tran\r\n\t\t\treturn 2\r\n\t\tend\r\n\t\t\r\n\t\t-- 보조무기가 다른 아이템의 보조무기로 사용 중인지\r\n\t\tif EXISTS (select id from user_item(UPDLOCK) where main_item_dbid = @item_id and warehouse != 10 and char_id = @char_id)\r\n\t",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_gm",
+    "func": "gm_useritemdao_delcompoundrecovery",
+    "error_code": "42P01",
+    "error": "错误:  关系 \"user_item\" 不存在 | LINE 1: SELECT main_item_dbid                       FROM user_item w... |                                                          ^ | QUERY:  SELECT main_item_dbid                       FROM user_item where id = p_item_id and char_id = p_char_id | CONTEXT:  在SQL语句的第7行的PL/p",
+    "original_tsql_preview": "create PROCEDURE [dbo].[GM_UserItemDAO_DelCompoundRecovery]\r\n\t\t\t@char_id\t\tint\r\n\t\t,\t@item_id\t\t\tbigint\r\n\t\t, @warehouse int\r\n\t\tAS\r\n\t\tSET NOCOUNT ON\r\n\t\tdeclare @main_item_dbid bigint\r\n\r\n\t\tbegin tran\r\n\r\n\t\tselect @main_item_dbid = main_item_dbid from user_item(updlock) where id = @item_id and char_id = @char_id\r\n\t\tif (@@rowcount = 0)\r\n\t\tbegin\r\n\t\t\trollback tran\r\n\t\t\treturn 1\r\n\t\tend\r\n\r\n\t\tif not EXISTS (select id from user_item(UPDLOCK) where warehouse=16 and main_item_dbid=@main_item_dbid)\r\n\t\tbegin\t\r\n\t\t\tupdate user_item set warehouse = @warehouse where warehouse=17 and id = @item_id and char_id = @char_id\r\n\t\tend\r\n\t\telse\r\n\t\tbegin\r\n\t\t\trollback tran\r\n\t\t\treturn 2\r\n\t\tend\r\n\r\n\t\tcommit tran\r\n\t\treturn 0\r\n",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_gm",
+    "func": "tbladminorganizationda_srchorganizationbyid",
+    "error_code": "42883",
+    "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...FROM TBL_ADMIN_ORGANIZATION where organization_id = p_organi... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT organization_id, organization_nm, organization_info FROM",
+    "original_tsql_preview": "\t\t\r\n\t\tcreate proc [dbo].[TblAdminOrganizationDA_SrchOrganizationByID]\t\t\r\n\t\t@organization_id nvarchar(10)\r\n\t\tas\r\n\t\tset nocount on\r\n\t\tset transaction isolation level read uncommitted\r\n\t\tset ansi_warnings off\r\n\t\t\r\n\t\tSELECT organization_id, organization_nm, organization_info\r\n\t\tFROM TBL_ADMIN_ORGANIZATION(nolock)\r\n\t\twhere organization_id = @organization_id\r\n\t\t\r\n\t\t\r\n\t\tset nocount off\r\n\t\treturn\t\t\r\n\t\r\n",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_gm",
+    "func": "tbladminuserda_srchbyadminid",
+    "error_code": "42883",
+    "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...user t1, TBL_ADMIN_ORGANIZATION t2 where admin_id = p_admin_... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT \tt1.admin_id, t1.login_id, t1.login_nm, t1.login_pw, t1.",
+    "original_tsql_preview": "\r\nCREATE proc [dbo].[TblAdminUserDA_SrchByAdminID]\r\n\t@admin_id nvarchar(10)\r\nas\r\n\tset nocount on\r\n\tset transaction isolation level read uncommitted\r\n\tset ansi_warnings off\r\n\t\r\n\tselect \tt1.admin_id, t1.login_id, t1.login_nm, t1.login_pw, t1.login_email, t1.is_deleted, t1.etc, convert(nvarchar,t1.regdate,20) regdate, t1.PASSWORD_WRONG_CNT,\r\n\t\t\tt2.organization_id, t2.organization_nm, t2.organization_info\r\n\tfrom\ttbl_admin_user t1(nolock), TBL_ADMIN_ORGANIZATION t2(nolock)\r\n\twhere\tadmin_id = @admin_id and t1.organization_id = t2.organization_id\r\n\t\r\n\tset nocount off\r\n\treturn\r\n",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_gm",
+    "func": "tbladminuserda_srchbyloginidandpw",
+    "error_code": "42704",
+    "error": "错误:  编码 \"UTF8\" 中的排序规则 \"korean_wansung_cs_as\" 不存在 | LINE 1: ...nd login_id = '' || p_login_id || '' and login_pw COLLATE KO... |                                                              ^ | QUERY:  SELECT admin_level, (EXTRACT(EPOCH FROM (CURRENT_TIMESTAMP)::timestamp - (PWDATE)::timestamp) / 864",
+    "original_tsql_preview": "CREATE proc [dbo].[TblAdminUserDA_SrchByLoginIDandPW]\r\n\t\t\t@login_id nvarchar(50),\r\n\t\t\t@login_pw nvarchar(50)\r\n\t\tas\r\n\t\t\tset transaction isolation level read uncommitted\r\n\t\t\tset ansi_warnings off\t\t\t\r\n\t\t\t\r\n\t\t\tselect admin_level, datediff(dd, PWDATE, getdate()) pwday, admin_id, login_id, login_nm, login_pw, login_email, is_deleted, organization_id, convert(nvarchar,regdate,20) regdate\r\n\t\t\tfrom tbl_admin_user (nolock)\r\n\t\t\twhere is_deleted='Y'  and login_id = ''+@login_id+'' and [login_pw] COLLATE KOREAN_WANSUNG_CS_AS = ''+@login_pw+''\r\n",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_gm",
+    "func": "tbladminuserdao_creategm",
+    "error_code": "42804",
+    "error": "错误:  字段 \"organization_id\" 的类型为 integer, 但表达式的类型为 character varying | LINE 1: ...p_login_id, p_login_pw, p_login_nm, p_login_email,p_organiza... |                                                              ^ | HINT:  你需要重写或转换表达式 | QUERY:  INSERT INTO TBL_ADMIN_USER (login_id, login_pw, login_nm, lo",
+    "original_tsql_preview": "\r\nCREATE proc [dbo].[TblAdminUserDAO_CreateGM]\r\n\t\t\t@login_id nvarchar(150),\t\r\n\t\t\t@login_pw nvarchar(150),\r\n\t\t\t@login_nm nvarchar(150),\r\n\t\t\t@login_email nvarchar(170),\r\n\t\t\t@organization_id nvarchar(50),\t\t\t\r\n\t\t\t@is_deleted nvarchar(2),\r\n\t\t\t@etc nvarchar(200),\r\n\t\t\t@admin_level tinyint\r\n\t\tas\r\n\t\t\tINSERT INTO TBL_ADMIN_USER (login_id, login_pw, login_nm, login_email, organization_id, is_deleted, etc, regdate, pwdate, admin_level, auth_update_date)\r\n\t\t\tVALUES(@login_id, @login_pw, @login_nm, @login_email,@organization_id, @is_deleted, @etc, getdate(), getdate(), @admin_level, getdate())\r\n",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_gm",
+    "func": "tbladminuserdao_updategmstate",
+    "error_code": "42883",
+    "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...TH_UPDATE_DATE = CURRENT_TIMESTAMP WHERE ADMIN_ID = p_admin_... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  UPDATE TBL_ADMIN_USER SET IS_DELETED = p_is_deleted, AUTH_UPDAT",
+    "original_tsql_preview": "\r\nCREATE proc [dbo].[TblAdminUserDAO_UpdateGMState]\r\n\t\t\t@admin_id nvarchar(10),\r\n\t\t\t@is_deleted nvarchar(2)\r\n\t\tas\r\n\t\t\tUPDATE TBL_ADMIN_USER SET IS_DELETED = @is_deleted, AUTH_UPDATE_DATE = GETDATE() WHERE ADMIN_ID = @admin_id\r\n",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_gm",
+    "func": "tbladminuserdao_updatemygm",
+    "error_code": "42883",
+    "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...email = p_login_email, etc = p_etc WHERE ADMIN_ID = p_admin_... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  UPDATE TBL_ADMIN_USER SET PWDATE=CURRENT_TIMESTAMP, login_pw = ",
+    "original_tsql_preview": "\r\ncreate proc [dbo].[TblAdminUserDAO_UpdateMyGM]\r\n\t\t\t@admin_id nvarchar(10),\r\n\t\t\t@login_pw nvarchar(150),\t\t\t\r\n\t\t\t@login_email nvarchar(170),\t\t\t\r\n\t\t\t@etc nvarchar(200)\t\r\n\t\tas\r\n\t\t\tUPDATE TBL_ADMIN_USER SET PWDATE=getdate(), login_pw = @login_pw, login_email = @login_email, etc = @etc\r\n\t\t\tWHERE ADMIN_ID = @admin_id\r\n",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_gm",
+    "func": "tbladminuserdao_updatemygmfornopassword",
+    "error_code": "42883",
+    "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...email = p_login_email, etc = p_etc WHERE ADMIN_ID = p_admin_... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  UPDATE TBL_ADMIN_USER SET login_email = p_login_email, etc = p_",
+    "original_tsql_preview": "\t\t\t\r\n\t\tcreate proc [dbo].[TblAdminUserDAO_UpdateMyGMForNoPassword]\r\n\t\t\t@admin_id nvarchar(10),\t\t\t\r\n\t\t\t@login_email nvarchar(170),\t\t\t\r\n\t\t\t@etc nvarchar(200)\t\r\n\t\tas\r\n\t\t\tUPDATE TBL_ADMIN_USER SET login_email = @login_email, etc = @etc\r\n\t\t\tWHERE ADMIN_ID = @admin_id\r\n\t\r\n",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_gm",
+    "func": "tbladminuserhistoryda_srchhistory",
+    "error_code": "42883",
+    "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...2 WHERE T1.ADMIN_ID = T2.ADMIN_ID AND (T2.ADMIN_ID=p_admin_i... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT  T1.LOGIN_NM, T2.*, (SELECT LOGIN_NM FROM TBL_ADMIN_USER",
+    "original_tsql_preview": "\r\n\r\ncreate proc [dbo].[TblAdminUserHistoryDA_SrchHistory]\r\n\t\t\t@admin_id nvarchar(10)\r\n\t\tas\r\n\t\t\tset nocount on\r\n\t\t\tset transaction isolation level read uncommitted\r\n\t\t\tset ansi_warnings off\r\n\t\t\t\r\n\t\t\tSELECT top 50 T1.LOGIN_NM, T2.*, (SELECT LOGIN_NM FROM TBL_ADMIN_USER T3 WHERE T3.ADMIN_ID=T2.BY_ADMIN_ID) BY_LOGIN_NM\r\n\t\t\tFROM TBL_ADMIN_USER T1, TBL_ADMIN_USER_HISTORY T2\r\n\t\t\tWHERE T1.ADMIN_ID = T2.ADMIN_ID\r\n\t\t\tAND (T2.ADMIN_ID=@admin_id OR T2.BY_ADMIN_ID=@admin_id)\r\n\t\t\torder by t2.regdate desc\r\n\t\t\t\r\n\t\t\tset nocount off\r\n\t\t\treturn\r\n",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_gm",
+    "func": "tblapprovaldefaultstageda_srchbyworkflowcdandorganizationid",
+    "error_code": "42883",
+    "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...orkflow_cd = p_workflow_cd and t1.organization_id = p_organi... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT t1.approval_group, t1.approval_default_stage_id, t1.appr",
+    "original_tsql_preview": "\t\t\t\r\n\t\tcreate proc [dbo].[TblApprovalDefaultStageDA_SrchByWorkflowCDandOrganizationID]\r\n\t\t\t@workflow_cd nvarchar(30),\r\n\t\t\t@organization_id nvarchar(10)\r\n\t\tas\r\n\t\t\tset nocount on\r\n\t\t\tset transaction isolation level read uncommitted\r\n\t\t\tset ansi_warnings off\r\n\t\t\t\r\n\t\t\tselect t1.approval_group, t1.approval_default_stage_id, t1.approval_stage_num, t1.workflow_cd, t1.login_id, t1.is_final, t1.organization_id, t2.login_nm\r\n\t\t\tfrom TBL_APPROVAL_DEFAULT_STAGE T1(nolock), TBL_ADMIN_USER T2(nolock) \r\n\t\t\twhere t1.workflow_cd = @workflow_cd and\r\n\t\t\tt1.organization_id = @organization_id and\r\n\t\t\tt1.login_id = t2.login_id\r\n\t\t\torder by t1.approval_stage_num asc\r\n\t\t\t\r\n\t\t\tset nocount off\r\n\t\t\treturn\r\n\t\r\n",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_gm",
+    "func": "tblapprovaldefaultstageda_srchmystagenumbyworkflowcdandorganiza",
+    "error_code": "42883",
+    "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...e workflow_cd = p_workflow_cd and organization_id = p_organi... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT approval_stage_num from TBL_APPROVAL_DEFAULT_STAGE where",
+    "original_tsql_preview": "",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_gm",
+    "func": "tblapprovalinfoda_srchqinaadddeldoc",
+    "error_code": "42883",
+    "error": "错误:  操作符不存在: character varying = integer | LINE 1: ...roval_type!='GRQ_ITEMMOVE' and t1.approval_char_id=p_char_id... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT t1.approval_checkinout_status, t3.login_nm,t1.approval_i",
+    "original_tsql_preview": "CREATE proc [dbo].[TblApprovalInfoDA_SrchQinaAddDelDoc]\r\n\t\t\t@char_id int,\r\n\t\t\t@world_id nvarchar(5)\t\t\t\r\n\t\tas\r\n\t\t\tset nocount on\r\n\t\t\tset transaction isolation level read uncommitted\r\n\t\t\tset ansi_warnings off\r\n\t\t\t\r\n\t\t\tselect t1.approval_checkinout_status, t3.login_nm,t1.approval_info_id,t1.approval_stage_num,t1.approval_status,t1.approval_type,t1.APPROVAL_GROUP, t1.communication_cd, t1.world_id, t1.approval_char_id, t1.approval_char_nm, t1.approval_account_id, t1.approval_account_nm, convert(nvarchar,T1.regdate,20) regdate,\r\n\t\t\tt2.*\r\n\t\t\tfrom TBL_APPROVAL_INFO t1(nolock), TBL_APPROVAL_ITEM t2(nolock), tbl_admin_user t3(nolock), TBL_APPROVAL_HISTORY t4(nolock)\t\t\r\n\t\t\twhere t1.approval_info_id=t2.approval_info_id\r\n\t\t\tand t1.approval_info_id=t4.approval_info_id\r\n\t\t\tand t4.approval_stage_num=3\r\n\t\t",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_gm",
+    "func": "tblapprovalinfoda_srchqinamovedoc",
+    "error_code": "42883",
+    "error": "错误:  操作符不存在: character varying = integer | LINE 1: ...approval_type='GRQ_ITEMMOVE' and t2.target_char_id=p_char_id... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT t1.approval_checkinout_status, t3.login_nm,t1.approval_i",
+    "original_tsql_preview": "CREATE proc [dbo].[TblApprovalInfoDA_SrchQinaMoveDoc]\t\t\t\r\n\t\t\t@char_id int,\r\n\t\t\t@world_id nvarchar(5)\t\t\t\r\n\t\tas\r\n\t\t\tset nocount on\r\n\t\t\tset transaction isolation level read uncommitted\r\n\t\t\tset ansi_warnings off\r\n\t\t\t\r\n\t\t\tselect t1.approval_checkinout_status, t3.login_nm,t1.approval_info_id,t1.approval_stage_num,t1.approval_status,t1.approval_type, t1.APPROVAL_GROUP, t1.communication_cd, t1.world_id, t1.approval_char_id, t1.approval_char_nm, t1.approval_account_id, t1.approval_account_nm, convert(nvarchar,T4.regdate,20) regdate,\r\n\t\t\tt2.*\r\n\t\t\tfrom TBL_APPROVAL_INFO t1(nolock), TBL_APPROVAL_ITEM t2(nolock), tbl_admin_user t3(nolock), TBL_APPROVAL_HISTORY t4(nolock)\r\n\t\t\twhere t1.approval_info_id=t2.approval_info_id\r\n\t\t\tand t1.approval_info_id=t4.approval_info_id\r\n\t\t\tand t4.approval_stage_num=3\r\n\t\t",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_gm",
+    "func": "tblapprovalinfoda_srchuserdoc",
+    "error_code": "42883",
+    "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...pproval_account_id = p_account_id and t1.world_id =p_world_i... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT T1.DOC_TYPE, (EXTRACT(EPOCH FROM (CURRENT_TIMESTAMP)::ti",
+    "original_tsql_preview": "CREATE proc [dbo].[TblApprovalInfoDA_SrchUserDoc]\r\n\t\t\t@account_id nvarchar(50),\t\t\t\r\n\t\t\t@world_id nvarchar(5)\r\n\t\tas\t\t\r\n\t\t\tset transaction isolation level read uncommitted\r\n\t\t\tset ansi_warnings off\r\n\t\t\t\r\n\t\t\tselect T1.DOC_TYPE, DATEDIFF(day, T1.regdate, getdate()) AS day_diff, T1.IS_PAID, t1.COMMUNICATION_CD, t1.APPROVAL_TYPE, t1.approval_checkinout_nm, convert(nvarchar,T1.APPROVAL_CHECKINOUT_REGDATE,20) APPROVAL_CHECKINOUT_REGDATE , t1.APPROVAL_CHECKINOUT_ID, t1.APPROVAL_CHECKINOUT_STATUS, t1.approval_group, convert(nvarchar,T1.regdate,20) regdate, t1.approval_info_id, t1.world_id, t1.approval_char_id, t1.approval_char_nm, t1.approval_account_id, t1.approval_account_nm, t1.approval_info, t1.login_id, t1.approval_status, t1.approval_stage_num, t3.workflow_nm, t4.login_nm\r\n\t\t\tfrom TBL_APPROVAL",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_gm",
+    "func": "tblbotpointrankingda_srchaccountpunishhistory",
+    "error_code": "42883",
+    "error": "错误:  操作符不存在: timestamp without time zone >= character varying | LINE 1: ...e_str FROM TBL_BOT_ACCOUNT_PUNISH  WHERE reg_date BETWEEN p_... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT\tpunish_id, punish_group_id, punish_",
+    "original_tsql_preview": "\r\nCREATE PROCEDURE [dbo].[TblBotPointRankingDA_SrchAccountPunishHistory]\r\n\t\t\t@date_from\t\t\tnvarchar(16),\r\n\t\t\t@date_to\t\t\tnvarchar(16)\r\n\t\tAS\t\t\r\n\t\tset nocount on\r\n\t\tset transaction isolation level read uncommitted\r\n\r\n\t\tSELECT\tpunish_id,\r\n\t\t\t\tpunish_group_id,\r\n\t\t\t\tpunish_account_id,\r\n\t\t\t\tpunish_account_name,\r\n\t\t\t\tpunish_code,\r\n\t\t\t\treg_login_id,\r\n\t\t\t\treg_login_nm,\r\n\t\t\t\treg_date,\r\n\t\t\t\treg_date_str\r\n\t\tFROM\tTBL_BOT_ACCOUNT_PUNISH (NOLOCK)\r\n\t\tWHERE\treg_date BETWEEN @date_from AND @date_to\r\n\t\tORDER BY reg_date_str DESC, punish_group_id, punish_account_id\r\n",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_gm",
+    "func": "tblbuildercommandscheduleda_srchschedule",
+    "error_code": "42883",
+    "error": "错误:  操作符不存在: timestamp without time zone = bytea | LINE 1: ...TBL_BUILDER_COMMAND_SCHEDULE  WHERE SCHEDULE_DATE = binary(p... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT\tID, COMMAND_SUBJECT, COMMAND_TEXT, SCHEDULE_TYPE",
+    "original_tsql_preview": "\r\nCREATE proc [dbo].[TblBuilderCommandScheduleDA_SrchSchedule]\r\n\t\t\t@DATE\t\t\t\tvarchar(20),\r\n\t\t\t@COMMUNICATION_CD\tvarchar(5)\t\t= NULL\r\n\t\tAS\r\n\t\tBEGIN\r\n\t\t\tIF (@COMMUNICATION_CD IS NULL)\r\n\t\t\tBEGIN\r\n\t\t\t\tSELECT\tID, COMMAND_SUBJECT, COMMAND_TEXT, SCHEDULE_TYPE, SCHEDULE_DATE, \r\n\t\t\t\t\t\tSCHEDULE_FROM, SCHEDULE_TO, REPEAT_TYPE, REPEAT_PERIOD, \r\n\t\t\t\t\t\tCOMMUNICATION_CD, STATUS, LOGIN_ID, REGDATE\r\n\t\t\t\tFROM\tTBL_BUILDER_COMMAND_SCHEDULE (nolock)\r\n\t\t\t\tWHERE\tSCHEDULE_DATE = CONVERT(DATETIME, @DATE)\r\n\t\t\t\tAND\t\tREPEAT_TYPE = 'ONCE'\r\n\t\t\tEND\r\n\t\t\tELSE\r\n\t\t\tBEGIN\r\n\t\t\t\tSELECT\tID, COMMAND_SUBJECT, COMMAND_TEXT, SCHEDULE_TYPE, SCHEDULE_DATE, \r\n\t\t\t\t\t\tSCHEDULE_FROM, SCHEDULE_TO, REPEAT_TYPE, REPEAT_PERIOD, \r\n\t\t\t\t\t\tCOMMUNICATION_CD, STATUS, LOGIN_ID, REGDATE\r\n\t\t\t\tFROM\tTBL_BUILDER_COMMAND_SCHEDULE (nolock)\r\n\t\t\t\tWHERE\tSCHEDUL",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_gm",
+    "func": "tblbuildercommandscheduleda_srchschedulebydate",
+    "error_code": "42883",
+    "error": "错误:  操作符不存在: timestamp without time zone >= bytea | LINE 1: ...TBL_BUILDER_COMMAND_SCHEDULE  WHERE SCHEDULE_DATE BETWEEN bi... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT\tID, COMMAND_SUBJECT, COMMAND_TEXT, SCHEDULE_TYP",
+    "original_tsql_preview": "\r\nCREATE proc [dbo].[TblBuilderCommandScheduleDA_SrchScheduleByDate]\r\n\t\t\t@DATEFROM\t\t\tvarchar(20),\r\n\t\t\t@DATETO\t\t\t\tvarchar(20),\r\n\t\t\t@COMMUNICATION_CD\tvarchar(5)\t\t= NULL\r\n\t\tAS\r\n\t\tBEGIN\r\n\t\t\tIF (@COMMUNICATION_CD IS NULL)\r\n\t\t\tBEGIN\r\n\t\t\t\tSELECT\tID, COMMAND_SUBJECT, COMMAND_TEXT, SCHEDULE_TYPE, SCHEDULE_DATE, \r\n\t\t\t\t\t\tSCHEDULE_FROM, SCHEDULE_TO, REPEAT_TYPE, REPEAT_PERIOD, \r\n\t\t\t\t\t\tCOMMUNICATION_CD, STATUS, LOGIN_ID, REGDATE\r\n\t\t\t\tFROM\tTBL_BUILDER_COMMAND_SCHEDULE (nolock)\r\n\t\t\t\tWHERE\tSCHEDULE_DATE BETWEEN CONVERT(DATETIME, @DATEFROM) AND CONVERT(DATETIME, @DATETO)\r\n\t\t\t\tORDER BY ID DESC\r\n\t\t\tEND\r\n\t\t\tELSE\r\n\t\t\tBEGIN\r\n\t\t\t\tSELECT\tID, COMMAND_SUBJECT, COMMAND_TEXT, SCHEDULE_TYPE, SCHEDULE_DATE, \r\n\t\t\t\t\t\tSCHEDULE_FROM, SCHEDULE_TO, REPEAT_TYPE, REPEAT_PERIOD, \r\n\t\t\t\t\t\tCOMMUNICATION_CD, STATUS, LOGIN_ID, REGDA",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_gm",
+    "func": "tblgamenoticehistorydao_insertnoticehistory",
+    "error_code": "42804",
+    "error": "错误:  字段 \"notice_history_id\" 的类型为 integer, 但表达式的类型为 character varying | LINE 1: INSERT INTO TBL_GAME_NOTICE_HISTORY VALUES(p_notice_id, p_wo... |                                                    ^ | HINT:  你需要重写或转换表达式 | QUERY:  INSERT INTO TBL_GAME_NOTICE_HISTORY VALUES(p_notice_id, p_world_id, p_c",
+    "original_tsql_preview": "\t\t\t\r\n\t\tcreate proc [dbo].[TblGameNoticeHistoryDAO_InsertNoticeHistory]\r\n\t\t\t@notice_id nvarchar(30),\t\r\n\t\t\t@world_id int,\r\n\t\t\t@communication_cd nvarchar(30)\r\n\t\tas\r\n\t\t\tINSERT INTO TBL_GAME_NOTICE_HISTORY VALUES(@notice_id, @world_id, @communication_cd, getdate())\r\n\t\r\n",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_gm",
+    "func": "tblgamenoticescheduleda_srchreservedschedule",
+    "error_code": "42883",
+    "error": "错误:  操作符不存在: timestamp without time zone >= character varying | LINE 1: ...e from TBL_GAME_NOTICE_SCHEDULE where ((NOTICE_TO >= p_curre... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT NOTICE_RACE, NOTICE_CLASS, notice_p",
+    "original_tsql_preview": "\r\nCREATE proc [dbo].[TblGameNoticeScheduleDA_SrchReservedSchedule]\r\n\t\t\t@current_time nvarchar(30),\r\n\t\t\t@period_hour nvarchar(2),\r\n\t\t\t@period_min nvarchar(2),\r\n\t\t\t@notice_status char(1)\r\n\t\tas\r\n\t\t\tset nocount on\r\n\t\t\tset transaction isolation level read uncommitted\r\n\t\t\t\r\n\t\t\tselect NOTICE_RACE, NOTICE_CLASS, notice_pos_type, notice_id, notice_repeat, notice_repeat_min, notice_category, notice_subject, notice_type, notice_from, notice_to, notice_period, notice_week, notice_month, period_hour, period_min, communication_cd, notice_count, notice_status, login_id, convert(nvarchar,regdate,20) regdate \r\n\t\t\tfrom TBL_GAME_NOTICE_SCHEDULE(nolock)\r\n\t\t\twhere ((NOTICE_TO >= @current_time and NOTICE_FROM <= @current_time and PERIOD_HOUR = @period_hour AND PERIOD_MIN = @period_min) or (NOTICE_TO >= @current",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_gm",
+    "func": "tblgamenoticescheduleda_srchtranshistory",
+    "error_code": "42883",
+    "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...and t1.notice_id = p_notice_id and t1.period_hour = p_period... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT count(*) sendable from tbl_game_notice_schedule t1, tbl_",
+    "original_tsql_preview": "\t\t\t\r\n\t\tcreate proc [dbo].[TblGameNoticeScheduleDA_SrchTransHistory]\t\t\r\n\t\t\t@notice_id nvarchar(30),\t\t\t\t\r\n\t\t\t@cur_yyyymmdd nvarchar(8),\r\n\t\t\t@period_hour nvarchar(2),\r\n\t\t\t@period_min nvarchar(2),\t\t\r\n\t\t\t@communication_cd nvarchar(30),\r\n\t\t\t@notice_status char(1)\r\n\t\tas\r\n\t\t\tset nocount on\r\n\t\t\tset transaction isolation level read uncommitted\r\n\t\t\tset ansi_warnings off\r\n\t\t\t\r\n\t\t\tselect count(*) sendable\r\n\t\t\tfrom tbl_game_notice_schedule t1, tbl_game_notice_history t2\r\n\t\t\twhere t1.notice_id = t2.notice_id\r\n\t\t\tand t1.notice_id = @notice_id\r\n\t\t\tand t1.period_hour = @period_hour\r\n\t\t\tand t1.period_min = @period_min\r\n\t\t\tand (t1.communication_cd = @communication_cd OR t1.communication_cd = 'TRA')\r\n\t\t\tand t1.notice_status = @notice_status\r\n\t\t\tand convert(nvarchar, t2.regdate, 112) = @cur_yyyymmdd\r\n\r\n\t\t\tset n",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_gm",
+    "func": "tblgameworldinfoda_srchchannel",
+    "error_code": "42883",
+    "error": "错误:  操作符不存在: smallint = character varying | LINE 1: ...annel_num from tbl_game_world_info where world_id = p_world_... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT world_type, zone_id, zone_nm, channel_num from tbl_game",
+    "original_tsql_preview": "CREATE proc [dbo].[TblGameWorldInfoDA_SrchChannel]\r\n\t\t\t@world_id nvarchar(5), \r\n\t\t\t@channel_num nvarchar(5) \r\n\t\tas\r\n\t\t\tset nocount on\r\n\t\t\tset transaction isolation level read uncommitted\t\t\t\r\n\t\t\t\r\n\t\t\tselect world_type, zone_id, zone_nm, channel_num\r\n\t\t\tfrom tbl_game_world_info(nolock)\r\n\t\t\twhere world_id = @world_id and zone_id !=0 and channel_num=@channel_num and zone_id <= 719999999\r\n\t\t\torder by world_type desc\r\n\r\n\t\t\tset nocount off\r\n",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_gm",
+    "func": "tbllogfilesdao_insertfile",
+    "error_code": "42804",
+    "error": "错误:  字段 \"logfile_id\" 的类型为 integer, 但表达式的类型为 character varying | LINE 1: INSERT INTO TBL_LOG_FILES VALUES(p_logfile_type, p_logfile_n... |                                          ^ | HINT:  你需要重写或转换表达式 | QUERY:  INSERT INTO TBL_LOG_FILES VALUES(p_logfile_type, p_logfile_name, p_logfile_size, p_logfi",
+    "original_tsql_preview": "\t\t\t\r\n\t\tcreate proc [dbo].[TblLogFilesDAO_InsertFile]\r\n\t\t\t@logfile_type nvarchar(20),\t\r\n\t\t\t@logfile_name nvarchar(80),\t\r\n\t\t\t@logfile_size nvarchar(20),\r\n\t\t\t@logfile_info nvarchar(300),\t\t\t\t\t\r\n\t\t\t@is_shared char(1),\t\r\n\t\t\t@is_deleted char(1),\t\t\r\n\t\t\t@login_id nvarchar(30)\t\t\r\n\t\tas\r\n\t\t\tINSERT INTO TBL_LOG_FILES VALUES(@logfile_type, @logfile_name, @logfile_size, @logfile_info, @is_shared, @is_deleted, @login_id, getdate())\r\n\t\r\n",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_gm",
+    "func": "tblmyworldda_srchmyworldserverstatusformaxmin",
+    "error_code": "42883",
+    "error": "错误:  操作符不存在: integer = character varying | LINE 1: ... from TBL_WORLD_STATUS_INFO t1 where t1.server_nm = p_server... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT t1.WORLD_STATUS_INFO_ID, t1.WORLD_ID, t1.SERVER_NM, t1.c",
+    "original_tsql_preview": "\t\t\t\r\n\t\tcreate proc [dbo].[TblMyWorldDA_SrchMyWorldServerStatusForMaxMin]\t\t\t\r\n\t\t\t@server_nm nvarchar(3)\r\n\t\tas\r\n\t\t\tset nocount on\r\n\t\t\tset transaction isolation level read uncommitted\r\n\t\t\tset ansi_warnings off\r\n\t\t\t\r\n\t\t\tselect t1.WORLD_STATUS_INFO_ID, t1.WORLD_ID, t1.SERVER_NM, t1.concurrent_users, t1.CPU_USAGE, t1.FREE_PHY_MEMORY, t1.PROCESS_MEMORY, convert(nvarchar,T1.regdate,20) regdate\r\n\t\t\tfrom TBL_WORLD_STATUS_INFO t1\r\n\t\t\twhere t1.server_nm = @server_nm\t\r\n\t\t\t\r\n\t\t\tset nocount off\r\n\t\t\treturn\r\n\t\r\n",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_gm",
+    "func": "tblpollda_pollsrchwillbedeletedlist",
+    "error_code": "42883",
+    "error": "错误:  操作符不存在: timestamp without time zone <= character varying | LINE 1: ... where POLL_STATUS=p_poll_status and POLL_END_DATE<=p_poll_e... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT poll_id FROM tbl_poll where POLL_ST",
+    "original_tsql_preview": "\r\n-- 11.15 지난설문삭제\r\ncreate proc [dbo].[TblPollDA_PollSrchWillBeDeletedList]\r\n\t\t@poll_status varchar(3),\r\n\t\t@poll_end_data nvarchar(20)\r\n\t\tas\r\n\t\tset nocount on\r\n\t\tset transaction isolation level read uncommitted\r\n\t\t\r\n\t\tSELECT poll_id\r\n\t\tFROM tbl_poll(nolock)\r\n\t\twhere POLL_STATUS=@poll_status\r\n\t\tand POLL_END_DATE<=@poll_end_data\r\n\t\t\r\n\t\tset nocount off\r\n",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_gm",
+    "func": "tblpollserverda_polldiff",
+    "error_code": "42883",
+    "error": "错误:  操作符不存在: integer <= text | LINE 1: ... - (t1.gathering_date)::timestamp) / 60)::integer <= '' || p... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT t1.poll_id, t1.world_id, t1.pub_status, t1.RS_FILE_NAME, t1.poll_cnt",
+    "original_tsql_preview": "\r\nCREATE proc [dbo].[TblPollServerDA_PollDiff]\r\n\t\t\t@cycle_min nvarchar(5),\r\n\t\t\t@max_min nvarchar(5)\t\t\t\r\n\t\tas\r\n\t\t\tset nocount on\r\n\t\t\tset transaction isolation level read uncommitted\r\n\t\t\t\r\n\t\t\tselect t1.poll_id, t1.world_id, t1.pub_status, t1.RS_FILE_NAME, t1.poll_cnt, t1.start_date, t1.end_date, convert(nvarchar,t1.gathering_date,20) gathering_date, t1.regdate \r\n\t\t\tfrom tbl_poll_server t1(nolock), tbl_poll t2(nolock)\r\n\t\t\twhere t2.is_deleted='Y' and t1.poll_id=t2.poll_id \r\n\t\t\tand (t1.pub_status='ING' or t1.pub_status='STP' or t1.pub_status='COM') \r\n\t\t\tand DATEDIFF(minute, t1.gathering_date, t1.end_date) <= ''+@cycle_min+''\r\n\t\t\tand DATEDIFF(minute, gathering_date, end_date) >= ''+@max_min+''\r\n\t\t\t\r\n\t\t\tset nocount off\r\n",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_gm",
+    "func": "tblpollserverda_pollserversrchbydateandstatus",
+    "error_code": "42883",
+    "error": "错误:  操作符不存在: timestamp without time zone <= text | LINE 1: ...tatus='' || p_pub_status || '') and t1.start_date <='' || p_... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT t1.poll_id, t1.world_id, t1.pub_status, t1.RS_FI",
+    "original_tsql_preview": "\r\n\r\n-- јі№®јцБэ єЇ°ж\r\nCREATE proc [dbo].[TblPollServerDA_PollServerSrchByDateandStatus]\r\n\t\t\t@cur_date nvarchar(30),\r\n\t\t\t@pub_status nvarchar(10)\t\t\t\r\n\t\tas\r\n\t\t\tset nocount on\r\n\t\t\tset transaction isolation level read uncommitted\r\n\t\t\t\r\n\t\t\tselect t1.poll_id, t1.world_id, t1.pub_status, t1.RS_FILE_NAME, t1.poll_cnt, t1.start_date, t1.end_date, convert(nvarchar,t1.gathering_date,20) gathering_date, t1.regdate \r\n\t\t\tfrom tbl_poll_server t1(nolock), tbl_poll t2(nolock)\r\n\t\t\twhere t2.is_deleted='Y' and t1.poll_id=t2.poll_id \r\n\t\t\tand (t1.pub_status='ING' or t1.pub_status='STP' or t1.pub_status=''+@pub_status+'') \r\n\t\t\tand t1.start_date <=''+@cur_date+'' and t1.end_date >=''+@cur_date+''\r\n\t\t\t\r\n\t\t\tset nocount off\r\n",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_gm",
+    "func": "tblquestda_srchmyquest",
+    "error_code": "42883",
+    "error": "错误:  操作符不存在: integer = character varying | LINE 1: SELECT * from TBL_QUEST where world_id = p_world_id and char... |                                                ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT * from TBL_QUEST where world_id = p_world_id and char_id = p_char_id and ",
+    "original_tsql_preview": "\r\ncreate proc [dbo].[TblQuestDA_SrchMyQuest]\t\r\n\t\t\t@world_id nvarchar(5),\r\n\t\t\t@char_id nvarchar(20),\t\t\t\t\r\n\t\t\t@account_id nvarchar(20)\r\n\t\tas\r\n\t\tset nocount on\r\n\t\tset transaction isolation level read uncommitted\r\n\t\tset ansi_warnings off\r\n\t\t\r\n\t\tselect *\r\n\t\tfrom TBL_QUEST(nolock)\r\n\t\twhere world_id = @world_id and char_id = @char_id and account_id = @account_id order by quest_pk desc\r\n\t\t\r\n\t\tset nocount off\r\n\t\treturn\t\t\r\n",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_gm",
+    "func": "tblquestda_srchmyquestbyreqid",
+    "error_code": "42883",
+    "error": "错误:  操作符不存在: integer = character varying | LINE 1: ... where quest_req_id = p_quest_req_id and world_id = p_world_... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT * from TBL_QUEST where quest_req_id = p_quest_req_id and",
+    "original_tsql_preview": "create proc [dbo].[TblQuestDA_SrchMyQuestByReqID]\t\r\n\t\t\t@quest_req_id nvarchar(30),\r\n\t\t\t@world_id nvarchar(5),\r\n\t\t\t@char_id nvarchar(20),\t\t\t\t\r\n\t\t\t@account_id nvarchar(20)\r\n\t\tas\r\n\t\tset nocount on\r\n\t\tset transaction isolation level read uncommitted\r\n\t\tset ansi_warnings off\r\n\t\t\r\n\t\tselect *\r\n\t\tfrom TBL_QUEST(nolock)\r\n\t\twhere quest_req_id = @quest_req_id and world_id = @world_id and char_id = @char_id and account_id = @account_id\r\n\t\t\r\n\t\tset nocount off\r\n\t\treturn\t\t\r\n",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_gm",
+    "func": "tblstatisticsda_srchpollrs",
+    "error_code": "42883",
+    "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...IME,ANSWER from TBL_STATISTICS_POLL where world_id=p_world_i... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT WORLD_ID,POLL_ID,CHAR_ID,USER_ID,ACCOUNT_ID,ACCOUNT_NAME",
+    "original_tsql_preview": "CREATE proc [dbo].[TblStatisticsDA_SrchPollRS]\r\n\t\t\t@world_id nvarchar(5),\r\n\t\t\t@poll_id nvarchar(15),\t\t\t\r\n\t\t\t@to_date nvarchar(20)\t\t\t\r\n\t\tas\r\n\t\t\tset transaction isolation level read uncommitted\r\n\t\t\tset ansi_warnings off\t\r\n\t\t\t\r\n\t\t\tselect WORLD_ID,POLL_ID,CHAR_ID,USER_ID,ACCOUNT_ID,ACCOUNT_NAME,CLASS,RACE,WORLD,XLOCATION,YLOCATION,ZLOCATION,LEV,convert(nvarchar,ANSWER_TIME,20) ANSWER_TIME,ANSWER\r\n\t\t\tfrom TBL_STATISTICS_POLL(nolock)\r\n\t\t\twhere world_id=@world_id and poll_id=''+@poll_id+''\r\n",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_gm",
+    "func": "tblstatisticsscheduleda_srchreservedschedule",
+    "error_code": "42883",
+    "error": "错误:  操作符不存在: timestamp without time zone >= character varying | LINE 1: ...rom TBL_STATISTICS_SCHEDULE where ((STATISTICS_TO >= p_curre... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT * from TBL_STATISTICS_SCHEDULE wher",
+    "original_tsql_preview": "\r\nCREATE proc [dbo].[TblStatisticsScheduleDA_SrchReservedSchedule]\r\n\t\t\t@current_time nvarchar(30),\t\t\t\r\n\t\t\t@period_hour nvarchar(2),\r\n\t\t\t@period_min nvarchar(2),\t\t\t\r\n\t\t\t@statistics_status char(1)\r\n\t\tas\r\n\t\t\tset nocount on\r\n\t\t\tset transaction isolation level read uncommitted\r\n\t\t\tset ansi_warnings off\t\t\t\r\n\t\t\t\r\n\t\t\tselect *\r\n\t\t\tfrom TBL_STATISTICS_SCHEDULE(nolock)\r\n\t\t\twhere ((STATISTICS_TO >= @current_time and STATISTICS_FROM <= @current_time and PERIOD_HOUR = @period_hour AND PERIOD_MIN = @period_min) or (STATISTICS_TO >= @current_time and STATISTICS_FROM <= @current_time and statistics_repeat_min != 0) or (statistics_period = 'ONCE' and task_cd = 'BEF'))\t\t\t\t\t\t\r\n\t\t\tAND statistics_status = @statistics_status\r\n\t\t\tand task_cd != 'TRA'\r\n\t\t\torder by regdate ASC\r\n\r\n\t\t\tset nocount off\r\n\t\t\treturn\t\t\t\r\n",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_gm",
+    "func": "tblstatisticsscheduleda_srchtranshistory",
+    "error_code": "42883",
+    "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...tatistics_id = p_statistics_id and t1.period_hour = p_period... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT count(*) sendable from TBL_STATISTICS_SCHEDULE t1, TBL_S",
+    "original_tsql_preview": "\t\t\t\r\n\t\tcreate proc [dbo].[TblStatisticsScheduleDA_SrchTransHistory]\t\t\r\n\t\t\t@statistics_id nvarchar(30),\t\t\t\t\r\n\t\t\t@cur_yyyymmdd nvarchar(8),\r\n\t\t\t@period_hour nvarchar(2),\r\n\t\t\t@period_min nvarchar(2),\t\t\r\n\t\t\t@task_cd nvarchar(30),\r\n\t\t\t@statistics_status char(1)\r\n\t\tas\r\n\t\t\tset nocount on\r\n\t\t\tset transaction isolation level read uncommitted\r\n\t\t\tset ansi_warnings off\r\n\t\t\t\r\n\t\t\tselect count(*) sendable\r\n\t\t\tfrom TBL_STATISTICS_SCHEDULE t1, TBL_STATISTICS_HISTORY t2\r\n\t\t\twhere t1.statistics_id = t2.statistics_id\r\n\t\t\tand t1.statistics_id = @statistics_id\r\n\t\t\tand t1.period_hour = @period_hour\r\n\t\t\tand t1.period_min = @period_min\r\n\t\t\tand (t1.task_cd = @task_cd OR t1.task_cd = 'TRA')\r\n\t\t\tand t1.statistics_status = @statistics_status\r\n\t\t\tand convert(nvarchar, t2.regdate, 112) = @cur_yyyymmdd\r\n\r\n\t\t\tset nocount",
+    "generated_sql_preview": ""
+  },
+  {
+    "type": "runtime",
+    "db": "aion_gm",
+    "func": "tblworldinfoda_srchgameftworlds",
+    "error_code": "42883",
+    "error": "错误:  操作符不存在: integer >= character varying | LINE 1: ...zone_id=0 and t1.world_status='Y' and t1.world_id between p_... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT T1.WORLD_ID, T1.WORLD_NM, T1.WORLD_DESC, T1.WORLD_STATU",
+    "original_tsql_preview": "create proc [dbo].[TblWorldInfoDA_SrchGameFTWorlds]\r\n\t\t\t@from_world_id nvarchar(3),\r\n\t\t\t@to_world_id nvarchar(3)\r\n\t\tas\r\n\t\t\tset nocount on\r\n\t\t\tset transaction isolation level read uncommitted\r\n\t\t\tset ansi_warnings off\r\n\t\t\t\r\n\t\t\tselect T1.WORLD_ID, T1.WORLD_NM, T1.WORLD_DESC, T1.WORLD_STATUS,\r\n\t\t\t\tT2.DARK_USERS AS TOTAL_CON_USERS, T2.PC_STORE_LIGHT_USERS AS LIGHT_CHAR_COUNT, T2.PC_STORE_DARK_USERS AS DARK_CHAR_COUNT\r\n\t\t\tfrom tbl_world_info t1(nolock), TBL_GAME_WORLD_INFO t2(nolock)\r\n\t\t\twhere t1.world_id=t2.world_id\r\n\t\t\tand t2.zone_id=0\r\n\t\t\tand t1.world_status='Y'\r\n\t\t\tand t1.world_id between @from_world_id and @to_world_id\r\n\t\t\torder by t1.world_id asc\r\n\t\t\t\t\t\t\r\n\t\t\tset nocount off\r\n\t\t\treturn\r\n",
+    "generated_sql_preview": ""
+  }
+]

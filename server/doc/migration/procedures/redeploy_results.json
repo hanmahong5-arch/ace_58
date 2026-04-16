@@ -1,0 +1,587 @@
+{
+  "deploy_time": "2026-04-07T21:47:22.679036",
+  "target_host": "123.56.80.174:5432",
+  "round": "redeploy_failed",
+  "previous_failures": 112,
+  "summary": {
+    "aion_world_live": {
+      "attempted": 87,
+      "success": 2,
+      "fail": 85
+    },
+    "aion_account_db": {
+      "attempted": 11,
+      "success": 0,
+      "fail": 11
+    },
+    "aion_account_cache_db": {
+      "attempted": 2,
+      "success": 0,
+      "fail": 2
+    },
+    "aion_gm": {
+      "attempted": 12,
+      "success": 3,
+      "fail": 9
+    }
+  },
+  "new_successes": [
+    {
+      "function": "aion_getcharlastchangelogplaytime",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "aion_putcharchangelog",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "tblbotpointrankingdao_insertaccountpunish",
+      "database": "aion_gm"
+    },
+    {
+      "function": "tblbuildercommandscheduledao_insertschedule",
+      "database": "aion_gm"
+    },
+    {
+      "function": "tblbuildercommandscheduledao_updateschedule",
+      "database": "aion_gm"
+    }
+  ],
+  "still_failing": [
+    {
+      "function": "gm_userrateda_srchbycharid",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"guild_nm\" 或附近的\nLINE 7: ....class, u.guild_id, u.gender, u.lev, g.name as AS guild_nm F...\n                                                             ^"
+    },
+    {
+      "function": "gm_userrateda_srchuserlist_del",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"guild_id\" 或附近的\nLINE 13: ...unt_name, u.race, u.class, u.guild_id, g.id as AS guild_id, ...\n                                                              ^"
+    },
+    {
+      "function": "aion_deleteeventitem",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在输入的末尾\nLINE 13: ...ventItemCount (char_id, item_count, apply_date, event_item);\n                                                                       ^"
+    },
+    {
+      "function": "gm_userrateda_srchuserlistbyrank",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"(\" 或附近的\nLINE 13: ...RE r.rate_id = ' || CAST(p_rate_id AS varchar) IF (COALESCE(...\n                                                              ^"
+    },
+    {
+      "function": "aion_putitemcompoundedtwohand_20121105",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"set\" 或附近的\nLINE 13: ...T_TIMESTAMP where id = p_dbId and warehouse != 17 set v_ret ...\n                                                              ^"
+    },
+    {
+      "function": "gm_userresetname_srch",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"char_id\" 或附近的\nLINE 14: ...ECT /*INLINE_LIMIT:p_top_count * (p_page_num-1*/) char_id fr...\n                                                              ^"
+    },
+    {
+      "function": "aion_updateolduseroflowleveltodelete",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"'),0) AND lev < '\" 或附近的\nLINE 14: ...WithUTCAdjust((CURRENT_TIMESTAMP AT TIME ZONE 'UTC'),0) AND ...\n                                                              ^"
+    },
+    {
+      "function": "aion_deleteguildmemberall",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"LOOP\" 或附近的\nLINE 7: ...OM user_data WHERE guild_id = p_nGuildId )a inner LOOP join ...\n                                                             ^"
+    },
+    {
+      "function": "aion_getvendoraveragedark",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"IF\" 或附近的\nLINE 30:     END IF;\n                 ^"
+    },
+    {
+      "function": "aion_getvendoraveragelight",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"IF\" 或附近的\nLINE 30:     END IF;\n                 ^"
+    },
+    {
+      "function": "gm_abyssda_srchabysscontributor",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"-\" 或附近的\nLINE 23: ...HAR(COALESCE(u.create_date, ''1970-01-01''), 'YYYY-MM-DD HH2...\n                                                              ^"
+    },
+    {
+      "function": "gm_abyssda_srchabyssdefender",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"-\" 或附近的\nLINE 23: ...HAR(COALESCE(u.create_date, ''1970-01-01''), 'YYYY-MM-DD HH2...\n                                                              ^"
+    },
+    {
+      "function": "gm_abyssda_srchabyssdefenderabnormal",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"create_date\" 或附近的\nLINE 13: ...HAR(u.create_date, 'YYYY-MM-DD HH24:MI:SS') as AS create_dat...\n                                                              ^"
+    },
+    {
+      "function": "aion_deletelegacytables",
+      "database": "aion_world_live",
+      "error": "错误:  \"cur_item\" 不是一个已知变量\nLINE 14:     OPEN cur_item;\n                  ^"
+    },
+    {
+      "function": "gm_accessallowaccountda_srchall",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"access_id\" 或附近的\nLINE 10: ... (SELECT /*INLINE_LIMIT:p_view_count*(p_page-1*/) access_id ...\n                                                              ^"
+    },
+    {
+      "function": "gm_useritemda_srchallattributesofitembydbid",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"sub_id\" 或附近的\nLINE 9: ...,0) AS reidentify_count, COALESCE(i2.id, 0) as AS sub_id, CO...\n                                                             ^"
+    },
+    {
+      "function": "gm_accessallowaccountda_srchbyaccountnames",
+      "database": "aion_world_live",
+      "error": "错误:  括号不匹配 在 \";\" 或附近的\nLINE 13: ...E(p_status, '-1') AS varchar) || ') ORDER BY account_name ';\n                                                                       ^"
+    },
+    {
+      "function": "gm_useritemda_srchcheckvendoritems",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"LIMIT\" 或附近的\nLINE 7: ...vendor_log_dark where char_id = p_char_id LIMIT 1 LIMIT 1 LI...\n                                                             ^"
+    },
+    {
+      "function": "usp_trace_start",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"p_Events\" 或附近的\nLINE 39:     IF RIGHT(p_Events, 1) <> ',' SET p_Events = p_Events || ...\n                                              ^"
+    },
+    {
+      "function": "usp_trace_stop",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"..\" 或附近的\nLINE 12: ...ceFile INTO v_TraceID, v_TraceFileName FROM tempdb..TraceQue...\n                                                              ^"
+    },
+    {
+      "function": "gm_challengetaskda_srchchallengetaskbycharid",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"guild_name\" 或附近的\nLINE 7: ...ase when type = 1 then g.name else null end as AS guild_name...\n                                                             ^"
+    },
+    {
+      "function": "gm_useritemda_srchmychargeditems",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"sub_id\" 或附近的\nLINE 7: ...(randomValue10, 0) as randomValue10 , i2.id as AS sub_id, i2...\n                                                             ^"
+    },
+    {
+      "function": "z_senditem",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"ELSE\" 或附近的\nLINE 42:     END ELSE BEGIN;\n                 ^"
+    },
+    {
+      "function": "aion_today_abyss_kill",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在输入的末尾\nLINE 19: ..., from_name, mail_title, mail_centent, item_id, item_count);\n                                                                       ^"
+    },
+    {
+      "function": "aion_setinstanceextracountabyssop",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"ELSE\" 或附近的\nLINE 16:     ELSE\n             ^"
+    },
+    {
+      "function": "gm_useritemda_srchmyitembycharid",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"sort\" 或附近的\nLINE 7:     SELECT 1 as AS sort, i.id, i.char_id, i.name_id, slot_id...\n                           ^"
+    },
+    {
+      "function": "gm_guildda_srchguildapplicationslist",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"AS\" 或附近的\nLINE 9: ...last_login_time != '1970-01-01 00:00:00.000' THEN AS black L...\n                                                             ^"
+    },
+    {
+      "function": "aion_finishgamemoneytrade",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"ELSE\" 或附近的\nLINE 47:     ELSE\n             ^"
+    },
+    {
+      "function": "aion_getabnormalstatuslist",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"IF\" 或附近的\nLINE 23:     END IF;\n                 ^"
+    },
+    {
+      "function": "gm_guildda_srchguildmembers",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"AS\" 或附近的\nLINE 9: ...last_login_time != '1970-01-01 00:00:00.000' THEN AS black L...\n                                                             ^"
+    },
+    {
+      "function": "aion_getitemchargepointlistall",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"option\" 或附近的\nLINE 7: ...char_id = p_char_id and user_item.warehouse != 10 option(loo...\n                                                             ^"
+    },
+    {
+      "function": "gm_house_give",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"ELSE\" 或附近的\nLINE 31:     ELSE\n             ^"
+    },
+    {
+      "function": "gm_useritemda_srchmypolisheditems",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"polish_name_id\" 或附近的\nLINE 7: ...anish_point, 0) as vanish_point , p.name_id as AS polish_nam...\n                                                             ^"
+    },
+    {
+      "function": "aion_addedservice_type4_movechar_checkorgchar_local_ors",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"v_ret\" 或附近的\nLINE 53: ... not null and v_lev < v_level_restrict_value) set v_ret = -1...\n                                                              ^"
+    },
+    {
+      "function": "gm_useritemda_srchmysealeditems",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"=\" 或附近的\nLINE 7: ...d = a.id WHERE i.char_id = p_char_id and  i.warehouse! = 10;\n                                                                  ^"
+    },
+    {
+      "function": "aion_addedservice_type4_movechar_checkorgchar_ors",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"p_ret\" 或附近的\nLINE 36:     IF 0 /* @v_ERROR */ <> 0 set p_ret = -10102 THEN\n                                          ^"
+    },
+    {
+      "function": "gm_useritemda_srchmywarehouseitems",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"-\" 或附近的\nLINE 27: ...mount, slot, warehouse, TO_CHAR(create_date, 'YYYY-MM-DD HH2...\n                                                              ^"
+    },
+    {
+      "function": "aion_addedservice_type4_movechar_online_execute_ors",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \":\" 或附近的\nLINE 67:     p_err_str := 'success' UpdateRetVal:;\n                                                ^"
+    },
+    {
+      "function": "gm_houseda_srchhousebycharid",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"auction_id\" 或附近的\nLINE 7: ....center_x, adr.center_y, adr.center_z, a.id as AS auction_id...\n                                                             ^"
+    },
+    {
+      "function": "aion_addedservice_type4_movechar_ors",
+      "database": "aion_world_live",
+      "error": "错误:  \"checkconn_cursor\" 不是一个已知变量\nLINE 41:     OPEN checkConn_cursor;\n                  ^"
+    },
+    {
+      "function": "gm_houseda_srchhousebyid",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"auction_id\" 或附近的\nLINE 7: ....center_x, adr.center_y, adr.center_z, a.id as AS auction_id...\n                                                             ^"
+    },
+    {
+      "function": "aion_addedservice_type4_movechar_ors_direct_test",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \":\" 或附近的\nLINE 55:     v_retStatus := 1 UpdateRetVal:;\n                                          ^"
+    },
+    {
+      "function": "aion_addedservice_type4_movechar_ors_direct_test_by_venny",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \":\" 或附近的\nLINE 55:     v_retStatus := 1 UpdateRetVal:;\n                                          ^"
+    },
+    {
+      "function": "aion_addedservice_type4_movechar_ors_test",
+      "database": "aion_world_live",
+      "error": "错误:  \"checkconn_cursor\" 不是一个已知变量\nLINE 36:     OPEN checkConn_cursor;\n                  ^"
+    },
+    {
+      "function": "aion_addedservice_type4_movechar_process_ors",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"SVR_MOVE_TRADER\" 或附近的\nLINE 199: ...M aion_MailWrite(p_newCharId, p_toCharName, 0, '$$SVR_MOVE_T...\n                                                               ^"
+    },
+    {
+      "function": "aion_isexist",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \";\" 或附近的\nLINE 14: END;\n            ^"
+    },
+    {
+      "function": "gm_legiondominionda_srch",
+      "database": "aion_world_live",
+      "error": "错误:  括号不匹配 在 \";\" 或附近的\nLINE 29: ...-1)*p_view_count AS varchar) || ' order by ' || p_order_col;\n                                                                       ^"
+    },
+    {
+      "function": "aion_avataraddedservice_clearuserdata",
+      "database": "aion_world_live",
+      "error": "错误:  \"avataraddedservice_clearvendorlog\" 不是一个已知变量\nLINE 17: ...ed.id, deleted.warehouse, inserted.warehouse into AvatarAdde...\n                                                              ^"
+    },
+    {
+      "function": "aion_avataraddedservice_type4_movechar_checkorgchar_local_ors",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"v_ret\" 或附近的\nLINE 52: ... not null and v_lev < v_level_restrict_value) set v_ret = -1...\n                                                              ^"
+    },
+    {
+      "function": "aion_avataraddedservice_type4_movechar_checkorgchar_ors",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"p_ret\" 或附近的\nLINE 36:     IF 0 /* @v_ERROR */ <> 0 set p_ret = -10102 THEN\n                                          ^"
+    },
+    {
+      "function": "aion_avataraddedservice_type4_movechar_ors",
+      "database": "aion_world_live",
+      "error": "错误:  \"checkconn_cursor\" 不是一个已知变量\nLINE 42:     OPEN checkConn_cursor;\n                  ^"
+    },
+    {
+      "function": "aion_avataraddedservice_type4_movechar_process_ors",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"SVR_MOVE_TRADER\" 或附近的\nLINE 390: ...M aion_MailWrite(p_newCharId, p_toCharName, 0, '$$SVR_MOVE_T...\n                                                               ^"
+    },
+    {
+      "function": "sp_whale_fall_execute",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"v_fall_mode\" 或附近的\nLINE 35:     IF v_killer_char_id IS NULL SET v_fall_mode = 'BROKER' T...\n                                             ^"
+    },
+    {
+      "function": "gm_useritemdao_regacyrecovery",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"user_item\" 或附近的\nLINE 13:     set IDENTITY_INSERT user_item on;\n                                 ^"
+    },
+    {
+      "function": "aion_getitempolishpointlistall",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"option\" 或附近的\nLINE 7: ...char_id = p_char_id and user_item.warehouse != 10 option(loo...\n                                                             ^"
+    },
+    {
+      "function": "gm_userbuddyda_srchmybuddy",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"AS\" 或附近的\nLINE 8: ....last_login_time != '1970-01-01 00:00:00.000' THEN AS black;\n                                                              ^"
+    },
+    {
+      "function": "aion_changecharname_20090423",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在输入的末尾\nLINE 37: ...d, tid, account_id, account_name, race, class, gender, lev);\n                                                                       ^"
+    },
+    {
+      "function": "aion_changecharname_20160620",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在输入的末尾\nLINE 25: ...d, tid, account_id, account_name, race, class, gender, lev);\n                                                                       ^"
+    },
+    {
+      "function": "aion_getkinaasset",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"LIMIT\" 或附近的\nLINE 8: ...400001 and (warehouse = 6 OR warehouse = 7) LIMIT 1 LIMIT 2;\n                                                               ^"
+    },
+    {
+      "function": "aion_movetolegacyalluserdata",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"'),0)'\" 或附近的\nLINE 20: ...imeWithUTCAdjust((CURRENT_TIMESTAMP AT TIME ZONE 'UTC'),0)';\n                                                                 ^"
+    },
+    {
+      "function": "aion_movetolegacyalluserdata_olduseroflowlevel",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"'),0) AND lev < '\" 或附近的\nLINE 26: ...WithUTCAdjust((CURRENT_TIMESTAMP AT TIME ZONE 'UTC'),0) AND ...\n                                                              ^"
+    },
+    {
+      "function": "aion_changeguildname_20090423",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在输入的末尾\nLINE 35: ..._account_id, master_account_name, race, class, gender, lev);\n                                                                       ^"
+    },
+    {
+      "function": "aion_movetolegacyitems",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"'),0) AND item_legacy = 0)'\" 或附近的\nLINE 23: ...WithUTCAdjust((CURRENT_TIMESTAMP AT TIME ZONE 'UTC'),0) AND ...\n                                                              ^"
+    },
+    {
+      "function": "aion_orderingabyssranking",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在输入的末尾\nLINE 24: ...ass, lev, guild_id, rank, old_Ranking, gp, rank_updatedate);\n                                                                       ^"
+    },
+    {
+      "function": "aion_orderingabyssranking_20140827",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在输入的末尾\nLINE 26: ...ass, lev, guild_id, rank, old_Ranking, gp, rank_updatedate);\n                                                                       ^"
+    },
+    {
+      "function": "aion_chargecharrace",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"identity\" 或附近的\nLINE 20:     CREATE TEMP TABLE tempcharid ( pid int identity(1,1), ac...\n                                                    ^"
+    },
+    {
+      "function": "aion_orderingabyssranking_20160415",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在输入的末尾\nLINE 18: ...ass, lev, guild_id, rank, old_Ranking, gp, rank_updatedate);\n                                                                       ^"
+    },
+    {
+      "function": "aion_checkpersonalinstanthousinguserrace",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"ELSE\" 或附近的\nLINE 31:     ELSE\n             ^"
+    },
+    {
+      "function": "aion_setcharlocalrank_all_byrating",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在输入的末尾\nLINE 9: ...ERT INTO user_rank (char_id, rank_id, local_ranking, point);\n                                                                      ^"
+    },
+    {
+      "function": "gm_userdatada_srchcharbyaccountid",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"AS\" 或附近的\nLINE 8: ... last_login_time != '1970-01-01 00:00:00.000' THEN AS black;\n                                                              ^"
+    },
+    {
+      "function": "aion_setusecp",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"IF\" 或附近的\nLINE 17:     END IF;\n                 ^"
+    },
+    {
+      "function": "aion_setcharrankpoint_byrating_endseason",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在输入的末尾\nLINE 7:     INSERT INTO user_rank(char_id, rank_id, point);\n                                                          ^"
+    },
+    {
+      "function": "gm_userdatada_srchmovecharbyworldoruseridoraccountnmorcnt",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"-\" 或附近的\nLINE 40: ...er, cur_server, ' || '  TO_CHAR(create_date, 'YYYY-MM-DD HH2...\n                                                              ^"
+    },
+    {
+      "function": "aion_dbreindex_all",
+      "database": "aion_world_live",
+      "error": "错误:  \"tablecursor\" 不是一个已知变量\nLINE 13:     OPEN TableCursor;\n                  ^"
+    },
+    {
+      "function": "aion_getdbprofile_blockquery",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"BlockedSessionID\" 或附近的\nLINE 6:     select   a.session_id as AS BlockedSessionID, b.blocking...\n                                        ^"
+    },
+    {
+      "function": "gm_userpetdao_changepetname",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"tran\" 或附近的\nLINE 9:     tran;\n            ^"
+    },
+    {
+      "function": "gm_userdatada_srchusebotchannellist",
+      "database": "aion_world_live",
+      "error": "错误:  括号不匹配 在 \";\" 或附近的\nLINE 36: ...-1)*p_view_count AS varchar) || ' order by ' || v_order_col;\n                                                                       ^"
+    },
+    {
+      "function": "aion_getdbprofile_queryfrom",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"Name\" 或附近的\nLINE 10:     SELECT  p.name AS SP Name,qs.execution_count,qs.last_exe...\n                                  ^"
+    },
+    {
+      "function": "aion_getdbprofile_running_query",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"DBName\" 或附近的\nLINE 6: ..._time, b.status, b.command, db_name(c.dbid) as AS DBName, ob...\n                                                             ^"
+    },
+    {
+      "function": "aion_getdbprofile_statisticscpuave",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"used\" 或附近的\nLINE 6:     SELECT  Average CPU used = total_worker_time / qs.execut...\n                                ^"
+    },
+    {
+      "function": "aion_getdbprofile_statisticscpusum",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"'_statements'\" 或附近的\nLINE 6: ..._count) as total_execution_count_sum, count(*) as '_statemen...\n                                                             ^"
+    },
+    {
+      "function": "aion_getdbprofile_statisticsiototal",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"'OBJName'\" 或附近的\nLINE 6: ...CE(object_name(q.objectid, q.dbid),'UNKNOWN')  as 'OBJName' ...\n                                                             ^"
+    },
+    {
+      "function": "aion_getdeletedcharlist",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"with\" 或附近的\nLINE 8: ...account_name, guild_id, guild_rank FROM user_data with(noloc...\n                                                             ^"
+    },
+    {
+      "function": "aion_syncitemlegacytbl",
+      "database": "aion_world_live",
+      "error": "错误:  \"cur_item\" 不是一个已知变量\nLINE 33:     OPEN cur_item;\n                  ^"
+    },
+    {
+      "function": "gm_userrankda_srchuserlistbyrankid",
+      "database": "aion_world_live",
+      "error": "错误:  语法错误 在 \"||\" 或附近的\nLINE 22:     SET v_sql = v_sql || ' ORDER BY r.local_ranking ASC';\n                               ^"
+    },
+    {
+      "function": "write_gameuser_counts",
+      "database": "aion_account_db",
+      "error": "错误:  语法错误 在 \"'Error: Scripting.FileSystemObject'\" 或附近的\nLINE 18:     IF v_OLEResult <> 0 PRINT 'Error: Scripting.FileSystemOb...\n                                       ^"
+    },
+    {
+      "function": "account_input",
+      "database": "aion_account_db",
+      "error": "错误:  语法错误 在 \".\" 或附近的\nLINE 18:     PERFORM GlobalAccountDB(.pap_GetAllianceCompanyAccount p...\n                                     ^"
+    },
+    {
+      "function": "aop_getaccountinfo",
+      "database": "aion_account_db",
+      "error": "错误:  在带有输出参数的函数中RETURN不能有参数\nLINE 25:     RETURN p_ErrorCode;\n                    ^"
+    },
+    {
+      "function": "aop_getaccountnoticelist",
+      "database": "aion_account_db",
+      "error": "错误:  在带有输出参数的函数中RETURN不能有参数\nLINE 25:     RETURN p_ErrorCode;\n                    ^"
+    },
+    {
+      "function": "aop_getblockcount",
+      "database": "aion_account_db",
+      "error": "错误:  在带有输出参数的函数中RETURN不能有参数\nLINE 12:     RETURN p_ErrorCode;\n                    ^"
+    },
+    {
+      "function": "aop_getblockhistorylist",
+      "database": "aion_account_db",
+      "error": "错误:  在带有输出参数的函数中RETURN不能有参数\nLINE 24:     RETURN p_ErrorCode;\n                    ^"
+    },
+    {
+      "function": "aop_getblocklist",
+      "database": "aion_account_db",
+      "error": "错误:  在带有输出参数的函数中RETURN不能有参数\nLINE 27:     RETURN p_ErrorCode;\n                    ^"
+    },
+    {
+      "function": "aop_getgameserverlist",
+      "database": "aion_account_db",
+      "error": "错误:  在带有输出参数的函数中RETURN不能有参数\nLINE 24:     RETURN p_ErrorCode;\n                    ^"
+    },
+    {
+      "function": "aop_getnctasstatus",
+      "database": "aion_account_db",
+      "error": "错误:  在带有输出参数的函数中RETURN不能有参数\nLINE 23:     RETURN p_ErrorCode;\n                    ^"
+    },
+    {
+      "function": "ap_gpwdwithflag",
+      "database": "aion_account_db",
+      "error": "错误:  在SQL表达式的结尾处丢失\"THEN\"\nLINE 9: ...ccount from AccountAuth where gameAccount=p_account)) begin;\n                                                                      ^"
+    },
+    {
+      "function": "ap_setaccountrestirction",
+      "database": "aion_account_db",
+      "error": "错误:  语法错误 在输入的末尾\nLINE 21: ...trictionCode := CASE p_restrictionReasonCode WHEN 0 THEN 43;\n                                                                       ^"
+    },
+    {
+      "function": "aion_getplaytimesforpolls",
+      "database": "aion_account_cache_db",
+      "error": "错误:  语法错误 在 \"IF\" 或附近的\nLINE 34:     END IF;\n                 ^"
+    },
+    {
+      "function": "aion_updateplaytimesforpolls",
+      "database": "aion_account_cache_db",
+      "error": "错误:  语法错误 在 \"IF\" 或附近的\nLINE 50:     END IF;\n                 ^"
+    },
+    {
+      "function": "tbllogfilesda_srchlogfiles",
+      "database": "aion_gm",
+      "error": "错误:  语法错误 在 \"-\" 或附近的\nLINE 16: ...ared, is_deleted, login_id, TO_CHAR(regdate, 'YYYY-MM-DD HH2...\n                                                              ^"
+    },
+    {
+      "function": "my_workflow_insert",
+      "database": "aion_gm",
+      "error": "错误:  \"xcur\" 不是一个已知变量\nLINE 15:     OPEN xcur;\n                  ^"
+    },
+    {
+      "function": "my_world_insert",
+      "database": "aion_gm",
+      "error": "错误:  \"xcur\" 不是一个已知变量\nLINE 12:     OPEN xcur;\n                  ^"
+    },
+    {
+      "function": "tblpresetda_srchpresetbypresetoridornmorisshared",
+      "database": "aion_gm",
+      "error": "错误:  语法错误 在 \"-\" 或附近的\nLINE 13: ...S_SHARED, T1.IS_DELETED, TO_CHAR(T1.regdate, 'YYYY-MM-DD HH2...\n                                                              ^"
+    },
+    {
+      "function": "tbladminuserda_srchgmbyidornmorisdel",
+      "database": "aion_gm",
+      "error": "错误:  语法错误 在 \"-\" 或附近的\nLINE 13: ..., T1.IS_DELETED, T1.ETC, TO_CHAR(T1.regdate, 'YYYY-MM-DD HH2...\n                                                              ^"
+    },
+    {
+      "function": "tblapprovalinfoda_srchmycompletiondoc",
+      "database": "aion_gm",
+      "error": "错误:  语法错误 在 \"-\" 或附近的\nLINE 18: ...ATUS, t1.approval_group, TO_CHAR(T1.regdate, 'YYYY-MM-DD HH2...\n                                                              ^"
+    },
+    {
+      "function": "tblapprovalinfoda_srchmyprogressbyloginid",
+      "database": "aion_gm",
+      "error": "错误:  语法错误 在 \"-\" 或附近的\nLINE 18: ...ATUS, t1.approval_group, TO_CHAR(T1.regdate, 'YYYY-MM-DD HH2...\n                                                              ^"
+    },
+    {
+      "function": "tblapprovalinfoda_srchmyreferencedoc",
+      "database": "aion_gm",
+      "error": "错误:  语法错误 在 \"-\" 或附近的\nLINE 17: ...ATUS, t1.approval_group, TO_CHAR(T1.regdate, 'YYYY-MM-DD HH2...\n                                                              ^"
+    },
+    {
+      "function": "tblbotpointrankingda_srchaccountpunishhistorygroup",
+      "database": "aion_gm",
+      "error": "错误:  语法错误 在 \"reg_date_str\" 或附近的\nLINE 8:     SELECT MAX(reg_date_str) as AS reg_date_str, punish_grou...\n                                           ^"
+    }
+  ]
+}

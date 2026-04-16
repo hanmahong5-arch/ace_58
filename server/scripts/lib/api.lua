@@ -1,0 +1,339 @@
+-- scripts/lib/api.lua
+-- Core API reference for Go→Lua bindings injected by the World Engine runtime.
+-- This file is documentation only — actual bindings are in Go (internal/luahost/).
+
+-- ============================================================
+-- combat.*  — Damage, healing, buffs (Phase S-4/S-5)
+-- ============================================================
+--   combat.deal_damage(attacker_id, target_id, amount, damage_type) -> remaining_hp
+--     Applies `amount` damage to target's ECS "hp" stat; returns new HP.
+--   combat.heal(caster_id, target_id, amount) -> new_hp
+--     Restores HP capped at "max_hp" ECS stat.
+--   combat.check_hit(attacker_id, target_id) -> bool
+--     Level-based hit roll (80 % base ±2 % per level diff, clamped [10 %, 95 %]).
+--   combat.apply_buff(target_id, buff_id, duration_ticks [, params_table])  (Phase S-5)
+--     Applies a non-damaging buff.  duration_ticks is relative to current_tick.
+--     Re-applying the same buff_id refreshes the duration.
+--   combat.apply_dot(target_id, dmg_per_tick, duration_ticks, element)  (Phase S-5)
+--     Applies a damage-over-time effect processed each game tick.
+--     Duration is relative; a unique ID is auto-assigned.
+--   combat.get_buffs(target_id) -> [{buff_id, is_dot, dmg_per_tick, element, expires_at_tick}, ...]
+--     Returns a snapshot of all active buffs/DoTs.
+--   combat.purge_expired(target_id, current_tick) -> count_removed
+--     Removes expired buff entries; called automatically in on_tick.
+--
+-- High-level helpers (damage_calc.*):
+--   damage_calc.physical(attacker_id, target_id) -> amount, remaining_hp, is_crit
+--   damage_calc.check_hit(attacker_id, target_id) -> bool
+
+-- ============================================================
+-- entity.*  — ECS entity queries and mutations (Phase S-2/S-3/S-4)
+-- ============================================================
+--   entity.get_position(entity_id) -> {x, y, z, heading}
+--   entity.set_position(entity_id, x, y, z [, heading])
+--     heading is 0-255 (byte), optional (defaults to 0 if omitted).
+--   entity.get_stat(entity_id, stat_name) -> number
+--     Common stat names: "hp", "max_hp", "mp", "max_mp", "fp", "max_fp",
+--                        "level", "world_id", "map_num", "char_id",
+--                        "spawn_x", "spawn_y", "spawn_z", "patrol_range"
+--   entity.set_stat(entity_id, stat_name, value)
+--   entity.get_nearby(entity_id, radius) -> {entity_id, ...}
+--   entity.get_nearby_players(entity_id, radius) -> {entity_id, ...}  (Phase S-7)
+--     Like get_nearby but filters to PlayerComp entities only.
+--   entity.get_all_players() -> {entity_id, ...}  (Phase S-4)
+--     Returns a snapshot of all entities with active player sessions.
+--   entity.get_all_npcs() -> {entity_id, ...}     (Phase S-4)
+--     Returns a snapshot of all spawned NPC entities.
+--   entity.get_gateway_id(entity_id) -> gateway_seq_id | nil  (Phase S-4)
+--     Returns the Gateway session ID if the entity is a player, nil otherwise.
+--   entity.get_npc_template(entity_id) -> template_id          (Phase S-8)
+--     Returns NpcComp.TemplateID, or 0 if not an NPC.
+
+-- ============================================================
+-- db.*  — PostgreSQL stored procedure calls
+-- ============================================================
+--   db.call(proc_name, arg1, arg2, ...) -> result_table or nil, error_string
+--     result_table is an array of row tables: result[1].column_name, etc.
+--     NEVER write raw SQL — only call the 1314 stored procedures.
+
+-- ============================================================
+-- player.*  — Per-player packet and inventory operations
+-- ============================================================
+--   player.send_packet(gateway_seq_id, opcode, payload_string)
+--     Sends a raw SM_* packet to the client.
+--     Use bytes.new() to build payload_string.
+--     gateway_seq_id comes from ctx.gateway_seq_id in handlers,
+--     or from entity.get_gateway_id(entity_id) for NPC/system-initiated sends.
+--   player.send_message(gateway_seq_id, message_string)   (Phase S-5)
+--     Sends a SYSTEM-channel chat message (SM_CHAT 0x48, channel 0x0B).
+--   player.add_item(gateway_seq_id, item_id, count)        (Phase S-4)
+--     Calls SP aion_AddItemUser(char_id, item_id, count).
+--   player.remove_item(gateway_seq_id, item_id, count) -> bool  (Phase S-4)
+--     Calls SP aion_RemoveItemUser; returns true on success.
+--   player.get_inventory(gateway_seq_id) -> items_table    (Phase S-4)
+--     Calls SP aion_GetItemsByUser; returns [{item_id, count, slot, ...}].
+--   player.add_exp(gateway_seq_id, exp_amount) -> new_level  (Phase S-5)
+--     Calls SP aion_AddExpUser(char_id, exp_amount).
+--     Returns the character's new level (0 on error/SP failure).
+--   player.set_name(gateway_seq_id, char_name)              (Phase S-7)
+--     Stores the character's display name on PlayerComp.CharName.
+--     Called by cm_enter_world after the DB fetch succeeds.
+--   player.get_name(gateway_seq_id) -> string               (Phase S-7)
+--     Returns PlayerComp.CharName, or "" if not set.
+--   player.find_by_name(char_name) -> entity_id             (Phase S-7)
+--     Linear scan of online players; returns 0 if not found.
+--   player.get_kinah(gateway_seq_id) -> number              (Phase S-8)
+--     Returns cached ECS "kinah" stat (0 if unset).
+--   player.add_kinah(gateway_seq_id, amount) -> bool        (Phase S-8)
+--     Credits amount; updates cache and calls aion_AddKinahUser SP.
+--   player.spend_kinah(gateway_seq_id, amount) -> bool      (Phase S-8)
+--     Atomic check-and-deduct; returns false if balance < amount.
+--   player.get_ap(gateway_seq_id) -> number                 (Phase S-11)
+--     Returns cached ECS "abyss_points" stat.
+--   player.add_ap(gateway_seq_id, amount) -> bool           (Phase S-11)
+--     Credits AP; updates cache and calls aion_AddAbyssPointUser SP.
+--     Rolls back cache on SP failure.
+--   player.spend_ap(gateway_seq_id, amount) -> bool         (Phase S-11)
+--     Atomic check-and-deduct for Abyss equipment purchases.
+--
+-- Dialog helpers (dialog.*):                                (Phase S-8)
+--   dialog.register(template_id, fn)
+--     fn(ctx, npc_eid, option_id) — option_id == 0 means initial open.
+--   dialog.has(template_id) -> bool
+--   dialog.open(ctx, npc_eid) -> bool
+--   dialog.select(ctx, npc_eid, option_id) -> bool
+--   dialog.send_window(gw, npc_eid, title, body, options)
+--     options: array of { id=N, text="Label" }; emits SM_DIALOG_WINDOW (0x6F).
+--
+-- Shop helpers (shop.*):                                    (Phase S-8)
+--   shop.buy(ctx, shop_table, item_id, count) -> ok, reason
+--     reasons: "bad_count" | "not_in_shop" | "no_kinah" | "add_failed"
+--   shop.sell(ctx, item_id, count, unit_price) -> ok, reason
+--     sell-back at 25 % of listed price.
+--   shop.open_window(gw, npc_eid, title, shop_table)
+--     Convenience wrapper around dialog.send_window.
+--
+-- Legion helpers (legion.*):                               (Phase S-10)
+--   legion.RANK_BRIGADE_GENERAL / RANK_CENTURION / RANK_LEGIONARY / RANK_DEPUTY = 0/1/2/3
+--   legion.create(founder_eid, name) -> ok, legion_id|reason
+--     reasons: "in_legion" | "bad_name" | "no_kinah" | "db_failed" | "dup_name"
+--   legion.invite(inviter_eid, target_eid) -> ok, reason
+--     reasons: "not_in_legion" | "no_rights" | "target_in_legion" | "full"
+--   legion.accept(target_eid) -> ok, reason
+--     reasons: "no_invite" | "expired" | "full" | "db_failed"
+--   legion.leave(member_eid)  -> ok, reason
+--     reasons: "not_in_legion" | "master_cannot_leave"
+--   legion.kick(kicker_eid, target_name) -> ok, reason
+--     reasons: "no_rights" | "target_not_member" | "cannot_kick_master"
+--   legion.disband(founder_eid) -> ok, reason
+--   legion.set_motd(setter_eid, motd) -> ok, reason
+--   legion.get(member_eid) -> legion_table | nil
+--   legion.member_gateways(member_eid) -> {gateway_seq_id, ...} | nil
+--   legion.load_from_db(member_eid) -> legion_table | nil
+--     Called by cm_enter_world.lua to rehydrate the cache for returning members.
+--   Persistence (SP calls): aion_PutGuild_20100916 / aion_SetGuildMember /
+--     aion_SetGuildMemberRank / aion_SetGuildNotices / aion_DeleteGuild /
+--     aion_DeleteGuildMemberAll / aion_GetCharGuildId / aion_GetGuild_20150508
+--
+-- Auction helpers (auction.*):                             (Phase S-16)
+--   auction.MAX_ACTIVE_PER_USER / LISTING_FEE_RATE
+--                                  / MIN_DURATION_HOURS / MAX_DURATION_HOURS
+--   auction.register(seller_eid, item_id, count, min_bid, buy_now,
+--                    duration_hours) -> ok, reason_or_listing_id
+--     reasons: "bad_count"|"bad_bid"|"bad_duration"|"no_kinah"
+--              |"too_many_listings"|"sp_failed"
+--   auction.search(buyer_eid, item_id_filter, min_price, max_price, page)
+--     -> array of listings
+--   auction.bid(buyer_eid, listing_id, amount) -> ok, reason
+--     reasons: "bad_amount"|"not_found"|"expired"|"own_listing"
+--              |"bid_too_low"|"no_kinah"|"sp_failed"
+--   auction.cancel(seller_eid, listing_id) -> ok, reason
+--     reasons: "not_found"|"not_owner"|"has_bids"|"sp_failed"
+--
+-- jobq.enqueue (Phase S-16 delayed dispatch):
+--   jobq.enqueue(kind, args_table, delay_sec) -> ok, err
+--     When delay_sec > 0, uses asynq.ProcessIn to schedule future execution.
+--     auction.register is the canonical caller: schedules expiry with
+--     delay = duration_hours * 3600 seconds.
+--
+-- Warehouse helpers (warehouse.*):                         (Phase S-15)
+--   warehouse.MAX_SLOTS / FEE_PER_TX / NPC_RANGE
+--   warehouse.list(reader_eid) -> array of {item_id, item_count, slot}
+--   warehouse.deposit(eid, item_id, count) -> ok, reason
+--     reasons: "bad_count"|"no_session"|"no_kinah"|"sp_failed"
+--   warehouse.withdraw(eid, item_id, count) -> ok, reason
+--     reasons: "bad_count"|"no_session"|"no_kinah"|"sp_failed"
+--   warehouse.open_session(eid, npc_eid) / close_session(eid) / has_session(eid)
+--
+-- Mail helpers (mail.*):                                   (Phase S-14)
+--   mail.MAX_SUBJECT_LEN / MAX_BODY_LEN / MAX_ATTACHED_COUNT / SEND_FEE
+--   mail.send(sender_eid, recipient_name, subject, body,
+--             item_id, item_count, kinah) -> ok, reason
+--     reasons: "bad_subject"|"bad_body"|"no_recipient"|"no_kinah"
+--              |"bad_item_count"|"sp_failed"
+--   mail.list(reader_eid) -> array of row tables (empty on SP fail)
+--   mail.read(reader_eid, mail_id) -> ok, row | false, reason
+--   mail.claim(reader_eid, mail_id) -> ok, reason
+--     reasons: "not_found"|"already_claimed"|"sp_failed"
+--   mail.delete(reader_eid, mail_id) -> ok, reason
+--
+-- Items registry (items.*):                                (Phase S-12)
+--   items.register(tmpl) -> bool
+--     tmpl fields: id, name, slot, required_level, attack, defense, hp_bonus
+--   items.get(item_id) -> tmpl | nil
+--   items.is_equippable(item_id) -> bool
+--
+-- Equipment helpers (equipment.*):                          (Phase S-12)
+--   equipment.SLOT_MAIN_HAND / SUB_HAND / HELMET / CHEST / GLOVES / BOOTS /
+--             NECKLACE / EARRING_L / EARRING_R / RING_L / RING_R / BELT /
+--             SHOULDER / PANTS / WINGS  = 1..15
+--   equipment.SLOT_COUNT = 15
+--   equipment.is_valid_slot(slot) -> bool
+--   equipment.equip(eid, item_id) -> ok, reason_or_slot
+--     reasons: "unknown_item" | "not_equippable" | "bad_slot" | "low_level"
+--   equipment.unequip(eid, slot) -> ok, reason_or_item_id
+--     reasons: "bad_slot" | "empty"
+--   equipment.get_slot(eid, slot) -> item_id (0 if empty)
+--   equipment.get_equipped(eid) -> { [slot]=item_id, ... }
+--   equipment.recompute(eid)
+--     Rebuilds "equip_attack" / "equip_defense" / "equip_hp_bonus" ECS stats.
+--     damage_calc.physical reads "equip_attack" as a flat additive base bonus.
+--
+-- PvP / Abyss helpers (pvp.*):                              (Phase S-11)
+--   pvp.FACTION_ELYOS / FACTION_ASMODIAN / FACTION_NPC = 0 / 1 / -1
+--   pvp.get_faction(eid) -> int
+--   pvp.is_flagged(eid) -> bool
+--   pvp.same_faction(a, b) -> bool
+--   pvp.can_damage(attacker, target) -> ok, reason
+--     reasons: "self" | "safe_zone" | "same_faction_unflagged"
+--     Must be called by every combat entry (cm_attack / skill.use / DoT trigger).
+--   pvp.toggle_flag(eid) -> now_flagged
+--   pvp.kill_ap(killer_lvl, victim_lvl) -> int
+--     Pure formula; base 100 ± 10 per level diff, clamped [10, 500].
+--   pvp.award_kill_points(killer_eid, victim_eid) -> amount_awarded
+--     Called by on_kill for PvP kills; credits AP + emits SM_ABYSS_POINT_UPDATE.
+--
+-- Flight helpers (flight.*):                                (Phase S-9)
+--   flight.STATE_GROUND / STATE_GLIDE / STATE_FLY  = 0/1/2
+--   flight.get_state(eid) -> int
+--   flight.is_airborne(eid) -> bool
+--   flight.set_state(eid, new_state)
+--     Updates ECS "flight_state" and broadcasts SM_FLY_STATE (0x74).
+--   flight.takeoff(eid) -> ok, reason    -- "dead"|"no_fp"|"already"
+--   flight.land(eid) -> ok
+--   flight.glide_start(eid) -> ok, reason -- "dead"|"already_airborne"
+--   flight.glide_end(eid) -> ok
+--   flight.drain(eid) -> is_still_airborne
+--     Called from on_tick for airborne players. Deducts FP per state rate;
+--     force-lands at 0 FP. Returns false on force-land.
+--   FP drain rates: FLY = 20/sec, GLIDE = 5/sec.
+--
+-- Chat helpers (chat.*):                                    (Phase S-7)
+--   chat.CH_NORMAL / CH_SHOUT / CH_WHISPER / CH_GROUP / CH_LEGION / CH_SYSTEM
+--   chat.broadcast_local(sender_eid, sender_name, message)   -- 25 m
+--   chat.broadcast_shout(sender_eid, sender_name, message)   -- 100 m
+--   chat.send_whisper(sender_name, target_name, message) -> bool
+--   chat.broadcast_group(member_gws, sender_name, message)
+--   chat.send_system(gateway_seq_id, message)
+--
+-- Group helpers (group.*):                                  (Phase S-7)
+--   group.invite(leader_eid, target_eid) -> ok, reason
+--     reasons: "self" | "already_in_group" | "full"
+--   group.accept(target_eid) -> ok, reason
+--     reasons: "no_invite" | "expired" | "full"
+--   group.leave(member_eid)  -> ok, reason
+--   group.disband(leader_eid) -> ok, reason
+--   group.get(member_eid) -> group_table | nil
+--   group.members(member_eid) -> {Entity, ...} | nil
+--   group.member_gateways(member_eid) -> {gateway_seq_id, ...} | nil
+--
+-- Skill helpers (skill.*):                                  (Phase S-5/S-6)
+--   skill.register(def)     -- def: {id, name, cooldown, mp_cost, range, on_use=fn}
+--   skill.use(ctx, skill_id, target_id) -> true | false, reason
+--     reason: "unknown" | "cooldown" | "no_mp"
+--     CM_USE_SKILL handler sends SM_SKILL_FAILED (0x90) when false is returned.
+--
+-- Buff helpers (buff.*):                                    (Phase S-6)
+--   buff.apply(target_id, buff_id, duration_ticks)
+--     Applies a non-damaging buff and broadcasts SM_BUFF_INFO (0x3C) to
+--     the target and all players within 200 m.
+--   buff.apply_dot(target_id, dmg_per_tick, duration_ticks [, element])
+--     Applies a DoT, broadcasts SM_BUFF_INFO with buff_id=-1 (generic DoT icon).
+--     element defaults to "physical".
+--
+-- EXP helpers (exp_table.*):                               (Phase S-5)
+--   exp_table.kill_exp(victim_level) -> base_exp
+--   exp_table.to_next(current_level) -> exp_to_next_level
+--
+-- Quest helpers (quest.*):
+--   quest.register(def)                             -- define a quest
+--   quest.start(entity_id, quest_id) -> bool
+--   quest.advance(entity_id, quest_id, step) -> bool
+--   quest.complete(entity_id, quest_id) -> bool
+--   quest.state(entity_id, quest_id) -> number      -- 0 = not active
+
+-- ============================================================
+-- world.*  — World/zone operations (Phase S-3)
+-- ============================================================
+--   world.spawn_npc(template_id, x, y, z) -> entity_id
+--   world.despawn(entity_id)
+--   world.get_zone(entity_id) -> zone_id
+
+-- ============================================================
+-- config.*  — Hot-reloadable TOML configuration
+-- ============================================================
+--   config.rates(category, key) -> number   (e.g. "drop", "normal" -> 2.0)
+--   config.get(section, key) -> value
+
+-- ============================================================
+-- log.*  — Structured logging (all levels forwarded to Go slog)
+-- ============================================================
+--   log.info(message)
+--   log.warn(message)
+--   log.error(message)
+
+-- ============================================================
+-- bytes.*  — Binary buffer construction and parsing (Phase S-2)
+-- ============================================================
+-- Writer:
+--   local buf = bytes.new()
+--   buf:write_byte(n)
+--   buf:write_int16(n)
+--   buf:write_int32(n)
+--   buf:write_int64(n)
+--   buf:write_float32(n)
+--   buf:write_string(s)           -- raw byte string
+--   buf:write_string_utf16(s)     -- UTF-16 LE, null-terminated
+--   buf:to_string() -> string     -- binary Lua string ready for player.send_packet
+--   buf:len() -> int
+--
+-- Reader:
+--   local r = bytes.reader(payload_string)
+--   r:read_byte() -> int
+--   r:read_int16() -> int
+--   r:read_int32() -> int
+--   r:read_int64() -> int
+--   r:read_float32() -> number
+--   r:read_string(n) -> string    -- n raw bytes
+--   r:remaining() -> int
+
+-- ============================================================
+-- Global state (updated each tick by on_tick.lua)
+-- ============================================================
+--   current_tick  (number) monotonically increasing game tick counter.
+--     Used by skill.lua for cooldown tracking and by apply_buff/apply_dot
+--     duration calculations.
+
+-- ============================================================
+-- Dispatch infrastructure (router.lua)
+-- ============================================================
+--   register_handler(opcode, fn)  -- fn(ctx, payload_reader)
+--   dispatch_packet(opcode, ctx, raw_payload)  -- called by Go Dispatcher
+--
+-- ctx fields provided by Dispatcher:
+--   ctx.gateway_seq_id  (number) Gateway session ID — use for player.send_packet
+--   ctx.entity_id       (number) ECS entity ID
+--   ctx.account_id      (number) Database account ID
+--   ctx.account         (string) Account name
+
+return {}

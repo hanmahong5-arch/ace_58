@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Myriad: The Shiguang Era — Icon Mark (Square)
+  Usage: favicon, app icon, in-game corner stamp, social avatar
+  ViewBox: 200x200
+  Colors: 深空靛 #0D1B2A | 银蓝 #3A8FBF | 曙光橙 #FF9E40 | 成就金 #D4AF37
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <!-- Background radial gradient: deep space indigo -->
+    <radialGradient id="bg-grad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"   stop-color="#1A3048"/>
+      <stop offset="100%" stop-color="#0D1B2A"/>
+    </radialGradient>
+
+    <!-- Outer ring: silver-blue to gold gradient -->
+    <linearGradient id="ring-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#3A8FBF"/>
+      <stop offset="50%"  stop-color="#D4AF37"/>
+      <stop offset="100%" stop-color="#FF9E40"/>
+    </linearGradient>
+
+    <!-- Dawn glow for center -->
+    <radialGradient id="center-glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"   stop-color="#FF9E40" stop-opacity="1"/>
+      <stop offset="60%"  stop-color="#D4AF37" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#FF9E40" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Arc quadrant gradients -->
+    <linearGradient id="arc-tl" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#D4AF37" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#3A8FBF" stop-opacity="0.6"/>
+    </linearGradient>
+    <linearGradient id="arc-tr" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="#5BAFDF" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#3A8FBF" stop-opacity="0.5"/>
+    </linearGradient>
+    <linearGradient id="arc-br" x1="100%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%"   stop-color="#FF9E40" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#D4AF37" stop-opacity="0.6"/>
+    </linearGradient>
+    <linearGradient id="arc-bl" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#9FAFC0" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#3A8FBF" stop-opacity="0.5"/>
+    </linearGradient>
+
+    <!-- Clip circle -->
+    <clipPath id="circle-clip">
+      <circle cx="100" cy="100" r="90"/>
+    </clipPath>
+  </defs>
+
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="100" fill="url(#bg-grad)"/>
+
+  <!-- Outer decorative ring (thin) -->
+  <circle cx="100" cy="100" r="88" fill="none" stroke="url(#ring-grad)" stroke-width="2" opacity="0.7"/>
+  <circle cx="100" cy="100" r="82" fill="none" stroke="#2E3E50" stroke-width="0.5"/>
+
+  <!-- ── Four Quadrant Arcs (representing four cultures) ── -->
+  <!-- Each arc is a thick stroke on a circle, clipped to its quadrant -->
+
+  <!-- Top-Left arc: 星轨学苑 (starry constellation / magic academy) -->
+  <!-- Uses dashed pattern to suggest star trails -->
+  <path d="M 100 100 m -62 0 a 62 62 0 0 1 62 -62" fill="none" stroke="url(#arc-tl)" stroke-width="7"
+        stroke-linecap="round" stroke-dasharray="5 3" opacity="0.85"/>
+  <path d="M 100 100 m -50 0 a 50 50 0 0 1 50 -50" fill="none" stroke="#D4AF37" stroke-width="1.5"
+        stroke-linecap="round" stroke-dasharray="2 8" opacity="0.5"/>
+
+  <!-- Top-Right arc: 九重霄 (flowing brush-stroke / celestial) -->
+  <!-- Smooth flowing arc -->
+  <path d="M 100 38 a 62 62 0 0 1 62 62" fill="none" stroke="url(#arc-tr)" stroke-width="7"
+        stroke-linecap="round" opacity="0.85"/>
+  <!-- Inner secondary arc -->
+  <path d="M 100 50 a 50 50 0 0 1 50 50" fill="none" stroke="#5BAFDF" stroke-width="1.5"
+        stroke-linecap="round" opacity="0.45"/>
+
+  <!-- Bottom-Right arc: 中原武侠 (angular sword-mark / wuxia) -->
+  <!-- Angular / segmented style -->
+  <path d="M 162 100 a 62 62 0 0 1 -62 62" fill="none" stroke="url(#arc-br)" stroke-width="7"
+        stroke-linecap="square" stroke-dasharray="12 4" opacity="0.85"/>
+  <path d="M 150 100 a 50 50 0 0 1 -50 50" fill="none" stroke="#FF9E40" stroke-width="1.5"
+        stroke-linecap="round" opacity="0.45"/>
+
+  <!-- Bottom-Left arc: 霜冽北境 (crystalline frost / northern realm) -->
+  <!-- Dotted to suggest crystalline texture -->
+  <path d="M 100 162 a 62 62 0 0 1 -62 -62" fill="none" stroke="url(#arc-bl)" stroke-width="7"
+        stroke-linecap="round" stroke-dasharray="1 5" opacity="0.85"/>
+  <path d="M 100 150 a 50 50 0 0 1 -50 -50" fill="none" stroke="#9FAFC0" stroke-width="1.5"
+        stroke-linecap="round" opacity="0.4"/>
+
+  <!-- ── Quadrant separator ticks ── -->
+  <line x1="100" y1="38"  x2="100" y2="46"  stroke="#D4AF37" stroke-width="2" opacity="0.6"/>
+  <line x1="162" y1="100" x2="154" y2="100" stroke="#FF9E40" stroke-width="2" opacity="0.6"/>
+  <line x1="100" y1="162" x2="100" y2="154" stroke="#9FAFC0" stroke-width="2" opacity="0.6"/>
+  <line x1="38"  y1="100" x2="46"  y2="100" stroke="#D4AF37" stroke-width="2" opacity="0.6"/>
+
+  <!-- ── Inner ring ── -->
+  <circle cx="100" cy="100" r="36" fill="none" stroke="#2E3E50" stroke-width="1.5"/>
+  <circle cx="100" cy="100" r="30" fill="#0D1B2A" opacity="0.9"/>
+
+  <!-- ── Center glow ── -->
+  <circle cx="100" cy="100" r="18" fill="url(#center-glow)" opacity="0.6"/>
+
+  <!-- ── "拾" seal character in center ── -->
+  <!-- Rendered as a stylized geometric approximation + text fallback -->
+  <text x="100" y="108"
+        font-family="Source Han Serif SC, Noto Serif CJK SC, serif"
+        font-size="22"
+        font-weight="700"
+        fill="#FF9E40"
+        text-anchor="middle"
+        dominant-baseline="middle"
+        opacity="0.95">拾</text>
+
+  <!-- ── Outer rim subtle stars / dots ── -->
+  <circle cx="100" cy="14"  r="1.5" fill="#D4AF37" opacity="0.6"/>
+  <circle cx="186" cy="100" r="1.5" fill="#FF9E40" opacity="0.6"/>
+  <circle cx="100" cy="186" r="1.5" fill="#9FAFC0" opacity="0.5"/>
+  <circle cx="14"  cy="100" r="1.5" fill="#D4AF37" opacity="0.5"/>
+
+  <!-- Corner accent dots (diagonal) -->
+  <circle cx="131" cy="32"  r="1"   fill="#5BAFDF" opacity="0.5"/>
+  <circle cx="168" cy="69"  r="1"   fill="#5BAFDF" opacity="0.5"/>
+  <circle cx="168" cy="131" r="1"   fill="#FF9E40" opacity="0.5"/>
+  <circle cx="131" cy="168" r="1"   fill="#9FAFC0" opacity="0.4"/>
+  <circle cx="69"  cy="168" r="1"   fill="#9FAFC0" opacity="0.4"/>
+  <circle cx="32"  cy="131" r="1"   fill="#D4AF37" opacity="0.4"/>
+  <circle cx="32"  cy="69"  r="1"   fill="#D4AF37" opacity="0.5"/>
+  <circle cx="69"  cy="32"  r="1"   fill="#5BAFDF" opacity="0.5"/>
+</svg>

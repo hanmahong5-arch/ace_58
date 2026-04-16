@@ -1,0 +1,55 @@
+# === Binaries & build artifacts ===
+*.exe
+*.dll
+*.so
+*.dylib
+dev/bin/
+prod/bin/
+
+# === Runtime logs ===
+dev/logs/
+prod/logs/
+*.log
+
+# === Client (35GB game client, read-only) ===
+client/
+
+# === Tools (pre-built binaries, external deps) ===
+tools/
+
+# === Secrets & environment ===
+*.pem
+*.key
+*.env
+.env.*
+
+# === Test reports (ephemeral) ===
+server/src/s*_test_report.txt
+
+# === Go build cache ===
+server/src/vendor/
+
+# === IDE ===
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# === Python cache ===
+__pycache__/
+*.pyc
+*.pyo
+
+# === OS ===
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# === Launcher build artifacts ===
+server/launcher/src-tauri/target/
+server/launcher/dist/
+server/launcher/node_modules/
+
+# === Binary data ===
+*.bin

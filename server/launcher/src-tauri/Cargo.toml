@@ -1,0 +1,55 @@
+[package]
+name = "shiguang-launcher"
+version = "1.0.0"
+edition = "2021"
+description = "Myriad: The Shiguang Era — Official Game Launcher"
+authors = ["Shiguang AI Studio"]
+
+# Tauri 2 requires this metadata block for tauri-build to find configuration.
+[package.metadata.tauri]
+# Intentionally minimal — Tauri reads tauri.conf.json for actual settings.
+
+# Tauri build metadata
+[[bin]]
+name = "shiguang-launcher"
+path = "src/main.rs"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+# Core Tauri 2 runtime
+tauri = { version = "2", features = [] }
+tauri-plugin-shell = "2"
+
+# Async HTTP client with streaming and JSON support
+reqwest = { version = "0.12", features = ["json", "stream", "rustls-tls"], default-features = false }
+
+# SHA-256 checksum verification
+sha2 = "0.10"
+hex = "0.4"
+
+# Serialization / deserialization for JSON and TOML
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+toml = "0.8"
+
+# Async runtime (full feature set for timers, fs, sync primitives)
+tokio = { version = "1", features = ["full"] }
+
+# Future combinators for concurrent downloads
+futures = "0.3"
+
+# UUID v4 for SHIGUANG_SESSION generation
+uuid = { version = "1", features = ["v4"] }
+
+# Structured error handling
+thiserror = "1"
+
+# Logging
+log = "0.4"
+env_logger = "0.11"
+
+[features]
+# Production: allow Tauri to bundle additional components
+custom-protocol = ["tauri/custom-protocol"]

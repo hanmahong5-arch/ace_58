@@ -1,0 +1,30 @@
+# World Engine configuration — DEVELOPMENT ENVIRONMENT
+
+[server]
+tick_rate = 20
+max_players = 50                 # Low cap for dev (prod: 1800)
+
+[database]
+host = "127.0.0.1"
+port = 5432
+name = "aion_world_live"        # Same DB as prod; use separate DB if needed
+user = "postgres"
+password_env = "AIONCORE_DB_PASS"
+pool_size = 5
+
+[redis]
+addr = "127.0.0.1:6379"
+db = 3                           # Redis DB 3 for dev (prod uses DB 1)
+
+[nats]
+url = "nats://127.0.0.1:4222"
+
+[lua]
+script_dir = "../../server/scripts"  # Shared source scripts
+hot_reload = true
+reload_interval_ms = 500         # Faster reload in dev
+
+[logging]
+level = "debug"
+log_lua_calls = true             # Log every Lua function call
+log_db_calls = true              # Log all stored procedure calls

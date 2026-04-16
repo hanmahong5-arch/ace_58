@@ -1,0 +1,28 @@
+# Build outputs
+/dist
+/src-tauri/target
+
+# Package manager
+node_modules
+
+# Temp patch download directory
+**/.pending
+
+# Local launcher config (contains API URLs and personal settings)
+launcher.toml
+
+# Editor directories and files
+.vscode
+.idea
+*.suo
+*.user
+*.swp
+*.swo
+
+# OS artifacts
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+.env.local

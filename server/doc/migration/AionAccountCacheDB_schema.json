@@ -1,0 +1,2865 @@
+{
+  "database": "AionAccountCacheDB",
+  "tables": {
+    "account_data": {
+      "columns": [
+        {
+          "COLUMN_NAME": "account_id",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "hidden_fatigue_point",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "hidden_fatigue_updatetime",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "hidden_fatigue_npckill",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "YES",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "limit_play_reset_time",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "limit_play_accum_time",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        }
+      ],
+      "row_count": 27
+    },
+    "account_fatigue": {
+      "columns": [
+        {
+          "COLUMN_NAME": "account_id",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "sun",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "YES",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "mon",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "YES",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "tue",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "YES",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "wed",
+          "DATA_TYPE": "nchar",
+          "CHARACTER_MAXIMUM_LENGTH": 10,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "YES",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "thu",
+          "DATA_TYPE": "nchar",
+          "CHARACTER_MAXIMUM_LENGTH": 10,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "YES",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "fri",
+          "DATA_TYPE": "nchar",
+          "CHARACTER_MAXIMUM_LENGTH": 10,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "YES",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "sat",
+          "DATA_TYPE": "nchar",
+          "CHARACTER_MAXIMUM_LENGTH": 10,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "YES",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "sun_pccafe",
+          "DATA_TYPE": "nchar",
+          "CHARACTER_MAXIMUM_LENGTH": 10,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "YES",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "mon_pccafe",
+          "DATA_TYPE": "nchar",
+          "CHARACTER_MAXIMUM_LENGTH": 10,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "YES",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "tue_pccafe",
+          "DATA_TYPE": "nchar",
+          "CHARACTER_MAXIMUM_LENGTH": 10,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "YES",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "wed_pccafe",
+          "DATA_TYPE": "nchar",
+          "CHARACTER_MAXIMUM_LENGTH": 10,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "YES",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "thu_pccafe",
+          "DATA_TYPE": "nchar",
+          "CHARACTER_MAXIMUM_LENGTH": 10,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "YES",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "fri_pccafe",
+          "DATA_TYPE": "nchar",
+          "CHARACTER_MAXIMUM_LENGTH": 10,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "YES",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "sat_pccafe",
+          "DATA_TYPE": "nchar",
+          "CHARACTER_MAXIMUM_LENGTH": 10,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "YES",
+          "COLUMN_DEFAULT": null
+        }
+      ],
+      "row_count": 0
+    },
+    "account_luna": {
+      "columns": [
+        {
+          "COLUMN_NAME": "accountId",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "luna",
+          "DATA_TYPE": "bigint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 19,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "createdate",
+          "DATA_TYPE": "datetime",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "(getdate())"
+        },
+        {
+          "COLUMN_NAME": "updatedate",
+          "DATA_TYPE": "datetime",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "(getdate())"
+        }
+      ],
+      "row_count": 11
+    },
+    "account_luna_reward": {
+      "columns": [
+        {
+          "COLUMN_NAME": "accountId",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "today_reward",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "remain_reward",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "key_count",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "createdate",
+          "DATA_TYPE": "datetime",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "(getdate())"
+        },
+        {
+          "COLUMN_NAME": "updatedate",
+          "DATA_TYPE": "datetime",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "(getdate())"
+        }
+      ],
+      "row_count": 27
+    },
+    "account_pack": {
+      "columns": [
+        {
+          "COLUMN_NAME": "account_id",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "pack_type",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "expire_date",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "id",
+          "DATA_TYPE": "bigint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 19,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        }
+      ],
+      "row_count": 1
+    },
+    "account_playtime_polls": {
+      "columns": [
+        {
+          "COLUMN_NAME": "account_id",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "poll_id",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "previous_playtime",
+          "DATA_TYPE": "bigint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 19,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        }
+      ],
+      "row_count": 0
+    },
+    "aion_ranking_info": {
+      "columns": [
+        {
+          "COLUMN_NAME": "Id",
+          "DATA_TYPE": "bigint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 19,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "SpecialServerType",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "RankId",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "SeasonNumber",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "LastUpdateTime",
+          "DATA_TYPE": "datetime",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "SeasonStatus",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "TableDump",
+          "DATA_TYPE": "ntext",
+          "CHARACTER_MAXIMUM_LENGTH": 1073741823,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "TableVersion",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        }
+      ],
+      "row_count": 0
+    },
+    "aion_ranking_season_status": {
+      "columns": [
+        {
+          "COLUMN_NAME": "SpecialServerType",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "RankId",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "SeasonNumber",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "SeasonStatus",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "SeasonStartTime",
+          "DATA_TYPE": "datetime",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "LastUpdateTime",
+          "DATA_TYPE": "datetime",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        }
+      ],
+      "row_count": 0
+    },
+    "aion_server_data": {
+      "columns": [
+        {
+          "COLUMN_NAME": "server_id",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "movesvr_last_checktime",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        }
+      ],
+      "row_count": 1
+    },
+    "aion_serverlist": {
+      "columns": [
+        {
+          "COLUMN_NAME": "server_id",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "datasource",
+          "DATA_TYPE": "nvarchar",
+          "CHARACTER_MAXIMUM_LENGTH": 128,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "database_name",
+          "DATA_TYPE": "nvarchar",
+          "CHARACTER_MAXIMUM_LENGTH": 64,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "update_result",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "YES",
+          "COLUMN_DEFAULT": null
+        }
+      ],
+      "row_count": 0
+    },
+    "aion_user_ranking_season_history": {
+      "columns": [
+        {
+          "COLUMN_NAME": "ServerId",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "RankId",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "SeasonNumber",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "CharacterId",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "RankPoint",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "Ranking",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "Rewarded",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "CharacterName",
+          "DATA_TYPE": "nvarchar",
+          "CHARACTER_MAXIMUM_LENGTH": 100,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "IcCharacterId",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "AccountID",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "AccountName",
+          "DATA_TYPE": "nvarchar",
+          "CHARACTER_MAXIMUM_LENGTH": 100,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "RewardedDate",
+          "DATA_TYPE": "datetime",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "YES",
+          "COLUMN_DEFAULT": null
+        }
+      ],
+      "row_count": 0
+    },
+    "aion_user_ranking_servermove": {
+      "columns": [
+        {
+          "COLUMN_NAME": "Id",
+          "DATA_TYPE": "bigint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 19,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "SrcServerId",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "SrcCharacterId",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "DstServerId",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "DstCharacterId",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "CharacterName",
+          "DATA_TYPE": "nvarchar",
+          "CHARACTER_MAXIMUM_LENGTH": 100,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        }
+      ],
+      "row_count": 0
+    },
+    "cosmetic_data": {
+      "columns": [
+        {
+          "COLUMN_NAME": "cosmetic_id",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "account_id",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "server_id",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "char_id",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "race",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "gender",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "feat_version",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "head_face_color",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "head_hair_color",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "head_eye_color",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "(0xFFFFFFFF)"
+        },
+        {
+          "COLUMN_NAME": "head_lip_color",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "head_face_type",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "head_hair_type",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "height_scale",
+          "DATA_TYPE": "float",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 53,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((1.0))"
+        },
+        {
+          "COLUMN_NAME": "head_voice_type",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "head_feat_type1",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "head_feat_type2",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "head_bump_type",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "head_expression_type",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "feat_face_shape",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "feat_forehead_shape",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "feat_eye_position",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "feat_eye_glabella",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "feat_eye_length",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "feat_eye_height",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "feat_eye_shape",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "feat_eye_tail",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "feat_eyeblow_pos",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "feat_eyeblow_angle",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "feat_eyeblow_shape",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "feat_nose_pos",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "feat_nose_bridge",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "feat_nose_side",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "feat_nose_tip",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "feat_cheek_shape",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "feat_mouth_pos",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "feat_mouth_size",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "feat_lip_thickness",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "feat_lip_tail",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "feat_lip_shape",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "feat_jaw_pos",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "feat_jaw_shape",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "feat_head_size",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "feat_neck_thickness",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "feat_neck_length",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "feat_shoulder_size",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "feat_upper_size",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "feat_bust_size",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "feat_waist_size",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "feat_hip_size",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "feat_arm_thickness",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "feat_hand_size",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "feat_leg_thickness",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "feat_foot_size",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "feat_wing_size",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "feat_ear_shape",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "feat_face_ratio",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "feat_arm_length",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((1))"
+        },
+        {
+          "COLUMN_NAME": "feat_leg_length",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((1))"
+        },
+        {
+          "COLUMN_NAME": "feat_shoulder_width",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((1))"
+        },
+        {
+          "COLUMN_NAME": "feat_head_figure",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "create_date",
+          "DATA_TYPE": "datetime",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        }
+      ],
+      "row_count": 0
+    },
+    "global_user_data": {
+      "columns": [
+        {
+          "COLUMN_NAME": "char_id",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "account_id",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "create_date",
+          "DATA_TYPE": "datetime",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "('1753-01-01 00:00:00')"
+        },
+        {
+          "COLUMN_NAME": "last_login_time",
+          "DATA_TYPE": "datetime",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "('1970/1/1 0:0:1')"
+        },
+        {
+          "COLUMN_NAME": "last_logout_time",
+          "DATA_TYPE": "datetime",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "('1970/1/1 0:0:1')"
+        },
+        {
+          "COLUMN_NAME": "delete_date",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "delete_completed_date",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "user_level",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "server_id",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "cur_server_id",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "global_char_id",
+          "DATA_TYPE": "bigint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 19,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "uid",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "class_type",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((-1))"
+        },
+        {
+          "COLUMN_NAME": "race_type",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((-1))"
+        },
+        {
+          "COLUMN_NAME": "is_special_server",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "is_jumping_character",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        }
+      ],
+      "row_count": 49
+    },
+    "jumping_character_config": {
+      "columns": [
+        {
+          "COLUMN_NAME": "server_id",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "is_special_server",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "start_date",
+          "DATA_TYPE": "datetime",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "end_date",
+          "DATA_TYPE": "datetime",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "max_creation_count",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "required_char_level",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "is_deleted",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "login_id",
+          "DATA_TYPE": "nvarchar",
+          "CHARACTER_MAXIMUM_LENGTH": 30,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "login_nm",
+          "DATA_TYPE": "nvarchar",
+          "CHARACTER_MAXIMUM_LENGTH": 30,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "reg_date",
+          "DATA_TYPE": "datetime",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        }
+      ],
+      "row_count": 0
+    },
+    "server_operation": {
+      "columns": [
+        {
+          "COLUMN_NAME": "id",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "operation",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "orgServerID",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "newServerId",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        }
+      ],
+      "row_count": 0
+    },
+    "test_data": {
+      "columns": [
+        {
+          "COLUMN_NAME": "id",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "int_value",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "nchar10_value",
+          "DATA_TYPE": "nchar",
+          "CHARACTER_MAXIMUM_LENGTH": 10,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "date_value",
+          "DATA_TYPE": "datetime",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        }
+      ],
+      "row_count": 0
+    },
+    "trial_account_data": {
+      "columns": [
+        {
+          "COLUMN_NAME": "account_id",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "update_time",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "reset_time",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "sell_gold_sum",
+          "DATA_TYPE": "bigint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 19,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "trade_gold_sum",
+          "DATA_TYPE": "bigint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 19,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "decompose_sum",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "gather_sum",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "extract_gather_sum",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "id",
+          "DATA_TYPE": "bigint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 19,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        }
+      ],
+      "row_count": 27
+    },
+    "user_board_bm": {
+      "columns": [
+        {
+          "COLUMN_NAME": "account_id",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "game_id",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "current_pos",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "visited_pos",
+          "DATA_TYPE": "bigint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 19,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "last_freecharge_time",
+          "DATA_TYPE": "bigint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 19,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "last_reset_time",
+          "DATA_TYPE": "bigint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 19,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "free_dice_remain",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "paid_dice_remain",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "paid_reset_remain",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        }
+      ],
+      "row_count": 0
+    },
+    "user_board_bm_dice": {
+      "columns": [
+        {
+          "COLUMN_NAME": "account_id",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "last_freecharge_time",
+          "DATA_TYPE": "bigint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 19,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "free_dice_remain",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "paid_dice_remain",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "paid_reset_remain",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        }
+      ],
+      "row_count": 1
+    },
+    "user_board_bm_game": {
+      "columns": [
+        {
+          "COLUMN_NAME": "account_id",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "is_special_server",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "game_id",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "current_pos",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "visited_pos",
+          "DATA_TYPE": "bigint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 19,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "last_reset_time",
+          "DATA_TYPE": "bigint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 19,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        }
+      ],
+      "row_count": 1
+    },
+    "user_login_event_data": {
+      "columns": [
+        {
+          "COLUMN_NAME": "id",
+          "DATA_TYPE": "bigint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 19,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "account_id",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "event_id",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "stamp_count",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "recent_count_update_date",
+          "DATA_TYPE": "datetime",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "recent_anniversity_reward_time",
+          "DATA_TYPE": "bigint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 19,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        }
+      ],
+      "row_count": 0
+    },
+    "user_login_event_data_daily": {
+      "columns": [
+        {
+          "COLUMN_NAME": "id",
+          "DATA_TYPE": "bigint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 19,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "account_id",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "event_id",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "valid_login_count",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "recent_count_update_date",
+          "DATA_TYPE": "datetime",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "be_rewarded",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        }
+      ],
+      "row_count": 0
+    },
+    "user_login_event_data_other": {
+      "columns": [
+        {
+          "COLUMN_NAME": "id",
+          "DATA_TYPE": "bigint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 19,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "account_id",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "event_id",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "valid_login_count",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "recent_count_update_date",
+          "DATA_TYPE": "datetime",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "be_rewarded",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        }
+      ],
+      "row_count": 0
+    },
+    "user_login_event_data_renewal": {
+      "columns": [
+        {
+          "COLUMN_NAME": "id",
+          "DATA_TYPE": "bigint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 19,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "accountId",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "specialsvrType",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "eventId",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "stampCount",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "recentCountUpdateDate",
+          "DATA_TYPE": "datetime",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        }
+      ],
+      "row_count": 27
+    },
+    "user_monster_core": {
+      "columns": [
+        {
+          "COLUMN_NAME": "id",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "account_id",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "YES",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "core_id",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "YES",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "core_grade",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "YES",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "core_count",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "YES",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "total_added",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "YES",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "total_used",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "YES",
+          "COLUMN_DEFAULT": null
+        }
+      ],
+      "row_count": 0
+    },
+    "user_promotion_cooltime": {
+      "columns": [
+        {
+          "COLUMN_NAME": "account_id",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "promotion_id",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "last_promotion_time",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "received_item_count",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "cycle_received_item_count",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "cycle_next_reset_time",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        }
+      ],
+      "row_count": 0
+    },
+    "user_transform": {
+      "columns": [
+        {
+          "COLUMN_NAME": "account_id",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "name_id",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "count",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "update_time",
+          "DATA_TYPE": "datetime",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "(getdate())"
+        },
+        {
+          "COLUMN_NAME": "server_id",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "YES",
+          "COLUMN_DEFAULT": null
+        }
+      ],
+      "row_count": 0
+    }
+  },
+  "indexes": [
+    {
+      "index_name": "PK_account_sell_cash",
+      "table_name": "account_data",
+      "column_name": "account_id",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "PK_account_fatigue",
+      "table_name": "account_fatigue",
+      "column_name": "account_id",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "PK__account___F267251EA7B4C3F2",
+      "table_name": "account_luna",
+      "column_name": "accountId",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "PK__account___F267251E6F25E011",
+      "table_name": "account_luna_reward",
+      "column_name": "accountId",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "PK_account_pack",
+      "table_name": "account_pack",
+      "column_name": "id",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "UK_account_pack",
+      "table_name": "account_pack",
+      "column_name": "account_id",
+      "is_primary_key": false,
+      "is_unique": true
+    },
+    {
+      "index_name": "UK_account_pack",
+      "table_name": "account_pack",
+      "column_name": "pack_type",
+      "is_primary_key": false,
+      "is_unique": true
+    },
+    {
+      "index_name": "PK_account_playtime_polls",
+      "table_name": "account_playtime_polls",
+      "column_name": "account_id",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "PK_account_playtime_polls",
+      "table_name": "account_playtime_polls",
+      "column_name": "poll_id",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "IX_aion_ranking_info_SpecialServerType_RankId_SeasonNumber_LastUpdateTime",
+      "table_name": "aion_ranking_info",
+      "column_name": "SpecialServerType",
+      "is_primary_key": false,
+      "is_unique": false
+    },
+    {
+      "index_name": "IX_aion_ranking_info_SpecialServerType_RankId_SeasonNumber_LastUpdateTime",
+      "table_name": "aion_ranking_info",
+      "column_name": "RankId",
+      "is_primary_key": false,
+      "is_unique": false
+    },
+    {
+      "index_name": "IX_aion_ranking_info_SpecialServerType_RankId_SeasonNumber_LastUpdateTime",
+      "table_name": "aion_ranking_info",
+      "column_name": "SeasonNumber",
+      "is_primary_key": false,
+      "is_unique": false
+    },
+    {
+      "index_name": "IX_aion_ranking_info_SpecialServerType_RankId_SeasonNumber_LastUpdateTime",
+      "table_name": "aion_ranking_info",
+      "column_name": "LastUpdateTime",
+      "is_primary_key": false,
+      "is_unique": false
+    },
+    {
+      "index_name": "PK_aion_ranking_info",
+      "table_name": "aion_ranking_info",
+      "column_name": "Id",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "PK_aion_ranking_season_status",
+      "table_name": "aion_ranking_season_status",
+      "column_name": "SpecialServerType",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "PK_aion_ranking_season_status",
+      "table_name": "aion_ranking_season_status",
+      "column_name": "RankId",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "PK_aion_ranking_season_status",
+      "table_name": "aion_ranking_season_status",
+      "column_name": "SeasonNumber",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "IX_aion_user_ranking_season_history_ServerId_Rewarded",
+      "table_name": "aion_user_ranking_season_history",
+      "column_name": "ServerId",
+      "is_primary_key": false,
+      "is_unique": false
+    },
+    {
+      "index_name": "IX_aion_user_ranking_season_history_ServerId_Rewarded",
+      "table_name": "aion_user_ranking_season_history",
+      "column_name": "Rewarded",
+      "is_primary_key": false,
+      "is_unique": false
+    },
+    {
+      "index_name": "PK_aion_user_ranking_season_history",
+      "table_name": "aion_user_ranking_season_history",
+      "column_name": "ServerId",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "PK_aion_user_ranking_season_history",
+      "table_name": "aion_user_ranking_season_history",
+      "column_name": "RankId",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "PK_aion_user_ranking_season_history",
+      "table_name": "aion_user_ranking_season_history",
+      "column_name": "SeasonNumber",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "PK_aion_user_ranking_season_history",
+      "table_name": "aion_user_ranking_season_history",
+      "column_name": "CharacterId",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "PK_aion_user_ranking_servermove",
+      "table_name": "aion_user_ranking_servermove",
+      "column_name": "Id",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "PK_user_data",
+      "table_name": "cosmetic_data",
+      "column_name": "cosmetic_id",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "IX_global_user_data",
+      "table_name": "global_user_data",
+      "column_name": "char_id",
+      "is_primary_key": false,
+      "is_unique": false
+    },
+    {
+      "index_name": "IX_global_user_data",
+      "table_name": "global_user_data",
+      "column_name": "server_id",
+      "is_primary_key": false,
+      "is_unique": false
+    },
+    {
+      "index_name": "IX_global_user_data_accountid",
+      "table_name": "global_user_data",
+      "column_name": "account_id",
+      "is_primary_key": false,
+      "is_unique": false
+    },
+    {
+      "index_name": "IX_global_user_data_server_id",
+      "table_name": "global_user_data",
+      "column_name": "server_id",
+      "is_primary_key": false,
+      "is_unique": false
+    },
+    {
+      "index_name": "PK_global_user_data",
+      "table_name": "global_user_data",
+      "column_name": "uid",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "PK_jumping_character_config",
+      "table_name": "jumping_character_config",
+      "column_name": "server_id",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "IX_server_operation",
+      "table_name": "server_operation",
+      "column_name": "operation",
+      "is_primary_key": false,
+      "is_unique": false
+    },
+    {
+      "index_name": "PK_server_operation",
+      "table_name": "server_operation",
+      "column_name": "id",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "PK_test_data",
+      "table_name": "test_data",
+      "column_name": "id",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "PK_trial_account_data",
+      "table_name": "trial_account_data",
+      "column_name": "id",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "UK_trial_account_data",
+      "table_name": "trial_account_data",
+      "column_name": "account_id",
+      "is_primary_key": false,
+      "is_unique": true
+    },
+    {
+      "index_name": "PK_user_board_bm",
+      "table_name": "user_board_bm",
+      "column_name": "account_id",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "PK_user_board_bm_dice",
+      "table_name": "user_board_bm_dice",
+      "column_name": "account_id",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "PK_user_board_bm_game",
+      "table_name": "user_board_bm_game",
+      "column_name": "account_id",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "PK_user_board_bm_game",
+      "table_name": "user_board_bm_game",
+      "column_name": "is_special_server",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "IX_user_login_event_data",
+      "table_name": "user_login_event_data",
+      "column_name": "account_id",
+      "is_primary_key": false,
+      "is_unique": true
+    },
+    {
+      "index_name": "PK_user_login_event_data",
+      "table_name": "user_login_event_data",
+      "column_name": "id",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "IX_user_login_event_data_daily",
+      "table_name": "user_login_event_data_daily",
+      "column_name": "account_id",
+      "is_primary_key": false,
+      "is_unique": false
+    },
+    {
+      "index_name": "IX_user_login_event_data_daily",
+      "table_name": "user_login_event_data_daily",
+      "column_name": "event_id",
+      "is_primary_key": false,
+      "is_unique": false
+    },
+    {
+      "index_name": "PK_user_login_event_data_daily",
+      "table_name": "user_login_event_data_daily",
+      "column_name": "id",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "IX_user_login_event_data_other",
+      "table_name": "user_login_event_data_other",
+      "column_name": "account_id",
+      "is_primary_key": false,
+      "is_unique": true
+    },
+    {
+      "index_name": "IX_user_login_event_data_other",
+      "table_name": "user_login_event_data_other",
+      "column_name": "event_id",
+      "is_primary_key": false,
+      "is_unique": true
+    },
+    {
+      "index_name": "PK_user_login_event_data_other",
+      "table_name": "user_login_event_data_other",
+      "column_name": "id",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "IX_user_login_event_data_renewal_accountid",
+      "table_name": "user_login_event_data_renewal",
+      "column_name": "accountId",
+      "is_primary_key": false,
+      "is_unique": false
+    },
+    {
+      "index_name": "IX_user_login_event_data_renewal_accountid",
+      "table_name": "user_login_event_data_renewal",
+      "column_name": "specialsvrType",
+      "is_primary_key": false,
+      "is_unique": false
+    },
+    {
+      "index_name": "PK_user_login_event_data_renewal",
+      "table_name": "user_login_event_data_renewal",
+      "column_name": "id",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "UX_user_login_event_data_renewal_accountid_eventid_specialsvrtype",
+      "table_name": "user_login_event_data_renewal",
+      "column_name": "accountId",
+      "is_primary_key": false,
+      "is_unique": true
+    },
+    {
+      "index_name": "UX_user_login_event_data_renewal_accountid_eventid_specialsvrtype",
+      "table_name": "user_login_event_data_renewal",
+      "column_name": "eventId",
+      "is_primary_key": false,
+      "is_unique": true
+    },
+    {
+      "index_name": "UX_user_login_event_data_renewal_accountid_eventid_specialsvrtype",
+      "table_name": "user_login_event_data_renewal",
+      "column_name": "specialsvrType",
+      "is_primary_key": false,
+      "is_unique": true
+    },
+    {
+      "index_name": "IX_account_id_core_id",
+      "table_name": "user_monster_core",
+      "column_name": "account_id",
+      "is_primary_key": false,
+      "is_unique": false
+    },
+    {
+      "index_name": "IX_account_id_core_id",
+      "table_name": "user_monster_core",
+      "column_name": "core_id",
+      "is_primary_key": false,
+      "is_unique": false
+    },
+    {
+      "index_name": "PK_user_monster_core",
+      "table_name": "user_monster_core",
+      "column_name": "id",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "PK_user_promotion_cooltime",
+      "table_name": "user_promotion_cooltime",
+      "column_name": "account_id",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "PK_user_promotion_cooltime",
+      "table_name": "user_promotion_cooltime",
+      "column_name": "promotion_id",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "PK_USER_TRANSFORM",
+      "table_name": "user_transform",
+      "column_name": "account_id",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "PK_USER_TRANSFORM",
+      "table_name": "user_transform",
+      "column_name": "name_id",
+      "is_primary_key": true,
+      "is_unique": true
+    }
+  ],
+  "foreign_keys": [],
+  "procedures": {
+    "aion_ConfirmLunaReward": "CREATE procedure [dbo].[aion_ConfirmLunaReward]\r\n\t@accountId int,\r\n\t@keyCount int, \r\n\t@decrease int,\r\n\t@remain int\r\nas\r\nbegin\r\n\t\r\n\tdeclare @currentRemain int\t\r\n\tdeclare @currentKey int\r\n\t\r\n\tset @currentKey = 0\r\n\tset @currentRemain = 0\r\n\t\r\n\tdeclare @curdate datetime\t\r\n\t\r\n\tset @curdate = dateadd(hour, 9, convert(datetime, convert(date, GETDATE())))\r\n\tif @curdate > GETDATE()\r\n\t\tset @curdate = dateadd(day, -1, @curdate)\r\n\t\t\r\n\tselect @currentRemain = remain_reward, @currentKey = key_count from account_luna_reward where accountId = @accountId and updatedate >= @curdate\r\n\t\r\n\tif @@ROWCOUNT <=0\t-- 무조건 레코드가 있어야 하는 단계이다.\r\n\tbegin\t\t\t\r\n\t\treturn -3\r\n\tend\r\n\t\t\r\n\tif (@currentRemain <> @remain)\t-- 요청받을 때의 남은 값과 현재 DB의 남은 값이 다르면 처리하면 안됨.\r\n\tbegin\t\t\t\t\r\n\t\treturn -1\r\n\tend\t\t\r\n\t\t\r\n\tif (@currentRemain - @decrease) > 0 --남은 값보다 더 큰 값을 깍으면 안됨.\r\n\tbegin\t\t\t\r\n\t\treturn -2\r\n\tend\r\n\tset nocount on\t\r\n\tupdate account_luna_reward set key_count = key_Count + @keyCount, remain_reward = @decrease where accountId = @accountId\t\r\n\t\r\n\tset nocount off\r\n\treturn 0\r\nend\r\n",
+    "aion_DecreaseLunaKey": "CREATE procedure [dbo].[aion_DecreaseLunaKey] \r\n\t@accountId int,\r\n\t@decreaseKey int\r\nas \r\nbegin\r\n\r\n\tif @decreaseKey < 0\r\n\t\treturn -1\t\r\n\t\r\n\tdeclare @currentKey int\r\n\t\r\n\tset @currentKey = 0\t\t\r\n\t\r\n\tbegin tran\t\r\n\t\t\t\r\n\tselect @currentKey = key_count  from account_luna_reward where accountId = @accountId\r\n\t\t\t\r\n\tif @@ROWCOUNT = 0\r\n\tbegin\r\n\tcommit tran\r\n\t\treturn -2\r\n\tend\r\n\telse\t\r\n\t\tbegin\t\t\t\r\n\t\t\tif @currentKey + @decreaseKey < 0 \r\n\t\t\tbegin\r\n\t\t\t\tcommit tran\r\n\t\t\t\treturn -3\r\n\t\t\tend\r\n\t\t\t\r\n\t\t\tupdate account_luna_reward set key_count = key_count - @decreaseKey, updatedate = GETDATE() where accountId = @accountId \r\n\t\tend\t\t\r\n\tcommit tran\t\r\n\treturn 0\r\nend\r\n",
+    "aion_DeleteLoginEventInfo": "-- =============================================\r\n-- Author:\t\t<Author,,Name>\r\n-- Create date: <Create Date,,>\r\n-- Description:\t<Description,,>\r\n-- =============================================\r\nCREATE PROCEDURE [dbo].[aion_DeleteLoginEventInfo]\r\n\t@account_id int,\r\n\t@event_id int,\r\n\t@days int\r\nAS\r\nBEGIN\r\n\t-- SET NOCOUNT ON added to prevent extra result sets from\r\n\t-- interfering with SELECT statements.\r\n\tSET NOCOUNT ON;\r\n    -- Insert statements for procedure here\r\n    IF (@account_id = 0 and @event_id = 0)\r\n    begin\r\n\t\tDELETE FROM user_login_event_data_daily \r\n\t\tWHERE be_rewarded <> 1 and DATEDIFF(D, recent_count_update_date, GETDATE()) >= @days\r\n\t\t\r\n\t\tDELETE FROM user_login_event_data_other \r\n\t\tWHERE be_rewarded <> 1 and DATEDIFF(D, recent_count_update_date, GETDATE()) >= @days\r\n\tend\r\n\tELSE\r\n    begin\r\n\t\tDELETE FROM user_login_event_data_daily\r\n\t\tWHERE account_id = @account_id and event_id = @event_id and DATEDIFF(D, recent_count_update_date, GETDATE()) >= @days\r\n\t\t\r\n\t\tDELETE FROM user_login_event_data_other\r\n\t\tWHERE account_id = @account_id and event_id = @event_id and DATEDIFF(D, recent_count_update_date, GETDATE()) >= @days\r\n\tend\r\n\t\r\n\t\r\n    RETURN @@rowcount\t\t\t\r\nEND\r\n",
+    "aion_DeletePromotionCoolTimeForAC": "CREATE procedure [dbo].[aion_DeletePromotionCoolTimeForAC]\r\n\t@nAccountId int,\r\n\t@nPromotionId smallint\r\nas \r\nSET NOCOUNT ON\r\nDELETE\r\nFROM user_promotion_cooltime\r\nWHERE account_id=@nAccountId and promotion_id=@nPromotionId\r\nset nocount off\r\n",
+    "aion_DeleteUserInfo_20120703": "-- =============================================\r\n-- Author:\t\t<Author,,Name>\r\n-- Create date: <Create Date,,>\r\n-- Description:\t<Description,,>\r\n-- =============================================\r\nCREATE PROCEDURE [dbo].[aion_DeleteUserInfo_20120703]\r\n\t@char_id int,\r\n\t@server_id int\r\nAS\r\nBEGIN\r\n\t-- SET NOCOUNT ON added to prevent extra result sets from\r\n\t-- interfering with SELECT statements.\r\n\tSET NOCOUNT ON;\r\n\t\r\n    DECLARE @utc_adjust BIGINT\r\n\r\n\tdelete\r\n\tfrom global_user_data\r\n\tWHERE char_id = @char_id and server_id = @server_id\r\n\t\t    \r\n    RETURN @@rowcount\t\t\t\r\nEND\r\n",
+    "aion_GetAccountData": "CREATE PROCEDURE [dbo].[aion_GetAccountData]\r\n\t@accountId int\r\nAS\r\nBEGIN\r\n\t-- SET NOCOUNT ON added to prevent extra result sets from\r\n\t-- interfering with SELECT statements.\r\n\tSET NOCOUNT ON;\r\n\r\n\tselect hidden_fatigue_point, hidden_fatigue_updatetime from account_data WHERE account_id=@accountId\r\n\t\r\n\tSET NOCOUNT OFF;\r\nEND\r\n",
+    "aion_GetAccountData_20151117": "CREATE PROCEDURE [dbo].[aion_GetAccountData_20151117]\r\n\t@accountId int\r\nAS\r\nBEGIN\r\n\t-- SET NOCOUNT ON added to prevent extra result sets from\r\n\t-- interfering with SELECT statements.\r\n\tSET NOCOUNT ON;\r\n\r\n\tselect hidden_fatigue_point, hidden_fatigue_updatetime, isnull(hidden_fatigue_npckill,0) from account_data WHERE account_id=@accountId\r\n\t\r\n\tSET NOCOUNT OFF;\r\nEND\r\n",
+    "aion_GetAccountData_20170428": "CREATE PROCEDURE [dbo].[aion_GetAccountData_20170428]\r\n\t@accountId int\r\nAS\r\nBEGIN\r\n\tSET NOCOUNT ON;\r\n\r\n\tselect hidden_fatigue_point, hidden_fatigue_updatetime, isnull(hidden_fatigue_npckill, 0), limit_play_reset_time, limit_play_accum_time from account_data WHERE account_id=@accountId\r\n\t\r\n\tSET NOCOUNT OFF;\r\nEND\r\n",
+    "aion_GetAccountPackList": "CREATE PROCEDURE [dbo].[aion_GetAccountPackList]\r\n\t@accountId int\r\nAS\r\nBEGIN\r\n\t-- SET NOCOUNT ON added to prevent extra result sets from\r\n\t-- interfering with SELECT statements.\r\n\tSET NOCOUNT ON;\r\n\r\n\tselect pack_type, expire_date from account_pack where account_id=@accountId\r\n\t\r\n\tSET NOCOUNT OFF;\r\nEND\r\n",
+    "aion_GetBoardBMInfo": "CREATE PROCEDURE [dbo].[aion_GetBoardBMInfo]\r\n\t@accountId int\r\nAS\r\nBEGIN\r\n\t-- SET NOCOUNT ON added to prevent extra result sets from\r\n\t-- interfering with SELECT statements.\r\n\tSET NOCOUNT ON;\r\n\t\r\n    -- Insert statements for procedure here\r\n    declare @maxLevAmongNormalServers int \r\n    declare @maxLevAmongSpecialServers int\r\n    select @maxLevAmongNormalServers  = MAX(user_level) from global_user_data with (NOLOCK) where account_id = @accountId and is_special_server = 0 and delete_date = 0 group by account_id\r\n    select @maxLevAmongSpecialServers = MAX(user_level) from global_user_data with (NOLOCK) where account_id = @accountId and is_special_server != 0 and delete_date = 0 group by account_id\r\n    \r\n\tSELECT game_id, current_pos, visited_pos, last_freecharge_time, last_reset_time, free_dice_remain, paid_dice_remain, paid_reset_remain, ISNULL(@maxLevAmongNormalServers, 0), ISNULL(@maxLevAmongSpecialServers, 0)\r\n\tFROM user_board_bm with (NOLOCK)\r\n\tWHERE account_id = @accountId\r\n\t\r\nEND\r\n",
+    "aion_GetBoardBMInfo_2017": "CREATE PROCEDURE [dbo].[aion_GetBoardBMInfo_2017]\r\n\t@accountId int,\r\n\t@isSpecial int\r\nAS\r\nBEGIN\r\n\t-- SET NOCOUNT ON added to prevent extra result sets from\r\n\t-- interfering with SELECT statements.\r\n\tSET NOCOUNT ON;\r\n\t\r\n    -- Insert statements for procedure here\r\n    declare @maxLevAmongNormalServers int \r\n    declare @maxLevAmongSpecialServers int\r\n    select @maxLevAmongNormalServers  = MAX(user_level) from global_user_data with (NOLOCK) where account_id = @accountId and is_special_server = 0 and delete_date = 0 group by account_id\r\n    select @maxLevAmongSpecialServers = MAX(user_level) from global_user_data with (NOLOCK) where account_id = @accountId and is_special_server != 0 and delete_date = 0 group by account_id\r\n    \r\n    declare @last_freecharge_time bigint\r\n    declare @free_dice_remain int\r\n    declare @paid_dice_remain int\r\n    declare @paid_reset_remain int\r\n    SELECT \r\n\t\t@last_freecharge_time = last_freecharge_time, \r\n\t\t@free_dice_remain = free_dice_remain,\r\n\t\t@paid_dice_remain = paid_dice_remain,\r\n\t\t@paid_reset_remain = paid_reset_remain\r\n\tFROM user_board_bm_dice with (NOLOCK)\r\n\tWHERE account_id = @accountId\r\n        \r\n    declare @game_id int\r\n    declare @current_pos int\r\n    declare @visited_pos int\r\n    declare @last_reset_time bigint\r\n    SELECT \r\n\t\t@game_id = game_id,\r\n\t\t@current_pos = current_pos,\r\n\t\t@visited_pos = visited_pos,\r\n\t\t@last_reset_time = last_reset_time\r\n\tFROM user_board_bm_game with (NOLOCK)\r\n    WHERE account_id = @accountId and is_special_server = @isSpecial\r\n    \r\n\tSELECT \r\n\t\tISNULL(@game_id, 0),\r\n\t\tISNULL(@current_pos, 0),\r\n\t\tISNULL(@visited_pos, 0),\r\n\t\tISNULL(@last_reset_time, 0),\r\n\t\tISNULL(@last_freecharge_time, 0),\r\n\t\tISNULL(@free_dice_remain, 0),\r\n\t\tISNULL(@paid_dice_remain, 0),\r\n\t\tISNULL(@paid_reset_remain, 0),\r\n\t\tISNULL(@maxLevAmongNormalServers, 0),\r\n\t\tISNULL(@maxLevAmongSpecialServers, 0)\r\n\t\r\nEND\r\n",
+    "aion_GetCosmetic": "CREATE PROCEDURE [dbo].[aion_GetCosmetic]\r\n\t-- Add the parameters for the stored procedure here\r\n\t@nCosmeticId int\r\nAS\r\nBEGIN\r\n\tSET NOCOUNT ON\r\n\t\r\n\tSELECT account_id, server_id, char_id, race, gender, \r\n\t\r\n\tfeat_version,\r\n\t\r\n\thead_face_color, head_hair_color, head_eye_color, head_lip_color, head_face_type, \r\n\thead_hair_type, height_scale, head_voice_type, \r\n\thead_feat_type1, head_feat_type2,\r\n\tISNULL(head_bump_type, 0), ISNULL(head_expression_type, 0),\r\n\t\t\r\n\tfeat_face_shape,\r\n\tfeat_forehead_shape,\r\n\tfeat_eye_position,\r\n\tfeat_eye_glabella,\r\n\tfeat_eye_length,\r\n\tfeat_eye_height,\r\n\tfeat_eye_shape,\r\n\tfeat_eye_tail,\r\n\tfeat_eyeblow_pos,\r\n\tfeat_eyeblow_angle,\r\n\tfeat_eyeblow_shape,\r\n\tfeat_nose_pos,\r\n\tfeat_nose_bridge,\r\n\tfeat_nose_side,\r\n\tfeat_nose_tip,\r\n\tfeat_cheek_shape,\r\n\tfeat_mouth_pos,\r\n\tfeat_mouth_size,\r\n\tfeat_lip_thickness,\r\n\tfeat_lip_tail,\r\n\tfeat_lip_shape,\r\n\tfeat_jaw_pos,\r\n\tfeat_jaw_shape,\r\n\tfeat_ear_shape,\r\n\tfeat_head_size,\r\n\tfeat_neck_thickness,\r\n\tfeat_neck_length,\r\n\tfeat_shoulder_size,\r\n\tfeat_upper_size,\r\n\tfeat_bust_size,\r\n\tfeat_waist_size,\r\n\tfeat_hip_size,\r\n\tfeat_arm_thickness,\r\n\tfeat_hand_size,\r\n\tfeat_leg_thickness,\r\n\tfeat_foot_size,\r\n\tfeat_face_ratio,\r\n\tfeat_wing_size,\r\n\tfeat_arm_length,\r\n\tfeat_leg_length,\r\n\tfeat_shoulder_width,\r\n\tISNULL(feat_head_figure, 0)\t\r\nFROM cosmetic_data \r\nWHERE cosmetic_id = @nCosmeticId\r\n\r\n\tSET NOCOUNT OFF\r\nEND\r\n",
+    "aion_GetLastCheckTimeUserMoveSvr": "CREATE PROCEDURE [dbo].[aion_GetLastCheckTimeUserMoveSvr]\r\n\t@serverId int\r\nAS\r\nBEGIN\r\n\r\n\t-- SET NOCOUNT ON added to prevent extra result sets from\r\n\t-- interfering with SELECT statements.\r\n\tSET NOCOUNT ON;\r\n\t\r\n\tDECLARE @curr_time int\r\n\tDECLARE @last_checktime int\r\n\t\r\n\tset @curr_time = dbo.GetUnixtimeWithUTCAdjust(GetUTCDate(),0)\r\n\r\n    -- Insert statements for procedure here\r\n\tselect @last_checktime = movesvr_last_checktime\r\n\tfrom aion_server_data\r\n\twhere server_id = @serverId\r\n\t\r\n\tif @@ROWCOUNT = 0 \r\n\tbegin\r\n\t\tset @last_checktime = @curr_time\r\n\t\t\r\n\t\tinsert aion_server_data(server_id, movesvr_last_checktime)\r\n\t\tvalues (@serverId, @curr_time)\r\n\tend\t\r\n\telse begin\r\n\t\r\n\t\tupdate aion_server_data\r\n\t\tset movesvr_last_checktime = @last_checktime\r\n\t\twhere server_id = @serverId \r\n\tend\r\n\r\n\treturn @last_checktime\r\n\t\r\nEND\r\n",
+    "aion_GetLoginEventInfo": "CREATE PROCEDURE [dbo].[aion_GetLoginEventInfo]\r\n\t@accountId int\r\nAS\r\nBEGIN\r\n\t-- SET NOCOUNT ON added to prevent extra result sets from\r\n\t-- interfering with SELECT statements.\r\n\tSET NOCOUNT ON;\r\n\r\n    -- Insert statements for procedure here\r\n\tSELECT event_id, valid_login_count, recent_count_update_date, be_rewarded\r\n\tFROM user_login_event_data_daily with (NOLOCK)\r\n\tWHERE account_id = @accountId\r\n\tUNION\r\n\tSELECT event_id, valid_login_count, recent_count_update_date, be_rewarded\r\n\tFROM user_login_event_data_other with (NOLOCK)\r\n\tWHERE account_id = @accountId\r\n\r\nEND\r\n",
+    "aion_GetLoginEventInfo_2016": "CREATE PROCEDURE [dbo].[aion_GetLoginEventInfo_2016]\r\n\t@accountId int\r\nAS\r\nBEGIN\r\n\t-- SET NOCOUNT ON added to prevent extra result sets from\r\n\t-- interfering with SELECT statements.\r\n\tSET NOCOUNT ON;\r\n\r\n    -- Insert statements for procedure here\r\n\tSELECT event_id, stamp_count, recent_count_update_date, recent_anniversity_reward_time\r\n\tFROM user_login_event_data with (NOLOCK)\r\n\tWHERE account_id = @accountId\r\n\t\r\nEND\r\n",
+    "aion_GetLoginEventInfoRenewal": "-- --------------------------------------------------------------------------------------------------------------------------------------------\r\nCREATE PROCEDURE [dbo].[aion_GetLoginEventInfoRenewal]\r\n(\r\n\t@accountId INT,\r\n\t@specialsvrType INT\r\n)\r\nAS\r\nBEGIN\t\r\n\tSET NOCOUNT ON\r\n    \r\n\tSELECT eventId, stampCount, recentCountUpdateDate FROM user_login_event_data_renewal with (NOLOCK)\r\n\tWHERE accountId = @accountId AND specialsvrType = @specialsvrType\r\nEND\r\n",
+    "aion_GetLunaReward": "CREATE procedure [dbo].[aion_GetLunaReward]\r\n\t@accountId int\r\nas \r\nbegin \r\n\tset nocount on\r\n\tdeclare @curdate datetime\t\r\n\tdeclare @currentReward int, @remainReward int, @keycount int\r\n\tdeclare @updateTime datetime\r\n\tset @currentReward = 0\r\n\tset @remainReward = 0\r\n\tset @keycount = 0\r\n\tset @curdate = dateadd(hour, 9, convert(datetime, convert(date, GETDATE())))\t\r\n\t\t\r\n\tbegin tran\t\r\n\t\t\t\r\n\tselect @currentReward = today_reward, @remainReward = remain_reward, @keycount = key_count, @updateTime = updatedate from account_luna_reward where accountId = @accountId\r\n\t\t\t\r\n\tif @@ROWCOUNT = 0 \r\n\t\tbegin \t\t\t\r\n\t\t\tset @currentReward = 0\r\n\t\t\tset @remainReward = 0\r\n\t\t\tset @keycount = 0\r\n\t\t\tinsert into account_luna_reward (accountId, today_reward, remain_reward, key_count) values (@accountid, @currentReward, @remainReward, @keycount)\t\t\t\r\n\t\tend\r\n\telse\t\r\n\t\tbegin\r\n\t\t\tif getdate() > @curdate and @updateTime <= @curdate\t--날짜가 오늘의 초기화 시간 이전 값이라면\t\t\t\r\n\t\t\tbegin \t\t\t\t\r\n\t\t\t\tset @currentReward = 0\r\n\t\t\t\tset @remainReward = 0\r\n\t\t\t\tupdate account_luna_reward set today_reward = @currentReward, remain_reward = @remainReward, updatedate = GETDATE() where accountId = @accountid\r\n\t\t\tend\t\t\r\n\t\tend\t\t\r\n\tcommit tran\t\t\r\n\tset nocount off\r\n\tselect isnull(@currentReward, 0), isnull(@remainReward, 0), isnull(@keycount,0)\t\r\nEnd\r\n",
+    "aion_GetMonsterCoreInfo": "CREATE PROC [dbo].[aion_GetMonsterCoreInfo]\r\n\t@accountId\tint\r\nAS\r\nBEGIN\r\n\r\n\tSELECT\tcore_id, core_grade, core_count\r\n\tFROM\tuser_monster_core\r\n\tWHERE\taccount_id = @accountId\r\n\r\nEND\r\n",
+    "aion_GetOldestCreateDate": "CREATE PROCEDURE [dbo].[aion_GetOldestCreateDate]\r\n\t@accountId int\r\nAS\r\nBEGIN\r\n\t-- SET NOCOUNT ON added to prevent extra result sets from\r\n\t-- interfering with SELECT statements.\r\n\tSET NOCOUNT ON;\r\n\r\n    -- Insert statements for procedure here\r\n\tSELECT ISNULL(min(create_date), 0)\r\n\tFROM global_user_data with (NOLOCK)\r\n\tWHERE account_id = @accountId \r\n\r\nEND\r\n",
+    "aion_GetPlayTimeForPoll": "CREATE PROCEDURE [dbo].[aion_GetPlayTimeForPoll]\r\n\t@poll_id\t\tINT,\r\n\t@account_id\t\tINT\r\n\t\r\nAS\r\nBEGIN\r\n\tSET NOCOUNT ON;\r\n\tDECLARE @playTime BIGINT\r\n\tSET @playTime = 0\r\n\r\n\tSELECT @playTime = previous_playtime\r\n\tFROM account_playtime_polls (nolock)\r\n\tWHERE poll_id = @poll_id AND account_id = @account_id\r\n\r\n\tSELECT ISNULL(@playTime, 0) as previous_playtime\r\nEND\r\n",
+    "aion_GetPlayTimesForPolls": "CREATE procedure [dbo].[aion_GetPlayTimesForPolls]\r\n\t@pollIds\tNVARCHAR(MAX),\r\n\t@account_id\tINT\r\nas\r\nBEGIN\r\n\tSET NOCOUNT ON;\r\n\tDECLARE @S_VAL NVARCHAR(MAX)\r\n\tDECLARE @S_SPLIT_CHAR NVARCHAR(1)\r\n\tDECLARE @oPos INT, @nPos INT, @i INT\r\n\tDECLARE @tempVar NVARCHAR(4000)\r\n\tDECLARE @T_SPLIT TABLE(\r\n\t\tNUM INT, \r\n\t\tVAL NVARCHAR(4000)\r\n\t)\r\n\tDECLARE @PollIDList TABLE(poll_id INT)\r\n\r\n\tBEGIN\r\n\t\tSET @S_VAL = @pollIds\r\n\t\tSET @S_SPLIT_CHAR = N','\r\n\t\tSET @oPos = 1\r\n\t\tSET @nPos = 1\r\n\t\tSET @i = 0\r\n\r\n\t\tWHILE(@nPos > 0)\r\n\t\tBEGIN\r\n\t\t\tSET @nPos = CHARINDEX(@S_SPLIT_CHAR, @S_VAL, @oPos)\r\n\t\t\r\n\t\t\tIF @nPos = 0\r\n\t\t\t\tSET @tempVar = RIGHT(@S_VAL, LEN(@S_VAL) - @oPos + 1)\r\n\t\t\tELSE\r\n\t\t\t\tSET @tempVar = SUBSTRING(@S_VAL, @oPos, @nPos - @oPos)\r\n\r\n\t\t\tIF LEN(@tempVar) > 0\r\n\t\t\tINSERT INTO @T_SPLIT VALUES (@i, @tempVar)\r\n\r\n\t\t\tSET @oPos = @nPos + 1\r\n\t\t\tSET @i = @i + 1\r\n\t\tEND\r\n\r\n\t\tBEGIN\r\n\t\t\tINSERT INTO @PollIDList SELECT CONVERT(INT, VAL) FROM @T_SPLIT\r\n\t\tEND\r\n\tEND\r\n\r\n\tSELECT templete.poll_id, ISNULL(app.previous_playtime, 0) as previous_playtime FROM @PollIDList AS templete\r\n\tLEFT JOIN account_playtime_polls AS app ON app.poll_id = templete.poll_id AND app.account_id = @account_id\r\nEND\r\n",
+    "aion_GetPromotionCoolTimeListForAC": "CREATE procedure [dbo].[aion_GetPromotionCoolTimeListForAC]\r\n\t@nAccountId\tint\t\r\nas\r\nset nocount on\r\nSELECT promotion_id, last_promotion_time, received_item_count, cycle_received_item_count, cycle_next_reset_time\r\nFROM user_promotion_cooltime\r\nWHERE account_id=@nAccountId\r\nset nocount off\r\n",
+    "aion_GetServerReplaceList": "-- =============================================\r\n-- Author:\t\t<Author,,Name>\r\n-- Create date: <Create Date,,>\r\n-- Description:\t<Description,,>\r\n-- =============================================\r\nCREATE PROCEDURE [dbo].[aion_GetServerReplaceList]\t\r\nAS\r\nBEGIN\r\n\t-- SET NOCOUNT ON added to prevent extra result sets from\r\n\t-- interfering with SELECT statements.\r\n\tSET NOCOUNT ON;\r\n\r\n    -- Insert statements for procedure here\r\n\tSELECT orgServerId, newServerId from server_operation where operation = 0\r\nEND\r\n",
+    "aion_GetTransformList": "CREATE PROCEDURE [dbo].[aion_GetTransformList]\r\n\t@account_id\tint,\t\r\n\t@server_id\tint\r\nAS\r\nBEGIN\r\n\r\nSET NOCOUNT ON\r\nSELECT name_id, count FROM user_transform WITH(NOLOCK)\r\nWHERE (account_id = @account_id) AND (count > 0 and server_id = @server_id)\r\nSET NOCOUNT OFF\r\n\r\nEND\r\n",
+    "aion_GetTrialAccountData": "CREATE PROCEDURE [dbo].[aion_GetTrialAccountData]\r\n\t@accountId int\r\nAS\r\nBEGIN\r\n\t-- SET NOCOUNT ON added to prevent extra result sets from\r\n\t-- interfering with SELECT statements.\r\n\tSET NOCOUNT ON;\r\n\r\n\tselect reset_time, sell_gold_sum, trade_gold_sum, decompose_sum, gather_sum, extract_gather_sum from trial_account_data (NOLOCK) WHERE account_id=@accountId\r\n\t\r\n\tSET NOCOUNT OFF;\r\nEND\r\n",
+    "aion_GetUnmatchLoginTimeUser": "-- =============================================\r\n-- Author:\t\t<Author,,Name>\r\n-- Create date: <Create Date,,>\r\n-- Description:\t<Description,,>\r\n-- =============================================\r\nCREATE PROCEDURE [dbo].[aion_GetUnmatchLoginTimeUser]\r\n\t@serverId int\r\nAS\r\nBEGIN\r\n\t-- SET NOCOUNT ON added to prevent extra result sets from\r\n\t-- interfering with SELECT statements.\r\n\tSET NOCOUNT ON;\r\n\r\n    -- Insert statements for procedure here\r\n\tselect char_id\r\n\tfrom global_user_data\r\n\twhere last_login_time >= last_logout_time and DATEDIFF(dd, last_logout_time, '2000-01-01') < 0 and server_id = @serverId\r\n\r\nEND\r\n",
+    "aion_insert_test": "-- =============================================\r\n-- Author:\t\t<Author,,Name>\r\n-- Create date: <Create Date,,>\r\n-- Description:\t<Description,,>\r\n-- =============================================\r\nCREATE PROCEDURE [dbo].[aion_insert_test]\r\nAS\r\nBEGIN\r\n\t-- SET NOCOUNT ON added to prevent extra result sets from\r\n\t-- interfering with SELECT statements.\r\n\tSET NOCOUNT ON;\r\n\r\n    -- Insert statements for procedure here\r\n\tinsert test_data(int_value, nchar10_value, date_value) values(0, 'test', getdate())\r\nEND\r\n",
+    "aion_loadLuna": "create procedure [dbo].[aion_loadLuna]\r\n\t@accid int\r\nas\r\n\tselect luna from account_luna where accountId = @accId\r\n",
+    "aion_LoadLunaPrice": "create procedure [dbo].[aion_LoadLunaPrice]\r\n\t@char_id int\r\nas \r\nbegin\r\n\tselect luna_id, use_count, reset_type, reset_week_value, reset_time_value, create_time from user_luna_price where char_id = @char_id\r\nend\r\n",
+    "aion_MonsterCoreAddCount": "CREATE PROC [dbo].[aion_MonsterCoreAddCount]\r\n\t@accountId\tint,\r\n\t@coreId\t\tint,\r\n\t@addCount\tint\r\nAS\r\nBEGIN\r\n\tSET NOCOUNT ON\r\n\r\n\tUPDATE\tuser_monster_core\r\n\tSET\t\tcore_count += @addCount,\r\n\t\t\ttotal_added += @addCount\r\n\tWHERE\taccount_id = @accountId AND core_id = @coreId\r\n\t\r\n\tIF (@@ROWCOUNT = 0)\r\n\tBEGIN\r\n\t\tINSERT\tuser_monster_core (account_id, core_id, core_grade, core_count, total_added, total_used)\r\n\t\tVALUES (@accountId, @coreId, 0, @addCount, @addCount, 0)\r\n\tEND\r\n\r\nEND\r\n",
+    "aion_MonsterCoreUpdate": "CREATE PROC [dbo].[aion_MonsterCoreUpdate]\r\n\t@accountId\tint,\r\n\t@coreId\t\tint,\r\n\t@coreGrade\tint,\r\n\t@coreCount\tint\r\nAS\r\nBEGIN\r\n\tSET NOCOUNT ON\r\n\r\n\tUPDATE\tuser_monster_core\r\n\tSET\t\tcore_count = @coreCount,\r\n\t\t\tcore_grade = @coreGrade\r\n\tWHERE\taccount_id = @accountId AND core_id = @coreId\r\n\t\r\n\tIF (@@ROWCOUNT = 0)\r\n\tBEGIN\r\n\t\tINSERT\tuser_monster_core (account_id, core_id, core_grade, core_count, total_added, total_used)\r\n\t\tVALUES (@accountId, @coreId, @coreGrade, @coreCount, @coreCount, 0)\r\n\tEND\r\n\t\r\nEND\r\n",
+    "aion_MonsterCoreUpgradeAndDecreaseCount": "CREATE PROC [dbo].[aion_MonsterCoreUpgradeAndDecreaseCount]\r\n\t@accountId\tint,\r\n\t@coreId\t\tint,\r\n\t@countForUpgrade\tint\r\nAS\r\nBEGIN\r\n\tSET NOCOUNT ON\r\n\t\r\n\tUPDATE\tuser_monster_core\r\n\tSET\t\tcore_grade += 1,\r\n\t\t\tcore_count -= @countForUpgrade,\r\n\t\t\ttotal_used += @countForUpgrade\r\n\tWHERE\taccount_id = @accountId AND core_id = @coreId\r\n\t\r\nEND\r\n",
+    "aion_PutCosmetic": "/****** 개체: 저장 프로시저 dbo.aion_PutCosmetic  스크립트 날짜: 2005-05-27 오전 10:58:35 ******/\r\n\r\nCREATE PROCEDURE [dbo].[aion_PutCosmetic]\r\n\t-- Add the parameters for the stored procedure here\r\n\t@nAccountID\t\tint,\r\n\t@nServerId\t\ttinyint,\r\n\t@nCharId\t\t\tint,\r\n\t@nRace\t\t\t\ttinyint,\r\n\t@nGender\t\t\ttinyint,\t\r\n\t\r\n\t@feat_version\t\ttinyint,\r\n\t\t\r\n\t@nHeadFaceColor\tint,\r\n\t@nHeadHairColor\tint,\r\n\t@nEyeColor\t\tint,\r\n\t@nLipColor\t\tint,\r\n\t@nHeadFaceType\ttinyint,\r\n\t@nHeadHairType\ttinyint,\r\n\t@fScale\t\tfloat,\r\n\t@nVoiceType\t\ttinyint,\r\n\t@nFeatType1\t\ttinyint, -- 문신\r\n\t@nFeatType2\t\ttinyint, -- 분장\r\n\t@nHeadBumpType\ttinyint, -- bumpType\r\n\t@nHeadExpressionType\ttinyint, -- 표정\t\r\n\r\n\t@feat_face_shape \ttinyint,\r\n\t@feat_forehead_shape \ttinyint,\r\n\t@feat_eye_position \ttinyint,\r\n\t@feat_eye_glabella \ttinyint,\r\n\t@feat_eye_length \ttinyint,\r\n\t@feat_eye_height \ttinyint,\r\n\t@feat_eye_shape \ttinyint,\r\n\t@feat_eye_tail \t\ttinyint,\r\n\t@feat_eyeblow_pos \ttinyint,\r\n\t@feat_eyeblow_angle \ttinyint,\r\n\t@feat_eyeblow_shape \ttinyint,\r\n\t@feat_nose_pos \t\ttinyint,\r\n\t@feat_nose_bridge \ttinyint,\r\n\t@feat_nose_side \ttinyint,\r\n\t@feat_nose_tip \t\ttinyint,\r\n\t@feat_cheek_shape \ttinyint,\r\n\t@feat_mouth_pos \ttinyint,\r\n\t@feat_mouth_size \ttinyint,\r\n\t@feat_lip_thickness \ttinyint,\r\n\t@feat_lip_tail \t\ttinyint,\r\n\t@feat_lip_shape \ttinyint,\r\n\t@feat_jaw_pos \t\ttinyint,\r\n\t@feat_jaw_shape \ttinyint,\r\n\t@feat_ear_shape\t\ttinyint,\r\n\t@feat_head_size \ttinyint,\r\n\t@feat_neck_thickness \ttinyint,\r\n\t@feat_neck_length \ttinyint,\r\n\t@feat_shoulder_size \ttinyint,\r\n\t@feat_upper_size \ttinyint,\r\n\t@feat_bust_size \ttinyint,\r\n\t@feat_waist_size \ttinyint,\r\n\t@feat_hip_size \t\ttinyint,\r\n\t@feat_arm_thickness \ttinyint,\r\n\t@feat_hand_size \ttinyint,\r\n\t@feat_leg_thickness \ttinyint,\r\n\t@feat_foot_size \ttinyint,\r\n\t@feat_face_ratio \ttinyint,\r\n\t@feat_wing_size \ttinyint,\r\n\t@feat_arm_length \ttinyint,\r\n\t@feat_leg_length \ttinyint,\r\n\t@feat_shoulder_width \ttinyint,\r\n\t@feat_head_figure\ttinyint -- 얼굴형태\r\nAS\r\nBEGIN\r\nset nocount on\r\nINSERT cosmetic_data (account_id, server_id, char_id, race, gender, \r\n\tfeat_version,\r\n\t\r\n\thead_face_color, head_hair_color, head_eye_color, head_lip_color, head_face_type, head_hair_type, \r\n\theight_scale, head_voice_type, \r\n\thead_feat_type1, head_feat_type2, head_bump_type, head_expression_type,\t\r\n\t\r\n\tfeat_face_shape,\r\n\tfeat_forehead_shape,\r\n\tfeat_eye_position,\r\n\tfeat_eye_glabella,\r\n\tfeat_eye_length,\r\n\tfeat_eye_height,\r\n\tfeat_eye_shape,\r\n\tfeat_eye_tail,\r\n\tfeat_eyeblow_pos,\r\n\tfeat_eyeblow_angle,\r\n\tfeat_eyeblow_shape,\r\n\tfeat_nose_pos,\r\n\tfeat_nose_bridge,\r\n\tfeat_nose_side,\r\n\tfeat_nose_tip,\r\n\tfeat_cheek_shape,\r\n\tfeat_mouth_pos,\r\n\tfeat_mouth_size,\r\n\tfeat_lip_thickness,\r\n\tfeat_lip_tail,\r\n\tfeat_lip_shape,\r\n\tfeat_jaw_pos,\r\n\tfeat_jaw_shape,\r\n\tfeat_ear_shape,\r\n\tfeat_head_size,\r\n\tfeat_neck_thickness,\r\n\tfeat_neck_length,\r\n\tfeat_shoulder_size,\r\n\tfeat_upper_size,\r\n\tfeat_bust_size,\r\n\tfeat_waist_size,\r\n\tfeat_hip_size,\r\n\tfeat_arm_thickness,\r\n\tfeat_hand_size,\r\n\tfeat_leg_thickness,\r\n\tfeat_foot_size,\r\n\tfeat_face_ratio,\r\n\tfeat_wing_size,\r\n\tfeat_arm_length,\r\n\tfeat_leg_length,\r\n\tfeat_shoulder_width,\r\n\tfeat_head_figure,\r\n\tcreate_date\r\n)\r\n VALUES ( @nAccountId, @nServerId, @nCharId, @nRace, @nGender, \r\n \r\n \t@feat_version,\r\n \r\n\t@nHeadFaceColor, @nHeadHairColor, @nEyeColor, @nLipColor, @nHeadFaceType, @nHeadHairType, \r\n\t@fScale, @nVoiceType, \r\n\t@nFeatType1, @nFeatType2, @nHeadBumpType, @nHeadExpressionType,\t\r\n\t\r\n\t@feat_face_shape,\r\n\t@feat_forehead_shape,\r\n\t@feat_eye_position,\r\n\t@feat_eye_glabella,\r\n\t@feat_eye_length,\r\n\t@feat_eye_height,\r\n\t@feat_eye_shape,\r\n\t@feat_eye_tail,\r\n\t@feat_eyeblow_pos,\r\n\t@feat_eyeblow_angle,\r\n\t@feat_eyeblow_shape,\r\n\t@feat_nose_pos,\r\n\t@feat_nose_bridge,\r\n\t@feat_nose_side,\r\n\t@feat_nose_tip,\r\n\t@feat_cheek_shape,\r\n\t@feat_mouth_pos,\r\n\t@feat_mouth_size,\r\n\t@feat_lip_thickness,\r\n\t@feat_lip_tail,\r\n\t@feat_lip_shape,\r\n\t@feat_jaw_pos,\r\n\t@feat_jaw_shape,\r\n\t@feat_ear_shape,\r\n\t@feat_head_size,\r\n\t@feat_neck_thickness,\r\n\t@feat_neck_length,\r\n\t@feat_shoulder_size,\r\n\t@feat_upper_size,\r\n\t@feat_bust_size,\r\n\t@feat_waist_size,\r\n\t@feat_hip_size,\r\n\t@feat_arm_thickness,\r\n\t@feat_hand_size,\r\n\t@feat_leg_thickness,\r\n\t@feat_foot_size,\r\n\t@feat_face_ratio,\r\n\t@feat_wing_size,\r\n\t@feat_arm_length,\r\n\t@feat_leg_length,\r\n\t@feat_shoulder_width,\r\n\t@feat_head_figure,\r\n\tGetDate()\t\r\n)\r\nset nocount off\r\n\r\n IF @@ERROR <> 0\r\n\treturn 0\r\n\r\nreturn @@IDENTITY\r\nEND\r\n",
+    "aion_PutTransform": "CREATE PROCEDURE [dbo].[aion_PutTransform]\r\n\t@account_id\t\tint,\r\n\t@name_id\t\tint,\r\n\t@count\t\t\tint,\r\n\t@server_id\t\tint\r\nAS\r\nBEGIN\r\n\tSET NOCOUNT ON\r\n\r\n\tIF EXISTS (SELECT account_id FROM user_transform (UPDLOCK) WHERE account_id = @account_id AND name_id = @name_id and server_id = @server_id)\r\n\t\tBEGIN\r\n\t\t\tUPDATE user_transform \r\n\t\t\tSET count = @count, update_time = GETDATE() \r\n\t\t\tWHERE account_id = @account_id AND name_id = @name_id and server_id = @server_id\r\n\t\tEND\r\n\tELSE \r\n\t\tBEGIN\r\n\t\t\tINSERT user_transform(account_id, name_id, count,server_id) VALUES (@account_id, @name_id, @count,@server_id)\r\n\t\tEND\r\n\r\n\tSET NOCOUNT OFF\r\nEND\r\n",
+    "aion_PutUserDataFromAllServer": "CREATE PROCEDURE [dbo].[aion_PutUserDataFromAllServer] \r\n\t@db_userId\tnvarchar(64),\r\n\t@db_passwd\tnvarchar(64)\r\nAS\r\nBEGIN\r\n\t-- SET NOCOUNT ON added to prevent extra result sets from\r\n\t-- interfering with SELECT statements.\r\n\tSET NOCOUNT ON;\r\n\r\n\r\n\tdeclare @server_id int \r\n\tdeclare @sync_server_id int\r\n\tdeclare @ret int\r\n\r\n\tdeclare syncChar_cursor cursor for select server_id from aion_serverlist\r\n\topen syncChar_cursor\r\n\tfetch next from syncChar_cursor into @sync_server_id\r\n\r\n\twhile @@fetch_status = 0\r\n\tbegin\r\n\t\tSET @ret = -10000\r\n\t\texec aion_PutUserDataFromServer @db_userId, @db_passwd, @sync_server_id, @ret output\r\n\r\n\t\tupdate aion_serverlist set update_result = @ret where server_id = @sync_server_id\r\n\r\n\r\n\t\tfetch next from syncChar_cursor into @sync_server_id\r\n\tend\r\n\r\n\tclose syncChar_cursor\r\n\tdeallocate syncChar_cursor\r\n\r\nEND\r\n",
+    "aion_PutUserDataFromServer": "/*\r\nReturn 결과\r\n\t:\r\n\r\n*/\r\n\r\n-- =============================================\r\n-- Author:\t\t<Author,,Name>\r\n-- Create date: <Create Date,,>\r\n-- Description:\t<Description,,>\r\n-- =============================================\r\nCREATE PROCEDURE [dbo].[aion_PutUserDataFromServer] \r\n\t@db_userId\tnvarchar(64),\r\n\t@db_passwd\tnvarchar(64),\r\n\t@serverId int,\r\n\t@ret\tint\toutput\r\nAS\r\nBEGIN\r\n\t-- SET NOCOUNT ON added to prevent extra result sets from\r\n\t-- interfering with SELECT statements.\r\n\tSET NOCOUNT ON;\r\n\r\n\tdeclare @serverName  nvarchar(128)\r\n\tset @serverName = ''\r\n\tdeclare @databaseName  nvarchar(64)\r\n\tset @databaseName = ''\r\n\tselect @serverName = datasource, @databaseName = database_name from aion_serverlist where server_id = @serverId\r\n\tif @@rowcount = 0\r\n\tbegin\r\n\t\tset @ret = -1\t-- DB에 대한 정보가 없음\r\n\t\treturn\r\n\tend\r\n\r\n\tdeclare @db_info nvarchar(256)\r\n\tset @db_info = '''' + @serverName + ''';''' + @db_userId + ''';''' + @db_passwd + ''''\r\n\r\n\r\n\tdeclare @sql\tnvarchar(4000)\r\n\r\n\r\n\t-- 없는 유저 정보 acc db에 입력\r\n\tset @sql = 'insert into global_user_data('\r\n\t\t\t\t+ ' char_id, account_id, create_date, last_login_time, last_logout_time, delete_date, delete_completed_date, user_level, server_id'\r\n\t\t\t\t+ ') '\r\n\t\t\t\t+ ' select '\r\n\t\t\t\t+ ' o.char_id, o.account_id, o.create_date, o.last_login_time, o.last_logout_time, o.delete_date, o.delete_complete_date, o.lev, '\r\n\t\t\t\t+ ' ' + cast(@serverId as nvarchar) \r\n\t\t\t\t+ ' from openrowset (''SQLOLEDB'', ' + @db_info + ','\r\n\t\t\t\t+ ' ''select char_id, account_id, lev, create_date, last_login_time, last_logout_time, delete_date, delete_complete_date from ' + @databaseName + '.dbo.user_data '' ) as o'\r\n\t\t\t\t+ ' left join global_user_data on global_user_data.char_id = o.char_id and global_user_data.server_id = ' + cast(@serverId as nvarchar) \r\n\t\t\t\t+ ' where global_user_data.char_id is null'\r\n\r\n\t--print @sql\r\n\texec (@sql)\r\n\tset @ret = @@ROWCOUNT\r\n\t\r\n\tif @@error <> 0\t\r\n\tbegin \r\n\t\tset @ret = -2\t-- 입력 실패!!!\r\n\tend\r\n\t\r\n\t\r\n/*\r\n\r\ninsert global_user_data(char_id, account_id, create_date, last_login_time, last_logout_time, delete_date, delete_completed_date, user_level, server_id)\r\nselect char_id, account_data, create_date, last_login_time, last_logout_time, delete_date, delete_completed_date, lev, @serverId\r\nfrom openrowset('SQLOLEDB', 'jungsuk-pc-i7';'sa';'dkdldhs2005!', 'select char_id, account_id, lev, create_date, last_login_time, last_logout_time, delete_date, delete_complete_date from aionworldjung.dbo.user_data' ) as o \r\n\t\tleft join global_user_data on global_user_data.char_id = o.char_id and global_user_data.server_id = @serverId\r\nwhere global_user_data.char_id is null\r\n\r\n*/\r\n\t\r\nEND\r\n",
+    "aion_QueryCanCreateJumpingCharacter": "CREATE PROCEDURE [dbo].[aion_QueryCanCreateJumpingCharacter]\r\n\t@account_id int,\r\n\t@server_id int,\t\t\t\t\t-- 특정서버에서 생성 가능한가\r\n\t@from_special tinyint,\t\t\t-- 일반서버군/스페셜서버군 에서 조건체크할 것인가\r\n\t\r\n\t@can_create_num int output,\t\t-- 만들 수 있는 점핑 캐릭터 수\r\n\t@satisfy_date tinyint output,\r\n\t@satisfy_char_lev tinyint output\r\nAS\r\nBEGIN\r\n\t-- SET NOCOUNT ON added to prevent extra result sets from\r\n\t-- interfering with SELECT statements.\r\n\tSET NOCOUNT ON;\r\n    -- Insert statements for procedure here\r\n    declare @cur_date datetime\r\n    set @cur_date = getdate()\r\n    \r\n    declare @max_creation_count int\r\n    declare @required_char_level int\r\n    declare @start_date datetime\r\n    declare @end_date datetime\r\n    SELECT @max_creation_count = max_creation_count, @required_char_level = required_char_level, @start_date = start_date, @end_date = end_date\r\n    FROM jumping_character_config(nolock) WHERE server_id = @server_id and start_date < @cur_date and @cur_date < end_date and is_deleted = 0\r\n    \r\n    IF (ISNULL(@max_creation_count, 0) > 0)\r\n\tbegin\r\n\t\tset @satisfy_date = 1;\r\n\t\t-- 요구하는 레벨의 캐릭터가 있는지 검사\t\t\r\n\t\tIF (EXISTS(SELECT char_id FROM global_user_data(nolock) WHERE account_id = @account_id and is_special_server = @from_special and user_level >= @required_char_level and delete_completed_date = 0)\r\n\t\t\tOR @required_char_level = 0) -- 0인경우 캐릭터 레벨 조건을 요구하지 않음\r\n\t\tbegin\r\n\t\t\tset @satisfy_char_lev = 1;\r\n\t\t\t-- 해당 기간에 이미 점핑 캐릭터를 몇개 만들었는지를 가져옴\r\n\t\t\tdeclare @cur_creation_num int\r\n\t\t\tSELECT @cur_creation_num = COUNT(*)\r\n\t\t\tFROM global_user_data(nolock)\r\n\t\t\tWHERE account_id = @account_id and is_special_server = @from_special and create_date > @start_date and create_date < @end_date and is_jumping_character != 0\r\n\t\t\t\r\n\t\t\tset @cur_creation_num = ISNULL(@cur_creation_num, 0)\r\n\t\t\tset @can_create_num = @max_creation_count - @cur_creation_num\r\n\t\tend\r\n\t\tELSE\r\n\t\tbegin\r\n\t\t\tset @satisfy_char_lev = 0\r\n\t\t\tset @can_create_num = 0\r\n\t\tend\r\n\tend\r\n    ELSE\r\n\tbegin\r\n\t\tset @satisfy_date = 0\r\n\t\tset @satisfy_char_lev = 0\r\n\t\tset @can_create_num = 0\r\n    end\r\nEND\r\n",
+    "aion_QueryCanCreateJumpingCharacter_20170428": "CREATE PROCEDURE [dbo].[aion_QueryCanCreateJumpingCharacter_20170428]\r\n\t@account_id int,\r\n\t@server_id int,\t\t\t\t\t-- 특정서버에서 생성 가능한가\r\n\t@from_special tinyint,\t\t\t-- 일반서버군/스페셜서버군 에서 조건체크할 것인가\r\n\t\r\n\t@can_create_num int output,\t\t-- 만들 수 있는 점핑 캐릭터 수\r\n\t@satisfy_date tinyint output,\r\n\t@satisfy_char_lev tinyint output,\r\n\r\n\t@limit_reset_time int output,\r\n\t@limit_play_time int output\r\nAS\r\nBEGIN\r\n\t-- SET NOCOUNT ON added to prevent extra result sets from\r\n\t-- interfering with SELECT statements.\r\n\tSET NOCOUNT ON;\r\n    -- Insert statements for procedure here\r\n    declare @cur_date datetime\r\n    set @cur_date = getdate()\r\n    \r\n    declare @max_creation_count int\r\n    declare @required_char_level int\r\n    declare @start_date datetime\r\n    declare @end_date datetime\r\n    SELECT @max_creation_count = max_creation_count, @required_char_level = required_char_level, @start_date = start_date, @end_date = end_date\r\n    FROM jumping_character_config(nolock) WHERE server_id = @server_id and start_date < @cur_date and @cur_date < end_date and is_deleted = 0\r\n    \r\n    IF (ISNULL(@max_creation_count, 0) > 0)\r\n\tbegin\r\n\t\tset @satisfy_date = 1;\r\n\t\t-- 요구하는 레벨의 캐릭터가 있는지 검사\t\t\r\n\t\tIF (EXISTS(SELECT char_id FROM global_user_data(nolock) WHERE account_id = @account_id and is_special_server = @from_special and user_level >= @required_char_level and delete_completed_date = 0)\r\n\t\t\tOR @required_char_level = 0) -- 0인경우 캐릭터 레벨 조건을 요구하지 않음\r\n\t\tbegin\r\n\t\t\tset @satisfy_char_lev = 1;\r\n\t\t\t-- 해당 기간에 이미 점핑 캐릭터를 몇개 만들었는지를 가져옴\r\n\t\t\tdeclare @cur_creation_num int\r\n\t\t\tSELECT @cur_creation_num = COUNT(*)\r\n\t\t\tFROM global_user_data(nolock)\r\n\t\t\tWHERE account_id = @account_id and is_special_server = @from_special and create_date > @start_date and create_date < @end_date and is_jumping_character != 0\r\n\t\t\t\r\n\t\t\tset @cur_creation_num = ISNULL(@cur_creation_num, 0)\r\n\t\t\tset @can_create_num = @max_creation_count - @cur_creation_num\r\n\r\n\t\t\t-- 시간제한\r\n\t\t\tSELECT @limit_reset_time = limit_play_reset_time, @limit_play_time = limit_play_accum_time FROM account_data WHERE account_id = @account_id\r\n\r\n\t\t\tset @limit_reset_time = ISNULL(@limit_reset_time, 0)\r\n\t\t\tset @limit_play_time = ISNULL(@limit_play_time, 0)\r\n\t\tend\r\n\t\tELSE\r\n\t\tbegin\r\n\t\t\tset @satisfy_char_lev = 0\r\n\t\t\tset @can_create_num = 0\r\n\t\t\tset @limit_reset_time = 0\r\n\t\t\tset @limit_play_time = 0\r\n\t\tend\r\n\tend\r\n    ELSE\r\n\tbegin\r\n\t\tset @satisfy_date = 0\r\n\t\tset @satisfy_char_lev = 0\r\n\t\tset @can_create_num = 0\r\n\t\tset @limit_reset_time = 0\r\n\t\tset @limit_play_time = 0\r\n    end\r\nEND\r\n",
+    "aion_ResetLunaReward": "create procedure [dbo].[aion_ResetLunaReward] \r\n\t@accountId int\t\r\nas \r\nbegin\r\n\tdeclare @currentReward int, @remainReward int\r\n\tdeclare @updateTime datetime\r\n\tset @currentReward = 0\r\n\tset @remainReward = 0\r\n\t\r\n\tdeclare @curdate datetime\r\n\tset @curdate = dateadd(hour, 9, convert(datetime, convert(date, GETDATE())))\r\n\t\t\r\n\tbegin tran\t\r\n\t\t\t\r\n\tselect @currentReward = today_reward, @remainReward = remain_reward, @updateTime = updatedate from account_luna_reward where accountId = @accountId\r\n\t\t\t\r\n\tif @@ROWCOUNT <> 0 \t\t\t\r\n\t\tbegin\r\n\t\t\tif getdate() > @curdate and  @updateTime <= @curdate\t--오늘 데이터가 유효한 경우 현재값에 더한다. 아니면 위에서 받은 값으로 덮어쓴다.\r\n\t\t\tbegin \r\n\t\t\t\tset @currentReward = 0\r\n\t\t\t\tset @remainReward = 0\r\n\t\t\t\tupdate account_luna_reward set today_reward = @currentReward, remain_reward = @remainReward, updatedate = GETDATE() where accountId = @accountId \r\n\t\t\tend\t\t\t\t\t\r\n\t\tend\t\t\r\n\tcommit tran\t\r\n\treturn 0\r\nend\r\n",
+    "aion_select_test": "-- =============================================\r\n-- Author:\t\t<Author,,Name>\r\n-- Create date: <Create Date,,>\r\n-- Description:\t<Description,,>\r\n-- =============================================\r\nCREATE PROCEDURE [dbo].[aion_select_test]\r\nAS\r\nBEGIN\r\n\t-- SET NOCOUNT ON added to prevent extra result sets from\r\n\t-- interfering with SELECT statements.\r\n\tSET NOCOUNT ON;\r\n\r\n    -- Insert statements for procedure here\r\n\tSELECT * from test_data\r\nEND\r\n",
+    "aion_SetAccountData": "-- =============================================\r\n-- Author:\t\t<Author,,Name>\r\n-- Create date: <Create Date,,>\r\n-- Description:\t<Description,,>\r\n-- =============================================\r\nCREATE PROCEDURE [dbo].[aion_SetAccountData]\r\n\t@accountId int,\r\n\t@hidden_fatigue_point int,\r\n\t@hidden_fatigue_updatetime int\r\nAS\r\nBEGIN\r\n\t-- SET NOCOUNT ON added to prevent extra result sets from\r\n\t-- interfering with SELECT statements.\r\n\tSET NOCOUNT ON;\r\n\r\n\tif EXISTS (SELECT account_id FROM account_data(UPDLOCK) WHERE account_id=@accountId) \r\n\tbegin\r\n\t\tUPDATE account_data\r\n\t\tSET hidden_fatigue_point = hidden_fatigue_point\r\n\tend\r\n\telse\r\n\tbegin\r\n\t\tINSERT account_data(account_id, hidden_fatigue_point, hidden_fatigue_updatetime) \r\n\t\tVALUES (@accountId, @hidden_fatigue_point, @hidden_fatigue_updatetime)\t\r\n\tend\r\n\t\r\n\tSET NOCOUNT OFF;\r\nEND\r\n",
+    "aion_SetAccountPack": "-- =============================================\r\n-- Author:\t\t<Author,,Name>\r\n-- Create date: <Create Date,,>\r\n-- Description:\t<Description,,>\r\n-- =============================================\r\nCREATE PROCEDURE [dbo].[aion_SetAccountPack]\r\n\t@accountId\t\tint,\r\n\t@packType\t\ttinyint, \r\n\t@expireDate\t\tint\r\nAS\r\nBEGIN\r\n\t-- SET NOCOUNT ON added to prevent extra result sets from\r\n\t-- interfering with SELECT statements.\r\n\tSET NOCOUNT ON;\r\n\r\n\tif EXISTS (SELECT account_id FROM account_pack(UPDLOCK) WHERE account_id=@accountId and pack_type=@packType) \r\n\tbegin\r\n\t\tUPDATE account_pack\r\n\t\tSET expire_date = @expireDate\r\n\t\tWHERE account_id=@accountId and pack_type=@packType \r\n\tend\r\n\telse\r\n\tbegin\r\n\t\tINSERT account_pack(account_id, pack_type, expire_date) \r\n\t\tVALUES (@accountId, @packType, @expireDate)\t\r\n\tend\r\n\t\r\n\tSET NOCOUNT OFF;\r\nEND\r\n",
+    "aion_SetCreateUser_20120703": "-- =============================================\r\n-- Author:\t\t<Author,,Name>\r\n-- Create date: <Create Date,,>\r\n-- Description:\t<Description,,>\r\n-- =============================================\r\nCREATE PROCEDURE [dbo].[aion_SetCreateUser_20120703]\r\n\t@char_id int,\r\n\t@server_id int,\r\n\t@cur_server_id int,\r\n\t@account_id int,\r\n\t@create_date datetime\r\nAS\r\nBEGIN\r\n\t-- SET NOCOUNT ON added to prevent extra result sets from\r\n\t-- interfering with SELECT statements.\r\n\tSET NOCOUNT ON;\r\n\t\r\n    --DECLARE @utc_adjust BIGINT\r\n    --SET @utc_adjust = dbo.GetUtcAdjustSecWithUTC_Local(GetUTCDate(), GetDate())\r\n\r\n    -- Insert statements for procedure here\r\n    /*\r\n\tINSERT global_user_data(char_id, account_id, create_date, server_id, cur_server_id, user_level)\r\n\tVALUES (@char_id, @account_id, @create_date, @server_id, @cur_server_id, 1)\r\n\t*/\r\n\t\t\r\n    if EXISTS (select char_id from global_user_data with(UPDLOCK) where char_id = @char_id and server_id = @server_id)\r\n    begin\r\n\t\tUPDATE global_user_data\r\n\t\tSET create_date = @create_date, cur_server_id = @cur_server_id\r\n\t\tWHERE char_id = @char_id and server_id = @server_id\r\n    end\r\n    else begin\r\n\t\tINSERT global_user_data(char_id, account_id, create_date, server_id, cur_server_id, user_level)\r\n\t\tVALUES (@char_id, @account_id, @create_date, @server_id, @cur_server_id, 1)\r\n\tend\t\r\nEND\r\n",
+    "aion_SetCreateUser_20121206": "-- =============================================\r\n-- Author:\t\t<Author,,Name>\r\n-- Create date: <Create Date,,>\r\n-- Description:\t<Description,,>\r\n-- =============================================\r\nCREATE PROCEDURE [dbo].[aion_SetCreateUser_20121206]\r\n\t@char_id int,\r\n\t@server_id int,\r\n\t@cur_server_id int,\r\n\t@account_id int,\r\n\t@create_date datetime,\r\n\t@class_type int,\r\n\t@race_type int\r\nAS\r\nBEGIN\r\n\t-- SET NOCOUNT ON added to prevent extra result sets from\r\n\t-- interfering with SELECT statements.\r\n\tSET NOCOUNT ON;\r\n\t\r\n    --DECLARE @utc_adjust BIGINT\r\n    --SET @utc_adjust = dbo.GetUtcAdjustSecWithUTC_Local(GetUTCDate(), GetDate())\r\n\r\n    -- Insert statements for procedure here\r\n    /*\r\n\tINSERT global_user_data(char_id, account_id, create_date, server_id, cur_server_id, user_level)\r\n\tVALUES (@char_id, @account_id, @create_date, @server_id, @cur_server_id, 1)\r\n\t*/\r\n\t\t\r\n    if EXISTS (select char_id from global_user_data with(UPDLOCK) where char_id = @char_id and server_id = @server_id)\r\n    begin\r\n\t\tUPDATE global_user_data\r\n\t\tSET create_date = @create_date, cur_server_id = @cur_server_id, class_type = @class_type, race_type = @race_type \r\n\t\tWHERE char_id = @char_id and server_id = @server_id\r\n    end\r\n    else begin\r\n\t\tINSERT global_user_data(char_id, account_id, create_date, server_id, cur_server_id, user_level, class_type, race_type)\r\n\t\tVALUES (@char_id, @account_id, @create_date, @server_id, @cur_server_id, 1, @class_type, @race_type)\r\n\tend\t\r\nEND\r\n",
+    "aion_SetCreateUser_20160303": "CREATE PROCEDURE [dbo].[aion_SetCreateUser_20160303]\r\n\t@char_id int,\r\n\t@server_id int,\r\n\t@cur_server_id int,\r\n\t@account_id int,\r\n\t@create_date datetime,\r\n\t@class_type int,\r\n\t@race_type int,\r\n\t@level int,\r\n\t@is_special_server tinyint,\r\n\t@is_jumping_character tinyint\r\nAS\r\nBEGIN\r\n\t-- SET NOCOUNT ON added to prevent extra result sets from\r\n\t-- interfering with SELECT statements.\r\n\tSET NOCOUNT ON;\r\n\t\r\n    --DECLARE @utc_adjust BIGINT\r\n    --SET @utc_adjust = dbo.GetUtcAdjustSecWithUTC_Local(GetUTCDate(), GetDate())\r\n\r\n    -- Insert statements for procedure here\r\n    /*\r\n\tINSERT global_user_data(char_id, account_id, create_date, server_id, cur_server_id, user_level)\r\n\tVALUES (@char_id, @account_id, @create_date, @server_id, @cur_server_id, 1)\r\n\t*/\r\n\t\t\r\n    if EXISTS (select char_id from global_user_data with(UPDLOCK) where char_id = @char_id and server_id = @server_id)\r\n    begin\r\n\t\tUPDATE global_user_data\r\n\t\tSET create_date = @create_date, cur_server_id = @cur_server_id, class_type = @class_type, race_type = @race_type \r\n\t\tWHERE char_id = @char_id and server_id = @server_id\r\n    end\r\n    else begin\r\n\t\tINSERT global_user_data(char_id, account_id, create_date, server_id, cur_server_id, user_level, class_type, race_type, is_special_server, is_jumping_character)\r\n\t\tVALUES (@char_id, @account_id, @create_date, @server_id, @cur_server_id, @level, @class_type, @race_type, @is_special_server, @is_jumping_character)\r\n\tend\t\r\nEND\r\n",
+    "aion_SetDeleteCompletedUser_20120703": "-- =============================================\r\n-- Author:\t\t<Author,,Name>\r\n-- Create date: <Create Date,,>\r\n-- Description:\t<Description,,>\r\n-- =============================================\r\nCREATE PROCEDURE [dbo].[aion_SetDeleteCompletedUser_20120703]\r\n\t@char_id int,\r\n\t@server_id int,\r\n\t@cur_server_id int,\r\n\t@delete_completed_time int\r\nAS\r\nBEGIN\r\n\t-- SET NOCOUNT ON added to prevent extra result sets from\r\n\t-- interfering with SELECT statements.\r\n\tSET NOCOUNT ON;\r\n/*\r\n    DECLARE @utc_adjust BIGINT\r\n    SET @utc_adjust = dbo.GetUtcAdjustSecWithUTC_Local(GetUTCDate(), GetDate())\r\n\r\n    -- Insert statements for procedure here\r\n    update global_user_data\r\n    set delete_completed_date = dateadd(ss,@delete_completed_time+@utc_adjust,'1970-01-01')\r\n    where char_id = @char_id and server_id = @server_id\r\n*/\r\n    update global_user_data\r\n    set delete_completed_date = @delete_completed_time, cur_server_id = @cur_server_id\r\n    where char_id = @char_id and server_id = @server_id\r\n    \r\n    RETURN @@rowcount\r\nEND\r\n",
+    "aion_SetDeleteUser_20120703": "-- =============================================\r\n-- Author:\t\t<Author,,Name>\r\n-- Create date: <Create Date,,>\r\n-- Description:\t<Description,,>\r\n-- =============================================\r\nCREATE PROCEDURE [dbo].[aion_SetDeleteUser_20120703]\r\n\t@char_id int,\r\n\t@server_id int,\r\n\t@cur_server_id int,\r\n\t@delete_time int\r\nAS\r\nBEGIN\r\n\t-- SET NOCOUNT ON added to prevent extra result sets from\r\n\t-- interfering with SELECT statements.\r\n\tSET NOCOUNT ON;\r\n/*\r\n    DECLARE @utc_adjust BIGINT\r\n    SET @utc_adjust = dbo.GetUtcAdjustSecWithUTC_Local(GetUTCDate(), GetDate())\r\n\r\n    -- Insert statements for procedure here\r\n    update global_user_data\r\n    set delete_date = dateadd(ss,@delete_time+@utc_adjust,'1970-01-01')\r\n    where char_id = @char_id and server_id = @server_id\r\n*/\r\n    update global_user_data\r\n    set delete_date = @delete_time, cur_server_id = @cur_server_id\r\n    where char_id = @char_id and server_id = @server_id\r\n    \r\n    RETURN @@rowcount\r\nEND\r\n",
+    "aion_SetLoginUser_20120703": "-- =============================================\r\n-- Author:\t\t<Author,,Name>\r\n-- Create date: <Create Date,,>\r\n-- Description:\t<Description,,>\r\n-- =============================================\r\nCREATE PROCEDURE [dbo].[aion_SetLoginUser_20120703]\r\n\t@char_id int,\r\n\t@server_id int,\r\n\t@cur_server_id int,\r\n\t@login_time datetime\r\nAS\r\nBEGIN\r\n\t-- SET NOCOUNT ON added to prevent extra result sets from\r\n\t-- interfering with SELECT statements.\r\n\tSET NOCOUNT ON;\r\n\r\n    --DECLARE @utc_adjust BIGINT\r\n    --SET @utc_adjust = dbo.GetUtcAdjustSecWithUTC_Local(GetUTCDate(), GetDate())\r\n    \r\n   -- Insert statements for procedure here\r\n    update global_user_data\r\n    set last_login_time = @login_time,cur_server_id = @cur_server_id , last_logout_time = @login_time --dateadd(ss,@login_time+@utc_adjust,'1970-01-01')\r\n    where char_id = @char_id and server_id = @server_id\r\n    \r\n    RETURN @@rowcount\r\nEND\r\n",
+    "aion_SetLoginUser_20121120": "-- =============================================\r\n-- Author:\t\t<Author,,Name>\r\n-- Create date: <Create Date,,>\r\n-- Description:\t<Description,,>\r\n-- =============================================\r\nCREATE PROCEDURE [dbo].[aion_SetLoginUser_20121120]\r\n\t@char_id int,\r\n\t@server_id int,\r\n\t@cur_server_id int,\r\n\t@login_time datetime,\r\n\t@global_char_id bigint\r\nAS\r\nBEGIN\r\n\t-- SET NOCOUNT ON added to prevent extra result sets from\r\n\t-- interfering with SELECT statements.\r\n\tSET NOCOUNT ON;\r\n\r\n    --DECLARE @utc_adjust BIGINT\r\n    --SET @utc_adjust = dbo.GetUtcAdjustSecWithUTC_Local(GetUTCDate(), GetDate())\r\n    \r\n   -- Insert statements for procedure here\r\n    update global_user_data\r\n    set last_login_time = @login_time,cur_server_id = @cur_server_id , last_logout_time = @login_time, global_char_id = @global_char_id --dateadd(ss,@login_time+@utc_adjust,'1970-01-01')\r\n    where char_id = @char_id and server_id = @server_id\r\n    \r\n    RETURN @@rowcount\r\nEND\r\n",
+    "aion_SetLoginUser_20121206": "CREATE PROCEDURE [dbo].[aion_SetLoginUser_20121206]\r\n\t@char_id int,\r\n\t@server_id int,\r\n\t@cur_server_id int,\r\n\t@login_time datetime,\r\n\t@global_char_id bigint,\r\n\t@class_type int,\r\n\t@race_type int\r\nAS\r\nBEGIN\r\n\t-- SET NOCOUNT ON added to prevent extra result sets from\r\n\t-- interfering with SELECT statements.\r\n\tSET NOCOUNT ON;\r\n\r\n    --DECLARE @utc_adjust BIGINT\r\n    --SET @utc_adjust = dbo.GetUtcAdjustSecWithUTC_Local(GetUTCDate(), GetDate())\r\n    \r\n   -- Insert statements for procedure here\r\n    update global_user_data\r\n    set last_login_time = @login_time,cur_server_id = @cur_server_id , last_logout_time = @login_time, global_char_id = @global_char_id, class_type = @class_type, race_type = @race_type --dateadd(ss,@login_time+@utc_adjust,'1970-01-01')\r\n\t\t, delete_date = 0, delete_completed_date = 0 -- 삭제정보갱신\r\n    where char_id = @char_id and server_id = @server_id\r\n    \r\n    RETURN @@rowcount\r\nEND\r\n",
+    "aion_SetLogoutUser_20120703": "-- =============================================\r\n-- Author:\t\t<Author,,Name>\r\n-- Create date: <Create Date,,>\r\n-- Description:\t<Description,,>\r\n-- =============================================\r\nCREATE PROCEDURE [dbo].[aion_SetLogoutUser_20120703]\r\n\t@char_id int,\r\n\t@server_id int,\r\n\t@cur_server_id int,\r\n\t@logout_time datetime\r\nAS\r\nBEGIN\r\n\t-- SET NOCOUNT ON added to prevent extra result sets from\r\n\t-- interfering with SELECT statements.\r\n\tSET NOCOUNT ON;\r\n\r\n    --DECLARE @utc_adjust BIGINT\r\n    --SET @utc_adjust = dbo.GetUtcAdjustSecWithUTC_Local(GetUTCDate(), GetDate())\r\n\r\n    -- Insert statements for procedure here\r\n    update global_user_data\r\n    set last_logout_time = @logout_time, cur_server_id = @cur_server_id --dateadd(ss,@logout_time+@utc_adjust,'1970-01-01')\r\n    where char_id = @char_id and server_id = @server_id\r\n    \r\n    RETURN @@rowcount\r\nEND\r\n",
+    "aion_SetLogoutUser_20121206": "-- =============================================\r\n-- Author:\t\t<Author,,Name>\r\n-- Create date: <Create Date,,>\r\n-- Description:\t<Description,,>\r\n-- =============================================\r\nCREATE PROCEDURE [dbo].[aion_SetLogoutUser_20121206]\r\n\t@char_id int,\r\n\t@server_id int,\r\n\t@cur_server_id int,\r\n\t@logout_time datetime,\r\n\t@class_type int,\r\n\t@race_type int\r\nAS\r\nBEGIN\r\n\t-- SET NOCOUNT ON added to prevent extra result sets from\r\n\t-- interfering with SELECT statements.\r\n\tSET NOCOUNT ON;\r\n\r\n    --DECLARE @utc_adjust BIGINT\r\n    --SET @utc_adjust = dbo.GetUtcAdjustSecWithUTC_Local(GetUTCDate(), GetDate())\r\n\r\n    -- Insert statements for procedure here\r\n    update global_user_data\r\n    set last_logout_time = @logout_time, cur_server_id = @cur_server_id, class_type = @class_type, race_type = @race_type  --dateadd(ss,@logout_time+@utc_adjust,'1970-01-01')\r\n    where char_id = @char_id and server_id = @server_id\r\n    \r\n    RETURN @@rowcount\r\nEND\r\n",
+    "aion_SetPromotionCooltimeForAC": "CREATE procedure [dbo].[aion_SetPromotionCooltimeForAC]\r\n\t@nCharId\t\t\t\t\t\t\tint,\r\n\t@nPromotionId \t\t\t\tsmallint,\r\n\t@nLastPromotionTime \tint,\r\n\t@nReceivedItemCount\t\tint,\r\n\t@nCycleReceivedItemCount\tint,\r\n\t@nCycleNextResetTime\t\tint\r\nas\r\nset nocount on\r\nif EXISTS (SELECT promotion_id FROM user_promotion_cooltime(UPDLOCK) WHERE account_id=@nCharId and promotion_id=@nPromotionId) \r\nbegin\r\n\tUPDATE user_promotion_cooltime\r\n\tSET last_promotion_time = @nLastPromotionTime, received_item_count = @nReceivedItemCount, cycle_received_item_count = @nCycleReceivedItemCount, cycle_next_reset_time = @nCycleNextResetTime\t\r\n\tWHERE account_id=@nCharId and promotion_id=@nPromotionId\r\nend\r\nelse\r\nbegin\r\n\tINSERT user_promotion_cooltime(account_id, promotion_id, last_promotion_time, received_item_count, cycle_received_item_count, cycle_next_reset_time) \r\n\tVALUES (@nCharId, @nPromotionId, @nLastPromotionTime, @nReceivedItemCount, @nCycleReceivedItemCount, @nCycleNextResetTime)\t\r\nend\r\nset nocount off\r\n",
+    "aion_SetTrialAccountData": "-- =============================================\r\n-- Author:\t\t<Author,,Name>\r\n-- Create date: <Create Date,,>\r\n-- Description:\t<Description,,>\r\n-- =============================================\r\nCREATE PROCEDURE [dbo].[aion_SetTrialAccountData]\r\n\t@accountId int,\r\n\t@updateTime int,\r\n\t@resetTime int,\r\n\t@sellGold bigint,\r\n\t@tradeGold bigint,\r\n\t@decomposeSum int,\r\n\t@gatherSum int,\r\n\t@extractGatherSum int\t\r\n\t\r\nAS\r\nBEGIN\r\n\t-- SET NOCOUNT ON added to prevent extra result sets from\r\n\t-- interfering with SELECT statements.\r\n\tSET NOCOUNT ON;\r\n\r\n\tif EXISTS (SELECT account_id FROM trial_account_data(UPDLOCK) WHERE account_id=@accountId) \r\n\tbegin\r\n\t\tUPDATE trial_account_data\r\n\t\tSET update_time=@updateTime, reset_time=@resetTime, sell_gold_sum=@sellGold,\r\n\t\t\ttrade_gold_sum=@tradeGold, decompose_sum=@decomposeSum, gather_sum=@gatherSum, extract_gather_sum=@extractGatherSum\t\r\n\t\tWHERE account_id=@accountId AND @updateTime > update_time \r\n\tend\r\n\telse\r\n\tbegin\r\n\t\tINSERT trial_account_data(account_id, update_time, reset_time, sell_gold_sum, trade_gold_sum, decompose_sum, gather_sum, extract_gather_sum) \r\n\t\tVALUES (@accountId, @updateTime, @resetTime, @sellGold, @tradeGold, @decomposeSum, @gatherSum, @extractGatherSum)\t\r\n\tend\r\n\t\r\n\tSET NOCOUNT OFF;\r\nEND\r\n",
+    "aion_SetUserInfo_20120703": "-- =============================================\r\n-- Author:\t\t<Author,,Name>\r\n-- Create date: <Create Date,,>\r\n-- Description:\t<Description,,>\r\n-- =============================================\r\nCREATE PROCEDURE [dbo].[aion_SetUserInfo_20120703]\r\n\t@char_id int,\r\n\t@account_id int,\r\n\t@server_id int,\r\n\t@cur_server_id int,\r\n\t@char_lev int,\r\n\t@create_date datetime,\r\n\t@login_time datetime,\r\n\t@logout_time datetime,\r\n\t--@create_date int,\r\n\t--@login_time int,\r\n\t--@logout_time int,\r\n\t@delete_date int,\r\n\t@delete_complete_date int\r\nAS\r\nBEGIN\r\n\t-- SET NOCOUNT ON added to prevent extra result sets from\r\n\t-- interfering with SELECT statements.\r\n\tSET NOCOUNT ON;\r\n\t\r\n    DECLARE @utc_adjust BIGINT\r\n    SET @utc_adjust = dbo.GetUtcAdjustSecWithUTC_Local(GetUTCDate(), GetDate())\r\n\r\n    -- Insert statements for procedure here\r\n    if EXISTS (select char_id from global_user_data with(UPDLOCK) where char_id = @char_id and server_id = @server_id)\r\n    begin\r\n\t\tUPDATE global_user_data\r\n\t\tSET create_date = @create_date, last_login_time = @login_time, last_logout_time = @logout_time, delete_date = @delete_date, delete_completed_date = @delete_complete_date, user_level = @char_lev, cur_server_id = @cur_server_id\r\n\t\tWHERE char_id = @char_id and server_id = @server_id\r\n    end\r\n    else begin\r\n\t\tINSERT global_user_data(char_id, account_id, create_date, last_login_time, last_logout_time, delete_date, delete_completed_date, server_id, cur_server_id, user_level)\r\n\t\tVALUES (@char_id, @account_id\r\n\t\t\t\t, @create_date\r\n\t\t\t\t, @login_time\r\n\t\t\t\t, @logout_time\r\n\t\t\t\t--, dateadd(ss,@create_date+@utc_adjust,'1970-01-01')\r\n\t\t\t\t--, dateadd(ss,@login_time+@utc_adjust,'1970-01-01')  /* last_login_time */\r\n\t\t\t\t--, dateadd(ss,@logout_time+@utc_adjust,'1970-01-01')  /* @logout_time */\r\n\t\t\t\t, @delete_date  /* @delete_date */\r\n\t\t\t\t, @delete_complete_date /* @delete_complete_date */\r\n\t\t\t\t, @server_id, @cur_server_id, @char_lev)\r\n\tend\r\n\t\t\t    \r\n    RETURN @@rowcount\t\t\t\r\nEND\r\n",
+    "aion_SetUserInfo_20121210": "-- =============================================\r\n-- Author:\t\t<Author,,Name>\r\n-- Create date: <Create Date,,>\r\n-- Description:\t<Description,,>\r\n-- =============================================\r\nCREATE PROCEDURE [dbo].[aion_SetUserInfo_20121210]\r\n\t@char_id int,\r\n\t@account_id int,\r\n\t@server_id int,\r\n\t@cur_server_id int,\r\n\t@char_lev int,\r\n\t@create_date datetime,\r\n\t@login_time datetime,\r\n\t@logout_time datetime,\r\n\t--@create_date int,\r\n\t--@login_time int,\r\n\t--@logout_time int,\r\n\t@delete_date int,\r\n\t@delete_complete_date int,\r\n\t@class_type int,\r\n\t@race_type int\r\nAS\r\nBEGIN\r\n\t-- SET NOCOUNT ON added to prevent extra result sets from\r\n\t-- interfering with SELECT statements.\r\n\tSET NOCOUNT ON;\r\n\t\r\n    DECLARE @utc_adjust BIGINT\r\n    SET @utc_adjust = dbo.GetUtcAdjustSecWithUTC_Local(GetUTCDate(), GetDate())\r\n\r\n    -- Insert statements for procedure here\r\n    if EXISTS (select char_id from global_user_data with(UPDLOCK) where char_id = @char_id and server_id = @server_id)\r\n    begin\r\n\t\tUPDATE global_user_data\r\n\t\tSET create_date = @create_date, last_login_time = @login_time, last_logout_time = @logout_time, delete_date = @delete_date, delete_completed_date = @delete_complete_date, user_level = @char_lev, cur_server_id = @cur_server_id, class_type = @class_type, race_type = @race_type\r\n\t\tWHERE char_id = @char_id and server_id = @server_id\r\n    end\r\n    else begin\r\n\t\tINSERT global_user_data(char_id, account_id, create_date, last_login_time, last_logout_time, delete_date, delete_completed_date, server_id, cur_server_id, user_level, class_type, race_type)\r\n\t\tVALUES (@char_id, @account_id\r\n\t\t\t\t, @create_date\r\n\t\t\t\t, @login_time\r\n\t\t\t\t, @logout_time\r\n\t\t\t\t--, dateadd(ss,@create_date+@utc_adjust,'1970-01-01')\r\n\t\t\t\t--, dateadd(ss,@login_time+@utc_adjust,'1970-01-01')  /* last_login_time */\r\n\t\t\t\t--, dateadd(ss,@logout_time+@utc_adjust,'1970-01-01')  /* @logout_time */\r\n\t\t\t\t, @delete_date  /* @delete_date */\r\n\t\t\t\t, @delete_complete_date /* @delete_complete_date */\r\n\t\t\t\t, @server_id\r\n\t\t\t\t, @cur_server_id\r\n\t\t\t\t, @char_lev\r\n\t\t\t\t, @class_type\r\n\t\t\t\t, @race_type)\r\n\tend\r\n\t\t\t    \r\n    RETURN @@rowcount\t\t\t\r\nEND\r\n",
+    "aion_SetUserInfo_20160303": "CREATE PROCEDURE [dbo].[aion_SetUserInfo_20160303]\r\n\t@char_id int,\r\n\t@account_id int,\r\n\t@server_id int,\r\n\t@cur_server_id int,\r\n\t@char_lev int,\r\n\t@create_date datetime,\r\n\t@login_time datetime,\r\n\t@logout_time datetime,\r\n\t--@create_date int,\r\n\t--@login_time int,\r\n\t--@logout_time int,\r\n\t@delete_date int,\r\n\t@delete_complete_date int,\r\n\t@class_type int,\r\n\t@race_type int,\r\n\t@is_special_server tinyint,\r\n\t@is_jumping_character tinyint\r\nAS\r\nBEGIN\r\n\t-- SET NOCOUNT ON added to prevent extra result sets from\r\n\t-- interfering with SELECT statements.\r\n\tSET NOCOUNT ON;\r\n\t\r\n    DECLARE @utc_adjust BIGINT\r\n    SET @utc_adjust = dbo.GetUtcAdjustSecWithUTC_Local(GetUTCDate(), GetDate())\r\n\r\n    -- Insert statements for procedure here\r\n    if EXISTS (select char_id from global_user_data with(UPDLOCK) where char_id = @char_id and server_id = @server_id)\r\n    begin\r\n\t\tUPDATE global_user_data\r\n\t\tSET create_date = @create_date, last_login_time = @login_time, last_logout_time = @logout_time, delete_date = @delete_date, delete_completed_date = @delete_complete_date, user_level = @char_lev, cur_server_id = @cur_server_id, class_type = @class_type, race_type = @race_type, is_special_server = @is_special_server, is_jumping_character = @is_jumping_character\r\n\t\tWHERE char_id = @char_id and server_id = @server_id\r\n    end\r\n    else begin\r\n\t\tINSERT global_user_data(char_id, account_id, create_date, last_login_time, last_logout_time, delete_date, delete_completed_date, server_id, cur_server_id, user_level, class_type, race_type, is_special_server, is_jumping_character)\r\n\t\tVALUES (@char_id, @account_id\r\n\t\t\t\t, @create_date\r\n\t\t\t\t, @login_time\r\n\t\t\t\t, @logout_time\r\n\t\t\t\t--, dateadd(ss,@create_date+@utc_adjust,'1970-01-01')\r\n\t\t\t\t--, dateadd(ss,@login_time+@utc_adjust,'1970-01-01')  /* last_login_time */\r\n\t\t\t\t--, dateadd(ss,@logout_time+@utc_adjust,'1970-01-01')  /* @logout_time */\r\n\t\t\t\t, @delete_date  /* @delete_date */\r\n\t\t\t\t, @delete_complete_date /* @delete_complete_date */\r\n\t\t\t\t, @server_id\r\n\t\t\t\t, @cur_server_id\r\n\t\t\t\t, @char_lev\r\n\t\t\t\t, @class_type\r\n\t\t\t\t, @race_type\r\n\t\t\t\t, @is_special_server, @is_jumping_character)\r\n\tend\r\n\t\t\t    \r\n    RETURN @@rowcount\t\t\t\r\nEND\r\n",
+    "aion_SetUserLevelChanged": "-- =============================================\r\n-- Author:\t\t<Author,,Name>\r\n-- Create date: <Create Date,,>\r\n-- Description:\t<Description,,>\r\n-- =============================================\r\nCREATE PROCEDURE [dbo].[aion_SetUserLevelChanged]\r\n\t@char_id int,\r\n\t@server_id int,\r\n\t@char_level BIGINT\r\nAS\r\nBEGIN\r\n\t-- SET NOCOUNT ON added to prevent extra result sets from\r\n\t-- interfering with SELECT statements.\r\n\tSET NOCOUNT ON;\r\n\r\n   -- Insert statements for procedure here\r\n    update global_user_data\r\n    set user_level = @char_level\r\n    where char_id = @char_id and server_id = @server_id\r\n    \r\n    RETURN @@rowcount\r\nEND\r\n",
+    "aion_SyncUserDataFromServer": "/*\r\nReturn 결과\r\n\t:\r\n\r\n*/\r\n\r\n-- =============================================\r\n-- Author:\t\t<Author,,Name>\r\n-- Create date: <Create Date,,>\r\n-- Description:\t<Description,,>\r\n-- =============================================\r\nCREATE PROCEDURE [dbo].[aion_SyncUserDataFromServer] \r\n\t@db_userId\tnvarchar(64),\r\n\t@db_passwd\tnvarchar(64),\r\n\t@serverId int,\r\n\t@ret\tint\toutput\r\nAS\r\nBEGIN\r\n\t-- SET NOCOUNT ON added to prevent extra result sets from\r\n\t-- interfering with SELECT statements.\r\n\tSET NOCOUNT ON;\r\n\r\n\tdeclare @serverName  nvarchar(128)\r\n\tset @serverName = ''\r\n\tdeclare @databaseName  nvarchar(64)\r\n\tset @databaseName = ''\r\n\tselect @serverName = datasource, @databaseName = database_name from aion_serverlist where server_id = @serverId\r\n\tif @@rowcount = 0\r\n\tbegin\r\n\t\tset @ret = -1\t-- DB에 대한 정보가 없음\r\n\t\treturn\r\n\tend\r\n\r\n\tdeclare @db_info nvarchar(256)\r\n\tset @db_info = '''' + @serverName + ''';''' + @db_userId + ''';''' + @db_passwd + ''''\r\n\r\n\r\n\tdeclare @sql\tnvarchar(4000)\r\n\r\n\r\n\t-- 없는 유저 정보 acc db에 입력\r\n\tset @sql = 'update global_user_data'\r\n\t\t\t\t+ ' set create_date = o.create_date, last_login_time = o.last_login_time, last_logout_time = o.last_logout_time, delete_date = o.delete_date, delete_completed_date = o.delete_complete_date, user_level = o.lev'\r\n\t\t\t\t+ ' from global_user_data'\r\n\t\t\t\t+ ' join openrowset (''SQLOLEDB'', ' + @db_info + ','\r\n\t\t\t\t+ ' ''select char_id, account_id, lev, create_date, last_login_time, last_logout_time, delete_date, delete_complete_date from ' + @databaseName + '.dbo.user_data '' ) as o'\r\n\t\t\t\t+ '   on global_user_data.char_id = o.char_id '\r\n\t\t\t\t+ ' \tand ( global_user_data.create_date != o.create_date '\r\n\t\t\t\t+ ' \t\t\tor global_user_data.last_login_time != o.last_login_time '\r\n\t\t\t\t+ ' \t\t\tor global_user_data.last_logout_time != o.last_logout_time '\r\n\t\t\t\t+ ' \t\t\tor global_user_data.delete_date != o.delete_date '\r\n\t\t\t\t+ ' \t\t\tor global_user_data.delete_completed_date != o.delete_complete_date '\r\n\t\t\t\t+ ' \t\t\tor global_user_data.user_level != o.lev )\t'\r\n\t\t\t\t+ '\twhere global_user_data.server_id = ' + cast(@serverId as nvarchar) \r\n\r\n\t--print (@sql)\r\n\texec (@sql)\r\n\r\n\tif @@error <> 0\t\r\n\tbegin \r\n\t\tset @ret = -2\t-- 입력 실패!!!\r\n\tend\r\n/*\r\nupdate global_user_data\r\nset create_date = o.create_date\r\n\t, last_login_time = o.last_login_time\r\n\t, last_logout_time = o.last_logout_time\r\n\t, delete_date = o.delete_date\r\n\t, delete_completed_date = o.delete_complete_date\r\n\t, user_level = o.lev\r\nfrom global_user_data\r\n\tjoin openrowset('SQLOLEDB', 'jungsuk-pc-i7';'sa';'dkdldhs2005!', 'select char_id, account_id, lev, create_date, last_login_time, last_logout_time, delete_date, delete_complete_date from aionworldjung.dbo.user_data' ) as o \r\n\t\t  on global_user_data.char_id = o.char_id \r\n\t\t\tand ( global_user_data.create_date != o.create_date \r\n\t\t\t\t\tor global_user_data.last_login_time != o.last_login_time\r\n\t\t\t\t\tor global_user_data.last_logout_time != o.last_logout_time\r\n\t\t\t\t\tor global_user_data.delete_date != o.delete_date \r\n\t\t\t\t\tor global_user_data.delete_completed_date != o.delete_complete_date\r\n\t\t\t\t\tor global_user_data.user_level != o.lev )\r\nwhere global_user_data.server_id = @serverId\r\n\r\n\r\n\r\ninsert global_user_data(char_id, account_id, create_date, last_login_time, last_logout_time, delete_date, delete_completed_date, user_level, server_id)\r\nselect char_id, account_data, create_date, last_login_time, last_logout_time, delete_date, delete_completed_date, lev, @serverId\r\nfrom openrowset('SQLOLEDB', 'jungsuk-pc-i7';'sa';'dkdldhs2005!', 'select char_id, account_id, lev, create_date, last_login_time, last_logout_time, delete_date, delete_complete_date from aionworldjung.dbo.user_data' ) as o \r\n\t\tleft join global_user_data on global_user_data.char_id = o.char_id and global_user_data.server_id = @serverId\r\nwhere global_user_data.char_id is null\r\n\r\n*/\r\n\t\r\nEND\r\n",
+    "aion_UpdateBoardBMState": "-- =============================================\r\n-- Author:\t\t<Author,,Name>\r\n-- Create date: <Create Date,,>\r\n-- Description:\t<Description,,>\r\n-- =============================================\r\nCREATE PROCEDURE [dbo].[aion_UpdateBoardBMState]\r\n\t@account_id int,\r\n\t@game_id int,\r\n\t@current_pos int,\r\n\t@visited_pos bigint,\r\n\t@last_freecharge_time bigint,\r\n\t@last_reset_teim bigint,\r\n\t@free_dice_remain int,\r\n\t@paid_dice_remain int,\r\n\t@paid_reset_remain int\r\nAS\r\nBEGIN\r\n\t-- SET NOCOUNT ON added to prevent extra result sets from\r\n\t-- interfering with SELECT statements.\r\n\tSET NOCOUNT ON;\r\n    -- Insert statements for procedure here\r\n    IF EXISTS (SELECT account_id \r\n\t\t\t\tFROM user_board_bm\r\n\t\t\t\tWHERE account_id=@account_id)\r\n    begin\r\n\t\tUPDATE user_board_bm\r\n\t\tSET game_id = @game_id, \r\n\t\t\tcurrent_pos = @current_pos, \r\n\t\t\tvisited_pos = @visited_pos, \r\n\t\t\tlast_freecharge_time = @last_freecharge_time, \r\n\t\t\tlast_reset_time = @last_reset_teim, \r\n\t\t\tfree_dice_remain = @free_dice_remain, \r\n\t\t\tpaid_dice_remain = @paid_dice_remain,\r\n\t\t\tpaid_reset_remain = @paid_reset_remain\r\n\t\tWHERE account_id = @account_id\r\n\tend\r\n\tELSE\r\n\tbegin\r\n\t\tINSERT user_board_bm(account_id, game_id, current_pos, visited_pos, last_freecharge_time, last_reset_time, free_dice_remain, paid_dice_remain, paid_reset_remain)\r\n\t\tVALUES (@account_id, @game_id, @current_pos, @visited_pos, @last_freecharge_time, @last_reset_teim, @free_dice_remain, @paid_dice_remain, @paid_reset_remain)\r\n\tend\r\n\t\r\n    RETURN @@rowcount\r\nEND\r\n",
+    "aion_UpdateBoardBMState_2017": "CREATE PROCEDURE [dbo].[aion_UpdateBoardBMState_2017]\r\n\t@account_id int,\r\n\t@isSpecial int,\r\n\t@game_id int,\r\n\t@current_pos int,\r\n\t@visited_pos bigint,\r\n\t@last_freecharge_time bigint,\r\n\t@last_reset_time bigint,\r\n\t@free_dice_remain int,\r\n\t@paid_dice_remain int,\r\n\t@paid_reset_remain int\r\nAS\r\nBEGIN\r\n\t-- SET NOCOUNT ON added to prevent extra result sets from\r\n\t-- interfering with SELECT statements.\r\n\tSET NOCOUNT ON;\r\n    -- Insert statements for procedure here\r\n    IF EXISTS (SELECT account_id FROM user_board_bm_dice WHERE account_id=@account_id)\r\n    begin\r\n\t\tUPDATE user_board_bm_dice\r\n\t\tSET \r\n\t\t\tlast_freecharge_time = @last_freecharge_time,\r\n\t\t\tfree_dice_remain = @free_dice_remain, \r\n\t\t\tpaid_dice_remain = @paid_dice_remain,\r\n\t\t\tpaid_reset_remain = @paid_reset_remain\r\n\t\tWHERE account_id = @account_id\r\n\tend\r\n\tELSE\r\n\tbegin\r\n\t\tINSERT user_board_bm_dice(account_id, last_freecharge_time, free_dice_remain, paid_dice_remain, paid_reset_remain)\r\n\t\tVALUES (@account_id, @last_freecharge_time, @free_dice_remain, @paid_dice_remain, @paid_reset_remain)\r\n\tend\r\n\t\r\n\tIF EXISTS (SELECT account_id FROM user_board_bm_game WHERE account_id=@account_id and is_special_server = @isSpecial)\r\n    begin\r\n\t\tUPDATE user_board_bm_game\r\n\t\tSET \r\n\t\t\tgame_id = @game_id,\r\n\t\t\tcurrent_pos = @current_pos, \r\n\t\t\tvisited_pos = @visited_pos,\r\n\t\t\tlast_reset_time = @last_reset_time\r\n\t\tWHERE account_id = @account_id and is_special_server = @isSpecial\r\n\tend\r\n\tELSE\r\n\tbegin\r\n\t\tINSERT user_board_bm_game(account_id, is_special_server, game_id, current_pos, visited_pos, last_reset_time)\r\n\t\tVALUES (@account_id, @isSpecial, @game_id, @current_pos, @visited_pos, @last_reset_time)\r\n\tend\r\n\t\r\n\t\r\n    RETURN @@rowcount\r\nEND\r\n",
+    "aion_UpdateHiddenFatigueInfo": "-- =============================================\r\n-- Author:\t\t<Author,,Name>\r\n-- Create date: <Create Date,,>\r\n-- Description:\t<Description,,>\r\n-- =============================================\r\nCREATE PROCEDURE [dbo].[aion_UpdateHiddenFatigueInfo]\r\n\t@accountId int,\r\n\t@hidden_fatigue_point int,\r\n\t@hidden_fatigue_updatetime int\r\nAS\r\nBEGIN\r\n\t-- SET NOCOUNT ON added to prevent extra result sets from\r\n\t-- interfering with SELECT statements.\r\n\tSET NOCOUNT ON;\r\n\r\n\tif EXISTS (SELECT account_id FROM account_data(UPDLOCK) WHERE account_id=@accountId) \r\n\tbegin\r\n\t\tUPDATE account_data\r\n\t\tSET hidden_fatigue_point = @hidden_fatigue_point, hidden_fatigue_updatetime = @hidden_fatigue_updatetime\r\n\t\twhere account_id = @accountId\r\n\tend\r\n\telse\r\n\tbegin\r\n\t\tINSERT account_data(account_id, hidden_fatigue_point, hidden_fatigue_updatetime) \r\n\t\tVALUES (@accountId, @hidden_fatigue_point, @hidden_fatigue_updatetime)\t\r\n\tend\r\n\t\r\n\tSET NOCOUNT OFF;\r\nEND\r\n",
+    "aion_UpdateHiddenFatigueInfo_20151002": "-- =============================================\r\n-- Author:\t\t<Author,,Name>\r\n-- Create date: <Create Date,,>\r\n-- Description:\t<Description,,>\r\n-- =============================================\r\ncreate PROCEDURE [dbo].[aion_UpdateHiddenFatigueInfo_20151002]\r\n\t@accountId int,\r\n\t@hidden_fatigue_point int,\r\n\t@hidden_fatigue_npcKill int,\r\n\t@hidden_fatigue_updatetime int\r\nAS\r\nBEGIN\r\n\t-- SET NOCOUNT ON added to prevent extra result sets from\r\n\t-- interfering with SELECT statements.\r\n\tSET NOCOUNT ON;\r\n\r\n\tif EXISTS (SELECT account_id FROM account_data(UPDLOCK) WHERE account_id=@accountId) \r\n\tbegin\r\n\t\tUPDATE account_data\r\n\t\tSET hidden_fatigue_point = @hidden_fatigue_point,hidden_fatigue_npckill = @hidden_fatigue_npcKill,  hidden_fatigue_updatetime = @hidden_fatigue_updatetime\r\n\t\twhere account_id = @accountId\r\n\tend\r\n\telse\r\n\tbegin\r\n\t\tINSERT account_data(account_id, hidden_fatigue_point, hidden_fatigue_npckill, hidden_fatigue_updatetime) \r\n\t\tVALUES (@accountId, @hidden_fatigue_point, @hidden_fatigue_npcKill, @hidden_fatigue_updatetime)\t\r\n\tend\r\n\t\r\n\tSET NOCOUNT OFF;\r\nEND\r\n",
+    "aion_UpdateHiddenFatigueInfo_20170428": "CREATE PROCEDURE [dbo].[aion_UpdateHiddenFatigueInfo_20170428]\r\n\t@accountId int,\r\n\t@hidden_fatigue_point int,\r\n\t@hidden_fatigue_npcKill int,\r\n\t@hidden_fatigue_updatetime int,\r\n\t@limit_reset_time int,\r\n\t@limit_play_time int\r\nAS\r\nBEGIN\r\n\t-- SET NOCOUNT ON added to prevent extra result sets from\r\n\t-- interfering with SELECT statements.\r\n\tSET NOCOUNT ON;\r\n\r\n\tif EXISTS (SELECT account_id FROM account_data(UPDLOCK) WHERE account_id=@accountId) \r\n\tbegin\r\n\t\tUPDATE account_data\r\n\t\tSET hidden_fatigue_point = @hidden_fatigue_point,hidden_fatigue_npckill = @hidden_fatigue_npcKill,  hidden_fatigue_updatetime = @hidden_fatigue_updatetime,  limit_play_reset_time = @limit_reset_time,  limit_play_accum_time = @limit_play_time\r\n\t\twhere account_id = @accountId\r\n\tend\r\n\telse\r\n\tbegin\r\n\t\tINSERT account_data(account_id, hidden_fatigue_point, hidden_fatigue_npckill, hidden_fatigue_updatetime, limit_play_reset_time, limit_play_accum_time) \r\n\t\tVALUES (@accountId, @hidden_fatigue_point, @hidden_fatigue_npcKill, @hidden_fatigue_updatetime, @limit_reset_time, @limit_play_time)\t\r\n\tend\r\n\t\r\n\tSET NOCOUNT OFF;\r\nEND\r\n",
+    "aion_UpdateLoginEventInfo": "CREATE PROCEDURE [dbo].[aion_UpdateLoginEventInfo]\r\n\t@account_id int,\r\n\t@event_id int,\r\n\t@stamp_count int,\r\n\t@recent_count_update_date datetime,\r\n\t@recent_anniversity_reward_time bigint\r\nAS\r\nBEGIN\r\n\t-- SET NOCOUNT ON added to prevent extra result sets from\r\n\t-- interfering with SELECT statements.\r\n\tSET NOCOUNT ON;\r\n    -- Insert statements for procedure here\r\n    IF EXISTS (SELECT account_id \r\n\t\t\t\tFROM user_login_event_data \r\n\t\t\t\tWHERE account_id=@account_id)\r\n    begin\r\n\t\tUPDATE user_login_event_data\r\n\t\tSET event_id = @event_id, stamp_count = @stamp_count, recent_count_update_date = @recent_count_update_date, recent_anniversity_reward_time = @recent_anniversity_reward_time\r\n\t\tWHERE account_id = @account_id\r\n\tend\r\n\tELSE\r\n\tbegin\r\n\t\tINSERT user_login_event_data(account_id, event_id, stamp_count, recent_count_update_date, recent_anniversity_reward_time)\r\n\t\tVALUES (@account_id, @event_id, @stamp_count, @recent_count_update_date, @recent_anniversity_reward_time)\r\n\tend\r\n\t\r\n    RETURN @@rowcount\t\t\t\r\nEND\r\n",
+    "aion_UpdateLoginEventInfo_daily": "-- =============================================\r\n-- Author:\t\t<Author,,Name>\r\n-- Create date: <Create Date,,>\r\n-- Description:\t<Description,,>\r\n-- =============================================\r\nCREATE PROCEDURE [dbo].[aion_UpdateLoginEventInfo_daily]\r\n\t@account_id int,\r\n\t@event_id int,\r\n\t@recent_count_update_date datetime,\r\n\t@be_rewarded int\r\nAS\r\nBEGIN\r\n\t-- SET NOCOUNT ON added to prevent extra result sets from\r\n\t-- interfering with SELECT statements.\r\n\tSET NOCOUNT ON;\r\n    -- Insert statements for procedure here\r\n    IF EXISTS (SELECT account_id \r\n\t\t\t\tFROM user_login_event_data_daily \r\n\t\t\t\tWHERE account_id=@account_id AND event_id=@event_id AND recent_count_update_date = @recent_count_update_date)\r\n    begin\r\n\t\tUPDATE user_login_event_data_daily\r\n\t\tSET be_rewarded = @be_rewarded\r\n\t\tWHERE account_id = @account_id AND event_id = @event_id AND recent_count_update_date = @recent_count_update_date\r\n\tend\r\n\tELSE\r\n\tbegin\r\n\t\tINSERT user_login_event_data_daily(account_id, event_id, valid_login_count, recent_count_update_date, be_rewarded)\r\n\t\tVALUES (@account_id, @event_id, 0, @recent_count_update_date, @be_rewarded)\r\n\tend\r\n\t\r\n    RETURN @@rowcount\t\t\t\r\nEND\r\n",
+    "aion_UpdateLoginEventInfo_other": "-- =============================================\r\n-- Author:\t\t<Author,,Name>\r\n-- Create date: <Create Date,,>\r\n-- Description:\t<Description,,>\r\n-- =============================================\r\nCREATE PROCEDURE [dbo].[aion_UpdateLoginEventInfo_other]\r\n\t@account_id int,\r\n\t@event_id int,\r\n\t@valid_login_count int,\r\n\t@recent_count_update_date datetime,\r\n\t@be_rewarded int\r\nAS\r\nBEGIN\r\n\t-- SET NOCOUNT ON added to prevent extra result sets from\r\n\t-- interfering with SELECT statements.\r\n\tSET NOCOUNT ON;\r\n    -- Insert statements for procedure here\r\n    IF EXISTS (SELECT account_id FROM user_login_event_data_other WHERE account_id=@account_id AND event_id=@event_id)\r\n    begin\r\n\t\tUPDATE user_login_event_data_other\r\n\t\tSET valid_login_count = @valid_login_count, recent_count_update_date = @recent_count_update_date, be_rewarded = @be_rewarded\r\n\t\tWHERE account_id = @account_id AND event_id = @event_id\r\n\tend\r\n\tELSE\r\n\tbegin\r\n\t\tINSERT user_login_event_data_other(account_id, event_id, valid_login_count, recent_count_update_date, be_rewarded)\r\n\t\tVALUES (@account_id, @event_id, @valid_login_count, @recent_count_update_date, @be_rewarded)\r\n\tend\r\n\t\r\n    RETURN @@rowcount\t\t\t\r\nEND\r\n",
+    "aion_UpdateLoginEventInfoRenewal": "-- --------------------------------------------------------------------------------------------------------------------------------------------\r\nCREATE PROCEDURE [dbo].[aion_UpdateLoginEventInfoRenewal]\r\n(\r\n\t@accountId INT,\r\n\t@specialsvrType INT,\r\n\t@eventId INT,\r\n\t@stampCount INT,\r\n\t@recentCountUpdateDate DATETIME\r\n)\r\nAS\r\nBEGIN\t\r\n\tSET NOCOUNT ON\r\n    \r\n    IF EXISTS (\r\n\t\tSELECT \r\n\t\t\taccountId \r\n\t\tFROM \r\n\t\t\tuser_login_event_data_renewal \r\n\t\tWHERE \r\n\t\t\taccountId = @accountId AND specialsvrType = @specialsvrType AND eventId = @eventId\r\n\t)\r\n    BEGIN\r\n\t\tUPDATE \r\n\t\t\tuser_login_event_data_renewal\r\n\t\tSET \r\n\t\t\taccountId = @accountId, \r\n\t\t\tspecialsvrType = @specialsvrType, \r\n\t\t\teventId = @eventId, \r\n\t\t\tstampCount = @stampCount,\r\n\t\t\trecentCountUpdateDate = @recentCountUpdateDate\r\n\t\tWHERE accountId = @accountId AND specialsvrType = @specialsvrType AND eventId = @eventId\r\n\tEND\r\n\tELSE BEGIN\r\n\t\tINSERT user_login_event_data_renewal(accountId,\tspecialsvrType,\teventId, stampCount, recentCountUpdateDate)\r\n\t\tVALUES (@accountId,\t@specialsvrType, @eventId, @stampCount, @recentCountUpdateDate)\r\n\tEND\r\n\t\r\n    RETURN @@rowcount\t\t\t\r\nEND\r\n",
+    "aion_UpdateLuna": "CREATE procedure [dbo].[aion_UpdateLuna]\r\n\t@accId int, \r\n\t@deltaLuna bigint\r\nas\r\nbegin\r\n\tSET NOCOUNT ON;\r\n\tbegin tran\r\n\tdeclare @currentLuna bigint\r\n\tset @currentLuna = 0\r\n\tselect @currentLuna = isnull(luna,0) from account_luna where accountId = @accId\r\n\t\r\n\tif (@currentLuna + @deltaLuna) < 0 \r\n\tbegin\r\n\t\tcommit tran\r\n\t\tSET NOCOUNT OFF;\r\n\t\treturn -2\r\n\tend\r\n\telse\r\n\tbegin\r\n\t\t\r\n\t\tupdate account_luna set luna = luna + @deltaLuna, updatedate = GETDATE() where accountId = @accId\r\n\t\tif @@ROWCOUNT = 0\r\n\t\tbegin\r\n\t\t\tinsert into account_luna (accountId, luna) values (@accId, @deltaLuna)\r\n\t\tend\r\n\t\t\r\n\tend\r\n\tcommit tran\r\n\tSET NOCOUNT OFF;\r\n\treturn 0\r\nend\r\n",
+    "aion_UpdateLunaPrice": "CREATE procedure [dbo].[aion_UpdateLunaPrice]\r\n\t@char_id int,\r\n\t@luna_id int,\r\n\t@use_count int,\r\n\t@reset_type tinyint,\r\n\t@reset_week_value tinyint,\r\n\t@reset_time_value int,\r\n\t@create_time bigint\r\nas\r\nbegin\t\r\n\tbegin tran\r\n\tif @use_count = 0 and @create_time = 0\t--지우는 경우다.\r\n\tbegin\r\n\t\tupdate user_luna_price set use_count = @use_count, create_time = @create_time where char_id = @char_id and luna_id = @luna_id\r\n\tend\r\n\telse\t-- 일반 업데이트인데\r\n\tbegin\r\n\t\tupdate user_luna_price set use_count = @use_count, update_time = GETDATE() where char_id = @char_id and luna_id = @luna_id and create_time != 0 -- 정상적인 상황에 대해서 시도해보고\r\n\t\t\r\n\t\tif @@ROWCOUNT = 0 --실패라면 일단 지워짐 표시된 (create_time이 0인 레코드) 경우를 업데이트 시도.\r\n\t\tbegin\r\n\t\t\tupdate user_luna_price set use_count = @use_count, update_time = GETDATE(), create_time = @create_time where char_id = @char_id and luna_id = @luna_id and create_time = 0\r\n\t\t\tif @@ROWCOUNT = 0 -- 그래도 없으면 인서트.\r\n\t\t\tbegin\r\n\t\t\t\tinsert into user_luna_price (char_id, luna_id, use_count, reset_type, reset_week_value, reset_time_value, create_time)\r\n\t\t\t\tvalues (@char_id, @luna_id, @use_count, @reset_type, @reset_week_value, @reset_time_value, @create_time)\r\n\t\t\tend\r\n\t\tend\t\r\n\tend\r\n\tcommit tran\r\nend\r\n",
+    "aion_UpdateLunaReward": "CREATE procedure [dbo].[aion_UpdateLunaReward] \r\n\t@accountId int,\r\n\t@reward_point int\r\nas \r\nbegin\r\n\tdeclare @currentReward int, @remainReward int\r\n\tdeclare @updateTime datetime\r\n\tset @currentReward = 0\r\n\tset @remainReward = 0\r\n\t\r\n\tdeclare @curdate datetime\r\n\tset @curdate = dateadd(hour, 9, convert(datetime, convert(date, GETDATE())))\r\n\r\n\tif @reward_point < 0\r\n\t\treturn -1\r\n\t\t\r\n\tbegin tran\t\r\n\t\t\t\r\n\tselect @currentReward = today_reward, @remainReward = remain_reward, @updateTime = updatedate from account_luna_reward where accountId = @accountId\r\n\t\t\t\r\n\tif @@ROWCOUNT = 0 \r\n\t\tbegin \t\t\t\r\n\t\t\tset @currentReward = @reward_point\r\n\t\t\tset @remainReward = @reward_point\r\n\t\t\tinsert into account_luna_reward (accountId, today_reward, remain_reward) values (@accountid, @currentReward, @remainReward)\r\n\t\tend\r\n\telse\t\r\n\t\tbegin\r\n\t\t\tif getdate() > @curdate and  @updateTime <= @curdate\t--오늘 데이터가 유효한 경우 현재값에 더한다. 아니면 위에서 받은 값으로 덮어쓴다.\r\n\t\t\tbegin \r\n\t\t\t\tset @currentReward = @reward_point\r\n\t\t\t\tset @remainReward = @reward_point\t\t\t\t\r\n\t\t\tend\r\n\t\t\telse\r\n\t\t\tbegin\r\n\t\t\t\tset @currentReward = @currentReward + @reward_point\r\n\t\t\t\tset @remainReward = @remainReward\r\n\t\t\tend\r\n\t\t\tupdate account_luna_reward set today_reward = @currentReward, remain_reward = @remainReward, updatedate = GETDATE() where accountId = @accountId \r\n\t\tend\t\t\r\n\tcommit tran\t\r\n\treturn 0\r\nend\r\n",
+    "aion_UpdatePlayTimeForPoll": "CREATE PROCEDURE [dbo].[aion_UpdatePlayTimeForPoll]\r\n\t@poll_id\t\tINT,\r\n\t@account_id\t\tINT,\r\n\t@play_time\t\tBIGINT\r\n\t\r\nAS\r\nBEGIN\r\n\tSET NOCOUNT ON;\r\n\r\n\tDECLARE @current_playtime BIGINT\r\n\tSET @current_playtime = 0\r\n\r\n\tBEGIN TRAN\r\n\r\n\tSELECT @current_playtime = previous_playtime\r\n\tFROM account_playtime_polls (nolock)\r\n\tWHERE poll_id = @poll_id AND account_id = @account_id\r\n\r\n\tIF @@ROWCOUNT = 0\r\n\t\tBEGIN\r\n\t\t\tINSERT INTO account_playtime_polls (account_id, poll_id, previous_playtime)\r\n\t\t\tVALUES (@account_id, @poll_id, @play_time)\r\n\t\tEND\r\n\tELSE\r\n\t\tBEGIN\r\n\t\t\tUPDATE account_playtime_polls\r\n\t\t\tSET previous_playtime += @play_time\r\n\t\t\tWHERE poll_id = @poll_id AND account_id = @account_id\r\n\t\tEND\r\n\tCOMMIT TRAN\r\n\r\n\tSELECT ISNULL(previous_playtime, 0) as previous_playtime\r\n\tFROM account_playtime_polls (nolock)\r\n\tWHERE poll_id = @poll_id AND account_id = @account_id\r\nEND\r\n",
+    "aion_UpdatePlayTimesForPolls": "CREATE procedure [dbo].[aion_UpdatePlayTimesForPolls]\r\n\t@pollIds\tNVARCHAR(MAX),\r\n\t@playTimes\tNVARCHAR(MAX),\r\n\t@account_id\tINT\r\nas\r\nBEGIN\r\n\tSET NOCOUNT ON;\r\n\tDECLARE @S_VAL NVARCHAR(MAX)\r\n    DECLARE @S_VAL_TIME NVARCHAR(MAX)\r\n    DECLARE @S_SPLIT_CHAR NVARCHAR(1)\r\n    DECLARE @oPos INT, @nPos INT, @oPos_t INT, @nPos_t INT, @i INT\r\n    DECLARE @tempVar NVARCHAR(4000), @tempVar_t NVARCHAR(4000)\r\n    DECLARE @tempPollId INT\r\n    DECLARE @tempPlayTime BIGINT\r\n\r\n    SET @S_VAL = @pollIds\r\n    SET @S_VAL_TIME = @playTimes\r\n    SET @S_SPLIT_CHAR = N','\r\n    SET @oPos = 1\r\n    SET @oPos_t = 1\r\n    SET @nPos = 1\r\n    SET @nPos_t = 1\r\n\r\n    DECLARE @PollIDTimeList TABLE\r\n    (\r\n            poll_id INT,\r\n            PlayTime BIGINT \r\n    )\r\n\r\n    WHILE(@nPos > 0 AND @nPos_t > 0)\r\n\t\tBEGIN\r\n\t\t\tSET @nPos = CHARINDEX(@S_SPLIT_CHAR, @S_VAL, @oPos)\r\n\t\t\tSET @nPos_t = CHARINDEX(@S_SPLIT_CHAR, @S_VAL_TIME, @oPos_t)\r\n               \r\n\t\t\tIF @nPos = 0\r\n\t\t\t\tBEGIN\r\n\t\t\t\t\t\tSET @tempVar = RIGHT(@S_VAL, LEN(@S_VAL) - @oPos + 1)\r\n\t\t\t\tEND\r\n\t\t\tELSE\r\n\t\t\t\tBEGIN\r\n\t\t\t\t\t\tSET @tempVar = SUBSTRING(@S_VAL, @oPos, @nPos - @oPos)\r\n\t\t\t\tEND\r\n\r\n\t\t\tIF @nPos_t = 0\r\n\t\t\t\tBEGIN\r\n\t\t\t\t\t\tSET @tempVar_t = RIGHT(@S_VAL_TIME, LEN(@S_VAL_TIME) - @oPos_t + 1)\r\n\t\t\t\tEND\r\n\t\t\tELSE\r\n\t\t\t\tBEGIN\r\n\t\t\t\t\t\tSET @tempVar_t = SUBSTRING(@S_VAL_TIME, @oPos_t, @nPos_t - @oPos_t)\r\n\t\t\t\tEND\r\n\r\n\t\t\tIF LEN(@tempVar) > 0 AND LEN(@tempVar_t) > 0\r\n\t\t\t\tBEGIN\r\n\t\t\t\t\t\tSET @tempPollId = CONVERT(INT, @tempVar)\r\n\t\t\t\t\t\tSET @tempPlayTime = CONVERT(INT, @tempVar_t)\r\n\r\n\t\t\t\t\t\tINSERT INTO @PollIDTimeList VALUES (@tempPollId, @tempPlayTime)                 \r\n\t\t\t\tEND\r\n\r\n\t\t\tSET @oPos = @nPos + 1\r\n\t\t\tSET @oPos_t = @nPos_t + 1\r\n\t\tEND\r\n\r\n\tIF @nPos = 0 AND @nPos_t = 0\r\n\t\tBEGIN\r\n\t\t\tMERGE account_playtime_polls AS app\r\n\t\t\tUSING @PollIDTimeList AS pitl\r\n\t\t\t\t\tON (app.account_id = @account_id AND app.poll_id = pitl.poll_id)\r\n\t\t\tWHEN MATCHED THEN\r\n\t\t\t\t\tUPDATE SET app.previous_playtime = app.previous_playtime + pitl.PlayTime\r\n\t\t\tWHEN NOT MATCHED THEN\r\n\t\t\t\t\tINSERT VALUES (@account_id, pitl.poll_id, pitl.PlayTime);\r\n\t\t\tRETURN 0\r\n\t\tEND\r\n\tELSE\r\n\t\tRETURN -1\r\n\r\nEND\r\n",
+    "ap_getservers": "CREATE PROCEDURE [dbo].[ap_getservers]    \r\n   (    \r\n       @server_id INT=1\r\n       --@datasource INT \r\n       --SELECT * FROM aion_serverlist\r\n    )    \r\n    AS    \r\nSELECT * FROM aion_myserver\r\n",
+    "GM_AccountCacheDA_SrchHiddenFatigueList": "CREATE PROC [dbo].[GM_AccountCacheDA_SrchHiddenFatigueList]\r\n\t@world_id\t\t\tint,\r\n\t@last_login_date\tvarchar(24)\r\nAS\r\n\tset nocount on\r\n\tset transaction isolation level read uncommitted\r\n\r\n\tSELECT\ta.account_id, hidden_fatigue_point, hidden_fatigue_updatetime, hidden_fatigue_npckill, u.last_login_time, u.char_id, u.server_id\r\n\tFROM\taccount_data a (nolock)\r\n\tJOIN\r\n\t(\r\n\t\tSELECT\taccount_id, char_id, last_login_time, server_id, ROW_NUMBER() over (partition by account_id order by last_login_time desc) as LOGIN_TIME_ROWNUM\r\n\t\tFROM\tglobal_user_data (nolock)\r\n\t\tWHERE\tserver_id = @world_id\r\n\t\tAND\t\tlast_login_time >= CONVERT(datetime, @last_login_date)\r\n\t) u ON a.account_id = u.account_id AND u.LOGIN_TIME_ROWNUM = 1\r\n\tORDER BY account_id DESC\r\n",
+    "GM_AccountCacheDA_SrchHiddenFatigueListForExcel": "CREATE PROC [dbo].[GM_AccountCacheDA_SrchHiddenFatigueListForExcel]\r\n\t@world_id\t\t\tint,\r\n\t@last_login_date\tvarchar(24)\r\nAS\r\n\tset nocount on\r\n\tset transaction isolation level read uncommitted\r\n\r\n\tSELECT\ta.account_id, hidden_fatigue_point, hidden_fatigue_updatetime, hidden_fatigue_npckill, u.last_login_time, u.char_id, u.server_id\r\n\tFROM\taccount_data a (nolock)\r\n\tJOIN\r\n\t(\r\n\t\tSELECT\taccount_id, char_id, last_login_time, server_id, ROW_NUMBER() over (partition by account_id order by last_login_time desc) as LOGIN_TIME_ROWNUM\r\n\t\tFROM\tglobal_user_data (nolock)\r\n\t\tWHERE\tserver_id = @world_id\r\n\t\tAND\t\tlast_login_time >= CONVERT(datetime, @last_login_date)\r\n\t) u ON a.account_id = u.account_id AND u.LOGIN_TIME_ROWNUM = 1\r\n\tORDER BY account_id DESC\r\n",
+    "GM_AccountDataDA_UpdateHiddenFatiguePoint": "CREATE proc [dbo].[GM_AccountDataDA_UpdateHiddenFatiguePoint]\r\n\t@account_id\t\t\t\tint\r\n\t, @hidden_fatigue_point\tint\r\n\t, @hidden_fatigue_npckill\tint\r\n\t, @hidden_fatigue_updatetime\tint\r\nAS\r\n\r\n\tUPDATE\taccount_data\r\n\tSET\t\thidden_fatigue_point = @hidden_fatigue_point\r\n\t\t\t, hidden_fatigue_npckill = @hidden_fatigue_npckill\r\n\t\t\t, hidden_fatigue_updatetime = @hidden_fatigue_updatetime\r\n\tWHERE\taccount_id = @account_id\r\n",
+    "GM_AccountPackDA_SrchBoardBM": "CREATE proc [dbo].[GM_AccountPackDA_SrchBoardBM]\r\n\t\t\t@account_id\tint\r\nAS\r\nBEGIN\r\n\t\t\tset nocount on\r\n\t\t\tset transaction isolation level read uncommitted\r\n\t\t\t\r\n\t\t\tselect game_id, current_pos, visited_pos, last_freecharge_time, last_reset_time, free_dice_remain, paid_dice_remain, paid_reset_remain\r\n\t\t\tfrom user_board_bm (nolock)\r\n\t\t\twhere account_id=@account_id\r\n\r\n\t\t\tset nocount off\r\nEND\r\n",
+    "GM_AccountPackDA_SrchHiddenFatigue": "CREATE proc [dbo].[GM_AccountPackDA_SrchHiddenFatigue]\r\n\t\t\t@account_id\tint\r\n\t\tas\r\n\t\t\tset nocount on\r\n\t\t\tset transaction isolation level read uncommitted\r\n\t\t\t\r\n\t\t\tselect hidden_fatigue_point, hidden_fatigue_updatetime, hidden_fatigue_npckill\r\n\t\t\tfrom account_data (nolock)\r\n\t\t\twhere account_id=@account_id\r\n\r\n\t\t\tset nocount off\r\n",
+    "GM_AccountPackDA_SrchPackType": "create proc [dbo].[GM_AccountPackDA_SrchPackType]\r\n\t\t\t@account_id\tint\t\r\n\t\tas\r\n\t\t\tset nocount on\r\n\t\t\tset transaction isolation level read uncommitted\t\t\t\r\n\t\t\t\r\n\t\t\tselect pack_type, expire_date from account_pack where account_id=@account_id\r\n\r\n\t\t\tset nocount off\r\n",
+    "GM_AccountPackDA_SrchTrialAccount": "create proc [dbo].[GM_AccountPackDA_SrchTrialAccount]\r\n\t\t\t@account_id\tint\r\n\t\tas\r\n\t\t\tset nocount on\r\n\t\t\tset transaction isolation level read uncommitted\t\t\t\r\n\t\t\t\r\n\t\t\tselect update_time, reset_time, sell_gold_sum, trade_gold_sum, decompose_sum, gather_sum, extract_gather_sum\r\n\t\t\tfrom trial_account_data \r\n\t\t\twhere account_id=@account_id\r\n\r\n\t\t\tset nocount off\r\n",
+    "GM_GlobalUserDataDA_UpdateDeleteDate": "CREATE PROC [dbo].[GM_GlobalUserDataDA_UpdateDeleteDate]\r\n\t@delete_date\t\t\tint,\r\n\t@delete_complete_date\tint,\r\n\t@server_id\tint,\r\n\t@char_id\tint\r\nAS\r\n\tUPDATE\tglobal_user_data\r\n\tSET\t\tdelete_date = @delete_date\r\n\t\t\t, delete_completed_date = @delete_complete_date\r\n\tWHERE\tserver_id = @server_id\r\n\tAND\t\tchar_id = @char_id\r\n",
+    "GM_JumpingCharDA_ChangeAllSettingsToDeactivate": "CREATE proc [dbo].[GM_JumpingCharDA_ChangeAllSettingsToDeactivate]\r\n\t@is_special_server\ttinyint\r\nAS\r\nBEGIN\r\n\tUPDATE\tjumping_character_config\r\n\tSET\t\tis_deleted = 1\r\n\tWHERE\tis_special_server = @is_special_server\r\nEND\r\n",
+    "GM_JumpingCharDA_Srch": "CREATE PROC [dbo].[GM_JumpingCharDA_Srch]\r\n\t@is_special_server\ttinyint\r\nAS\r\nBEGIN\r\n\tset nocount on\r\n\tset transaction isolation level read uncommitted\r\n\r\n\tSELECT\tserver_id, is_special_server, start_date, end_date, max_creation_count, required_char_level, is_deleted, login_id, login_nm, reg_date\r\n\tFROM\tjumping_character_config (nolock)\r\n\tWHERE\tis_special_server = @is_special_server\r\n\tORDER BY server_id, reg_date DESC\r\nEND\r\n",
+    "GM_JumpingCharDA_UpdateCheckedServerSetting": "CREATE PROC [dbo].[GM_JumpingCharDA_UpdateCheckedServerSetting]\r\n\t\t@server_id\t\t\t\tint,\r\n\t\t@is_special_server\t\ttinyint,\r\n\t\t@start_date\t\t\t\tdatetime,\r\n\t\t@end_date\t\t\t\tdatetime,\r\n\t\t@max_creation_count\t\tint,\r\n\t\t@required_char_level\tint,\r\n\t\t@is_deleted\t\t\t\ttinyint,\r\n\t\t@login_id\t\t\t\tnvarchar(30),\r\n\t\t@login_nm\t\t\t\tnvarchar(30)\r\nAS\r\nBEGIN\r\n\tUPDATE\tjumping_character_config\r\n\tSET\t\tstart_date = @start_date,\r\n\t\t\tend_date = @end_date,\r\n\t\t\tmax_creation_count = @max_creation_count,\r\n\t\t\trequired_char_level = @required_char_level,\r\n\t\t\tis_deleted = @is_deleted,\r\n\t\t\tlogin_id = @login_id,\r\n\t\t\tlogin_nm = @login_nm,\r\n\t\t\treg_date = GETDATE()\r\n\tWHERE\tserver_id = @server_id\r\n\tIF (@@ROWCOUNT < 1)\r\n\tBEGIN\r\n\t\tINSERT INTO jumping_character_config (server_id, is_special_server, start_date, end_date, max_creation_count, required_char_level, is_deleted, login_id, login_nm, reg_date)\r\n\t\tVALUES (@server_id, @is_special_server, @start_date, @end_date, @max_creation_count, @required_char_level, @is_deleted, @login_id, @login_nm, GETDATE())\r\n\tEND\r\nEND\r\n",
+    "GM_LoginEventDA_Srch": "CREATE proc [dbo].[GM_LoginEventDA_Srch]\r\n\t@account_id\tint\r\nas\r\n\tSELECT\tid, account_id, event_id, stamp_count, recent_count_update_date, recent_anniversity_reward_time\r\n\tFROM\tuser_login_event_data (nolock)\r\n\tWHERE\taccount_id = @account_id\r\n\tORDER BY event_id desc, id desc\r\n",
+    "GM_LoginEventDA_SrchDaily": "CREATE proc [dbo].[GM_LoginEventDA_SrchDaily]\r\n\t@account_id\tint\r\nas\r\n\tset nocount on\r\n\tset transaction isolation level read uncommitted\r\n\t\r\n\tSELECT\tid, account_id, event_id, valid_login_count, recent_count_update_date, be_rewarded\r\n\tFROM\tuser_login_event_data_daily (nolock)\r\n\tWHERE\taccount_id = @account_id\r\n\tORDER BY event_id desc, id desc\r\n",
+    "GM_LoginEventDA_SrchDailyAndOther": "CREATE proc [dbo].[GM_LoginEventDA_SrchDailyAndOther]\r\n\t@account_id\tint\r\nas\r\n\tset nocount on\r\n\tset transaction isolation level read uncommitted\r\n\t\r\n\tSELECT\tid, account_id, event_id, valid_login_count, recent_count_update_date, be_rewarded\r\n\tFROM\tuser_login_event_data_daily (nolock)\r\n\tWHERE\taccount_id = @account_id\r\n\tUNION\r\n\tSELECT\tid, account_id, event_id, valid_login_count, recent_count_update_date, be_rewarded\r\n\tFROM\tuser_login_event_data_other (nolock)\r\n\tWHERE\taccount_id = @account_id\r\n\tORDER BY event_id desc, id desc\r\n",
+    "GM_LoginEventDA_SrchOther": "CREATE proc [dbo].[GM_LoginEventDA_SrchOther]\r\n\t@account_id\tint\r\nas\r\n\tset nocount on\r\n\tset transaction isolation level read uncommitted\r\n\t\r\n\tSELECT\tid, account_id, event_id, valid_login_count, recent_count_update_date, be_rewarded\r\n\tFROM\tuser_login_event_data_other (nolock)\r\n\tWHERE\taccount_id = @account_id\r\n\tORDER BY event_id desc, id desc\r\n",
+    "GM_LunaInfoListDA_DecreaseLunaAmount": "CREATE PROC [dbo].[GM_LunaInfoListDA_DecreaseLunaAmount] \r\n\t@accountId int,\r\n\t@decreaseLunaAmount bigint\r\nAS\r\n\r\nBEGIN\r\n\tIF @decreaseLunaAmount > 0\r\n\t\tBEGIN\r\n\t\t\tUPDATE account_luna \r\n\t\t\tSET luna = luna - @decreaseLunaAmount, updatedate = GETDATE() \r\n\t\t\tWHERE accountId = @accountId AND luna >= @decreaseLunaAmount\r\n\t\tEND\r\nEND\r\n",
+    "GM_LunaInfoListDA_SrchLunaAmount": "CREATE PROC [dbo].[GM_LunaInfoListDA_SrchLunaAmount]\r\n\t@accountId\tint\r\nAS\r\nBEGIN\r\n\tset nocount on\r\n\tset transaction isolation level read uncommitted\r\n\r\n\tSELECT\tluna, createdate, updatedate\r\n\tFROM\taccount_luna (nolock)\r\n\tWHERE\taccountId = @accountId\r\nEND\r\n",
+    "GM_LunaInfoListDA_SrchLunaReward": "CREATE PROC [dbo].[GM_LunaInfoListDA_SrchLunaReward]\r\n\t@accountId\tint\r\nAS\r\nBEGIN\r\n\tset nocount on\r\n\tset transaction isolation level read uncommitted\r\n\r\n\tSELECT\ttoday_reward, remain_reward, key_count, createdate, updatedate\r\n\tFROM\taccount_luna_reward (nolock)\r\n\tWHERE\taccountId = @accountId\r\nEND\r\n",
+    "GM_MonsterCoreDA_DeleteMonsterCoreByAccountId": "CREATE PROCEDURE [dbo].[GM_MonsterCoreDA_DeleteMonsterCoreByAccountId]\r\n\t@account_id int,\r\n\t@monster_core_id int\r\nAS\r\nBEGIN\r\n\tSET NOCOUNT ON;\r\n\tDELETE FROM [user_monster_core]\r\n      WHERE account_id = @account_id and core_id = @monster_core_id\r\nEND\r\n",
+    "GM_MonsterCoreDA_InsertMonsterCoreByAccountId": "--6.2 몬스터 코어\r\nCREATE PROCEDURE [dbo].[GM_MonsterCoreDA_InsertMonsterCoreByAccountId]\r\n\t@account_id int,\r\n\t@monster_core_id int,\r\n\t@grade int,\r\n\t@count int,\r\n\t@total_added int,\r\n\t@total_used int\r\nAS\r\nBEGIN\r\n\tINSERT INTO [dbo].[user_monster_core]\r\n           ([account_id],[core_id],[core_grade],[core_count],[total_added],[total_used])\r\n\tVALUES (@account_id,@monster_core_id,@grade, @count, @total_added, @total_used)\r\nEND\r\n",
+    "GM_MonsterCoreDA_SrchMonsterCoreByAccountId": "CREATE PROCEDURE [dbo].[GM_MonsterCoreDA_SrchMonsterCoreByAccountId]\r\n\t@account_id int\r\nAS\r\nBEGIN\r\n\tSET NOCOUNT ON;\r\n\tSELECT id, account_id, core_id, core_grade, core_count \r\n\tFROM [user_monster_core] (nolock) where account_id = @account_id\r\nEND\r\n",
+    "GM_MonsterCoreDA_UpdateMonsterCoreByAccountId": "--6.2 몬스터 코어\r\nCREATE PROCEDURE [dbo].[GM_MonsterCoreDA_UpdateMonsterCoreByAccountId]\r\n\t@account_id int,\r\n\t@monster_core_id int,\r\n\t@grade int,\r\n\t@count int\r\nAS\r\nBEGIN\r\n\tupdate user_monster_core\r\n\tset core_grade = @grade , core_count = @count\r\n\twhere account_id = @account_id and core_id = @monster_core_id\r\nEND\r\n",
+    "GM_TransformDA_DeleteTransformByAccountId": "CREATE PROCEDURE [dbo].[GM_TransformDA_DeleteTransformByAccountId]\r\n\t@account_id int,\r\n\t@transform_id int\r\nAS\r\nBEGIN\r\n\tdelete from user_transform where account_id = @account_id and name_id = @transform_id\r\nEND\r\n",
+    "GM_TransformDA_InsertTransformByAccountId": "CREATE PROCEDURE [dbo].[GM_TransformDA_InsertTransformByAccountId]\r\n\t@account_id int,\r\n\t@transform_id int,\r\n\t@count int\r\nAS\r\nBEGIN\r\n\tINSERT INTO [dbo].[user_transform]\r\n\t\t\t([account_id],[name_id],[count],[update_time])\r\n\tVALUES (@account_id,@transform_id,@count,GetDate())\r\nEND\r\n",
+    "GM_TransformDA_SrchTransformByAccountId": "CREATE PROCEDURE [dbo].[GM_TransformDA_SrchTransformByAccountId]\r\n\t@account_id int\r\nAS\r\nBEGIN\r\n\tSET NOCOUNT ON;\r\n\tSELECT name_id, count, update_time \r\n\tFROM [user_transform] (nolock) where account_id = @account_id\r\nEND\r\n",
+    "GM_TransformDA_UpdateTransformByAccountId": "CREATE PROCEDURE [dbo].[GM_TransformDA_UpdateTransformByAccountId]\r\n\t@account_id int,\r\n\t@transform_id int,\r\n\t@count int\r\nAS\r\nBEGIN\r\n\tUPDATE [dbo].[user_transform]\r\n\tSET [count] = @count, [update_time] = GetDate()\r\n\tWHERE account_id=@account_id and name_id = @transform_id\r\nEND\r\n",
+    "GM_UserRankingDA_SrchUserListByRankId": "CREATE PROC [dbo].[GM_UserRankingDA_SrchUserListByRankId]\r\n\t@rank_id int, \r\n\t@is_special_server int\r\nAS\r\nBEGIN\r\n\tSET NOCOUNT ON;\r\n\r\n\tSELECT\tTOP 1 SpecialServerType, RankId, SeasonNumber, convert(nvarchar,LastUpdateTime,20) LastUpdateTime, SeasonStatus,TableDump, TableVersion\r\n\tFROM\taion_ranking_info (nolock) where RankId = @rank_id and SpecialServerType = @is_special_server order by Id Desc \r\nEND\r\n"
+  }
+}

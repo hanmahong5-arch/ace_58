@@ -1,0 +1,28 @@
+# Game rates — DEVELOPMENT ENVIRONMENT
+# Accelerated rates for fast testing. Never deploy these to production.
+
+[exp]
+solo = 10.0       # 10x (prod: 1.0) — reach max level fast for testing
+group = 10.0
+quest = 10.0
+crafting = 10.0
+
+[drop]
+normal = 10.0     # 10x (prod: 2.0)
+boss = 10.0
+event = 10.0
+
+[kinah]
+mob = 10.0        # 10x (prod: 1.0) — test economy quickly
+quest = 10.0
+sell = 1.0
+
+[pvp]
+ap_gain = 5.0
+ap_loss = 0.1     # Minimal loss for testing
+glory_gain = 5.0
+
+[misc]
+chat_cooldown_ms = 0    # No cooldown for dev testing (prod: 1000)
+trade_level_req = 1     # Allow trade at level 1 for testing (prod: 10)
+legion_create_cost = 1  # 1 kinah to test legions (prod: 100000)

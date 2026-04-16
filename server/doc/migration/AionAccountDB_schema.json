@@ -1,0 +1,1290 @@
+{
+  "database": "AionAccountDB",
+  "tables": {
+    "AccountAuth": {
+      "columns": [
+        {
+          "COLUMN_NAME": "gameAccountNo",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((1))"
+        },
+        {
+          "COLUMN_NAME": "gameAccount",
+          "DATA_TYPE": "varchar",
+          "CHARACTER_MAXIMUM_LENGTH": 16,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "password",
+          "DATA_TYPE": "binary",
+          "CHARACTER_MAXIMUM_LENGTH": 16,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "YES",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "quiz1",
+          "DATA_TYPE": "nvarchar",
+          "CHARACTER_MAXIMUM_LENGTH": 255,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "YES",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "quiz2",
+          "DATA_TYPE": "nvarchar",
+          "CHARACTER_MAXIMUM_LENGTH": 255,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "YES",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "phoneNumber",
+          "DATA_TYPE": "bigint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 19,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "cryptographTypeCode",
+          "DATA_TYPE": "smallint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 5,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((1))"
+        },
+        {
+          "COLUMN_NAME": "legalBirthday",
+          "DATA_TYPE": "smalldatetime",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "genderCode",
+          "DATA_TYPE": "smallint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 5,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "gameAccountTypeCode",
+          "DATA_TYPE": "smallint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 5,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((1))"
+        },
+        {
+          "COLUMN_NAME": "gameAccountGradeCode",
+          "DATA_TYPE": "smallint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 5,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((1))"
+        },
+        {
+          "COLUMN_NAME": "accountStatusCode",
+          "DATA_TYPE": "smallint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 5,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((1))"
+        },
+        {
+          "COLUMN_NAME": "authLimitTypeBitSet",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((1))"
+        },
+        {
+          "COLUMN_NAME": "securityServiceFlag",
+          "DATA_TYPE": "bit",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "restrictFlag",
+          "DATA_TYPE": "bit",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "noticeFlag",
+          "DATA_TYPE": "bit",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "hardwareId",
+          "DATA_TYPE": "varchar",
+          "CHARACTER_MAXIMUM_LENGTH": 16,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "YES",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "email",
+          "DATA_TYPE": "varchar",
+          "CHARACTER_MAXIMUM_LENGTH": 50,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "('')"
+        }
+      ],
+      "row_count": 29
+    },
+    "AccountETC": {
+      "columns": [
+        {
+          "COLUMN_NAME": "gameAccountNo",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "banServerBitSet",
+          "DATA_TYPE": "binary",
+          "CHARACTER_MAXIMUM_LENGTH": 16,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "accountCustomizeBitSet",
+          "DATA_TYPE": "varbinary",
+          "CHARACTER_MAXIMUM_LENGTH": 128,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "YES",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "lastLoginGameServerNo",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "YES",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "lastLoginDate",
+          "DATA_TYPE": "datetime",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "YES",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "lastLogoutDate",
+          "DATA_TYPE": "datetime",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "YES",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "last_ip",
+          "DATA_TYPE": "varchar",
+          "CHARACTER_MAXIMUM_LENGTH": 15,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "YES",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "last_mac",
+          "DATA_TYPE": "varchar",
+          "CHARACTER_MAXIMUM_LENGTH": 20,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "YES",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "hardware",
+          "DATA_TYPE": "varchar",
+          "CHARACTER_MAXIMUM_LENGTH": 16,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "YES",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "accountCreateDate",
+          "DATA_TYPE": "datetime",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "(getdate())"
+        },
+        {
+          "COLUMN_NAME": "packageVersionInfo",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "YES",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "promoters",
+          "DATA_TYPE": "varchar",
+          "CHARACTER_MAXIMUM_LENGTH": 14,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "YES",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "note_ip",
+          "DATA_TYPE": "varchar",
+          "CHARACTER_MAXIMUM_LENGTH": 15,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "YES",
+          "COLUMN_DEFAULT": null
+        }
+      ],
+      "row_count": 29
+    },
+    "AccountGameCharacter": {
+      "columns": [
+        {
+          "COLUMN_NAME": "gameAccountNo",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "gameServerNo",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "characterNo",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "characterLevel",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "modifyDate",
+          "DATA_TYPE": "datetime",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        }
+      ],
+      "row_count": 0
+    },
+    "AccountGameSlot": {
+      "columns": [
+        {
+          "COLUMN_NAME": "gameAccountNo",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "gameSlotAvailStartDate",
+          "DATA_TYPE": "datetime",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "gameSlotCustomizeBitSet",
+          "DATA_TYPE": "varbinary",
+          "CHARACTER_MAXIMUM_LENGTH": 8,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        }
+      ],
+      "row_count": 27
+    },
+    "AccountHistory": {
+      "columns": [
+        {
+          "COLUMN_NAME": "gameAccountNo",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "registerDate",
+          "DATA_TYPE": "datetime",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "gameAccountHistoryTypeCode",
+          "DATA_TYPE": "smallint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 5,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "changeValue",
+          "DATA_TYPE": "nvarchar",
+          "CHARACTER_MAXIMUM_LENGTH": 100,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "YES",
+          "COLUMN_DEFAULT": null
+        }
+      ],
+      "row_count": 0
+    },
+    "AccountLink": {
+      "columns": [
+        {
+          "COLUMN_NAME": "gameAccountNo",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "linkTargetNo",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        }
+      ],
+      "row_count": 0
+    },
+    "AccountLoginNotice": {
+      "columns": [
+        {
+          "COLUMN_NAME": "gameAccountNo",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "noticeTypeCode",
+          "DATA_TYPE": "smallint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 5,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "noticeStartDate",
+          "DATA_TYPE": "datetime",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "noticeEndDate",
+          "DATA_TYPE": "datetime",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        }
+      ],
+      "row_count": 0
+    },
+    "AccountNo": {
+      "columns": [
+        {
+          "COLUMN_NAME": "gameAccountNo",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        }
+      ],
+      "row_count": 0
+    },
+    "AccountSecurityService": {
+      "columns": [
+        {
+          "COLUMN_NAME": "gameAccountNo",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "accountSecurityMethodCode",
+          "DATA_TYPE": "smallint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 5,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "accountSecurityStatusCode",
+          "DATA_TYPE": "smallint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 5,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "modifyDate",
+          "DATA_TYPE": "datetime",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        }
+      ],
+      "row_count": 0
+    },
+    "admin_list": {
+      "columns": [
+        {
+          "COLUMN_NAME": "admin_id",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        }
+      ],
+      "row_count": 0
+    },
+    "ConcurrentUserStat": {
+      "columns": [
+        {
+          "COLUMN_NAME": "serverNo",
+          "DATA_TYPE": "smallint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 5,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "serverTypeCode",
+          "DATA_TYPE": "smallint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 5,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "concurrentUserStatTypeCode",
+          "DATA_TYPE": "smallint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 5,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "concurrentUserLimit",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "concurrentUserCount",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "registerDate",
+          "DATA_TYPE": "datetime",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        }
+      ],
+      "row_count": 129298
+    },
+    "Fatigue": {
+      "columns": [
+        {
+          "COLUMN_NAME": "fcid",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "lastLogoutDate",
+          "DATA_TYPE": "datetime",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "playTime",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        },
+        {
+          "COLUMN_NAME": "restTime",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        }
+      ],
+      "row_count": 0
+    },
+    "GameServer": {
+      "columns": [
+        {
+          "COLUMN_NAME": "gameServerNo",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "gameServerName",
+          "DATA_TYPE": "nvarchar",
+          "CHARACTER_MAXIMUM_LENGTH": 50,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "gameServerTypeCode",
+          "DATA_TYPE": "smallint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 5,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "gameServerStatusCode",
+          "DATA_TYPE": "smallint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 5,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "serverAreaCode",
+          "DATA_TYPE": "smallint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 5,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "userAgeLimit",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "privateNetworkIPAddress",
+          "DATA_TYPE": "varchar",
+          "CHARACTER_MAXIMUM_LENGTH": 15,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "publicNetworkIPAddress",
+          "DATA_TYPE": "varchar",
+          "CHARACTER_MAXIMUM_LENGTH": 15,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "portNo",
+          "DATA_TYPE": "smallint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 5,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "paidFlag",
+          "DATA_TYPE": "bit",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "serverCustomizeBitSet",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": "((0))"
+        }
+      ],
+      "row_count": 1
+    },
+    "GameServerChargeGroup": {
+      "columns": [
+        {
+          "COLUMN_NAME": "gameServerNo",
+          "DATA_TYPE": "tinyint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 3,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "gameServerChargeGroupNo",
+          "DATA_TYPE": "smallint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 5,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        }
+      ],
+      "row_count": 0
+    },
+    "IllegalLoginTrace": {
+      "columns": [
+        {
+          "COLUMN_NAME": "gameAccountNo",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "illegalLoginTraceTypeCode",
+          "DATA_TYPE": "smallint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 5,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "IPAddress",
+          "DATA_TYPE": "varchar",
+          "CHARACTER_MAXIMUM_LENGTH": 15,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "registerDate",
+          "DATA_TYPE": "datetime",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        }
+      ],
+      "row_count": 0
+    },
+    "Restriction": {
+      "columns": [
+        {
+          "COLUMN_NAME": "gameRestrictionNo",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "gameAccountNo",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "gameRestrictionReasonCode",
+          "DATA_TYPE": "smallint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 5,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "restrictionStartDate",
+          "DATA_TYPE": "datetime",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "restrictionEndDate",
+          "DATA_TYPE": "datetime",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "restrictionExpireDate",
+          "DATA_TYPE": "datetime",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        }
+      ],
+      "row_count": 0
+    },
+    "SecedeAccount": {
+      "columns": [
+        {
+          "COLUMN_NAME": "secedeApplyNo",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "gameAccountNo",
+          "DATA_TYPE": "int",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 10,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "gameAccount",
+          "DATA_TYPE": "varchar",
+          "CHARACTER_MAXIMUM_LENGTH": 16,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "accountStatusCode",
+          "DATA_TYPE": "smallint",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": 5,
+          "NUMERIC_SCALE": 0,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "accountCreateDate",
+          "DATA_TYPE": "datetime",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "secedeApplyDate",
+          "DATA_TYPE": "datetime",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "NO",
+          "COLUMN_DEFAULT": null
+        },
+        {
+          "COLUMN_NAME": "batchDeleteDate",
+          "DATA_TYPE": "datetime",
+          "CHARACTER_MAXIMUM_LENGTH": null,
+          "NUMERIC_PRECISION": null,
+          "NUMERIC_SCALE": null,
+          "IS_NULLABLE": "YES",
+          "COLUMN_DEFAULT": null
+        }
+      ],
+      "row_count": 0
+    }
+  },
+  "indexes": [
+    {
+      "index_name": "PK_AccountAuth_gameAccountNo",
+      "table_name": "AccountAuth",
+      "column_name": "gameAccountNo",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "UX_AccountAuth_gameAccount",
+      "table_name": "AccountAuth",
+      "column_name": "gameAccount",
+      "is_primary_key": false,
+      "is_unique": true
+    },
+    {
+      "index_name": "PK_AccountETC_gameAccountNo",
+      "table_name": "AccountETC",
+      "column_name": "gameAccountNo",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "IX_AccountGameCharacter_gameAccountNo_characterLevel",
+      "table_name": "AccountGameCharacter",
+      "column_name": "gameAccountNo",
+      "is_primary_key": false,
+      "is_unique": false
+    },
+    {
+      "index_name": "IX_AccountGameCharacter_gameAccountNo_characterLevel",
+      "table_name": "AccountGameCharacter",
+      "column_name": "characterLevel",
+      "is_primary_key": false,
+      "is_unique": false
+    },
+    {
+      "index_name": "PK_AccountGameCharacter",
+      "table_name": "AccountGameCharacter",
+      "column_name": "gameAccountNo",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "PK_AccountGameCharacter",
+      "table_name": "AccountGameCharacter",
+      "column_name": "gameServerNo",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "PK_AccountGameSlot",
+      "table_name": "AccountGameSlot",
+      "column_name": "gameAccountNo",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "PK_AccountHistory",
+      "table_name": "AccountHistory",
+      "column_name": "gameAccountNo",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "PK_AccountHistory",
+      "table_name": "AccountHistory",
+      "column_name": "registerDate",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "PK_AccountLink",
+      "table_name": "AccountLink",
+      "column_name": "gameAccountNo",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "PK_AccountLink",
+      "table_name": "AccountLink",
+      "column_name": "linkTargetNo",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "PK_AccountLoginNotice",
+      "table_name": "AccountLoginNotice",
+      "column_name": "gameAccountNo",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "PK_AccountLoginNotice",
+      "table_name": "AccountLoginNotice",
+      "column_name": "noticeTypeCode",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "PK_AccountSecurityService",
+      "table_name": "AccountSecurityService",
+      "column_name": "gameAccountNo",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "PK_AccountSecurityService",
+      "table_name": "AccountSecurityService",
+      "column_name": "accountSecurityMethodCode",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "PK__admin_li__43AA4141FD32EE1F",
+      "table_name": "admin_list",
+      "column_name": "admin_id",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "PK_ConcurrentUserStat",
+      "table_name": "ConcurrentUserStat",
+      "column_name": "serverNo",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "PK_ConcurrentUserStat",
+      "table_name": "ConcurrentUserStat",
+      "column_name": "concurrentUserStatTypeCode",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "PK_ConcurrentUserStat",
+      "table_name": "ConcurrentUserStat",
+      "column_name": "registerDate",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "PK_Fatigue",
+      "table_name": "Fatigue",
+      "column_name": "fcid",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "PK_GameServer",
+      "table_name": "GameServer",
+      "column_name": "gameServerNo",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "PK_GameServerChargeGroup",
+      "table_name": "GameServerChargeGroup",
+      "column_name": "gameServerNo",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "IX_IllegalLoginTrace_gameAccountNo_registerDate",
+      "table_name": "IllegalLoginTrace",
+      "column_name": "gameAccountNo",
+      "is_primary_key": false,
+      "is_unique": false
+    },
+    {
+      "index_name": "IX_IllegalLoginTrace_gameAccountNo_registerDate",
+      "table_name": "IllegalLoginTrace",
+      "column_name": "registerDate",
+      "is_primary_key": false,
+      "is_unique": false
+    },
+    {
+      "index_name": "idx_Restriction_gameAccountNo_restrictionEndDate",
+      "table_name": "Restriction",
+      "column_name": "gameAccountNo",
+      "is_primary_key": false,
+      "is_unique": false
+    },
+    {
+      "index_name": "idx_Restriction_gameAccountNo_restrictionEndDate",
+      "table_name": "Restriction",
+      "column_name": "restrictionEndDate",
+      "is_primary_key": false,
+      "is_unique": false
+    },
+    {
+      "index_name": "PK_Restriction",
+      "table_name": "Restriction",
+      "column_name": "gameRestrictionNo",
+      "is_primary_key": true,
+      "is_unique": true
+    },
+    {
+      "index_name": "idx_SecedeAccount_gameAccount",
+      "table_name": "SecedeAccount",
+      "column_name": "gameAccount",
+      "is_primary_key": false,
+      "is_unique": false
+    },
+    {
+      "index_name": "idx_SecedeAccount_gameAccountNo",
+      "table_name": "SecedeAccount",
+      "column_name": "gameAccountNo",
+      "is_primary_key": false,
+      "is_unique": false
+    },
+    {
+      "index_name": "PK_SecedeAccount",
+      "table_name": "SecedeAccount",
+      "column_name": "secedeApplyNo",
+      "is_primary_key": true,
+      "is_unique": true
+    }
+  ],
+  "foreign_keys": [
+    {
+      "fk_name": "FK_AccountETC_gameAccountNo",
+      "parent_table": "AccountETC",
+      "parent_column": "gameAccountNo",
+      "ref_table": "AccountAuth",
+      "ref_column": "gameAccountNo"
+    },
+    {
+      "fk_name": "FK_AccountGameCharacter_gameAccountNo",
+      "parent_table": "AccountGameCharacter",
+      "parent_column": "gameAccountNo",
+      "ref_table": "AccountAuth",
+      "ref_column": "gameAccountNo"
+    },
+    {
+      "fk_name": "FK_AccountGameSlot_gameAccountNo",
+      "parent_table": "AccountGameSlot",
+      "parent_column": "gameAccountNo",
+      "ref_table": "AccountAuth",
+      "ref_column": "gameAccountNo"
+    },
+    {
+      "fk_name": "FK_AccountHistory_gameAccountNo",
+      "parent_table": "AccountHistory",
+      "parent_column": "gameAccountNo",
+      "ref_table": "AccountAuth",
+      "ref_column": "gameAccountNo"
+    },
+    {
+      "fk_name": "FK_AccountLink_gameAccountNo",
+      "parent_table": "AccountLink",
+      "parent_column": "gameAccountNo",
+      "ref_table": "AccountAuth",
+      "ref_column": "gameAccountNo"
+    },
+    {
+      "fk_name": "FK_AccountLoginNotice_gameAccountNo",
+      "parent_table": "AccountLoginNotice",
+      "parent_column": "gameAccountNo",
+      "ref_table": "AccountAuth",
+      "ref_column": "gameAccountNo"
+    },
+    {
+      "fk_name": "FK_AccountSecurityService_gameAccountNo",
+      "parent_table": "AccountSecurityService",
+      "parent_column": "gameAccountNo",
+      "ref_table": "AccountAuth",
+      "ref_column": "gameAccountNo"
+    },
+    {
+      "fk_name": "FK_IllegalLoginTrace_gameAccountNo",
+      "parent_table": "IllegalLoginTrace",
+      "parent_column": "gameAccountNo",
+      "ref_table": "AccountAuth",
+      "ref_column": "gameAccountNo"
+    },
+    {
+      "fk_name": "FK_Restriction_gameAccountNo",
+      "parent_table": "Restriction",
+      "parent_column": "gameAccountNo",
+      "ref_table": "AccountAuth",
+      "ref_column": "gameAccountNo"
+    },
+    {
+      "fk_name": "FK_AccountLink_linkTargetNo",
+      "parent_table": "AccountLink",
+      "parent_column": "linkTargetNo",
+      "ref_table": "Fatigue",
+      "ref_column": "fcid"
+    }
+  ],
+  "procedures": {
+    "ap_TEST_ModifyPackageVersionInfo": "/**\r\n*Purpose            : 抛胶飘侩 Stored Procedure - 漂沥 霸烙 拌沥狼 菩虐瘤 滚傈 沥焊甫 诀单捞飘 茄促.\r\n*Record Set         : 荤侩救窃\r\n*Error Code         : 0: success, 1: failure\r\n*History            : 2010-03-30 Surym 弥檬累己\r\n*/\r\n\r\nCREATE       PROCEDURE [dbo].[ap_TEST_ModifyPackageVersionInfo]\r\n@account\t\tVARCHAR(14)\r\n, @version\t\t\tINT \r\nAS\r\n\r\nDECLARE @result INT\r\nSET @result = 0\r\n\r\nUPDATE AccountETC SET packageVersionInfo=@version\r\nFROM AccountAuth AA INNER JOIN AccountETC AE ON (AA.gameAccountNo = AE.gameAccountNo)\r\nWHERE AA.gameAccount=@account\r\n\r\nIF @@ROWCOUNT <> 1\r\nBEGIN\r\n\tSET @result = 1\r\nEND\r\n\r\nRETURN @result\r\n",
+    "pap_CreateAccount": "/**\r\n*Creator\t:   Kim, Minae\r\n*SP Name\t:   dbo.[pap_ALTERAionSndaAccount]\r\n*Purpose\t:   ALTER AionSndaAccount\r\n*E-Mail\t\t:   mingii@ncsoft.net\r\n*Date\t\t:   09/05/2008\r\n*Usage\t\t:\r\n*M.History\t:\t2008.09.10, surym@ncsoft, enable UPDATE query when account exist && password is not same\r\n*\t\t\t\t2008.09.10, surym@ncsoft, apply default accountNo as 0, for checking \r\n*\t\t\t\t2009.03.25, surym@ncsoft, add authLimitTypeBitSet default value as 1\r\n*===============================================================================\r\n*Input Parameter    :   \r\n*\t@gameAccount\r\n*\t\tgameAccount\r\n*\r\n*/\r\n\r\nCREATE PROCEDURE [dbo].[pap_CreateAccount]\r\n\t@gameAccountNo\t\tINT,\r\n\t@gameAccount\t\tVARCHAR (16),\r\n\t@password\t\t\tBINARY (16),\r\n\t@crytographTypeCode\tSMALLINT,\r\n\t@birthday\t\t\tSMALLDATETIME,\r\n\t@genderCode\t\t\tSMALLINT\r\nAS\r\nSET NOCOUNT ON\r\n\r\nDECLARE @originalPassword VARCHAR(16)\r\nDECLARE @ret INT\r\nDECLARE @authLimitTypeBitSet INT\r\nSET @ret  = 0\r\nSET @authLimitTypeBitSet = 1\r\n\r\n\r\n--DECLARE @crytographTypeCode SMALLINT\r\n--DECLARE @birtyday SMALLDATETIME\r\n--DECLARE @genderCode SMALLINT\r\n--SET @crytographTypeCode = 2\r\n--SET @birtyday = GETDATE()\r\n--SET @genderCode = 1\r\n\r\nBEGIN TRAN\r\n\r\nINSERT AccountAuth (gameAccountNo, gameAccount, password, cryptographTypeCode, \r\n\tlegalBirthday, genderCode, authLimitTypeBitSet)\r\nVALUES (@gameAccountNo, @gameAccount, @password, @crytographTypeCode, \r\n\t@birthday, @genderCode, @authLimitTypeBitSet)\r\nIF @@ROWCOUNT = 0\r\nBEGIN\r\n\tSET @ret = 1\r\n\tGOTO FIN\r\nEND\r\n\r\nINSERT INTO AccountETC (gameAccountNo)\r\nVALUES (@gameAccountNo)\r\nIF @@ROWCOUNT = 0\r\nBEGIN\r\n\tSET @ret = 2\r\n\tGOTO FIN\r\nEND\r\n\r\nCOMMIT TRAN\r\nRETURN @ret\r\n\r\nFIN:\r\n\tROLLBACK TRAN\r\n\r\nRETURN @ret\r\n",
+    "pap_GetAccount": "/**\r\n*Creator\t\t\t\t:   Park, Seunghoon\r\n*SP Name\t\t\t\t:   dbo.pap_GetAccount\r\n*Purpose            \t:   Get an account information by an account string to authenticate a user\r\n*E-Mail             \t:   surym@ncsoft.net\r\n*Date               \t:   10/14/2008\r\n*Usage              \t:\r\n*===============================================================================\r\n*Use Only For Portal Auth\r\n*===============================================================================\r\n*Input Parameter\t\t:\r\n*\t@account\r\n*\t\taccount\r\n*\r\n*Output Parameter\t\t:\r\n*\t@uid\r\n*\t\tuid\r\n*\t@password\r\n*\t\tpassword\r\n*\t@passwordFlag\r\n*\t\tpassword status (crypographType).\r\n*\t@statusCode\r\n*\t\tThis values is used to indicate whether an account is dormant.\r\n\r\n*RecordSet\t\t\t\t: 馆券窍瘤臼嚼聪促.\r\n*Process Number\t\t\t:   \r\n*Call\t\t\t\t\t:   \r\n*Modification Memo\t\t:   \r\n*Warning\t\t\t\t:   \r\n*/\r\n\r\nCREATE    PROCEDURE [dbo].[pap_GetAccount]\r\n@account\t\tVARCHAR(14),\r\n@uid\t\t\tINT\t\t\tOUTPUT,\r\n@password\t\tBINARY(16)\tOUTPUT,\r\n@passwordFlag\tTINYINT\t\tOUTPUT,\r\n@birthdate\t\tDATETIME\tOUTPUT,\r\n@sex\t\t\tSMALLINT\tOUTPUT\r\n\r\nAS\r\n\r\nSET\t\t@uid = 0\r\nSET\t\t@password = 0\r\nSET\t\t@passwordFlag = 0\r\nSET\t\t@birthdate = '19700101'\r\nSET\t\t@sex = 0\r\n\r\nSELECT\t@uid = gameAccountNo, @password = password, @passwordFlag = cryptographTypeCode,\r\n\t\t@birthdate = legalBirthday, @sex = genderCode\r\nFROM\tAccountAuth\r\nWHERE\tgameAccount = @account\r\n\r\nIF @uid = 0\r\n\tRETURN 2\r\n\r\nRETURN 0\r\n",
+    "pap_GetAccountByUserId": "/**\r\n*Creator\t\t\t\t:   Park, Seunghoon\r\n*SP Name\t\t\t\t:   dbo.pap_GetAccountByUserId\r\n*Purpose            \t:   Get an account information from (each) game account db by an account user id\r\n*E-Mail             \t:   surym@ncsoft.net\r\n*Date               \t:   09/10/2008\r\n*Usage              \t:\r\n*===============================================================================\r\nUse Only For Portal Auth\r\n*===============================================================================\r\n*Input Parameter    :   \r\n*\t@uid\r\n*\t\tuid\r\n*\r\n*Output Parameter   :   \r\n*\t@account\r\n*\t\taccount\r\n*\t@password\r\n*\t\tpassword\r\n*\t@passwordFlag\r\n*\t\tpassword status. It's used only for lineage\r\n*\t@statusCode\r\n*\t\tthis code is used to indicate whether an account is dormant\r\n\r\n*RecordSet          \t\t: 馆券窍瘤臼嚼聪促.\r\n*Process Number     \t\t:   \r\n*Call               \t\t:   \r\n*Modification Memo  \t\t:\tsurym, 2008.10.06, apply renamed schema (GameAccount --> AccountAuth)\r\n\t\t\t\t\t\t\t:\tsurym, 2008.10.14, add @ret result code\r\n\t\t\t\t\t\t\t:\tsurym, 2009.09.28, add OUTPUT when call pap_GetAccount SP\r\n*Warning            \t\t:   \r\n*/\r\n\r\n\r\nCREATE\t\t\tPROCEDURE [dbo].[pap_GetAccountByUserId]\r\n\t@uid\t\t\tINT,\r\n\t@account\t\tVARCHAR(14) OUTPUT,\r\n\t@password\t\tBINARY(16)\tOUTPUT,\r\n\t@passwordFlag\tSMALLINT\tOUTPUT,\r\n\t@birthdate\t\tDATETIME\tOUTPUT,\r\n\t@sex\t\t\tSMALLINT\tOUTPUT\r\nAS\r\n\r\nDECLARE @ret\t\tINT\r\n\r\nSET\t\t@account = ''\r\n\r\nSELECT\t@account = gameAccount\r\nFROM\tAccountAuth WITH (NOLOCK)\r\nWHERE\tgameAccountNo = @uid\r\n\r\nIF @account = ''\r\n\tRETURN 2\r\n\r\nEXEC @ret = dbo.pap_GetAccount @account, @uid OUTPUT, @password OUTPUT, @passwordFlag OUTPUT, @birthdate OUTPUT, @sex OUTPUT\r\n\r\nRETURN @ret\r\n",
+    "pap_GetGameInfo": "/**\r\n*Creator\t\t:   Ryu, Jaewon\r\n*SP Name\t:   dbo.pap_GetGameInfo\r\n*Purpose            \t:   Get an account information associated with the game\r\n*E-Mail             \t:   veni@ncsoft.net\r\n*Date               \t:   04/10/2007\r\n*Usage              \t:\r\n*===============================================================================\r\nUse Only For Portal Auth\r\n*===============================================================================\r\n*Input Parameter    :   \r\n*\t@uid\r\n*\t\tuid\r\n*Output Parameter   :   \r\n*\t@account\r\n*\t@statusFlag\r\n*\t@activeFlag\r\n*\t@warnStat\r\n*\t@otpStat\r\n*\t@macStat\r\n*\t@blockFlag\r\n*\t@blockFlag2\r\n*\t@loginFlag\r\n\r\n*RecordSet          \t: 馆券窍瘤 臼嚼聪促.\r\n*Process Number     \t:   \r\n*Call               \t:   \r\n*Modification Memo  \t:\t2008.10.20, surym, add default value and isnull checker\r\n\t\t\t\t\t\t\t2009.06.17, pkh,   modify check process about restriction and security service\r\n\t\t\t\t\t\t\t2009.06.19, dww, add argument of fn_ap_GetPcRegisterFlag -> 2009.07.13, surym, merge (just leave modification memo)\r\n\t\t\t\t\t\t\t2009.07.02, frog 74, add dumy arugment as \"loginFlag\".\r\n\t\t\t\t\t\t\t2009.08.26, surym, set @isSecurityServiceUsed value to 1 (forced)\r\n\t\t\t\t\t\t\t2009.08.27, pkh & surym, bug fix\r\n*Warning            \t:   \r\n*/\r\nCREATE  PROCEDURE [dbo].[pap_GetGameInfo]\r\n@uid\t\tINT,\r\n@account\tVARCHAR(14)\tOUTPUT,\r\n@statusFlag\tINT\t\tOUTPUT,\r\n@activeFlag\tINT\t\tOUTPUT,\r\n@warnStat\tINT\t\tOUTPUT,\r\n@otpStat\tINT\t\tOUTPUT,\r\n@macStat\tINT\t\tOUTPUT,\r\n@blockFlag\tINT\t\tOUTPUT,\r\n@blockFlag2\tINT\t\tOUTPUT,\r\n@loginFlag\tINT\t\tOUTPUT\r\nAS\r\n\r\nDECLARE\t@exist\tTINYINT\r\nDECLARE @isNoticed \t\tBIT \r\nDECLARE @isRestricted \tBIT \r\nDECLARE @isSecurityServiceUsed  BIT\r\n\r\nSET\t@exist = 0\r\nSET\t@account = ''\r\nSET\t@statusFlag = 0\r\nSET\t@activeFlag = 0\r\nSET\t@warnStat = 0\r\nSET\t@otpStat = 0\r\nSET\t@macStat = 0\r\nSET\t@blockFlag = 0\r\nSET\t@blockFlag2 = 0\r\nSET @isNoticed = 0\r\nSET @isRestricted = 0\r\nSET @isSecurityServiceUsed = 0\r\nSET\t@loginFlag = 0\r\n\r\nSELECT\tTOP 1 \r\n\t\t@account = gameAccount, \r\n\t\t@statusFlag = accountStatusCode,\r\n\t\t@activeFlag = 0, \r\n\t\t@blockFlag = ISNULL(dbo.fn_ap_GetBlockFlag (gameAccountNo, accountStatusCode),0),\r\n\t\t@exist = 1,\r\n\t\t@isNoticed = noticeFlag,\r\n\t\t@isRestricted = restrictFlag,\r\n\t\t-- @isSecurityServiceUsed = securityServiceFlag\r\n\t\t-- 2009.08.26, surym, 泅犁 securityServiceFlag 拿烦捞 荤侩登绊 乐瘤 臼澜 (TOBE:荤侩秦具窃)\r\n\t\t@isSecurityServiceUsed = 1\r\nFROM\tAccountAuth\r\nWHERE\tgameAccountNo = @uid\r\n\r\nIF @isNoticed = 1 \r\n\tSELECT @warnStat = ISNULL(dbo.fn_ap_GetWarnFlag (@uid, @isNoticed, GETDATE ()),0)\r\n\r\nIF @isRestricted = 1 \r\n\tSELECT @blockFlag2 = ISNULL(dbo.fn_ap_GetBlockFlag2 (@uid, @isRestricted, GETDATE ()), 0)\r\n\r\nIF @isSecurityServiceUsed = 1 \r\n   BEGIN\r\n\t\tSELECT @otpstat = accountsecuritystatuscode\r\n\t\tFROM   accountsecurityservice\r\n\t\tWHERE  gameaccountno = @uid AND accountsecuritymethodcode = 1\r\n\t\t\r\n\t\tSELECT @macstat = accountsecuritystatuscode\r\n\t\tFROM   accountsecurityservice\r\n\t\tWHERE  gameaccountno = @uid AND accountsecuritymethodcode = 2\r\n   END\r\n\r\nIF (@exist = 1)\r\n\tRETURN\t0\r\n\r\nRETURN 2\r\n",
+    "pap_GetNewAccountNo": "/**\r\n*Creator\t:   Kim, Minae\r\n*SP Name\t:   dbo.[pap_GetNewAccountNo]\r\n*Purpose\t:   Get new account no\r\n*E-Mail\t\t:   mingii@ncsoft.net\r\n*Date\t\t:   09/19/2008\r\n*Usage\t\t:\r\n*M.History\t:\t\r\n*===============================================================================\r\n*Input Parameter    :   \r\n*\t@gameAccountNo\r\n*\t\tgameAccountNo\r\n*\t@password\r\n*\t\tpassword\r\n*\r\n*/\r\n\r\nCREATE PROCEDURE [dbo].[pap_GetNewAccountNo]\r\n\t@gameAccountNo int OUTPUT\r\nAS\r\nSET NOCOUNT ON\r\n\r\nSET @gameAccountNo = 0\r\n\r\nINSERT dbo.AccountNo DEFAULT VALUES\r\nSET @gameAccountNo = @@IDENTITY\r\n\r\nRETURN\r\n",
+    "pap_UpdateAccount": "/**\r\n*Creator\t:   Kim, Minae\r\n*SP Name\t:   dbo.[pap_UpdateAccount]\r\n*Purpose\t:   ALTER AionSndaAccount\r\n*E-Mail\t\t:   mingii@ncsoft.net\r\n*Date\t\t:   09/19/2008\r\n*Usage\t\t:\r\n*M.History\t:\r\n*\t\t\t:\tsurym, 2008.10.06, apply renamed schema (GameAccount --> AccountAuth)\r\n*\t\t\t:\tsurym, 2008.10.14, renaming\r\n*===============================================================================\r\n*Input Parameter    :   \r\n*\t@gameAccountNo\r\n*\t\tgameAccountNo\r\n*\t@password\r\n*\t\tpassword\r\n*\r\n*/\r\n\r\nCREATE PROCEDURE [dbo].[pap_UpdateAccount]\r\n\t@gameAccountNo\tINT,\r\n\t@password\t\tBINARY (16)\r\nAS\r\nSET NOCOUNT ON\r\nDECLARE @originalPassword\tBINARY (16)\r\n\r\nSELECT\t@originalPassword = password \r\nFROM\tAccountAuth WITH (NOLOCK)\r\nWHERE\tgameAccountNo = @gameAccountNo\r\n\r\nIF @originalPassword != @password\r\nBEGIN\r\n\tUPDATE AccountAuth SET password = @password WHERE gameAccountNo = @gameAccountNo\r\n\tIF @@ROWCOUNT = 0\r\n\tBEGIN\r\n\t\tRETURN 2\r\n\tEND\r\n\r\n\tRETURN 0\r\nEND\r\n\r\nRETURN 0\r\n",
+    "write_gameuser_counts": "CREATE procedure [dbo].[write_gameuser_counts]\r\nas\r\n\r\ndeclare @gamename  nvarchar(50)\r\ndeclare @cnt int\r\ndeclare @txt nvarchar(500)\r\nset @gamename ='AION'\r\nset @txt = 'OK|'\r\n\r\nset @cnt = (  \r\n--扁粮 select top 1 concurrentUserCount from AionAccountDB..ConcurrentUserStat (nolock)\r\n--扁粮 where serverNo=0 and concurrentUserStatTypeCode=2 order by registerDate desc\r\n\t\r\n\t-- 抛胶飘辑滚客 夯辑滚 牢刘阑 盒府窍搁辑 笛促甫 荐侩且荐 乐绰 备炼肺 函版窃\r\n\t-- 2009.04.30 by compleus\r\n\tselect sum(concurrentUserCount)\r\n\tfrom dbo.ConcurrentUserStat\r\n\twhere serverNo=0 and concurrentUserStatTypeCode=2 \r\n\tand registerdate > Dateadd(minute, -5, Getdate()) /* 5盒 */\r\n\tgroup by serverNo \r\n)\r\nset @txt  = @txt + @gamename+'='+cast( @cnt as nvarchar(10) )+'; '\r\n\r\nDECLARE @FS int, @OLEResult int, @FileID int\r\n\r\nEXECUTE @OLEResult = sp_OACreate 'Scripting.FileSystemObject', @FS OUT\r\nIF @OLEResult <> 0 PRINT 'Error: Scripting.FileSystemObject'\r\n\r\n--Open a file\r\nexecute @OLEResult = sp_OAMethod @FS, 'OpenTextFile', @FileID OUT,\r\n'c:\\game_counts.txt', 2, 1\r\nIF @OLEResult <>0 PRINT 'Error: OpenTextFile'\r\n\r\nexecute @OLEResult = sp_OAMethod @FileID, 'Write', Null, @txt\r\nIF @OLEResult <> 0 PRINT 'Error : Write'\r\n\r\nEXECUTE @OLEResult = sp_OADestroy @FileID\r\nEXECUTE @OLEResult = sp_OADestroy @FS\r\n",
+    "aop_GetGameServerChargeGroupList": "/**\r\n*Creator\t:   Saymond H. Kim\r\n*SP Name\t:   [SN].[aop_GetGameServerChargeGroupList]\r\n*Purpose\t:   Get charge group information of the servers\r\n*E-Mail\t\t:   saymondhkim@ncsoft.net\r\n*Date\t\t:   12/03/2012\r\n*Usage\t\t:\r\n*M.History\t:\t\r\n*===============================================================================\r\n*Input Parameter    :   \r\n*\tNone\r\n*\t\t\r\n*/\r\n\r\nCREATE\tPROCEDURE [SN].[aop_GetGameServerChargeGroupList]\r\nAS\r\n\r\nSELECT\tgameServerNo, gameServerChargeGroupNo\r\nFROM\tSN.GameServerChargeGroup WITH (NOLOCK)\r\nORDER BY gameServerNo\r\n",
+    "PAServer_GetAccount": "create   PROCEDURE [dbo].[PAServer_GetAccount]\r\n@account\t\tVARCHAR(14)\r\nAS\r\n\r\n\r\nSELECT [gameAccountNo]\t\tas account_id\r\n      ,[gameAccount]\t\t\t\tas account_name\r\n      ,[password]\t\t\t\t\tas password\r\n      ,[cryptographTypeCode]\t\tas psw_type_code\r\n      ,[legalBirthday]\t\t\t\tas birth_day\r\n      ,[genderCode]\t\t\t\tas gender\r\n      ,[gameAccountTypeCode]\tas account_type_code\r\n      ,[gameAccountGradeCode]\tas grade_code\r\n      ,[accountStatusCode]\t\tas status_code\r\n      ,[authLimitTypeBitSet]\t\tas block_code\r\n      ,[securityServiceFlag]\t\t\tas security_flag\r\n      ,[restrictFlag]\t\t\t\tas restrict_flag\r\n      ,[noticeFlag]\t\t\t\t\tas notice_flag\r\n      ,[hardwareId]\t\t\t\tas hardward_id\r\n  FROM [dbo].[AccountAuth] where [gameAccount] = @account\r\n\r\nRETURN 0",
+    "account_InPut": "--exec account_InPut 'leileiyu'\r\nCREATE proc [dbo].[account_InPut]\r\n@allianceUserKey varchar(255)\r\nas\r\ndeclare @accountNo int\r\ndeclare @genderCode smallint\r\ndeclare @legalBirthday datetime\r\ndeclare @account_name nvarchar(14)\r\ndeclare @retCode int\r\nset @retCode=2\r\nset @accountNo=0\r\nset @genderCode=0\r\nset @legalBirthday='1900-01-01 00:00:00:000'\r\nset @account_name='_sd_0000000_'\r\n\r\n--1、判断帐号是否登录过该区\r\n\r\nexec GlobalAccountDB.dbo.pap_GetAllianceCompanyAccount @allianceUserKey,27,4,@accountNo output,@genderCode output,@legalBirthday output,@retCode output\r\n\r\n--1.1、如果未登录过该区\r\nIF @accountNo=0 and @retCode=2\r\nbegin\r\n--select count(1) from AionAccountDB.dbo.AccountAuth \r\n--select count(1) from AionAccountDB.dbo.AccountETC \r\n--1.1.1、把帐号信息插入AionAccountDB的AccountAuth与AccountETC表\r\nset @accountno=0\r\nexec AionAccountDB.dbo.pap_GetNewAccountNo @accountno output\r\nif @accountno < 10000000\r\nset @account_name='_sd_'+right('00000000'+cast(@accountno as varchar),7)+'_'\r\nelse\r\nset @account_name = '_sd_'+ cast(@accountno as varchar)+'_'\r\n--if @accountno < 10000000\r\n--@account_name = '_sd_'+right('00000000'+cast(@accountno as varchar),7) – 与之前一致\r\n--else\r\n--@account_name = '_sd_'+ cast(@accountno as varchar)\r\nexec AionAccountDB.dbo.pap_CreateAccount @accountno,@account_name,0x5CFB5DF2729F46EA750BBC1FF2996020,2,'1970-01-01 00:00:00:000',1\r\n--1.1.2、把帐号信息插入GlobalAccountDB的AllianceCompanyAccount表\r\nset @retCode=0\r\nexec GlobalAccountDB.dbo.pap_CreateAllianceCompanyAccount @allianceUserKey,27,@accountno,4,1,'1970-01-01 00:00:00:000',@retCode output\r\nend\r\n\r\n--1.2、如果登录过该区\r\nelse\r\nbegin\r\nset @account_name=(select gameaccount from AionAccountDB.dbo.AccountAuth with (nolock) \r\nwhere gameaccountno in (select accountno from GlobalAccountDB.dbo.AllianceCompanyAccount \r\nwith (nolock) where allianceUserKey=@allianceUserKey))\r\nend\r\n",
+    "aop_GetAccountInfo": "/**\r\n*Creator            :   kamkami\r\n*SP Name            :   dbo.aop_GetAccountInfo\r\n*Purpose            :   酒捞柯 霸烙 拌沥沥焊甫 啊廉柯促.\r\n*E-Mail             :   kamkami@ncsoft.net\r\n*Date               :   2008-10-14\r\n*Usage              :\r\n*===============================================================================\r\nDECLARE @ErrorCode INT\r\nEXEC dbo.aop_GetAccountInfo @account = \r\n\t, @ErrorCode = @ErrorCode OUTPUT\r\nPRINT @ErrorCode\r\n*===============================================================================\r\n*Input Parameter    :   [@account = ]\r\n*                       霸烙拌沥 @account绰 varchar(16)捞哥 扁夯蔼篮 绝嚼聪促.\r\n*Output Parameter   :   [@ErrorCode = ]@ErrorCode OUTPUT\r\n*                       稠府坷幅内靛涝聪促. @ErrorCode int涝聪促.\r\n*                       000 : 俊矾啊 绝嚼聪促.\r\n*                       0150201010: 拌沥沥焊啊 粮犁窍瘤 臼嚼聪促.\r\n*                       0150201998: 涝仿 颇扼固磐啊 壳瘤 臼嚼聪促.\r\n*                       0150201999: 矫胶袍 俊矾涝聪促.\r\n*RecordSet          :   馆券窍瘤 臼嚼聪促.\r\n*Process Number     :   \r\n*Call               :   02-6201-8427\r\n*Modification Memo  :   \r\n*Warning            :   \r\n*/\r\nCREATE PROCEDURE [dbo].[aop_GetAccountInfo]\r\n\t@account varchar(16)\r\n,\t@ErrorCode int = NULL OUTPUT\r\nAS\r\n\r\nSET NOCOUNT ON\r\n\r\nDECLARE @ncotp_flag int, @mcontrol_flag int, @pcregister_flag int\r\nDECLARE @uid int\r\n\r\n-- NCOTP,  mControl, PCRegister 啊涝咯何 炼雀\r\n--SELECT @ncotp_flag = count(*) FROM AccountSecurityService WHERE accountSecurityMethodCode = 1 AND accountSecurityStatusCode<>3\r\n--SELECT @pcregister_flag = count(*) FROM AccountSecurityService WHERE accountSecurityMethodCode = 2 AND accountSecurityStatusCode<>3\r\n--SELECT @mcontrol_flag = count(*) FROM AccountSecurityService WHERE accountSecurityMethodCode = 3 AND accountSecurityStatusCode<>3\r\n\r\nSELECT\r\n\tAA.gameAccountNo, AE.accountCreateDate, AE.lastLoginDate, AE.lastLogoutDate\r\n\t, AA.accountStatusCode, AA.noticeFlag, AA.restrictFlag, AA.genderCode\r\n\t, AA.gameAccountTypeCode, AA.gameAccountGradeCode, AA.authLimitTypeBitSet\r\n--\t, @ncotp_flag AS ncotp_flag, @pcregister_flag AS pcregister_flag, @mcontrol_flag AS mcontrol_flag\r\nFROM\r\n\taccountAuth AA WITH(READUNCOMMITTED)\r\nINNER JOIN\r\n\taccountEtc AE WITH(READUNCOMMITTED)\r\n\tON AA.gameAccountNo = AE.gameAccountNo \r\nWHERE\r\n\tAA.gameAccount = @account\r\n\r\nIF @@ROWCOUNT = 0\r\nBEGIN \r\n\tSET @ErrorCode = 0150201010\r\n\tRETURN\r\nEND\r\n\r\nSET @ErrorCode = 000\r\nRETURN 0\r\n\r\nErrorHandler:\r\nRETURN @ErrorCode\r\n",
+    "aop_GetAccountNoticeList": "/**\r\n*Creator            :   kamkami\r\n*SP Name            :   dbo.aop_GetAccountNoticeList\r\n*Purpose            :   酒捞柯 霸烙 拌沥烹瘤 格废阑 炼雀茄促.\r\n*E-Mail             :   kamkami@ncsoft.net\r\n*Date               :   2008-10-20\r\n*Usage              :\r\n*===============================================================================\r\nDECLARE @ErrorCode INT\r\nEXEC dbo.aop_GetAccountNoticeList @account = \r\n\t, @ErrorCode = @ErrorCode OUTPUT\r\nPRINT @ErrorCode\r\n*===============================================================================\r\n*Input Parameter    :   [@account = ]\r\n*                       霸烙拌沥 @account绰 varchar(16)捞哥 扁夯蔼篮 绝嚼聪促.\r\n*Output Parameter   :   [@ErrorCode = ]@ErrorCode OUTPUT\r\n*                       稠府坷幅内靛涝聪促. @ErrorCode int涝聪促.\r\n*                       000 : 俊矾啊 绝嚼聪促.\r\n*                       0150201010: 烹瘤沥焊啊 粮犁窍瘤 臼嚼聪促.\r\n*RecordSet          :   \r\n*Process Number     :   \r\n*Call               :   02-6201-0491\r\n*Modification Memo  :   \r\n*Warning            :   \r\n*/\r\nCREATE PROCEDURE [dbo].[aop_GetAccountNoticeList]\r\n\t@account varchar(16)\r\n,\t@ErrorCode int = NULL OUTPUT\r\nAS\r\n\r\nSET NOCOUNT ON\r\n\r\nDECLARE @uid int\r\nDECLARE @noticeCodeGroupNo int\r\n\r\nset @noticeCodeGroupNo = 52 -- 烹瘤蜡屈内靛 弊缝锅龋\r\n\r\nSELECT @uid = gameAccountNo FROM AccountAuth where gameAccount = @account\r\n\r\nSELECT\r\n\tALN.gameAccountNo, ALN.noticeTypeCode, CC.codeName, ALN.noticeStartDate, ALN.noticeEndDate\r\nFROM\r\n\taccountLoginNotice ALN WITH(READUNCOMMITTED)\r\n\t, commondb.dbo.commonCode CC WITH(READUNCOMMITTED)\r\nWHERE\r\n\tALN.gameAccountNo = @uid\r\n\tAND CC.codeGroupNo = @noticeCodeGroupNo\r\n\tAND CC.code = ALN.noticeTypeCode\r\n\r\nIF @@ROWCOUNT = 0\r\nBEGIN \r\n\tSET @ErrorCode = 0150201010\r\n\tRETURN\r\nEND\r\n\r\nSET @ErrorCode = 000\r\nRETURN 0\r\n\r\nErrorHandler:\r\nRETURN @ErrorCode\r\n",
+    "aop_GetBlockCount": "/**  \r\n*Purpose            : [炼扒俊 嘎绰 力犁狼 俺荐甫 掘绰促.]  \r\n*Record Set         : 馆券 - totalCount  \r\n*Error Code         :   \r\n*History            : 2010-05-26 pingzone 弥檬 累己  \r\n*/  \r\n  \r\nCREATE PROCEDURE [dbo].[aop_GetBlockCount]  \r\n\t@account AS VARCHAR(20)  \r\n,\t@totalCount AS INT OUTPUT  \r\n,\t@ErrorCode AS INT = NULL OUTPUT\r\nAS  \r\n  \r\nSET NOCOUNT ON  \r\n  \r\nSELECT @totalCount = COUNT(*)  \r\nFROM dbo.Restriction RT WITH(NOLOCK)\r\n\tINNER JOIN dbo.accountAuth AA WITH(NOLOCK) ON AA.gameAccountNo = RT.gameAccountNo\r\nWHERE AA.gameAccount = @account\r\n\r\nSET @ErrorCode = 0\r\nRETURN @ErrorCode\r\n\r\nErrorHandler:\r\nSELECT @ErrorCode\r\n",
+    "aop_GetBlockHistoryList": "/**\r\n*Creator            :   厘盔霖\r\n*SP Name            :   dbo.aop_GetBlockHistoryList\r\n*Purpose            :   力犁 郴开阑 啊廉柯促.\r\n*E-Mail             :   kamkami@ncsoft.net\r\n*Date               :   2008-10-14\r\n*Usage              :\r\n*===============================================================================\r\nEXEC dbo.aop_GetBlockHistoryList @account = \r\n*===============================================================================\r\n*Input Parameter    :   [@account = ]\r\n*                       烹钦拌沥 @account绰 varchar(14)捞哥 扁夯蔼篮 绝嚼聪促.\r\n*Output Parameter   :   绝嚼聪促.\r\n*RecordSet          :   \r\n*Process Number     :   \r\n*Call               :  \r\n*Modification Memo  :   \r\n*Warning            :   \r\n*/\r\nCREATE PROCEDURE [dbo].[aop_GetBlockHistoryList]\r\n\t@account varchar(16)\r\n,\t@ErrorCode int = NULL OUTPUT\r\nAS\r\n\r\nSET NOCOUNT ON\r\n\r\nDECLARE @SysErrorCode int, @AffectedRowCnt int\r\nDECLARE @uid int\r\n\r\nSELECT\r\n\tR.gameRestrictionNo, R.gameAccountNo, R.gameRestrictionReasonCode, R.restrictionStartDate\r\n\t, R.restrictionEndDate, R.restrictionExpireDate\r\nFROM\r\n\tRestriction R with (nolock),\r\n\taccountAuth AA with (nolock)\r\nWHERE\r\n\tAA.gameAccount = @account\r\n\tAND AA.gameAccountNo = R.gameAccountNo\r\nORDER BY\r\n\trestrictionStartDate DESC\r\n\r\nIF @@ROWCOUNT = 0\r\nBEGIN \r\n\tSET @ErrorCode = 0150201010\r\n\tRETURN\r\nEND\r\n\r\nSET @ErrorCode = 000\r\nRETURN 0\r\n\r\nErrorHandler:\r\nRETURN @ErrorCode\r\n",
+    "aop_GetBlockList": "/**  \r\n*Purpose            : [炼扒俊 嘎绰 力犁狼 府胶飘甫 掘绰促.]  \r\n*Record Set         : 力犁 府胶飘 \r\n*Error Code         :   \r\n*History            : 2010-05-26 pingzone 弥檬 累己  \r\n*/  \r\n  \r\nCREATE PROCEDURE [dbo].[aop_GetBlockList]  \r\n\t@account\tAS VARCHAR(20)\r\n,\t@pageSize\tAS INT\r\n,\t@pageNumber\tAS INT\r\n,\t@ErrorCode int = NULL OUTPUT\r\nAS  \r\n  \r\nSET NOCOUNT ON  \r\n\r\nDECLARE @sql AS NVARCHAR(4000)\r\nDECLARE @ExcludePage INT\r\nSET @ExcludePage  = @pageSize * @pageNumber\r\n\r\nSET @sql = \r\n\tN' SELECT TOP ' +  CONVERT(NVARCHAR , @pageSize) \r\n\t+ N'  RT.gameRestrictionNo\r\n\t, RT.gameAccountNo\r\n\t, RT.gameRestrictionReasonCode\r\n\t, RT.restrictionStartDate\r\n\t, RT.restrictionEndDate\r\n\t, RT.restrictionExpireDate\r\n\tFROM dbo.Restriction RT WITH(NOLOCK)\r\n\t\tINNER JOIN dbo.accountAuth AA WITH(NOLOCK) ON AA.gameAccountNo = RT.gameAccountNo\r\n\tWHERE AA.gameAccount = ''' +  @account + '''  \r\n\t\tAND RT.gameRestrictionNo < (\r\n\t\t\tSELECT ISNULL(MIN(DV.gameRestrictionNo), 99999999)\r\n\t\t\tFROM (\r\n\t\t\t\tSELECT TOP ' +  CONVERT(NVARCHAR , @ExcludePage) + N'  RT.gameRestrictionNo\r\n\t\t\t\tFROM dbo.Restriction RT WITH(NOLOCK)\r\n\t\t\t\t\tINNER JOIN dbo.accountAuth AA WITH(NOLOCK) ON AA.gameAccountNo = RT.gameAccountNo\r\n\t\t\t\tWHERE AA.gameAccount = ''' + @account + '''\r\n\t\t\t\tORDER BY RT.gameRestrictionNo DESC\r\n\t\t\t) DV\r\n\t\t)\r\n\tORDER BY RT.gameRestrictionNo DESC '\r\n\r\n--PRINT @sql\r\nEXEC SP_EXECUTESQL @sql\r\n\r\nIF @@ROWCOUNT = 0\r\nBEGIN \r\n\tSET @ErrorCode = 0150201010\r\n\tRETURN\r\nEND\r\n\r\nSET @ErrorCode = 000\r\nRETURN 0\r\n\r\nErrorHandler:\r\nRETURN @ErrorCode\r\n",
+    "aop_GetGameServerList": "/**\r\n*Creator            :   kamkami\r\n*SP Name            :   dbo.aop_GetGameServerList\r\n*Purpose            :   酒捞柯 霸烙 辑滚沥焊甫 啊廉柯促.\r\n*E-Mail             :   kamkami@ncsoft.net\r\n*Date               :   2008-10-20\r\n*Usage              :\r\n*===============================================================================\r\nDECLARE @ErrorCode INT\r\nEXEC dbo.aop_GetGameServerList @ErrorCode = @ErrorCode OUTPUT\r\nPRINT @ErrorCode\r\n*===============================================================================\r\n*Input Parameter    :   绝嚼聪促.\r\n*Output Parameter   :   [@ErrorCode = ]@ErrorCode OUTPUT\r\n*                       稠府坷幅内靛涝聪促. @ErrorCode int涝聪促.\r\n*                       000 : 俊矾啊 绝嚼聪促.\r\n*                       0150201010: 拌沥沥焊啊 粮犁窍瘤 臼嚼聪促.\r\n*RecordSet          :   \r\n*Process Number     :   \r\n*Call               :   02-6201-0491\r\n*Modification Memo  :   \r\n*Warning            :   \r\n*/\r\nCREATE PROCEDURE [dbo].[aop_GetGameServerList]\r\n\t@ErrorCode int = NULL OUTPUT\r\nAS\r\n\r\nSET NOCOUNT ON\r\n\r\nDECLARE @ncotp_flag int, @mcontrol_flag int, @pcregister_flag int\r\nDECLARE @uid int\r\n\r\nSELECT\r\n\tgameServerNo, gameServerName, gameServerTypeCode, gameServerStatusCode, serverAreaCode\r\n\t, userAgeLimit, privateNetworkIPAddress, publicNetworkIPAddress, portNo, paidFlag, serverCustomizeBitSet\r\nFROM\r\n\tGameServer\r\n\r\nIF @@ROWCOUNT = 0\r\nBEGIN \r\n\tSET @ErrorCode = 0150201010\r\n\tRETURN\r\nEND\r\n\r\nSET @ErrorCode = 000\r\nRETURN 0\r\n\r\nErrorHandler:\r\nRETURN @ErrorCode\r\n",
+    "aop_GetNCTASStatus": "/**\r\n*Purpose           : AION霸烙拌沥狼 NCTAS 啊涝惑怕\r\n*Record Set        : accountSecurityStatusCode\t-- 惑怕内靛\r\n*Error Code        : 000 : 俊矾 绝澜\r\n*                    0150201997 : 单捞磐 绝澜  \r\n*History           : 2009-06-30 冠锐悼(yoshi) 弥檬 累己\r\n*/\r\nCREATE       PROCEDURE [dbo].[aop_GetNCTASStatus]  \r\n\t@gameAccount VARCHAR(16)           -- 酒捞柯 霸烙拌沥\r\n,\t@accountSecurityStatusCode int = 0 OUTPUT\t-- accountSecurityStatusCode\r\n,\t@ErrorCode int = NULL OUTPUT\t-- 稠府坷幅内靛\r\nAS\r\n\r\nSET NOCOUNT ON\r\n\r\n--NCTAS accountSecurityMethodCode: 5\r\nDECLARE @accountSecurityMethodCode smallint\r\nSET @accountSecurityMethodCode = 5\r\n\r\nSELECT @accountSecurityStatusCode=ISNULL(ASS.accountSecurityStatusCode,0) \r\nFROM AccountAuth AA INNER JOIN AccountSecurityService ASS \r\nON ASS.gameAccountNo = AA.gameAccountNo \r\nWHERE AA.gameAccount = @gameAccount\r\nAND accountSecurityMethodCode = @accountSecurityMethodCode\r\n\r\nIF @@ROWCOUNT = 0\r\nBEGIN\r\n\tSET @accountSecurityStatusCode=0\r\nEND\r\n\r\nSET @ErrorCode = 000\r\nRETURN 0\r\n\r\nErrorHandler:\r\nRETURN @ErrorCode\r\n",
+    "aop_ModifyAccountType": "/**      \r\n*Creator            :   kamkami    \r\n*SP Name            :   dbo.aop_ModifyAccountType      \r\n*Purpose            :         \r\n*E-Mail             :   kamkami@ncsoft.net      \r\n*Date               :   2008-10-20      \r\n*Usage              :      \r\n*===============================================================================      \r\nEXEC dbo.aop_ModifyAccountType    \r\n \r\n*===============================================================================      \r\n*Input Parameter    :   \r\n*                       [@gameAccount = ]    \r\n*                       拌沥 @gameAccount varchar(16)捞哥 扁夯蔼篮 绝嚼聪促.    \r\n*                       [@noticeFlag = ]    \r\n*                       烹瘤敲贰弊 蔼 @noticeFlag smallint捞哥 扁夯蔼篮 绝嚼聪促.    \r\n*Output Parameter   :   [@ErrorCode = ]@ErrorCode OUTPUT    \r\n*                       稠府坷幅内靛涝聪促. @ErrorCode绰int涝聪促.    \r\n*                       000 : 俊矾啊 绝嚼聪促.    \r\n*                       0150201001: SP 矫累 矫痢俊辑 飘罚黎记捞 凯妨 乐嚼聪促.    \r\n*                       0150201002: SP 辆丰 矫痢俊辑 飘罚黎记捞 凯妨 乐嚼聪促.    \r\n*                       0150201010: 拌沥 沥焊啊 粮犁窍瘤 臼嚼聪促.    \r\n*                       0150201998: 涝仿 颇扼固磐啊 壳瘤 臼嚼聪促.    \r\n*                       0150201999: 矫胶袍 俊矾涝聪促.        \r\n*RecordSet          :         \r\n      \r\n      \r\n      \r\n*Process Number     :         \r\n*Call               :   02-6201-0491\r\n*Modification Memo  :         \r\n*Warning            :         \r\n*/      \r\nCREATE PROCEDURE [dbo].[aop_ModifyAccountType]      \r\n\t@gameAccount\tVARCHAR(16)  --拌沥疙    \r\n,\t@typeCode\tsmallint\t-- 拌沥惑怕内靛\r\nAS      \r\n      \r\nSET NOCOUNT ON      \r\n      \r\nDECLARE @SysErrorCode int, @AffectedRowCnt int      \r\n\r\n--函荐 急攫      \r\nDECLARE @retcode       INT      \r\nDECLARE @retmsg        VARCHAR(1024)      \r\nDECLARE @gameAccountNo INT      \r\n      \r\n--拌沥捞 粮犁窍绰瘤 犬牢(uid 备窍扁)      \r\nSELECT @gameAccountNo = gameAccountNo FROM accountAuth WITH (NOLOCK) WHERE gameAccount = @gameAccount    \r\n    \r\nIF @@ROWCOUNT = 0      \r\nBEGIN      \r\n SET  @retcode = -17      \r\n SET  @retmsg = '秦寸 拌沥捞 粮犁窍瘤 臼嚼聪促.'      \r\n GOTO END_ERROR      \r\nEND      \r\n    \r\n\r\nIF @typeCode = 1 \t-- 老馆拌沥\r\nBEGIN\r\n\tUPDATE AccountAuth Set gameAccountTypeCode = 1, authLimitTypeBitSet = 1 WHERE gameAccount = @gameAccount\r\nEND\r\nELSE IF @typeCode = 2 \t-- 款康拌沥\r\nBEGIN\r\n\tUPDATE AccountAuth Set gameAccountTypeCode = 2, authLimitTypeBitSet = 2 WHERE gameAccount = @gameAccount\r\nEND\r\nELSE IF @typeCode = 3 \t-- 肺弊牢力茄俊 吧府瘤 臼绰 漂荐拌沥\r\nBEGIN\r\n\tUPDATE AccountAuth Set gameAccountTypeCode = 1, authLimitTypeBitSet = 0 WHERE gameAccount = @gameAccount\r\nEND\r\nELSE\r\nBEGIN\r\n\tSET  @retcode = -1     \r\n\tSET  @retmsg = '瘤盔窍瘤 臼绰 拌沥蜡屈涝聪促.'      \r\n GOTO END_ERROR      \r\nEND\r\n\r\nIF @@ERROR = 0\r\nBEGIN\r\n\tSET  @retcode = 0     \r\n\tSET  @retmsg = '己傍'      \r\nEND\r\n      \r\nSELECT @retcode AS retcode, @retmsg AS retmsg      \r\nRETURN      \r\n    \r\nEND_ERROR:      \r\n PRINT @retcode      \r\n IF @retcode IS NULL      \r\n BEGIN      \r\n  SET  @retcode = -999      \r\n  SET  @retmsg = '舅荐 绝绰 俊矾啊 惯积沁嚼聪促.'      \r\n END      \r\n SELECT @retcode AS retcode, @retmsg AS retmsg      \r\n RETURN      \r\n    \r\nRETURN 0\r\n",
+    "aop_ModifyBlockAdd": "/**      \r\n*Creator            :   spooki      \r\n*SP Name            :   dbo.aop_ModifyBlockAdd      \r\n*Purpose            :         \r\n*E-Mail             :   spooki101@ncsoft.net      \r\n*Date               :   2008-10-14      \r\n*Usage              :      \r\n*===============================================================================      \r\nEXEC dbo.aop_ModifyBlockAdd     \r\n'spooki'    \r\n , 1    \r\n , '2008-11-11'    \r\n*===============================================================================      \r\n*Input Parameter    :   [@gameAccount = ]      \r\n*                       拌沥 @gameAccount varchar(16)捞哥 扁夯蔼篮 绝嚼聪促.      \r\n*                       [@restrictionReasonCode = ]      \r\n*                       力犁荤蜡内靛 @restrictionReasonCode smallint捞哥 扁夯蔼篮 绝嚼聪促.      \r\n*                       [@restrictionEndDate = ]      \r\n*                       力犁肯丰老 @restrictionEndDate dateTime捞哥 扁夯蔼篮 绝嚼聪促.      \r\n*                          \r\n*Output Parameter   :   绝嚼聪促.      \r\n*RecordSet          :         \r\n      \r\n      \r\n      \r\n*Process Number     :         \r\n*Call               :   02-6201-8427      \r\n*Modification Memo  :         \r\n*Warning            :         \r\n*/      \r\nCREATE PROCEDURE [dbo].[aop_ModifyBlockAdd]      \r\n   @gameAccount      VARCHAR(16)  --拌沥疙    \r\n , @restrictionReasonCode   SMALLINT     --力犁荤蜡内靛    \r\n , @restrictionEndDate      DATETIME     --力犁肯丰朝楼    \r\n , @restrictionNo int OUTPUT    -- 力犁锅龋\r\nAS      \r\n      \r\nSET NOCOUNT ON      \r\n      \r\nDECLARE @SysErrorCode int, @AffectedRowCnt int      \r\n      \r\n--函荐 急攫      \r\nDECLARE @retcode       INT      \r\nDECLARE @retmsg        VARCHAR(1024)      \r\nDECLARE @gameAccountNo INT      \r\n\r\nSET @restrictionNo = -1;\r\n\r\n--拌沥捞 粮犁窍绰瘤 犬牢(gameAccountNo 备窍扁)      \r\nSELECT @gameAccountNo=gameAccountNo FROM accountAuth WITH (NOLOCK) WHERE gameAccount = @gameAccount    \r\n    \r\nIF @@ROWCOUNT = 0      \r\nBEGIN      \r\n SET  @retcode = -17      \r\n SET  @retmsg = '秦寸 拌沥捞 粮犁窍瘤 臼嚼聪促.'      \r\n GOTO END_NO_ROLLBACK      \r\nEND      \r\n\r\n BEGIN      \r\n  IF (SELECT COUNT(*) FROM   dbo.Restriction WITH (NOLOCK) WHERE       \r\n    gameAccountNo = @gameAccountNo AND restrictionEndDate > getDate() AND gameRestrictionReasonCode = @restrictionReasonCode) > 0      \r\n  BEGIN      \r\n   SET  @retcode = -12      \r\n   SET  @retmsg = '秦寸 拌沥捞 鞍篮 荤蜡肺 捞固 力犁登绢 乐嚼聪促.'      \r\n   GOTO END_NO_ROLLBACK      \r\n  END      \r\n END      \r\n    \r\nBEGIN TRAN -------------------------------------------------------------------      \r\n    \r\n BEGIN      \r\n  INSERT dbo.Restriction       \r\n   ( gameAccountNo, gameRestrictionReasonCode, restrictionStartDate, restrictionEndDate, restrictionExpireDate)      \r\n  VALUES      \r\n   ( @gameAccountNo, @restrictionReasonCode, getDate(), @restrictionEndDate, @restrictionEndDate)      \r\n  IF @@ERROR <> 0 GOTO END_ROLLBACK        \r\n  SELECT @restrictionNo = @@IDENTITY\r\n  UPDATE AccountAuth SET  restrictFlag = 1 where gameAccountNo = @gameAccountNo    \r\n  IF @@ERROR <> 0 GOTO END_ROLLBACK      \r\n END        \r\nSET  @retcode = 1  \r\nSET  @retmsg = '秦寸 拌沥捞 力犁登菌嚼聪促.'        \r\n      \r\nCOMMIT TRAN -------------------------------------------------------------------      \r\n      \r\nSELECT @retcode AS retcode, @retmsg AS retmsg      \r\nRETURN      \r\n    \r\nEND_ROLLBACK:       \r\n PRINT @@TRANCOUNT      \r\n      \r\n IF @@TRANCOUNT > 0      \r\n BEGIN      \r\n  PRINT 'didrollback'      \r\n  ROLLBACK TRAN      \r\n END      \r\n IF @retcode IS NOT NULL      \r\n  SELECT @retcode AS retcode, @retmsg AS retmsg      \r\n RETURN      \r\n      \r\nEND_NO_ROLLBACK:      \r\n PRINT @retcode      \r\n IF @retcode IS NULL      \r\n BEGIN      \r\n  SET  @retcode = -999      \r\n  SET  @retmsg = '舅荐 绝绰 俊矾啊 惯积沁嚼聪促.'      \r\n END      \r\n SELECT @retcode AS retcode, @retmsg AS retmsg      \r\n RETURN      \r\n    \r\nRETURN 0\r\n",
+    "aop_ModifyBlockRemove": "/**    \r\n*Creator            :   spooki101    \r\n*SP Name            :   dbo.aop_ModifyBlockRemove    \r\n*Purpose            :   力犁甫 啊窃    \r\n*E-Mail             :   spooki101@ncsoft.net    \r\n*Date               :   2008-10-14    \r\n*Usage              :    \r\n*===============================================================================    \r\nEXEC dbo.aop_ModifyBlockRemove @gameRestrictionNo    \r\n*===============================================================================    \r\n*Input Parameter    :   [@gameRestrictionNo  ]    \r\n*                       力犁锅龋 @idx_block_history绰 int捞哥 扁夯蔼篮 绝嚼聪促.    \r\n*Output Parameter   :   绝嚼聪促.    \r\n*RecordSet          :   SELECT @retcode AS retcode, @retmsg AS retmsg      \r\n*Process Number     :       \r\n*Call               :   02-6201-8427    \r\n*Modification Memo  :       \r\n*Warning            :       \r\n*/    \r\nCREATE PROCEDURE [dbo].[aop_ModifyBlockRemove]    \r\n @gameRestrictionNo int     --力犁锅龋  \r\n  \r\nAS      \r\nSET NOCOUNT ON    \r\n        \r\n--函荐 急攫    \r\n  \r\nDECLARE  @retcode       INT    \r\nDECLARE  @gameAccountNo INT  \r\nDECLARE @gameAccount    VARCHAR(16)  \r\nDECLARE  @retmsg        VARCHAR(1024)    \r\n   \r\n-- FLOW 1. 力犁沥焊啊廉坷扁  dbo.Restriction  \r\nSELECT     \r\n  @gameAccountNo = gameAccountNo    \r\nFROM dbo.Restriction NOLOCK WHERE gameRestrictionNo = @gameRestrictionNo    \r\nIF @@ERROR <> 0    \r\nBEGIN    \r\n SET @retcode = -7    \r\n SET @retmsg = '秦寸 力犁 沥焊甫 啊廉坷绰 窜拌俊辑 俊矾啊 惯积沁嚼聪促.'    \r\n GOTO END_NO_ROLLBACK    \r\nEND    \r\n    \r\n    \r\n-- CHECK : 单捞磐 屈侥 眉农    \r\nIF @gameAccountNo IS NULL OR LEN(@gameAccount) = 0    \r\nBEGIN    \r\n SET @retcode = -101    \r\n SET @retmsg = '秦寸 拌沥捞 绝嚼聪促.'    \r\n GOTO END_NO_ROLLBACK    \r\nEND    \r\n  \r\nBEGIN TRAN -------------------------------------------------------------------    \r\n-- FLOW 2. 诀单捞飘 Restriction  \r\n BEGIN    \r\n  UPDATE dbo.Restriction SET restrictionEndDate = GetDate() WHERE gameRestrictionNo = @gameRestrictionNo  \r\n  IF @@ERROR <> 0 GOTO END_ROLLBACK    \r\n END    \r\n  \r\n BEGIN      \r\n--CHECK : 力犁 俺荐啊 窍唱捞惑捞牢瘤 眉农  \r\n  IF (SELECT COUNT(*) FROM dbo.Restriction WITH (NOLOCK) WHERE       \r\n    gameAccountNo = @gameAccountNo AND restrictionEndDate > getDate()) = 0      \r\n  BEGIN      \r\n UPDATE AccountAuth SET restrictFlag = 0 WHERE gameAccountNo = @gameAccountNo\r\n        IF @@ERROR <> 0 GOTO END_ROLLBACK    \r\n   END  \r\n  SET @retcode = 1    \r\n  SET @retmsg = '秦寸 拌沥狼 力犁啊 秦瘤 登菌嚼聪促.'      \r\n END   \r\n --拌沥 力犁      \r\nCOMMIT TRAN -------------------------------------------------------------------    \r\nSELECT @retcode AS retcode, @retmsg AS retmsg    \r\nRETURN    \r\n    \r\nEND_ROLLBACK:    \r\n ROLLBACK TRAN    \r\n RETURN    \r\nEND_NO_ROLLBACK:    \r\n IF @retcode IS NULL    \r\nRETURN   \r\n   \r\nBEGIN    \r\n  SET @retcode = -999    \r\n  SET @retmsg = '舅荐 绝绰 俊矾啊 惯积沁嚼聪促.'    \r\nEND  \r\n    \r\nSELECT @retcode AS retcode, @retmsg AS retmsg    \r\nRETURN  \r\n  \r\n    \r\nRETURN 0\r\n",
+    "aop_ModifyChangeLogInFlag": "/**      \r\n*Creator            :   spooki      \r\n*SP Name            :   dbo.aop_ModifyChangeLogInFlag      \r\n*Purpose            :         \r\n*E-Mail             :   spooki101@ncsoft.net      \r\n*Date               :   2008-10-14      \r\n*Usage              :      \r\n*===============================================================================      \r\nEXEC dbo.aop_ModifyChangeLogInFlag     \r\n \r\n*===============================================================================      \r\n*Input Parameter    :   \r\n*                       [@gameAccount = ]    \r\n*                       拌沥 @gameAccount varchar(16)捞哥 扁夯蔼篮 绝嚼聪促.    \r\n*                       [@noticeFlag = ]    \r\n*                       烹瘤敲贰弊 蔼 @noticeFlag smallint捞哥 扁夯蔼篮 绝嚼聪促.    \r\n*Output Parameter   :   [@ErrorCode = ]@ErrorCode OUTPUT    \r\n*                       稠府坷幅内靛涝聪促. @ErrorCode绰int涝聪促.    \r\n*                       000 : 俊矾啊 绝嚼聪促.    \r\n*                       0150201001: SP 矫累 矫痢俊辑 飘罚黎记捞 凯妨 乐嚼聪促.    \r\n*                       0150201002: SP 辆丰 矫痢俊辑 飘罚黎记捞 凯妨 乐嚼聪促.    \r\n*                       0150201010: 拌沥 沥焊啊 粮犁窍瘤 臼嚼聪促.    \r\n*                       0150201998: 涝仿 颇扼固磐啊 壳瘤 臼嚼聪促.    \r\n*                       0150201999: 矫胶袍 俊矾涝聪促.        \r\n*RecordSet          :         \r\n      \r\n      \r\n      \r\n*Process Number     :         \r\n*Call               :   02-6201-8427      \r\n*Modification Memo  :         \r\n*Warning            :         \r\n*/      \r\nCREATE PROCEDURE [dbo].[aop_ModifyChangeLogInFlag]      \r\n   @gameAccount        VARCHAR(16)  --拌沥疙    \r\n, @noticeTypeCode      smallInt\r\n, @noticeEndDate      DATETIME     --力犁肯丰朝楼    \r\nAS      \r\n      \r\nSET NOCOUNT ON      \r\n      \r\nDECLARE @SysErrorCode int, @AffectedRowCnt int      \r\n\r\n--函荐 急攫      \r\nDECLARE @retcode       INT      \r\nDECLARE @retmsg        VARCHAR(1024)      \r\nDECLARE @gameAccountNo INT      \r\n      \r\n--拌沥捞 粮犁窍绰瘤 犬牢(uid 备窍扁)      \r\nSELECT @gameAccountNo = gameAccountNo FROM accountAuth WITH (NOLOCK) WHERE gameAccount = @gameAccount    \r\n    \r\nIF @@ROWCOUNT = 0      \r\nBEGIN      \r\n SET  @retcode = -17      \r\n SET  @retmsg = '秦寸 拌沥捞 粮犁窍瘤 臼嚼聪促.'      \r\n GOTO END_NO_ROLLBACK      \r\nEND      \r\n    \r\n    \r\n   --拌沥档侩捞 酒囱 版快      \r\n BEGIN      \r\n  IF (SELECT COUNT(*) FROM  dbo.AccountLoginNotice WITH (NOLOCK) WHERE gameAccountNo = @gameAccountNo AND noticeEndDate > getDate() AND noticeTypeCode = @noticeTypeCode) > 0 \r\n  BEGIN      \r\n   SET  @retcode = -12      \r\n   SET  @retmsg = '秦寸 拌沥捞 鞍篮 荤蜡肺 捞固 烹瘤 汲沥捞 登绢 乐嚼聪促.'\r\n   GOTO END_NO_ROLLBACK      \r\n  END      \r\n END      \r\n    \r\nBEGIN TRAN -------------------------------------------------------------------      \r\n    \r\n BEGIN      \r\n  --block_history 涝仿      \r\n  INSERT dbo.AccountLoginNotice       \r\n   ( gameAccountNo, noticeTypeCode, noticeStartDate, noticeEndDate)      \r\n  VALUES      \r\n   (@gameAccountNo, @noticeTypeCode, GetdAte(), @noticeEndDate)      \r\n  IF @@ERROR <> 0 GOTO END_ROLLBACK        \r\n      \r\n      \r\n UPDATE dbo.AccountAuth  SET noticeFlag = ~(noticeFlag)    WHERE gameAccount = @gameAccount    \r\n  IF @@ERROR <> 0 GOTO END_ROLLBACK      \r\n END        \r\nSET  @retcode = 1  \r\nSET  @retmsg = '秦寸 拌沥俊 措秦 烹瘤汲沥捞 捞固 登绢乐嚼聪促.'\r\n      \r\nCOMMIT TRAN -------------------------------------------------------------------      \r\n      \r\nSELECT @retcode AS retcode, @retmsg AS retmsg      \r\nRETURN      \r\n    \r\nEND_ROLLBACK:       \r\n PRINT @@TRANCOUNT      \r\n      \r\n IF @@TRANCOUNT > 0      \r\n BEGIN      \r\n  PRINT 'didrollback'      \r\n  ROLLBACK TRAN      \r\n END      \r\n IF @retcode IS NOT NULL      \r\n  SELECT @retcode AS retcode, @retmsg AS retmsg      \r\n RETURN      \r\n      \r\nEND_NO_ROLLBACK:      \r\n PRINT @retcode      \r\n IF @retcode IS NULL      \r\n BEGIN      \r\n  SET  @retcode = -999      \r\n  SET  @retmsg = '舅荐 绝绰 俊矾啊 惯积沁嚼聪促.'      \r\n END      \r\n SELECT @retcode AS retcode, @retmsg AS retmsg      \r\n RETURN      \r\n    \r\nRETURN 0\r\n",
+    "aop_RemoveAccountNotice": "/**      \r\n*Creator            :   kamkami    \r\n*SP Name            :   dbo.aop_ModifyChangeLogInFlag      \r\n*Purpose            :         \r\n*E-Mail             :   kamkami@ncsoft.net      \r\n*Date               :   2008-10-20      \r\n*Usage              :      \r\n*===============================================================================      \r\nEXEC dbo.aop_RemoveAccountNotice     \r\n \r\n*===============================================================================      \r\n*Input Parameter    :   \r\n*                       [@gameAccount = ]    \r\n*                       拌沥 @gameAccount varchar(16)捞哥 扁夯蔼篮 绝嚼聪促.    \r\n*                       [@noticeFlag = ]    \r\n*                       烹瘤敲贰弊 蔼 @noticeFlag smallint捞哥 扁夯蔼篮 绝嚼聪促.    \r\n*Output Parameter   :   [@ErrorCode = ]@ErrorCode OUTPUT    \r\n*                       稠府坷幅内靛涝聪促. @ErrorCode绰int涝聪促.    \r\n*                       000 : 俊矾啊 绝嚼聪促.    \r\n*                       0150201001: SP 矫累 矫痢俊辑 飘罚黎记捞 凯妨 乐嚼聪促.    \r\n*                       0150201002: SP 辆丰 矫痢俊辑 飘罚黎记捞 凯妨 乐嚼聪促.    \r\n*                       0150201010: 拌沥 沥焊啊 粮犁窍瘤 臼嚼聪促.    \r\n*                       0150201998: 涝仿 颇扼固磐啊 壳瘤 臼嚼聪促.    \r\n*                       0150201999: 矫胶袍 俊矾涝聪促.        \r\n*RecordSet          :         \r\n      \r\n      \r\n      \r\n*Process Number     :         \r\n*Call               :   02-6201-8427      \r\n*Modification Memo  :         \r\n*Warning            :         \r\n*/      \r\nCREATE PROCEDURE [dbo].[aop_RemoveAccountNotice]      \r\n   @gameAccount        VARCHAR(16)  --拌沥疙    \r\n, @noticeTypeCode      smallInt\r\nAS      \r\n      \r\nSET NOCOUNT ON      \r\n      \r\nDECLARE @SysErrorCode int, @AffectedRowCnt int      \r\n\r\n--函荐 急攫      \r\nDECLARE @retcode       INT      \r\nDECLARE @retmsg        VARCHAR(1024)      \r\nDECLARE @gameAccountNo INT      \r\n      \r\n--拌沥捞 粮犁窍绰瘤 犬牢(uid 备窍扁)      \r\nSELECT @gameAccountNo = gameAccountNo FROM accountAuth WITH (NOLOCK) WHERE gameAccount = @gameAccount    \r\n    \r\nIF @@ROWCOUNT = 0      \r\nBEGIN      \r\n SET  @retcode = -17      \r\n SET  @retmsg = '秦寸 拌沥捞 粮犁窍瘤 臼嚼聪促.'      \r\n GOTO END_NO_ROLLBACK      \r\nEND      \r\n    \r\n    \r\n   --拌沥档侩捞 酒囱 版快      \r\n BEGIN      \r\n  IF (SELECT COUNT(*) FROM  dbo.AccountLoginNotice WITH (NOLOCK) WHERE gameAccountNo = @gameAccountNo AND noticeEndDate > getDate() AND noticeTypeCode = @noticeTypeCode) < 1 \r\n  BEGIN      \r\n   SET  @retcode = -12      \r\n   SET  @retmsg = '秦寸 拌沥篮 烹瘤 汲沥捞 登绢 乐瘤 臼嚼聪促.'\r\n   GOTO END_NO_ROLLBACK      \r\n  END      \r\n END      \r\n    \r\nBEGIN TRAN -------------------------------------------------------------------      \r\n    \r\n BEGIN      \r\n  --block_history 涝仿     \r\n\tUPDATE dbo.AccounLoginNotice\r\n\t\tSET noticeEndDate = getDate()\r\n\tWHERE\r\n\t\tgameAccountNo = @gameAccountNo\r\n\t\tAND noticeTypeCode = @noticeTypeCode\r\n  IF @@ERROR <> 0 GOTO END_ROLLBACK        \r\n      \r\n  IF (SELECT COUNT(*) FROM  dbo.AccountLoginNotice WITH (NOLOCK) WHERE gameAccountNo = @gameAccountNo AND noticeEndDate > getDate()) > 0 \r\n  BEGIN      \r\n\t\tUPDATE dbo.AccountAuth  SET noticeFlag = 0 WHERE gameAccount = @gameAccount    \r\n\t\tIF @@ERROR <> 0 GOTO END_ROLLBACK      \r\n  END      \r\n END      \r\n      \r\nCOMMIT TRAN -------------------------------------------------------------------      \r\n      \r\nSELECT @retcode AS retcode, @retmsg AS retmsg      \r\nRETURN\r\n    \r\nEND_ROLLBACK:       \r\n PRINT @@TRANCOUNT      \r\n      \r\n IF @@TRANCOUNT > 0      \r\n BEGIN      \r\n  PRINT 'didrollback'      \r\n  ROLLBACK TRAN      \r\n END      \r\n IF @retcode IS NOT NULL      \r\n  SELECT @retcode AS retcode, @retmsg AS retmsg      \r\n RETURN\r\n      \r\nEND_NO_ROLLBACK:      \r\n PRINT @retcode      \r\n IF @retcode IS NULL      \r\n BEGIN      \r\n  SET  @retcode = -999      \r\n  SET  @retmsg = '舅荐 绝绰 俊矾啊 惯积沁嚼聪促.'      \r\n END      \r\n SELECT @retcode AS retcode, @retmsg AS retmsg      \r\n RETURN\r\n \r\nRETURN 0\r\n",
+    "ap_AutoReg": "-- =============================================\r\n-- Author:\t\t<Author,,Name>\r\n-- Create date: <Create Date,,>\r\n-- Description:\t<Description,,>\r\n-- =============================================\r\nCREATE PROCEDURE [dbo].[ap_AutoReg]\r\n\t-- Add the parameters for the stored procedure here\r\n@account varchar(14)\r\nAS\r\nBEGIN\r\nset nocount on\r\ndeclare @ssn char(13)\r\nset @ssn=  (select  ISNULL(max(gameAccountNo),0) from AccountAuth) + 1\r\nINSERT AccountAuth (gameAccountNo, gameAccount, password, cryptographTypeCode, legalBirthday, genderCode, authLimitTypeBitSet)\r\nVALUES (@ssn, @account, CONVERT(binary(16),0x00000000000000000000000000000000), 3, 0, 0, 1)\r\nINSERT AccountETC (gameAccountNo, banServerBitSet, accountCreateDate)\r\nVALUES (@ssn, CONVERT(binary(16),0), '1999-01-01')\r\nset nocount off\r\nEND\r\n",
+    "ap_DeleteAccountGameCharacter": "/**\r\n*Purpose            : 拌沥狼 秦寸 霸烙辑滚 某腐磐甫 昏力茄促.\r\n*Record Set         : 昏力 搬苞\r\n*Error Code         : 绝澜\r\n*History            : 2012-08-19 leehd@ncsoft.com SP created\r\n*/\r\n\r\nCREATE PROCEDURE [dbo].[ap_DeleteAccountGameCharacter]\r\n@gameAccountNo\t\t\tINT,\r\n@gameServerNo\t\t\tTINYINT,\r\n@characterId\t\t\tINT,\r\n@result\t\t\t\t\tINT OUTPUT\r\nAS\r\nSET NOCOUNT ON\r\n\r\nDECLARE @rowCount INT\r\nSET @rowCount = 0\r\n\r\nDELETE FROM dbo.AccountGameCharacter WHERE gameAccountNo = @gameAccountNo AND gameServerNo = @gameServerNo AND characterNo = @characterId\r\nSET @rowCount = @@ROWCOUNT\r\n\r\nIF @rowCount = 0\r\nBEGIN \r\n\tSET @result = 1\r\nEND\r\nELSE\r\nBEGIN\r\n\tSET @result = 0\r\nEND\r\n",
+    "ap_GetAccountGameCharacter": "/**\r\n*Purpose            : 拌沥狼 秦寸 岿靛 某腐磐甫 啊廉柯促\r\n*Record Set         : 诀单捞飘 搬苞\r\n*Error Code         : 绝澜\r\n*History            : 2012-08-19 leehd@ncsoft.com SP created\r\n*/\r\n\r\nCREATE       PROCEDURE [dbo].[ap_GetAccountGameCharacter]\r\n@gameAccountNo\t\t\tINT,\r\n@gameServerNo\t\t\tTINYINT,\r\n@characterId\t\t\tINT OUTPUT,\r\n@characterLevel\t\t\tINT OUTPUT,\r\n@result\t\t\t\t\tINT OUTPUT\r\nAS\r\nSET NOCOUNT ON\r\n\r\nDECLARE @rowCount INT\r\nSET @rowCount = 0\r\n\r\nSELECT @characterId = characterNo, @characterLevel = characterLevel FROM dbo.AccountGameCharacter WITH(NOLOCK)\r\n\tWHERE gameAccountNo = @gameAccountNo AND gameServerNo = @gameServerNo\r\nSET @rowCount = @@ROWCOUNT\r\n\r\nIF @rowCount = 1\r\nBEGIN\r\n\tSET @result = 0\r\nEND\r\nELSE\r\nBEGIN\r\n\tSET @result = 1\r\nEND\r\n",
+    "ap_GetAccountGameSlot": "/**\r\n*Purpose            : 拌沥狼 霸烙 浇吩苞 鞘夸茄 沥焊甫 啊廉柯促.\r\n*Record Set         : 弥辆 肺弊酒眶 矫埃, 浇吩 矫累老, 浇吩 目胶磐付捞令 厚飘(霸烙辑滚啊 汲沥茄)\r\n*Error Code         : 绝澜\r\n*History            : 2012-08-17 leehd@ncsoft.com SP created\r\n\t\t\t\t\t: 2012-08-20 leehd@ncsoft.com add onwer(dbo) at selecting table.\r\n\t\t\t\t\t                              return lastlogout to lastLogoutDate from lastLoginDate(typo error)\r\n*/\r\n\r\nCREATE       PROCEDURE [dbo].[ap_GetAccountGameSlot]\r\n@gameAccountNo\t\t\tINT,\r\n@lastLogout\t\tDATETIME OUTPUT,\r\n@slotStartTime\tDATETIME OUTPUT,\r\n@slotCustomizeBitset\tVARBINARY(8) OUTPUT\r\nAS\r\nSET NOCOUNT ON\r\n\r\nSELECT \r\n@lastLogout = AE.lastLogoutDate,\r\n@slotStartTime = AGS.gameSlotAvailStartDate,\r\n@slotCustomizeBitset = AGS.gameSlotCustomizeBitSet \r\nFROM dbo.AccountETC AS AE WITH(NOLOCK)\r\nLEFT OUTER JOIN dbo.AccountGameSlot AS AGS WITH(NOLOCK) ON AE.gameAccountNo = AGS.gameAccountNo\r\nWHERE AE.gameAccountNo = @gameAccountNo\r\n",
+    "ap_GetAccountMaxLevelCharacter": "/**\r\n*Purpose            : 拌沥狼 傈眉 岿靛 弥绊饭骇 某腐磐甫 啊廉柯促\r\n*Record Set         : 绝澜\r\n*Error Code         : 绝澜\r\n*History            : 2012-08-19 leehd@ncsoft.com SP created\r\n*/\r\n\r\nCREATE       PROCEDURE [dbo].[ap_GetAccountMaxLevelCharacter]\r\n@gameAccountNo\t\t\tINT,\r\n@gameServerNo\t\t\tTINYINT OUTPUT,\r\n@characterId\t\t\tINT OUTPUT,\r\n@characterLevel\t\t\tINT OUTPUT,\r\n@result\t\t\t\t\tINT OUTPUT\r\nAS\r\nSET NOCOUNT ON\r\n\r\nDECLARE @rowCount INT\r\nSET @rowCount = 0\r\n\r\nSELECT TOP 1 @gameServerNo = gameServerNo, @characterId = characterNo, @characterLevel = characterLevel FROM dbo.AccountGameCharacter WITH(NOLOCK)\r\n\tWHERE gameAccountNo = @gameAccountNo ORDER BY characterLevel DESC\r\nSET @rowCount = @@ROWCOUNT\r\n\r\nIF @rowCount = 1\r\nBEGIN\r\n\tSET @result = 0\r\nEND\r\nELSE\r\nBEGIN\r\n\tSET @result = 1\r\nEND\r\n",
+    "ap_GetGameAccountNo": "---------------------------------------------\r\n/**\r\n*Creator\t:   Jaewon Ryu\r\n*SP Name\t:   dbo.[ap_GetGameAccountNo]\r\n*Purpose\t:   Get gameAccountNo of the gameAccount\r\n*E-Mail\t\t:   veni@ncsoft.net\r\n*Date\t\t:   09/05/2008\r\n*Usage\t\t:\r\n*M.History\t:\t\r\n*===============================================================================\r\n*Input Parameter    :   \r\n*\t@gameAccount\r\n*\t\tgameAccount\r\n*\r\n*/\r\nCREATE\tPROCEDURE [dbo].[ap_GetGameAccountNo]\r\n@gameAccount\tVARCHAR(16)\r\nAS\r\n\r\nSELECT\tgameAccountNo\r\nFROM\tAccountAuth with (nolock)\r\nWHERE\tgameAccount = @gameAccount\r\n",
+    "ap_GetPcRegisterUseFlag": "/**\r\n*Purpose            : PC殿废 辑厚胶 荤侩 咯何甫 府畔钦聪促.\r\n*Record Set         : 绝澜\r\n*Error Code         : 绝澜\r\n*History            : 2009-07-08 nnhope 弥檬 累己\r\n*/\r\n\r\nCREATE  PROCEDURE [dbo].[ap_GetPcRegisterUseFlag]\r\n@gameAccountNo\t\tINT,\r\n@pcRegisterUseFlag\tINT\tOUTPUT\r\n\r\nAS\r\n\r\nSET\t@pcRegisterUseFlag = 0\r\n\r\nSELECT  @pcRegisterUseFlag = ISNULL(dbo.fn_ap_GetPcRegisterFlag (gameAccountNo),0)\r\nFROM\tAccountAuth\r\nWHERE\tgameAccountNo = @gameAccountNo\r\n",
+    "ap_GetRestriction": "/**\r\n*Creator\t:   Jaewon Ryu\r\n*SP Name\t:   dbo.[ap_GetRestriction]\r\n*Purpose\t:   Get message for the restriction of the user\r\n*E-Mail\t\t:   veni@ncsoft.net\r\n*Date\t\t:   09/05/2008\r\n*Usage\t\t:\r\n*M.History\t:\t\r\n*===============================================================================\r\n*Input Parameter    :   \r\n*\t@gameAccountNo\r\n*\t\tgameAccountNo\r\n*\r\n*/\r\nCREATE\tPROCEDURE [dbo].[ap_GetRestriction]\r\n@gameAccountNo\tINT\r\nAS\r\n\r\nSELECT\tgameRestrictionReasonCode, convert(char(8), restrictionEndDate, 112)\r\nFROM\tRestriction\r\nWHERE\tgameAccountNo = @gameAccountNo\r\nAND\t\trestrictionStartDate <= GETDATE()\r\nAND\t\trestrictionEndDate\t>= GETDATE()\r\n",
+    "ap_GetServers": "/**\r\n*Creator\t:   Jaewon Ryu\r\n*SP Name\t:   dbo.[ap_GetServers]\r\n*Purpose\t:   Get information of the servers\r\n*E-Mail\t\t:   veni@ncsoft.net\r\n*Date\t\t:   09/19/2008\r\n*Usage\t\t:\r\n*M.History\t:\t\r\n*===============================================================================\r\n*Input Parameter    :   \r\n*\tNone\r\n*\t\t\r\n*/\r\n\r\nCREATE\tPROCEDURE [dbo].[ap_GetServers]\r\nAS\r\n\r\nSELECT\tgameServerNo, gameServerName, publicNetworkIPAddress, privateNetworkIPAddress, \r\n\t\tuserAgeLimit, dbo.fn_ap_GetPkFlag (ISNULL(serverCustomizeBitSet, 0)), dbo.fn_ap_GetKind (gameServerTypeCode, ISNULL(serverCustomizeBitSet, 0)), \r\n\t\tportNo, serverAreaCode\r\nFROM\tGameServer\r\nORDER BY gameServerNo\r\n",
+    "ap_GetSSN": "/**\r\n*Creator\t:   Jaewon Ryu\r\n*SP Name\t:   dbo.[ap_GetSSN]\r\n*Purpose\t:   Get the ssn of the user\r\n*E-Mail\t\t:   veni@ncsoft.net\r\n*Date\t\t:   09/19/2008\r\n*Usage\t\t:\r\n*M.History\t:\t\r\n*===============================================================================\r\n*Input Parameter    :   \r\n*\t@gameAccountNo\r\n*\t\tgameAccountNo\r\n*\r\n*/\r\n\r\nCREATE\tPROCEDURE [dbo].[ap_GetSSN]\r\n\t@gameAccountNo\tINT,\r\n\t@ssn CHAR(13) OUTPUT\r\nAS\r\n\r\nSELECT\t@ssn = dbo.fn_ap_GetSSN (legalBirthday, genderCode)\r\nFROM\tAccountAuth\r\nWHERE\tgameAccountNo = gameAccountNo\r\n",
+    "ap_GFatigueLastLogoutTime": "/**\r\n*Purpose            : 乔肺档 id俊 措茄 弥辆 肺弊酒眶 矫埃阑 啊廉柯促.\r\n*Record Set         : 弥辆 肺弊酒眶 捞饶 版苞等 矫埃(檬)\r\n*Error Code         : 绝澜\r\n*History            : 2009-11-23 samuel281 弥檬 累己\r\n*/\r\n\r\nCREATE PROCEDURE [dbo].[ap_GFatigueLastLogoutTime]\r\n\t@fcid\tINT,\r\n\t@SecFromLastLogout INT OUTPUT\r\nAS\r\nDECLARE @lastLogout DATETIME\r\nSELECT\t@lastLogout = ISNULL(lastLogoutDate, '2000-01-01')\r\nFROM\tFatigue ( NOLOCK )\r\nWHERE\tfcid = @fcid\r\n\r\nSET @SecFromLastLogout = DATEDIFF(s,@lastLogout,GETDATE())\r\n",
+    "ap_GPwdWithFlag": "/**\r\n*Purpose            : 拌沥狼厚剐锅龋沥焊甫啊廉柯促.\r\n*Record Set         : 厚剐锅龋, 鞠龋拳规侥, otp荤侩咯何, 傈拳牢刘荤侩咯何\r\n*Error Code         : 绝澜\r\n*Description\t\t: L2AuthD config俊辑 UseOTPServer, UseNCTASServer 荤侩咯何俊 蝶扼\r\n* Input Pram苞 SELECT 拿烦狼 林籍贸府甫 茄促.\r\n* ex) UseOTPServer = false, UseNCTASServer = false\r\n* --,@otpFlag\tSMALLINT OUTPUT\t\t-- When otp option has been set.\r\n* --,@tasFlag\tSMALLINT OUTPUT\t\t-- When tas option has been set.\r\n* --, @otpFlag = dbo.fn_ap_GetOtpFlag (gameAccountNo)\t-- When otp option has been set\r\n* --, @tasFlag = dbo.fn_ap_GetTasFlag (gameAccountNo)\t-- When tas option has been set\r\n*History            : 2008-10-20 Jaewon Ryu 弥檬累己\r\n* 2009-07-24 Seunghyeon Choe Datatype 荐沥 棺 tasFlag(傈拳牢刘辑厚胶) 眠啊\r\n*/\r\n\r\nCREATE PROCEDURE [dbo].[ap_GPwdWithFlag]  \r\n@account\tVARCHAR(16)\r\n,@pwd\t\tBINARY(16) OUTPUT\r\n,@flag\t\tSMALLINT OUTPUT\r\n--,@otpFlag\tSMALLINT = 0 OUTPUT\t\t-- When otp option has been set.\r\n--,@tasFlag\tSMALLINT = 0 OUTPUT\t\t-- When tas option has been set.\r\nAS\r\n\r\nif(not exists(select gameAccount from AccountAuth where gameAccount=@account)) begin\r\nif(@account not like '%[^a-zA-Z0-9]%') begin\r\nSELECT\t@pwd=0x00000000000000000000000000000000, @flag=3\r\nexec ap_AutoReg @account\r\nend\r\nend else begin\r\nSELECT @pwd = password, @flag = cryptographTypeCode\r\n\t\t--, @otpFlag = dbo.fn_ap_GetOtpFlag (gameAccountNo)\t-- When otp option has been set\r\n\t\t--, @tasFlag = dbo.fn_ap_GetTasFlag (gameAccountNo)\t-- When tas option has been set\r\nFROM\tAccountAuth\r\nWHERE\tgameAccount = @account\r\nend\r\n",
+    "ap_GStat": "/**\r\n*Purpose            : 拌沥狼惑怕沥焊甫啊廉柯促.\r\n*Record Set         : 搬力咯何(荤侩救窃), 肺弊牢何啊沥焊, 版绊沥焊, 呕硼脚没咯何, 力犁沥焊,\r\n\t\t\t\t\t  殿废咯何, 付瘤阜肺弊牢辑滚, 力犁辆丰老(荤侩救窃), 陛瘤辑滚府胶飘\r\n*Error Code         : 绝澜\r\n*History            : 2008-10-20 Jaewon Ryu 弥檬累己\r\n*/\r\n\r\nCREATE       PROCEDURE [dbo].[ap_GStat]\r\n@account\t\tVARCHAR(14)\r\n, @uid\t\t\tINT OUTPUT \r\n, @payStat\t\tINT OUTPUT \r\n, @loginFlag\t\tINT OUTPUT\r\n, @warnFlag\t\tINT OUTPUT\r\n, @blockFlag\t\tINT OUTPUT\r\n, @blockFlag2\t\tINT OUTPUT \r\n, @subFlag\t\tINT OUTPUT\r\n, @lastworld\t\tTINYINT OUTPUT\r\n, @block_end_date\t\tDATETIME OUTPUT\r\n, @forbidden_servers\tBINARY(16) OUTPUT\t-- When forbidden server option is on\r\n-- , @dormantFlag\t\tINT OUTPUT\t\t\t-- When dormant option is on\r\nAS\r\n\r\nSELECT\t@uid = AA.gameAccountNo,\r\n\t\t@payStat = 0,\r\n\t\t@loginFlag = dbo.fn_ap_GetLoginFlag (AA.gameAccountNo, noticeFlag, authLimitTypeBitSet, gameAccountGradeCode, GETDATE()),\r\n\t\t@warnFlag = dbo.fn_ap_GetWarnFlag (AA.gameAccountNo, noticeFlag, GETDATE()),\r\n\t\t@blockFlag = dbo.fn_ap_GetBlockFlag (AA.gameAccountNo, accountStatusCode),\r\n\t\t@blockFlag2 = dbo.fn_ap_GetBlockFlag2 (AA.gameAccountNo, restrictFlag, GETDATE()),\r\n\t\t@subFlag = 0,\r\n\t\t@lastworld = AE.lastLoginGameServerNo,\r\n\t\t@block_end_date = NULL,\t\t-- not in use\r\n\t\t@forbidden_servers = AE.banServerBitSet\r\nFROM\tAccountAuth AA INNER JOIN AccountETC AE ON (AA.gameAccountNo = AE.gameAccountNo)\r\nWHERE\tgameAccount = @account\r\n",
+    "ap_GStatEtc": "/**\r\n*Purpose            : 拌沥狼 何啊 惑怕 沥焊甫 啊廉柯促.\r\n*Record Set         : 林刮殿废锅龋, 何啊舅覆辑厚胶 咯何, 焊救墨靛 汲沥, 唱捞沥焊, \r\n\t\t\t\t\t  乔肺档 利侩牢刘 沥焊, 乔肺档 酒捞叼 沥焊, 拌沥喊 眠啊 汲沥\r\n*Error Code         : 绝澜\r\n*History            : 2008-10-20 Jaewon Ryu 弥檬 累己\r\n\t\t\t\t\t: 2009-11-25 冠己快 酒捞柯 乔肺档 利侩\r\n*/\r\n\r\nCREATE PROCEDURE [dbo].[ap_GStatEtc]\r\n\t@account\tVARCHAR(14)\r\nAS\r\nSELECT\t\r\n-- dbo.fn_ap_GetSSN (AA.legalBirthday, AA.genderCode)\r\n--\t\t, dbo.fn_ap_GetServiceFlag (AA.gameAccountNo, GETDATE())\t-- When notifying system is set\r\n--\t\t, dbo.fn_ap_GetSecurityCard (AA.gameAccountNo)\t\t-- When security card option is set\r\n--\t\t, dbo.fn_ap_GetAge (AA.legalBirthDay, GETDATE())\t\t-- When fatigue option is set\r\n--\t\t, dbo.fn_ap_GetFatigueAuthFlag (AA.gameAccountNo)\r\n--\t\t, dbo.fn_ap_GetFatigueId (AA.gameAccountNo)\r\n\t\t accountCustomizeBitSet\r\n\t\t, ISNULL(datalength (accountCustomizeBitSet), 0)\r\nFROM\tAccountAuth AA (NOLOCK)INNER JOIN AccountEtc AE (NOLOCK) ON (AA.gameAccountNo = AE.gameAccountNo)\r\nWHERE\tgameAccount = @account\r\n",
+    "ap_GStatEtcT": "/**\r\n*Purpose            : 拌沥狼 何啊 惑怕 沥焊甫 啊廉柯促.\r\n*Record Set         : 林刮殿废锅龋, 何啊舅覆辑厚胶 咯何, 焊救墨靛 汲沥, 唱捞沥焊, \r\n\t\t\t\t\t  乔肺档 利侩牢刘 沥焊, 乔肺档 酒捞叼 沥焊, 拌沥喊 眠啊 汲沥\r\n*Error Code         : 绝澜\r\n*History            : 2008-10-20 Jaewon Ryu 弥檬 累己\r\n\t\t\t\t\t: 2009-11-25 冠己快 酒捞柯 乔肺档 利侩\r\n*\t\t\t\t\t: 2010-03-25 Surym Package Version Info 眠啊\r\n*/\r\n\r\nCREATE PROCEDURE [dbo].[ap_GStatEtcT]\r\n\t@account\tVARCHAR(14)\r\nAS\r\n\r\nSELECT\tdbo.fn_ap_GetSSN (AA.legalBirthday, AA.genderCode)\r\n--\t\t, dbo.fn_ap_GetServiceFlag (AA.gameAccountNo, GETDATE())\t-- When notifying system is set\r\n--\t\t, dbo.fn_ap_GetSecurityCard (AA.gameAccountNo)\t\t\t\t-- When security card option is set\r\n\t\t, dbo.fn_ap_GetAge (AA.legalBirthDay, GETDATE())\t\t\t-- When fatigue option is set\r\n\t\t, dbo.fn_ap_GetFatigueAuthFlag (AA.gameAccountNo)\r\n\t\t, dbo.fn_ap_GetFatigueId (AA.gameAccountNo)\r\n\t\t, accountCustomizeBitSet\r\n\t\t, ISNULL(datalength (accountCustomizeBitSet), 0)\r\n\t\t, ISNULL(packageVersionInfo, 0)\t\t\t\t\t\t\t\t-- When package version option is set\r\nFROM\tAccountAuth AA ( NOLOCK ) INNER JOIN AccountEtc AE ( NOLOCK ) ON (AA.gameAccountNo = AE.gameAccountNo)\r\nWHERE\tAA.gameAccount = @account\r\n",
+    "ap_ModifyOtpFlag": "/**\r\n*Purpose            : OTP flag 蔼 函版\r\n*Record Set         : 绝澜\r\n*Error Code         : 乐澜\r\n*History            : \r\n*\t2011-07-25 by wonwoo\t弥檬 累己\r\n*/\r\n\r\nCREATE PROCEDURE [dbo].[ap_ModifyOtpFlag]  \r\n  @account varchar(16)\r\n, @ErrorCode INT OUTPUT\r\nAS\r\n\r\nSET @ErrorCode\t = 0\r\n\r\nUPDATE dbo.AccountSecurityService\r\nSET accountSecurityStatusCode = 1\r\nFROM dbo.AccountAuth AA WITH (NOLOCK)\r\n\tINNER JOIN dbo.AccountSecurityService ASS WITH (NOLOCK) ON AA.gameAccountNo = ASS.gameAccountNo\r\nWHERE AA.gameAccount = @account AND ASS.accountSecurityMethodCode = 1\r\n\r\nIF @@ROWCOUNT  = 0\r\nBEGIN\r\n\tSET @ErrorCode\t = 1\r\nEND\r\n\r\nRETURN\r\n",
+    "ap_RegisterAccountGameCharacter": "/**\r\n*Purpose            : 拌沥狼 秦寸 岿靛 霸烙 某腐磐甫 殿废茄促.\r\n*Record Set         : 诀单捞飘 搬苞\r\n*Error Code         : 绝澜\r\n*History            : 2012-08-19 leehd@ncsoft.com SP created\r\n*/\r\n\r\nCREATE       PROCEDURE [dbo].[ap_RegisterAccountGameCharacter]\r\n@gameAccountNo\t\t\tINT,\r\n@gameServerNo\t\t\tTINYINT,\r\n@characterId\t\t\tINT,\r\n@characterLevel\t\t\tINT,\r\n@modifyDate\t\t\t\tDATETIME,\r\n@forceRegister\t\t\tBIT,\r\n@result\t\t\t\t\tINT OUTPUT\r\nAS\r\nSET NOCOUNT ON\r\n\r\nDECLARE @currentLevel INT\r\nDECLARE @rowCount INT\r\nSET @currentLevel = 0\r\nSET @rowCount = 0\r\n\r\nBEGIN TRAN\r\nBEGIN TRY\r\nSELECT @currentLevel = characterLevel from dbo.AccountGameCharacter with(nolock) where gameAccountNo = @gameAccountNo and gameServerNo = @gameServerNo\r\nSET @rowCount = @@ROWCOUNT\r\n\r\nIF @rowCount = 0\r\nBEGIN \r\nINSERT dbo.AccountGameCharacter(gameAccountNo, gameServerNo, characterNo, characterLevel, modifyDate)\r\n\tvalues(@gameAccountNo, @gameServerNo, @characterId, @characterLevel, @modifyDate)\r\nEND\r\nELSE IF @characterLevel > @currentLevel OR @forceRegister = 1\r\nBEGIN\r\nUPDATE dbo.AccountGameCharacter SET characterNo = @characterId, characterLevel = @characterLevel, modifyDate = @modifyDate\r\n\tWHERE gameAccountNo = @gameAccountNo and gameServerNo = @gameServerNo\r\nEND\r\nEND TRY\r\nBEGIN CATCH\r\n\tSET @result = 1\r\n\tROLLBACK TRAN\r\n\tRETURN\r\nEND CATCH\r\nCOMMIT\r\n\r\nSET @result = 0\r\n",
+    "ap_RegisterAccountGameSlot": "/**\r\n*Purpose            : 拌沥狼 霸烙 浇吩阑 殿废茄促.\r\n*Record Set         : 诀单捞飘 搬苞\r\n*Error Code         : 绝澜\r\n*History            : 2012-08-17 leehd@ncsoft.com SP created\r\n\t\t\t\t\t: 2012-08-20 leehd@ncsoft.com add onwer(dbo) at selecting table.\r\n\t\t\t\t\t                              add 'SET NOCOUNT ON' at head of SP body\r\n\t\t\t\t\t                              rename procedure name ap_RegisterAccountGameSlot to from ap_SetAccountGameSlot\r\n*/\r\n\r\nCREATE       PROCEDURE [dbo].[ap_RegisterAccountGameSlot]\r\n@gameAccountNo\t\t\tINT,\r\n@slotStartTime\t\tDATETIME,\r\n@slotCustomizeBitset\tVARBINARY(8),\r\n@result\t\t\t\t\tINT OUTPUT\r\nAS\r\nSET NOCOUNT ON\r\n\r\nDECLARE @rowCount INT\r\nSET @rowCount = 0\r\n\r\nSELECT @rowCount = COUNT(@gameAccountNo) FROM dbo.AccountGameSlot WITH(NOLOCK)\r\nWHERE gameAccountNo = @gameAccountNo\r\n\r\nBEGIN TRY \r\nIF @rowCount = 0\r\nBEGIN\r\nINSERT INTO dbo.AccountGameSlot(gameAccountNo, gameSlotAvailStartDate, gameSlotCustomizeBitSet)\r\nVALUES(@gameAccountNo, @slotStartTime, @slotCustomizeBitset)\r\nEND\r\nELSE\r\nBEGIN\r\nUPDATE dbo.AccountGameSlot SET gameSlotAvailStartDate = @slotStartTime, gameSlotCustomizeBitSet = @slotCustomizeBitset\r\nWHERE gameAccountNo = @gameAccountNo\r\nEND\r\nEND TRY\r\nBEGIN CATCH\r\n\tSET @result = 1\r\n\tRETURN\r\nEND CATCH\r\n\r\nSET @result = 0\r\n",
+    "ap_SetAccountRestirction": "/**\r\n*Purpose\t\t\t: account BAN with gameAccountNo and restirctionReasonCode (AION)\r\n*Record Set\t\t\t: None\r\n*Error Code\t\t\t: 1 - not exist accountNo\r\n*\t\t\t\t\t  2 - already banned with same restrictionReasonCode\r\n*\t\t\t\t\t  3 - db insert/update error\r\n*\t\t\t\t\t  999 - system error\r\n*History\t\t\t: 2010-06-23, surym, created\r\n*/\r\n    \r\nCREATE PROCEDURE [dbo].[ap_SetAccountRestirction]\r\n      @gameAccountNo           INT              -- 霸烙 拌沥 锅龋\r\n    , @restrictionReasonCode   SMALLINT         -- 力犁荤蜡内靛\r\n\t, @gameAccount             VARCHAR(32) OUT  -- 霸烙 拌沥\r\n    , @restrictionNo           INT OUTPUT       -- 力犁锅龋\r\nAS      \r\n      \r\nSET NOCOUNT ON      \r\n\r\nDECLARE @restrictionEndDate DATETIME\r\nDECLARE @SysErrorCode int, @AffectedRowCnt int      \r\nDECLARE @retcode       INT      \r\nDECLARE @restrictionCode INT\r\n\r\nSET @restrictionEndDate = '9999-12-31 23:59:59'\r\nSET @retcode = 0\r\nSET @restrictionCode = 43\r\n\r\n--=============================================================================\r\n-- Mapping Information (AION)\r\n-- @restrictionReasonCode | @restrictionCode         | Description\r\n-- 0                      | 43                       | 酒单唱函炼(虐唱函炼)\r\n-- 1 ~ 65535              | reserved                 | not defined yet\r\n--\r\n\r\nSET @restrictionCode = CASE @restrictionReasonCode\r\n\t\t\t\t\t\tWHEN 0 THEN 43\r\n\t\t\t\t\t\tELSE 43\r\n\t\t\t\t\t\tEND\r\n\r\n--=============================================================================\r\nSELECT @gameAccount=gameAccount FROM accountAuth WITH (NOLOCK) WHERE gameAccountNo = @gameAccountNo    \r\nIF @@ROWCOUNT = 0      \r\nBEGIN      \r\n\tSET  @retcode = 1\r\nGOTO END_NO_ROLLBACK      \r\nEND\r\n\r\nBEGIN      \r\n\tIF (SELECT COUNT(*) FROM   dbo.Restriction WITH (NOLOCK) WHERE       \r\n\t\tgameAccountNo = @gameAccountNo AND restrictionEndDate > getDate() AND gameRestrictionReasonCode = @restrictionCode) > 0      \r\n\tBEGIN      \r\n\t\tSET  @retcode = 2\r\n\t\tGOTO END_NO_ROLLBACK      \r\n\tEND      \r\nEND      \r\n\r\n--=============================================================================\r\nBEGIN TRAN     \r\n\tBEGIN      \r\n\t\tINSERT dbo.Restriction       \r\n\t\t\t( gameAccountNo, gameRestrictionReasonCode, restrictionStartDate, restrictionEndDate, restrictionExpireDate)      \r\n\t\tVALUES      \r\n\t\t\t( @gameAccountNo, @restrictionCode, getDate(), @restrictionEndDate, @restrictionEndDate)      \r\n\t\tIF @@ERROR <> 0 GOTO END_ROLLBACK        \r\n\r\n\t\tSELECT @restrictionNo = @@IDENTITY\r\n\t\tUPDATE AccountAuth SET  restrictFlag = 1 where gameAccountNo = @gameAccountNo    \r\n\t\tIF @@ERROR <> 0 GOTO END_ROLLBACK      \r\n\tEND        \r\nCOMMIT TRAN \r\n\r\nRETURN @retcode\r\n\r\n--=============================================================================\r\nEND_ROLLBACK:       \r\nIF @@TRANCOUNT > 0      \r\nBEGIN      \r\n\tROLLBACK TRAN      \r\nEND      \r\nSET @retcode = 3\r\nRETURN @retcode\r\n\r\n--=============================================================================\r\nEND_NO_ROLLBACK:\r\nIF @retcode IS NULL      \r\nBEGIN      \r\n\tSET  @retcode = 999      \r\nEND      \r\nRETURN @retcode\r\n",
+    "ap_SetConcurrentUserStatistics": "/**\r\n*Creator\t:   Jaewon Ryu\r\n*SP Name\t:   dbo.[ap_SetConcurrentUserStatistics]\r\n*Purpose\t:   Record the number of players for each server.\r\n*E-Mail\t\t:   veni@ncsoft.net\r\n*Date\t\t:   09/19/2008\r\n*Usage\t\t:\r\n*M.History\t:\t\r\n*===============================================================================\r\n*Input Parameter    :   \r\n*\t@serverNo\r\n*\t\tserverNo\r\n*\t@concurrentWorldUserCount\r\n*\t\tthe number of users connected to each server\r\n*\t@concurrentUserLimit\r\n*\t\tthe upper limit to which the server afford to accept.\r\n*\t@concurrentAuthUserCount\r\n*\t\ttotal of connected users.\r\n*\t@concurrentAuthWaitCount\r\n*\t\tplayers to stay in the waiting room.\r\n*/\r\n\r\nCREATE PROCEDURE [dbo].[ap_SetConcurrentUserStatistics] \r\n@serverNo\t\t\t\t\tSMALLINT,\r\n@concurrentWorldUserCount\tINT,\r\n@concurrentUserLimit\t\tINT,\r\n@concurrentAuthUserCount\tINT,\r\n@concurrentAuthWaitCount\tINT\r\n\r\nAS\r\n\r\nIF @serverNo = 0 \r\nBEGIN\r\n\tINSERT INTO\tConcurrentUserStat (serverNo, serverTypeCode, concurrentUserStatTypeCode, \r\n\t\t\t\tconcurrentUserLimit, concurrentUserCount, registerDate)\r\n\tVALUES (@serverNo, 1, 2, @concurrentUserLimit, @concurrentAuthUserCount, GETDATE())\r\n\r\n\tINSERT INTO\tConcurrentUserStat (serverNo, serverTypeCode, concurrentUserStatTypeCode, \r\n\t\t\t\tconcurrentUserLimit, concurrentUserCount, registerDate)\r\n\tVALUES (@serverNo, 1, 1, @concurrentUserLimit, @concurrentAuthWaitCount, GETDATE())\r\n\r\nEND\r\nELSE\r\nBEGIN\r\n\tINSERT INTO\tConcurrentUserStat (serverNo, serverTypeCode, concurrentUserStatTypeCode, \r\n\t\t\t\tconcurrentUserLimit, concurrentUserCount, registerDate)\r\n\tVALUES (@serverNo, 2, 2, @concurrentUserLimit, @concurrentWorldUserCount, GETDATE())\r\nEND\r\n",
+    "ap_SetIllegalLoginTrace": "/**\r\n*Creator\t:   Jaewon Ryu\r\n*SP Name\t:   dbo.[ap_SetIllegalLoginTrace]\r\n*Purpose\t:   Record the trace log for illegal login try.\r\n*E-Mail\t\t:   veni@ncsoft.net\r\n*Date\t\t:   09/19/2008\r\n*Usage\t\t:\r\n*M.History\t:\t\r\n*===============================================================================\r\n*Input Parameter    :   \r\n*\t@gameAccountNo\r\n*\t\tgameAccountNo\r\n*\t@ip\r\n*\t\tIP address of the host from which the user tried to login.\r\n*\t@traceTypeCode\r\n*\t\ttrace type code\r\n*/\r\n\r\nCREATE\tPROCEDURE [dbo].[ap_SetIllegalLoginTrace]\r\n@gameAccountNo\tINT,\r\n@IP\t\t\t\tVARCHAR(15),\r\n@traceTypeCode\tSMALLINT\r\nAS\r\n\r\nINSERT INTO\tIllegalLoginTrace (gameAccountNo, illegalLoginTraceTypeCode, IPAddress, registerDate)\r\nVALUES (@gameAccountNo, @traceTypeCode, @IP, GETDATE())\r\n",
+    "ap_SetPasswordResetFlag": "/**\r\n*Creator\t:   Jaewon Ryu\r\n*SP Name\t:   dbo.[ap_SetPasswordResetFlag]\r\n*Purpose\t:   Set the flag to force the user change the password before logging in.\r\n*E-Mail\t\t:   veni@ncsoft.net\r\n*Date\t\t:   09/19/2008\r\n*Usage\t\t:\r\n*M.History\t:\t\r\n*===============================================================================\r\n*Input Parameter    :   \r\n*\t@gameAccountNo\r\n*\t\tgameAccountNo\r\n*\r\n*/\r\n\r\nCREATE\tPROCEDURE [dbo].[ap_SetPasswordResetFlag]\r\n@gameAccountNo\tINT\r\nAS\r\n\r\nINSERT\tAccountLoginNotice\r\nVALUES\t(@gameAccountNo, 3, getdate(), '9999-12-31')\r\n\r\nUPDATE\tAccountAuth\r\nSET\t\tnoticeFlag = 1\r\nWHERE\tgameAccountNo = @gameAccountNo\r\n",
+    "ap_SetServerStatus": "/**\r\n*Creator\t:   Jaewon Ryu\r\n*SP Name\t:   dbo.[ap_SetServerStatus]\r\n*Purpose\t:   Update the state of the server\r\n*E-Mail\t\t:   veni@ncsoft.net\r\n*Date\t\t:   09/19/2008\r\n*Usage\t\t:\r\n*M.History\t:\t\r\n*===============================================================================\r\n*Input Parameter    :   \r\n*\t@gameServerNo\r\n*\t\tgameServerNo\r\n*\t@statusCode\r\n*\t\tthe current state of the game server\r\n*/\r\n\r\nCREATE\tPROCEDURE [dbo].[ap_SetServerStatus]\r\n\t@gameServerNo\tTINYINT,\r\n\t@statusCode\t\tTINYINT\t\t\t\r\nAS\r\n\r\nIF @gameServerNo = 0 \r\nBEGIN\r\n\tUPDATE\tGameServer\r\n\tSET\t\tgameServerStatusCode = @statusCode\r\nEND\r\nELSE\r\nBEGIN\r\n\tUPDATE\tGameServer\r\n\tSET\t\tgameServerStatusCode = @statusCode\r\n\t--WHERE\tgameServerNo = @gameServerNo\r\nEND\r\n\r\nRETURN\r\n",
+    "ap_SetServerStatusT": "/**  \r\n*Creator :   kundong  \r\n*SP Name :   dbo.[ap_SetServerStatusT]  \r\n*Purpose :   Update the state of the server  \r\n*E-Mail  :   kundong@ncsoft.net  \r\n*Date  :   08/19/2010  \r\n*Usage  :  \r\n*M.History :   \r\n*===============================================================================  \r\n*Input Parameter    :     \r\n* @gameServerNo  \r\n*  gameServerNo  \r\n* @statusCode  \r\n*  the current state of the game server  \r\n*/  \r\n  \r\nCREATE PROCEDURE [dbo].[ap_SetServerStatusT]  \r\n @gameServerNo TINYINT,  \r\n @statusCode  TINYINT     \r\nAS  \r\n  \r\nIF @gameServerNo = 0   \r\nBEGIN  \r\n UPDATE GameServer  \r\n SET  gameServerStatusCode = @statusCode  \r\nEND  \r\nELSE  \r\nBEGIN  \r\n UPDATE GameServer  \r\n SET  gameServerStatusCode = @statusCode  \r\n WHERE gameServerNo = @gameServerNo  \r\nEND  \r\n  \r\nRETURN\r\n",
+    "ap_SFatiguePlayTime": "/**\r\n*Purpose            : 乔肺档 抛捞喉狼 playtime苞 lastlogout 矫埃阑 诀单捞飘 茄促.\r\n*Record Set         : 绝澜\r\n*Error Code         : 绝澜\r\n*History            : 2009-11-23 samuel281 弥檬 累己\r\n*/\r\nCREATE  PROCEDURE [dbo].[ap_SFatiguePlayTime]\r\n@fcid\t\tINT,\r\n@playTime\tINT\r\n\r\nAS\r\n\r\nUPDATE\tFatigue\r\nSET\tplayTime = playTime + @playTime,\r\n\tlastLogoutDate = getdate()\r\nWHERE\tfcid = @fcid\r\n",
+    "ap_SFatigueRestTime": "/**\r\n*Purpose            : 乔肺档 抛捞喉狼 playTime, restTime阑 炼雀窍绊\r\n                      refreshTime捞惑栏肺 绒侥矫埃捞 版苞等 版快 滴 鞘靛甫 檬扁拳 茄促.\r\n*Record Set         : 绝澜\r\n*Error Code         : 绝澜\r\n*History            : 2009-11-23 samuel281 弥檬 累己\r\n*/\r\nCREATE   PROCEDURE [dbo].[ap_SFatigueRestTime]\r\n@fcid\t\t\tINT,\r\n@concurrentCnt\tINT,\r\n@refreshTime\tINT,\r\n@playTime\t\tINT OUTPUT,\r\n@restTime\t\tINT OUTPUT\r\n\r\nAS\r\n\r\nSET NOCOUNT ON\r\n\r\nDECLARE\t@last_logout\tdatetime\r\n\r\nSELECT\t@last_logout = ISNULL(lastLogoutDate, '2000-01-01'), @restTime = restTime, @playTime = @playTime + playTime\r\nFROM\tFatigue ( NOLOCK )\r\nWHERE \tfcid = @fcid\r\n\r\nIF (@concurrentCnt = 1)\r\nBEGIN\r\n\tSET\t@restTime = @restTime + DATEDIFF (s, @last_logout, getdate())\r\n\r\n\tIF (@restTime > @refreshTime)\r\n\tBEGIN\r\n\t\tSET\t@restTime = 0\r\n\t\tSET\t@playTime = 0\r\n\r\n\t\tUPDATE\tFatigue\r\n\t\tSET\t\tplayTime = @playTime,\r\n\t\t\t\trestTime = @restTime\r\n\t\tWHERE\tfcid = @fcid\r\n\tEND\r\n\tELSE\r\n\tBEGIN\r\n\t\tUPDATE\tFatigue\r\n\t\tSET\t\trestTime = @restTime\r\n\t\tWHERE\tfcid = @fcid\r\n\tEND\r\nEND\r\n",
+    "ap_SLog": "/**\r\n*Purpose            : 拌沥肺弊酒眶矫沥焊甫扁废茄促. \r\n*Record Set         : 绝澜\r\n*Error Code         : 绝澜\r\n*History            : 2008-10-20 Jaewon Ryu 弥檬累己\r\n*/\r\n\r\nCREATE  PROCEDURE [dbo].[ap_SLog] \r\n  @uid\t\t\tINT\t\t\t\t-- 霸烙拌沥锅龋\r\n, @lastlogin\tDATETIME\t\t-- 付瘤阜肺弊牢矫埃\r\n, @lastlogout\tDATETIME\t\t-- 付瘤阜肺弊酒眶矫埃\r\n, @LastGame\t\tINT\t\t\t\t-- 付瘤阜肺弊牢茄霸烙\r\n, @LastWorld\tTINYINT\t\t\t-- 付瘤阜肺弊牢茄霸烙辑滚\r\n, @LastIP\t\tVARCHAR(15)\t\t-- 付瘤阜肺弊牢茄IP\r\nAS\r\n\r\nDECLARE @hardware varchar(16)\r\n\r\nUPDATE\tAccountETC\r\nSET\tlastLoginDate = @lastlogin,\r\n\t\tlastLogoutDate = @lastlogout,\r\n\t\tlastLoginGameServerNo = @LastWorld\r\nWHERE\tgameAccountNo = @uid\r\n\r\nSELECT @hardware = hardware FROM AccountETC WHERE gameAccountNo = @uid\r\n",
+    "ap_SNewPwd": "/**\r\n*Purpose            : 货肺款 鞠龋拳 规侥狼 厚剐锅龋甫 汲沥茄促. \r\n*Record Set         : 绝澜\r\n*Error Code         : 绝澜\r\n*History            : 2008-10-20 Jaewon Ryu 弥檬 累己\r\n*                     2013-02-21 leehd@ncsoft.com 牢磊 荐 函版(sync) - 鞠龋拳 规侥俊 蝶弗 牢磊 贸府 眠啊\r\n*/\r\nCREATE PROCEDURE [dbo].[ap_SNewPwd]  \r\n\t  @account\tVARCHAR(14)\t\t-- 霸烙 拌沥\r\n\t, @pwd\t\tBINARY(16)\t\t-- 厚剐锅龋\r\n\t, @encFlag  TINYINT         -- 鞠龋拳 规侥\r\nAS\r\n\r\nUPDATE\tdbo.AccountAuth\r\nSET\t\tcryptographTypeCode = @encFlag,\r\n\t\tpassword = @pwd\r\nWHERE\tgameAccount = @account\r\n",
+    "ap_SUserData": "/**\r\n*Purpose            : 荤侩磊何啊沥焊甫扁废茄促. \r\n*Record Set         : 绝澜\r\n*Error Code         : 绝澜\r\n*History            : 2008-10-20 Jaewon Ryu 弥檬累己\r\n*/\r\n\r\nCREATE PROCEDURE [dbo].[ap_SUserData]\r\n  @account\t\t\tVARCHAR (14)\t\t-- 霸烙拌沥\r\n, @userdata_size\tSMALLINT\t\t\t-- 荤侩磊何啊沥焊农扁\r\n, @userdata\t\t\tVARBINARY(128)\t\t-- 荤侩磊何啊沥焊\r\nAS\r\n\r\nUPDATE\tAE\r\nSET\t\taccountCustomizeBitSet = @userdata\r\nFROM\tAccountAuth AA INNER JOIN AccountETC AE ON (AA.gameAccountNo = AE.gameAccountNo)\r\nWHERE\tAA.gameAccount = @account\r\n"
+  }
+}

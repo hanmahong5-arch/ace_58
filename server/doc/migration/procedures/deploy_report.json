@@ -1,0 +1,512 @@
+{
+  "timestamp": "2026-04-09T21:29:08.843483",
+  "databases": {
+    "aion_world_live": {
+      "helpers": {
+        "success": 44,
+        "fail": 0
+      },
+      "deploy": {
+        "success": 986,
+        "fail": 77,
+        "error_categories": {
+          "42601": 77
+        },
+        "sample_errors": [
+          {
+            "function": "gm_userrateda_srchuserlistbyrank",
+            "error_code": "42601",
+            "error": "错误:  语法错误 在 \"(\" 或附近的\nLINE 13: ...RE r.rate_id = ' || CAST(p_rate_id AS varchar) IF (COALESCE(...\n                                                              ^\n"
+          },
+          {
+            "function": "gm_userresetname_srch",
+            "error_code": "42601",
+            "error": "错误:  括号不匹配 在 \")\" 或附近的\nLINE 14: ..._old like p_user_id || '%' order by char_name_old ) and char...\n                                                              ^\n"
+          },
+          {
+            "function": "aion_updateolduseroflowleveltodelete",
+            "error_code": "42601",
+            "error": "错误:  语法错误 在 \"'),0) AND lev < '\" 或附近的\nLINE 14: ...WithUTCAdjust((CURRENT_TIMESTAMP AT TIME ZONE 'UTC'),0) AND ...\n                                                              ^\n"
+          },
+          {
+            "function": "aion_getvendoraveragedark",
+            "error_code": "42601",
+            "error": "错误:  语法错误 在 \"IF\" 或附近的\nLINE 30:     END IF;\n                 ^\n"
+          },
+          {
+            "function": "aion_getvendoraveragelight",
+            "error_code": "42601",
+            "error": "错误:  语法错误 在 \"IF\" 或附近的\nLINE 30:     END IF;\n                 ^\n"
+          }
+        ]
+      },
+      "test": {
+        "total": 1030,
+        "clean_success": 363,
+        "callable": 971,
+        "fail": 59,
+        "error_codes": {
+          "23502": 208,
+          "42804": 374,
+          "42883": 35,
+          "42703": 8,
+          "42P01": 8,
+          "P0001": 3,
+          "22004": 24,
+          "42725": 2,
+          "22P02": 2,
+          "3F000": 1,
+          "42601": 1,
+          "2F005": 1
+        },
+        "error_samples": {
+          "23502": [
+            {
+              "function": "aion_addauction",
+              "error": "错误:  null value in column \"id\" of relation \"user_auction\" violates not-null constraint\nDETAIL:  失败, 行包含(null, null, null, null, null, null, 0, , null, null, null, 0, 0, null, 0).\nCONTEXT:  SQL 语句 \"ins"
+            },
+            {
+              "function": "aion_addauctionfilterlist",
+              "error": "错误:  null value in column \"filterid\" of relation \"user_auctionfilter\" violates not-null constraint\nDETAIL:  失败, 行包含(null, null, null).\nCONTEXT:  SQL 语句 \"insert into user_auctionfilter (type, goodsID) "
+            }
+          ],
+          "42804": [
+            {
+              "function": "aion_addedservice_type4_movechar_checkconn_local_ors",
+              "error": "错误:  structure of query does not match function result type\nDETAIL:  在第1列中返回类型integer与期望的类型text不匹配.\nCONTEXT:  SQL 语句 \"SELECT 0 as result\"\n在RETURN QUERY的第3行的PL/pgSQL函数aion_addedservice_type4_movechar_c"
+            },
+            {
+              "function": "aion_adderrorignore",
+              "error": "错误:  字段 \"id\" 的类型为 integer, 但表达式的类型为 character varying\nLINE 1: insert into error_ignore values(p_ignore)\n                                        ^\nHINT:  你需要重写或转换表达式\nQUERY:  insert into error_ignore va"
+            }
+          ],
+          "42883": [
+            {
+              "function": "aion_changecharname_20090423",
+              "error": "错误:  操作符不存在: character varying = integer\nLINE 1: ...ISTS (SELECT char_id FROM user_data WHERE user_id = p_strNew...\n                                                             ^\nHINT:  没有匹配指定名称和参数类型的"
+            },
+            {
+              "function": "aion_changecharname_20160620",
+              "error": "错误:  操作符不存在: character varying = integer\nLINE 1: ...ISTS (SELECT char_id FROM user_data WHERE user_id = p_strNam...\n                                                             ^\nHINT:  没有匹配指定名称和参数类型的"
+            }
+          ],
+          "42703": [
+            {
+              "function": "aion_deleteeventitem",
+              "error": "错误:  字段 \"object_id\" 不存在\nLINE 1: NOT EXISTS (SELECT object_id FROM information_schema.tables ...\n                           ^\nQUERY:  NOT EXISTS (SELECT object_id FROM information_schema.tables WHERE n"
+            },
+            {
+              "function": "aion_deleteguildmemberall",
+              "error": "错误:  字段 \"guild_id\" 不存在\nLINE 1: ...ild_update_date = CURRENT_TIMESTAMP FROM ( SELECT guild_id,c...\n                                                             ^\nDETAIL:  表\"user_data\"中存在一列,名为\"guild_id\""
+            }
+          ],
+          "42P01": [
+            {
+              "function": "aion_getaccountextrainfo",
+              "error": "错误:  关系 \"account_extra_info\" 不存在\nLINE 1: SELECT COALESCE(hidden_fatigue_point, 0) from account_extra_...\n                                                      ^\nQUERY:  SELECT COALESCE(hidden_fatigue_"
+            },
+            {
+              "function": "aion_getdbprofile_statisticsiowaittime",
+              "error": "错误:  关系 \"sys.dm_os_wait_stats\" 不存在\nLINE 1: ..._time_ms, wait_time_ms / waiting_tasks_count from sys.dm_os_...\n                                                             ^\nQUERY:  SELECT  wait_type, "
+            }
+          ],
+          "P0001": [
+            {
+              "function": "aion_mailrestoreitem",
+              "error": "错误:  Rollback requested\nCONTEXT:  在RAISE的第11行的PL/pgSQL函数aion_mailrestoreitem(integer,integer,bigint)\n"
+            },
+            {
+              "function": "aion_removeitembind",
+              "error": "错误:  Rollback requested\nCONTEXT:  在RAISE的第13行的PL/pgSQL函数aion_removeitembind(bigint,integer)\n"
+            }
+          ],
+          "22004": [
+            {
+              "function": "aion_resetfinishedrepeatquestlist",
+              "error": "错误:  EXECUTE的查询字符串参数是空值\nCONTEXT:  在EXECUTE的第6行的PL/pgSQL函数aion_resetfinishedrepeatquestlist(text,integer)\n"
+            },
+            {
+              "function": "gm_abyssda_srchabysscontributor",
+              "error": "错误:  EXECUTE的查询字符串参数是空值\nCONTEXT:  在EXECUTE的第17行的PL/pgSQL函数gm_abyssda_srchabysscontributor(character varying,character varying,character varying,character varying,character varying,character varying)\n"
+            }
+          ],
+          "42725": [
+            {
+              "function": "getunixtimewithutcadjust",
+              "error": "错误:  函数 getunixtimewithutcadjust(unknown, unknown) 不是唯一的\nLINE 1: SELECT getunixtimewithutcadjust(NULL, NULL)\n               ^\nHINT:  无法选择最佳候选函数. 你也许需要增加明确的类型转换.\n"
+            },
+            {
+              "function": "getunixtimewithutcadjust",
+              "error": "错误:  函数 getunixtimewithutcadjust(unknown, unknown) 不是唯一的\nLINE 1: SELECT getunixtimewithutcadjust(NULL, NULL)\n               ^\nHINT:  无法选择最佳候选函数. 你也许需要增加明确的类型转换.\n"
+            }
+          ],
+          "22P02": [
+            {
+              "function": "gm_abyssda_srchabyss",
+              "error": "错误:  无效的类型 integer 输入语法: \"\"\nLINE 1: ...OALESCE(g.fund, 0) as fund, COALESCE(g.master_id, '') as mas...\n                                                             ^\nQUERY:  SELECT\ta.abyss_id, a.owner"
+            },
+            {
+              "function": "gm_abyssda_srchabyssinfobyid",
+              "error": "错误:  无效的类型 integer 输入语法: \"\"\nLINE 1: ...OALESCE(g.fund, 0) as fund, COALESCE(g.master_id, '') as mas...\n                                                             ^\nQUERY:  SELECT\ta.abyss_id, a.owner"
+            }
+          ],
+          "3F000": [
+            {
+              "function": "gm_userrateda_srchuserlist_del",
+              "error": "错误:  模式 \"v_xml\" 不存在\nLINE 1: ... IN (SELECT n.value('.', 'tinyint') as class from v_xml.node...\n                                                             ^\nQUERY:  SELECT  r.id, r.mu, r.sigma, u.cha"
+            }
+          ],
+          "42601": [
+            {
+              "function": "gm_worldbotchannelinfoda_srchuserlist",
+              "error": "错误:  语法错误 在 \"RETURN\" 或附近的\nLINE 2:     RETURN QUERY SELECT w.char_id, w.account_id, w.world_id ...\n            ^\nQUERY:  ;\n    RETURN QUERY SELECT\tw.char_id, w.account_id, w.world_id as zone_id, u.user"
+            }
+          ],
+          "2F005": [
+            {
+              "function": "sp_whale_fall_set_mode",
+              "error": "错误:  控制流程到达函数的结束部分，但是没有看到RETURN\nCONTEXT:  PL/pgSQL函数 sp_whale_fall_set_mode(character varying)\n"
+            }
+          ]
+        }
+      }
+    },
+    "aion_account_db": {
+      "helpers": {
+        "success": 44,
+        "fail": 0
+      },
+      "deploy": {
+        "success": 49,
+        "fail": 3,
+        "error_categories": {
+          "42601": 3
+        },
+        "sample_errors": [
+          {
+            "function": "account_input",
+            "error_code": "42601",
+            "error": "错误:  括号不匹配 在 \")\" 或附近的\nLINE 18: ...ey,27,4,v_accountNo,v_genderCode,v_legalBirthday,v_retCode);\n                                                                      ^\n"
+          },
+          {
+            "function": "ap_gpwdwithflag",
+            "error_code": "42601",
+            "error": "错误:  在SQL表达式的结尾处丢失\"THEN\"\nLINE 9: ...ccount from AccountAuth where gameAccount=p_account)) begin;\n                                                                      ^\n"
+          },
+          {
+            "function": "ap_setaccountrestirction",
+            "error_code": "42601",
+            "error": "错误:  语法错误 在输入的末尾\nLINE 21: ...trictionCode := CASE p_restrictionReasonCode WHEN 0 THEN 43;\n                                                                       ^\n"
+          }
+        ]
+      },
+      "test": {
+        "total": 93,
+        "clean_success": 67,
+        "callable": 83,
+        "fail": 10,
+        "error_codes": {
+          "42P01": 3,
+          "22004": 2,
+          "42846": 1,
+          "42804": 6,
+          "42883": 4,
+          "P0001": 1,
+          "23502": 6,
+          "42703": 1,
+          "42725": 2
+        },
+        "error_samples": {
+          "42P01": [
+            {
+              "function": "aop_getaccountnoticelist",
+              "error": "错误:  关系 \"commondb.commoncode\" 不存在\nLINE 1: ..., ALN.noticeEndDate FROM accountLoginNotice ALN , commondb.c...\n                                                             ^\nQUERY:  SELECT ALN.gameAccou"
+            },
+            {
+              "function": "aop_getgameserverchargegrouplist",
+              "error": "错误:  关系 \"sn.gameserverchargegroup\" 不存在\nLINE 1: SELECT gameServerNo, gameServerChargeGroupNo FROM SN.GameSer...\n                                                          ^\nQUERY:  SELECT\tgameServerNo, "
+            }
+          ],
+          "22004": [
+            {
+              "function": "aop_getblocklist",
+              "error": "错误:  EXECUTE的查询字符串参数是空值\nCONTEXT:  在EXECUTE的第9行的PL/pgSQL函数aop_getblocklist(character varying,integer,integer)\n"
+            },
+            {
+              "function": "sp_executesql",
+              "error": "错误:  EXECUTE的查询字符串参数是空值\nCONTEXT:  在EXECUTE的第3行的PL/pgSQL函数sp_executesql(text)\n"
+            }
+          ],
+          "42846": [
+            {
+              "function": "ap_autoreg",
+              "error": "错误:  无法把类型 integer 转换为 bytea\nLINE 1: ...e, authLimitTypeBitSet) VALUES (v_ssn, p_account, CAST(0 AS ...\n                                                             ^\nQUERY:  INSERT INTO AccountAuth ("
+            }
+          ],
+          "42804": [
+            {
+              "function": "ap_getgameaccountno",
+              "error": "错误:  structure of query does not match function result type\nDETAIL:  在第1列中返回类型integer与期望的类型text不匹配.\nCONTEXT:  SQL 语句 \"SELECT\tgameAccountNo FROM\tAccountAuth WHERE\tgameAccount = p_gameAccount\"\n在RETURN Q"
+            },
+            {
+              "function": "ap_getrestriction",
+              "error": "错误:  structure of query does not match function result type\nDETAIL:  在第1列中返回类型smallint与期望的类型text不匹配.\nCONTEXT:  SQL 语句 \"SELECT\tgameRestrictionReasonCode, CAST(restrictionEndDate AS char(8)) FROM\tRestri"
+            }
+          ],
+          "42883": [
+            {
+              "function": "ap_gstat",
+              "error": "错误:  函数 fn_ap_getloginflag(integer, boolean, integer, smallint, timestamp with time zone) 不存在\nLINE 1: SELECT AA.gameAccountNo, 0, fn_ap_GetLoginFlag (AA.gameAccou...\n                                  "
+            },
+            {
+              "function": "pap_getaccountbyuserid",
+              "error": "错误:  函数 pap_getaccount(character varying, integer, bytea, smallint, timestamp without time zone, smallint) 不存在\nLINE 1: v_ret := pap_GetAccount(p_account, p_uid, p_password, p_pass...\n                 "
+            }
+          ],
+          "P0001": [
+            {
+              "function": "ap_registeraccountgamecharacter",
+              "error": "错误:  Rollback requested\nCONTEXT:  在RAISE的第20行的PL/pgSQL函数ap_registeraccountgamecharacter(integer,smallint,integer,integer,timestamp without time zone,boolean)\n"
+            }
+          ],
+          "23502": [
+            {
+              "function": "ap_setconcurrentuserstatistics",
+              "error": "错误:  null value in column \"serverno\" of relation \"concurrentuserstat\" violates not-null constraint\nDETAIL:  失败, 行包含(null, 2, 2, null, null, 2026-04-10 09:31:15.235107).\nCONTEXT:  SQL 语句 \"INSERT INTO\tC"
+            },
+            {
+              "function": "ap_setillegallogintrace",
+              "error": "错误:  null value in column \"gameaccountno\" of relation \"illegallogintrace\" violates not-null constraint\nDETAIL:  失败, 行包含(null, null, null, 2026-04-10 09:31:15.293849).\nCONTEXT:  SQL 语句 \"INSERT INTO\tIll"
+            }
+          ],
+          "42703": [
+            {
+              "function": "ap_slog",
+              "error": "错误:  字段 \"hardware\" 不存在\nLINE 1: SELECT hardware                 WHERE gameAccountNo = p_uid\n               ^\nQUERY:  SELECT hardware                 WHERE gameAccountNo = p_uid\nCONTEXT:  在SQL语句的第6行的PL/"
+            }
+          ],
+          "42725": [
+            {
+              "function": "getunixtimewithutcadjust",
+              "error": "错误:  函数 getunixtimewithutcadjust(unknown, unknown) 不是唯一的\nLINE 1: SELECT getunixtimewithutcadjust(NULL, NULL)\n               ^\nHINT:  无法选择最佳候选函数. 你也许需要增加明确的类型转换.\n"
+            },
+            {
+              "function": "getunixtimewithutcadjust",
+              "error": "错误:  函数 getunixtimewithutcadjust(unknown, unknown) 不是唯一的\nLINE 1: SELECT getunixtimewithutcadjust(NULL, NULL)\n               ^\nHINT:  无法选择最佳候选函数. 你也许需要增加明确的类型转换.\n"
+            }
+          ]
+        }
+      }
+    },
+    "aion_account_cache_db": {
+      "helpers": {
+        "success": 44,
+        "fail": 0
+      },
+      "deploy": {
+        "success": 97,
+        "fail": 4,
+        "error_categories": {
+          "42601": 4
+        },
+        "sample_errors": [
+          {
+            "function": "aion_getplaytimesforpolls",
+            "error_code": "42601",
+            "error": "错误:  语法错误 在 \"IF\" 或附近的\nLINE 34:     END IF;\n                 ^\n"
+          },
+          {
+            "function": "aion_querycancreatejumpingcharacter",
+            "error_code": "42601",
+            "error": "错误:  语法错误 在 \"ELSE\" 或附近的\nLINE 31:     ELSE\n             ^\n"
+          },
+          {
+            "function": "aion_querycancreatejumpingcharacter_20170428",
+            "error_code": "42601",
+            "error": "错误:  语法错误 在 \"ELSE\" 或附近的\nLINE 38:     ELSE\n             ^\n"
+          },
+          {
+            "function": "aion_updateplaytimesforpolls",
+            "error_code": "42601",
+            "error": "错误:  语法错误 在 \"IF\" 或附近的\nLINE 50:     END IF;\n                 ^\n"
+          }
+        ]
+      },
+      "test": {
+        "total": 141,
+        "clean_success": 69,
+        "callable": 134,
+        "fail": 7,
+        "error_codes": {
+          "42804": 32,
+          "23502": 32,
+          "42P01": 3,
+          "42725": 2,
+          "42883": 2,
+          "22004": 1
+        },
+        "error_samples": {
+          "42804": [
+            {
+              "function": "aion_getaccountdata",
+              "error": "错误:  structure of query does not match function result type\nDETAIL:  在第1列中返回类型integer与期望的类型text不匹配.\nCONTEXT:  SQL 语句 \"SELECT hidden_fatigue_point, hidden_fatigue_updatetime from account_data WHERE acc"
+            },
+            {
+              "function": "aion_getaccountdata_20151117",
+              "error": "错误:  structure of query does not match function result type\nDETAIL:  在第1列中返回类型integer与期望的类型text不匹配.\nCONTEXT:  SQL 语句 \"SELECT hidden_fatigue_point, hidden_fatigue_updatetime, COALESCE(hidden_fatigue_np"
+            }
+          ],
+          "23502": [
+            {
+              "function": "aion_getlastchecktimeusermovesvr",
+              "error": "错误:  null value in column \"server_id\" of relation \"aion_server_data\" violates not-null constraint\nDETAIL:  失败, 行包含(null, 1775784687).\nCONTEXT:  SQL 语句 \"INSERT INTO aion_server_data(server_id, movesvr_"
+            },
+            {
+              "function": "aion_getlunareward",
+              "error": "错误:  null value in column \"accountid\" of relation \"account_luna_reward\" violates not-null constraint\nDETAIL:  失败, 行包含(null, 0, 0, 0, 2026-04-10 09:31:27.008135, 2026-04-10 09:31:27.008135).\nCONTEXT:  "
+            }
+          ],
+          "42P01": [
+            {
+              "function": "aion_loadlunaprice",
+              "error": "错误:  关系 \"user_luna_price\" 不存在\nLINE 1: ...et_week_value, reset_time_value, create_time from user_luna_...\n                                                             ^\nQUERY:  SELECT luna_id, use_coun"
+            },
+            {
+              "function": "aion_updatelunaprice",
+              "error": "错误:  关系 \"user_luna_price\" 不存在\nLINE 1: update user_luna_price set use_count = p_use_count, update_t...\n               ^\nQUERY:  update user_luna_price set use_count = p_use_count, update_time = CURRENT"
+            }
+          ],
+          "42725": [
+            {
+              "function": "getunixtimewithutcadjust",
+              "error": "错误:  函数 getunixtimewithutcadjust(unknown, unknown) 不是唯一的\nLINE 1: SELECT getunixtimewithutcadjust(NULL, NULL)\n               ^\nHINT:  无法选择最佳候选函数. 你也许需要增加明确的类型转换.\n"
+            },
+            {
+              "function": "getunixtimewithutcadjust",
+              "error": "错误:  函数 getunixtimewithutcadjust(unknown, unknown) 不是唯一的\nLINE 1: SELECT getunixtimewithutcadjust(NULL, NULL)\n               ^\nHINT:  无法选择最佳候选函数. 你也许需要增加明确的类型转换.\n"
+            }
+          ],
+          "42883": [
+            {
+              "function": "gm_accountcacheda_srchhiddenfatiguelist",
+              "error": "错误:  操作符不存在: timestamp without time zone >= bytea\nLINE 1: ...ver_id = p_world_id::integer AND  last_login_time >= binary(...\n                                                             ^\nHINT:  没有匹配指"
+            },
+            {
+              "function": "gm_accountcacheda_srchhiddenfatiguelistforexcel",
+              "error": "错误:  操作符不存在: timestamp without time zone >= bytea\nLINE 1: ...ver_id = p_world_id::integer AND  last_login_time >= binary(...\n                                                             ^\nHINT:  没有匹配指"
+            }
+          ],
+          "22004": [
+            {
+              "function": "sp_executesql",
+              "error": "错误:  EXECUTE的查询字符串参数是空值\nCONTEXT:  在EXECUTE的第3行的PL/pgSQL函数sp_executesql(text)\n"
+            }
+          ]
+        }
+      }
+    },
+    "aion_gm": {
+      "helpers": {
+        "success": 44,
+        "fail": 0
+      },
+      "deploy": {
+        "success": 182,
+        "fail": 1,
+        "error_categories": {
+          "42601": 1
+        },
+        "sample_errors": [
+          {
+            "function": "tbladminuserda_srchgmbyidornmorisdel",
+            "error_code": "42601",
+            "error": "错误:  语法错误 在 \"ELSE\" 或附近的\nLINE 29:     ELSE\n             ^\n"
+          }
+        ]
+      },
+      "test": {
+        "total": 226,
+        "clean_success": 62,
+        "callable": 189,
+        "fail": 37,
+        "error_codes": {
+          "22004": 47,
+          "42P01": 4,
+          "42804": 74,
+          "42725": 2,
+          "23502": 8,
+          "42883": 28,
+          "42704": 1
+        },
+        "error_samples": {
+          "22004": [
+            {
+              "function": "aiongm_create_tbl_admin_log_per_month",
+              "error": "错误:  EXECUTE的查询字符串参数是空值\nCONTEXT:  在EXECUTE的第6行的PL/pgSQL函数aiongm_create_tbl_admin_log_per_month(character varying)\n"
+            },
+            {
+              "function": "gm_userdatada_srchabuseqina",
+              "error": "错误:  EXECUTE的查询字符串参数是空值\nCONTEXT:  在EXECUTE的第21行的PL/pgSQL函数gm_userdatada_srchabuseqina(character varying,character varying,character varying,character varying,character varying,character varying)\n"
+            }
+          ],
+          "42P01": [
+            {
+              "function": "commit_test",
+              "error": "错误:  关系 \"test\" 不存在\nLINE 1: insert into test values('222','ok','10')\n                    ^\nQUERY:  insert into test values('222','ok','10')\nCONTEXT:  在SQL语句的第4行的PL/pgSQL函数commit_test()\n"
+            },
+            {
+              "function": "gm_useritemda_srchmycompounditems",
+              "error": "错误:  关系 \"user_item\" 不存在\nLINE 1: ..., t2.stat_enchant_val5 sub_stat_enchant_val5 from user_item ...\n                                                             ^\nQUERY:  SELECT t1.tid, t1.obtain_skin_"
+            }
+          ],
+          "42804": [
+            {
+              "function": "convert",
+              "error": "错误:  无法确定多态类型, 因为输入类型为unknown\n"
+            },
+            {
+              "function": "dbmanager_dbmanager",
+              "error": "错误:  structure of query does not match function result type\nDETAIL:  在第1列中返回类型character varying(200)与期望的类型text不匹配.\nCONTEXT:  SQL 语句 \"SELECT server_url from tbl_world_server_info where world_id = p_wor"
+            }
+          ],
+          "42725": [
+            {
+              "function": "getunixtimewithutcadjust",
+              "error": "错误:  函数 getunixtimewithutcadjust(unknown, unknown) 不是唯一的\nLINE 1: SELECT getunixtimewithutcadjust(NULL, NULL)\n               ^\nHINT:  无法选择最佳候选函数. 你也许需要增加明确的类型转换.\n"
+            },
+            {
+              "function": "getunixtimewithutcadjust",
+              "error": "错误:  函数 getunixtimewithutcadjust(unknown, unknown) 不是唯一的\nLINE 1: SELECT getunixtimewithutcadjust(NULL, NULL)\n               ^\nHINT:  无法选择最佳候选函数. 你也许需要增加明确的类型转换.\n"
+            }
+          ],
+          "23502": [
+            {
+              "function": "log_tblworldstatusinfo_insertserverinfo",
+              "error": "错误:  null value in column \"world_status_info_id\" of relation \"tbl_world_status_info\" violates not-null constraint\nDETAIL:  失败, 行包含(null, null, null, 1, null, null, null, 2026-04-10 09:31:48.863921, 1)"
+            },
+            {
+              "function": "tbladminuserda_insertuserpwhistory",
+              "error": "错误:  null value in column \"id\" of relation \"tbl_admin_user_pw_history\" violates not-null constraint\nDETAIL:  失败, 行包含(null, null, null, 2026-04-10 09:31:50.447106).\nCONTEXT:  SQL 语句 \"insert into TBL_AD"
+            }
+          ],
+          "42883": [
+            {
+              "function": "tbladmingroupda_srchgroupbygroupid",
+              "error": "错误:  操作符不存在: character varying = integer\nLINE 1: ...m, is_deleted from TBL_ADMIN_GROUP where group_id = p_group_...\n                                                             ^\nHINT:  没有匹配指定名称和参数类型的"
+            },
+            {
+              "function": "tbladminmenuda_srchaddedmenus",
+              "error": "错误:  操作符不存在: character varying = integer\nLINE 1: ...select MENU_ID from TBL_GROUP_FUNC WHERE GROUP_ID = p_group_...\n                                                             ^\nHINT:  没有匹配指定名称和参数类型的"
+            }
+          ],
+          "42704": [
+            {
+              "function": "tbladminuserda_srchbyloginidandpw",
+              "error": "错误:  编码 \"UTF8\" 中的排序规则 \"korean_wansung_cs_as\" 不存在\nLINE 1: ...nd login_id = '' || p_login_id || '' and login_pw COLLATE KO...\n                                                             ^\nQUERY:  SELEC"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

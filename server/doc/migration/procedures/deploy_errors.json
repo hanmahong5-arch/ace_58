@@ -1,0 +1,458 @@
+{
+  "deploy_time": "2026-04-11T10:48:34.001136",
+  "target_host": "127.0.0.1:5432",
+  "summary": {
+    "aion_world_live": {
+      "success": 986,
+      "fail": 77,
+      "total": 1063
+    },
+    "aion_account_db": {
+      "success": 49,
+      "fail": 3,
+      "total": 52
+    },
+    "aion_account_cache_db": {
+      "success": 97,
+      "fail": 4,
+      "total": 101
+    },
+    "aion_gm": {
+      "success": 182,
+      "fail": 1,
+      "total": 183
+    }
+  },
+  "error_categories": {
+    "Other": 84,
+    "Type conversion error": 1
+  },
+  "total_errors": 85,
+  "errors": [
+    {
+      "function": "gm_userrateda_srchuserlistbyrank",
+      "error": "语法错误 在 \"(\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "gm_userresetname_srch",
+      "error": "括号不匹配 在 \")\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "aion_updateolduseroflowleveltodelete",
+      "error": "语法错误 在 \"'),0) AND lev < '\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "aion_getvendoraveragedark",
+      "error": "语法错误 在 \"IF\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "aion_getvendoraveragelight",
+      "error": "语法错误 在 \"IF\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "gm_userskillskinda_update",
+      "error": "语法错误 在 \"(\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "gm_useritem_srchitembytype",
+      "error": "语法错误 在 \"p_multi_user_ids\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "gm_abyssrankingda_srchabyssrankinglist",
+      "error": "语法错误 在 \"p_user_id\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "gm_accessallowaccountda_srchall",
+      "error": "括号不匹配 在 \")\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "gm_accessallowaccountda_srchbyaccountnames",
+      "error": "括号不匹配 在 \";\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "usp_trace_start",
+      "error": "语法错误 在 \"p_Events\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "usp_trace_stop",
+      "error": "语法错误 在 \"..\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "gm_useritemda_srchitemnameidbytype",
+      "error": "语法错误 在 \"p_item_name_id\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "aion_today_abyss_kill",
+      "error": "语法错误 在 \"IF\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "gm_forbiddenwordda_srchforbiddenword",
+      "error": "语法错误 在 \"v_sql\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "aion_setinstanceextracountabyssop",
+      "error": "语法错误 在 \";\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "aion_registergamemoneytradephase2",
+      "error": "语法错误 在 \"ELSE\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "gm_forbiddenwordda_srchreservechar",
+      "error": "语法错误 在 \"v_sql\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "gm_guildda_srchguildapplicationslist",
+      "error": "语法错误 在 \"AS\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "aion_finishgamemoneytrade",
+      "error": "语法错误 在 \"ELSE\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "aion_removebuddy_inter",
+      "error": "语法错误 在 \"WHERE\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "aion_getabnormalstatuslist",
+      "error": "语法错误 在 \"WHERE\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "gm_guildda_srchguildmembers",
+      "error": "语法错误 在 \"AS\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "aion_getitemchargepointlistall",
+      "error": "语法错误 在 \"option\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "gm_house_give",
+      "error": "语法错误 在 \"ELSE\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "aion_addedservice_type4_movechar_checkorgchar_local_ors",
+      "error": "语法错误 在 \"v_ret\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "gm_useritemda_srchmysealeditems",
+      "error": "语法错误 在 \"=\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "aion_addedservice_type4_movechar_checkorgchar_ors",
+      "error": "语法错误 在 \"p_ret\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "aion_addedservice_type4_movechar_online_execute_ors",
+      "error": "语法错误 在 \":\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "aion_addedservice_type4_movechar_ors",
+      "error": "语法错误 在 \":\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "aion_addedservice_type4_movechar_ors_direct_test",
+      "error": "语法错误 在 \":\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "aion_addedservice_type4_movechar_ors_direct_test_by_venny",
+      "error": "语法错误 在 \":\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "aion_setabyssguildrank",
+      "error": "语法错误 在 \"AS\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "aion_addedservice_type4_movechar_ors_test",
+      "error": "语法错误 在 \":\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "aion_setabyssinfonew_20140401",
+      "error": "语法错误 在 \"ELSE\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "aion_addedservice_type4_movechar_process_ors",
+      "error": "语法错误 在 \"SVR_MOVE_TRADER\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "aion_setabyssinfonew_20160520",
+      "error": "语法错误 在 \"ELSE\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "aion_isexist",
+      "error": "语法错误 在 \";\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "gm_legiondominionda_srch",
+      "error": "括号不匹配 在 \";\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "aion_avataraddedservice_clearuserdata",
+      "error": "\"avataraddedservice_clearvendorlog\" 不是一个已知变量",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "aion_avataraddedservice_type4_movechar_checkorgchar_local_ors",
+      "error": "语法错误 在 \"v_ret\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "gm_restricteditemda_srchinfo",
+      "error": "语法错误 在 \"IF\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "aion_avataraddedservice_type4_movechar_checkorgchar_ors",
+      "error": "语法错误 在 \"p_ret\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "aion_avataraddedservice_type4_movechar_ors",
+      "error": "语法错误 在 \":\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "aion_avataraddedservice_type4_movechar_process_ors",
+      "error": "语法错误 在 \"SVR_MOVE_TRADER\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "sp_whale_fall_execute",
+      "error": "语法错误 在 \"v_fall_mode\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "aion_mailgetitem",
+      "error": "语法错误 在 \";\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "gm_useritemdao_regacyrecovery",
+      "error": "语法错误 在 \"user_item\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "aion_getitempolishpointlistall",
+      "error": "语法错误 在 \"option\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "gm_userbuddyda_srchmybuddy",
+      "error": "语法错误 在 \"AS\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "gm_userchataccusedda_srch",
+      "error": "括号不匹配 在 \";\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "aion_movetolegacyalluserdata",
+      "error": "语法错误 在 \"'),0)'\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "aion_movetolegacyalluserdata_olduseroflowlevel",
+      "error": "语法错误 在 \"'),0) AND lev < '\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "aion_movetolegacyitems",
+      "error": "语法错误 在 \"'),0) AND item_legacy = 0)'\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "aion_orderingabyssranking",
+      "error": "语法错误 在 \"WHERE\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "aion_orderingabyssranking_20140827",
+      "error": "语法错误 在 \"WHERE\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "aion_chargecharrace",
+      "error": "语法错误 在 \"identity\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "aion_processlegiondominiontakeover",
+      "error": "语法错误 在 \"WHERE\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "gm_userdatada_countcharbyworldoruseridoraccountnmorcnt",
+      "error": "语法错误 在 \"ELSE\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "aion_checkpersonalinstanthousinguserrace",
+      "error": "语法错误 在 \"ELSE\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "gm_usermacroda_srchmacroids",
+      "error": "语法错误 在 \"v_sql\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "aion_setcharlocalrank_all_byrating",
+      "error": "语法错误 在 \"CAST\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "gm_usermailda_srchmymailbycharid",
+      "error": "语法错误 在 \"p_mail_type\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "gm_userdatada_srchcharbyaccountid",
+      "error": "语法错误 在 \"AS\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "gm_userdatada_srchcharbyworldoruseridoraccountnmorcnt",
+      "error": "语法错误 在 \"ELSE\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "aion_setusecp",
+      "error": "语法错误 在 \"IF\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "aion_dbreindex_all",
+      "error": "\"tablecursor\" 不是一个已知变量",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "aion_getdbprofile_blockquery",
+      "error": "括号不匹配 在 \";\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "gm_userpetdao_changepetname",
+      "error": "语法错误 在 \"tran\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "gm_userdatada_srchusebotchannellist",
+      "error": "括号不匹配 在 \";\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "aion_getdbprofile_queryfrom",
+      "error": "语法错误 在 \"Name\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "aion_getdbprofile_running_query",
+      "error": "括号不匹配 在 \";\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "aion_getdbprofile_statisticscpuave",
+      "error": "语法错误 在 \"used\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "aion_getdbprofile_statisticscpusum",
+      "error": "语法错误 在 \"'_statements'\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "aion_getdbprofile_statisticsiototal",
+      "error": "语法错误 在 \"apply\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "aion_syncitemlegacytbl",
+      "error": "语法错误 在输入的末尾",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "gm_userrankda_srchuserlistbyrankid",
+      "error": "语法错误 在 \"||\" 或附近的",
+      "database": "aion_world_live"
+    },
+    {
+      "function": "account_input",
+      "error": "括号不匹配 在 \")\" 或附近的",
+      "database": "aion_account_db"
+    },
+    {
+      "function": "ap_gpwdwithflag",
+      "error": "在SQL表达式的结尾处丢失\"THEN\"",
+      "database": "aion_account_db"
+    },
+    {
+      "function": "ap_setaccountrestirction",
+      "error": "语法错误 在输入的末尾",
+      "database": "aion_account_db"
+    },
+    {
+      "function": "aion_getplaytimesforpolls",
+      "error": "语法错误 在 \"IF\" 或附近的",
+      "database": "aion_account_cache_db"
+    },
+    {
+      "function": "aion_querycancreatejumpingcharacter",
+      "error": "语法错误 在 \"ELSE\" 或附近的",
+      "database": "aion_account_cache_db"
+    },
+    {
+      "function": "aion_querycancreatejumpingcharacter_20170428",
+      "error": "语法错误 在 \"ELSE\" 或附近的",
+      "database": "aion_account_cache_db"
+    },
+    {
+      "function": "aion_updateplaytimesforpolls",
+      "error": "语法错误 在 \"IF\" 或附近的",
+      "database": "aion_account_cache_db"
+    },
+    {
+      "function": "tbladminuserda_srchgmbyidornmorisdel",
+      "error": "语法错误 在 \"ELSE\" 或附近的",
+      "database": "aion_gm"
+    }
+  ]
+}

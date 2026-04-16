@@ -1,0 +1,32 @@
+# Protocol Gateway configuration
+# This is the AION 5.8 client-facing service.
+
+[server]
+auth_listen = "0.0.0.0:2108"    # Client auth connections
+game_listen = "0.0.0.0:7777"    # Client game connections
+max_connections = 2000
+country = 5                      # China (original NCSoft config)
+server_id = 10                   # Original NCSoft server ID
+
+[crypto]
+# NCSoft non-standard Blowfish: little-endian block operations
+# RSA key size: 1024-bit
+# Account name max length: 17 characters (RSA credential block limit)
+bf_static_key = "6B60CB5B82CE90B1CC2B6C556C6C6C6C"
+rsa_key_file = "config/rsa_private.pem"
+
+[database]
+host = "127.0.0.1"
+port = 5432
+name = "aion_account_db"
+user = "postgres"
+password_env = "AIONCORE_DB_PASS"  # Never hardcode passwords
+pool_size = 10
+
+[redis]
+addr = "127.0.0.1:6379"
+db = 0
+pool_size = 10
+
+[nats]
+url = "nats://127.0.0.1:4222"

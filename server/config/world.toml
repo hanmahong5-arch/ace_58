@@ -1,0 +1,30 @@
+# World Engine configuration
+
+[server]
+tick_rate = 20                   # Game loop ticks per second
+max_players = 1800               # Original NCSoft maxUser
+
+[database]
+host = "127.0.0.1"
+port = 5432
+name = "aion_world_live"
+user = "postgres"
+password_env = "AIONCORE_DB_PASS"
+pool_size = 20
+
+[redis]
+addr = "127.0.0.1:6379"
+db = 1
+
+[nats]
+url = "nats://127.0.0.1:4222"
+
+[lua]
+scripts_dir = "scripts/"
+hot_reload = true                # Watch for file changes and auto-reload
+reload_interval_ms = 1000
+
+[world]
+max_user_level = 80
+drop_multiple = 200              # 2x drop rate (original config)
+spawn_version = "040014200"

@@ -1,0 +1,453 @@
+/* App.css — Global styles for the Shiguang Launcher UI.
+   Uses CSS custom properties from brand/palette.css.
+   Dark theme, no title bar, Battle.net-style layout. */
+
+/* ── Import brand tokens ── */
+@import url("./brand-tokens.css");
+
+/* ── Reset ── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--color-bg-primary);
+  color: var(--color-text-on-dark);
+  font-family: var(--font-body-la);
+}
+
+/* ── App shell ── */
+.app-shell {
+  display: flex;
+  flex-direction: row;
+  width: 1200px;
+  height: 720px;
+  background: var(--gradient-hero);
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── Custom window drag region (replaces OS title bar) ── */
+.title-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 var(--space-4);
+  z-index: var(--z-overlay);
+  /* Mark this area as draggable for Tauri window dragging */
+  -webkit-app-region: drag;
+  app-region: drag;
+}
+
+.title-bar-controls {
+  display: flex;
+  gap: var(--space-2);
+  -webkit-app-region: no-drag;
+  app-region: no-drag;
+}
+
+.title-bar-btn {
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.title-bar-btn:hover {
+  background: var(--color-bg-elevated);
+  color: var(--color-text-on-dark);
+}
+
+.title-bar-btn--close:hover {
+  background: var(--color-error);
+  color: #fff;
+}
+
+/* ── Left sidebar ── */
+.sidebar {
+  width: 240px;
+  min-width: 240px;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-bg-secondary);
+  border-right: 1px solid var(--color-border-subtle);
+  padding-top: 36px; /* account for title bar */
+  z-index: var(--z-raised);
+}
+
+/* ── Brand header ── */
+.brand-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-6) var(--space-4) var(--space-5);
+  border-bottom: 1px solid var(--color-border-subtle);
+  gap: var(--space-3);
+}
+
+.brand-text {
+  text-align: center;
+}
+
+.brand-title-zh {
+  font-family: var(--font-display-zh);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-accent-dawn);
+  line-height: var(--line-height-tight);
+  letter-spacing: 0.05em;
+}
+
+.brand-title-en {
+  font-family: var(--font-display-la);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+.brand-version {
+  display: inline-block;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-disabled);
+  margin-top: var(--space-1);
+}
+
+/* ── Sidebar bottom section: server selector + launch ── */
+.sidebar-bottom {
+  margin-top: auto;
+  padding: var(--space-5) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  border-top: 1px solid var(--color-border-subtle);
+}
+
+/* ── Main content area ── */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding-top: 36px; /* account for title bar */
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── News panel ── */
+.news-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.news-loading,
+.news-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.news-main {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.news-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.65;
+}
+
+.news-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: var(--space-5) var(--space-6);
+  background: linear-gradient(to top, rgba(13, 27, 42, 0.95) 0%, transparent 100%);
+}
+
+.news-date {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-1);
+}
+
+.news-title {
+  font-family: var(--font-display-zh);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-on-dark);
+  margin-bottom: var(--space-2);
+}
+
+.news-summary {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-base);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.news-thumbs {
+  display: flex;
+  list-style: none;
+  background: var(--color-bg-secondary);
+  border-top: 1px solid var(--color-border-subtle);
+}
+
+.news-thumb {
+  flex: 1;
+  padding: var(--space-3) var(--space-4);
+  cursor: pointer;
+  border-right: 1px solid var(--color-border-subtle);
+  transition: background var(--transition-fast);
+  overflow: hidden;
+}
+
+.news-thumb:last-child {
+  border-right: none;
+}
+
+.news-thumb:hover {
+  background: var(--color-bg-tertiary);
+}
+
+.news-thumb.active {
+  border-top: 2px solid var(--color-accent-dawn);
+  background: var(--color-bg-tertiary);
+}
+
+.news-thumb-title {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.news-thumb.active .news-thumb-title {
+  color: var(--color-text-on-dark);
+}
+
+/* ── Server selector ── */
+.server-selector {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.server-label {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.server-select-wrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--color-bg-tertiary);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-3);
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+}
+
+.server-select {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--color-text-on-dark);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  font-family: var(--font-body-la);
+}
+
+.server-select:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.server-info {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-disabled);
+}
+
+/* ── Progress bar ── */
+.progress-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.progress-status {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 160px;
+}
+
+.progress-pct {
+  font-size: var(--font-size-xs);
+  color: var(--color-accent-blue);
+  font-variant-numeric: tabular-nums;
+}
+
+.progress-track {
+  height: 6px;
+  background: var(--color-bg-elevated);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--gradient-blue-deep);
+  border-radius: var(--radius-full);
+  transition: width 150ms linear;
+  position: relative;
+  z-index: 1;
+}
+
+.progress-shimmer {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.15) 50%,
+    transparent 100%
+  );
+  animation: shimmer 1.8s infinite;
+}
+
+@keyframes shimmer {
+  to {
+    left: 160%;
+  }
+}
+
+/* ── Launch button ── */
+.launch-btn {
+  width: 100%;
+  padding: var(--space-4) var(--space-5);
+  border: none;
+  border-radius: var(--radius-md);
+  background: var(--gradient-dawn);
+  color: var(--color-bg-primary);
+  font-family: var(--font-display-la);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  box-shadow: var(--shadow-glow-dawn);
+  transition: filter var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.launch-btn:hover:not(:disabled) {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+  box-shadow: 0 0 28px rgba(255, 158, 64, 0.55);
+}
+
+.launch-btn:active:not(:disabled) {
+  transform: translateY(0);
+  filter: brightness(0.95);
+}
+
+.launch-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.launch-btn--offline {
+  background: var(--color-bg-elevated);
+  color: var(--color-text-secondary);
+  box-shadow: none;
+}
+
+.launch-btn-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(13, 27, 42, 0.3);
+  border-top-color: var(--color-bg-primary);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ── Generic spinner ── */
+.spinner {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--color-border-default);
+  border-top-color: var(--color-accent-blue);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}

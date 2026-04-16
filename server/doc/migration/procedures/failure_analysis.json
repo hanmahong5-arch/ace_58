@@ -1,0 +1,1470 @@
+{
+  "deploy_failures": [
+    {
+      "db": "aion_world_live",
+      "func": "gm_userrateda_srchuserlistbyrank",
+      "error": "错误:  语法错误 在 \"(\" 或附近的 | LINE 13: ...RE r.rate_id = ' || CAST(p_rate_id AS varchar) IF (COALESCE(... |                                                               ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION gm_userrateda_srchuserlistbyrank(\n    p_rate_id integer,\n    p_cvs_class varchar(100),\n    p_rank_from integer,\n    p_rank_to integer\n) RETURNS SETOF record\nLANGUAGE plpgsql"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_userresetname_srch",
+      "error": "错误:  括号不匹配 在 \")\" 或附近的 | LINE 14: ..._old like p_user_id || '%' order by char_name_old ) and char... |                                                               ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION gm_userresetname_srch(\n    p_top_count integer,\n    p_page_num integer,\n    p_user_id varchar(20),\n    p_account_id integer\n) RETURNS SETOF record\nLANGUAGE plpgsql\nAS $$\nBEG"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_updateolduseroflowleveltodelete",
+      "error": "错误:  语法错误 在 \"'),0) AND lev < '\" 或附近的 | LINE 14: ...WithUTCAdjust((CURRENT_TIMESTAMP AT TIME ZONE 'UTC'),0) AND ... |                                                               ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION aion_updateolduseroflowleveltodelete(\n    p_check_days integer,\n    p_low_level integer\n) RETURNS void\nLANGUAGE plpgsql\nAS $$\nDECLARE\n    v_sql varchar(4000);\nBEGIN\n    IF E"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_getvendoraveragedark",
+      "error": "错误:  语法错误 在 \"IF\" 或附近的 | LINE 30:     END IF; |                  ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION aion_getvendoraveragedark(\n    p_make_date integer,\n    p_get_only_oneweek integer\n) RETURNS SETOF record\nLANGUAGE plpgsql\nAS $$\nDECLARE\n    v_fetch_found boolean := true;\n "
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_getvendoraveragelight",
+      "error": "错误:  语法错误 在 \"IF\" 或附近的 | LINE 30:     END IF; |                  ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION aion_getvendoraveragelight(\n    p_make_date integer,\n    p_get_only_oneweek integer\n) RETURNS SETOF record\nLANGUAGE plpgsql\nAS $$\nDECLARE\n    v_fetch_found boolean := true;\n"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_userskillskinda_update",
+      "error": "错误:  语法错误 在 \"(\" 或附近的 | LINE 10: ...e = COALESCE(p_expire_time, expire_time), COALESCE( AS use_s... |                                                               ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION gm_userskillskinda_update(\n    p_char_id integer,\n    p_skill_skin_id smallint,\n    p_expire_time integer DEFAULT NULL,\n    p_use_skin smallint DEFAULT NULL\n) RETURNS void\nL"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_useritem_srchitembytype",
+      "error": "错误:  语法错误 在 \"p_multi_user_ids\" 或附近的 | LINE 39: ...0 and 49) or (i.warehouse between 60 and 79))' IF p_multi_us... |                                                               ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION gm_useritem_srchitembytype(\n    p_item_name_id varchar(2000),\n    p_enchant_count_from varchar(30),\n    p_enchant_count_to varchar(30),\n    p_amount_from varchar(30),\n    p_"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_abyssrankingda_srchabyssrankinglist",
+      "error": "错误:  语法错误 在 \"p_user_id\" 或附近的 | LINE 15: ... and  t2.org_server=''' || p_world_id || ''' ' IF p_user_id ... |                                                               ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION gm_abyssrankingda_srchabyssrankinglist(\n    p_race_type varchar(1),\n    p_user_id varchar(50),\n    p_view_count bigint,\n    p_top_count bigint,\n    p_from_date varchar(30),\n"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_accessallowaccountda_srchall",
+      "error": "错误:  括号不匹配 在 \")\" 或附近的 | LINE 10: ...d from access_allow_account  order by account_name) order by... |                                                               ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION gm_accessallowaccountda_srchall(\n    p_view_count integer DEFAULT 10000000,\n    p_page integer DEFAULT 1,\n    p_status integer DEFAULT NULL\n) RETURNS void\nLANGUAGE plpgsql\nA"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_accessallowaccountda_srchbyaccountnames",
+      "error": "错误:  括号不匹配 在 \";\" 或附近的 | LINE 13: ...E(p_status, '-1') AS varchar) || ') ORDER BY account_name '; |                                                                        ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION gm_accessallowaccountda_srchbyaccountnames(\n    p_cvs_account_name varchar(3000),\n    p_view_count integer DEFAULT 10000000,\n    p_page integer DEFAULT 1,\n    p_status integ"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "usp_trace_start",
+      "error": "错误:  语法错误 在 \"p_Events\" 或附近的 | LINE 39:     IF RIGHT(p_Events, 1) <> ',' SET p_Events = p_Events || ... |                                               ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION usp_trace_start(\n    p_TraceFileName varchar(128) DEFAULT NULL,\n    p_TraceName varchar(128) DEFAULT 'trace',\n    p_option integer DEFAULT 2,\n    p_MaxFileSize bigint DEFAUL"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "usp_trace_stop",
+      "error": "错误:  语法错误 在 \"..\" 或附近的 | LINE 12: ...ceFile INTO v_TraceID, v_TraceFileName FROM tempdb..TraceQue... |                                                               ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION usp_trace_stop(\n    p_TraceName varchar(128) DEFAULT 'trace'\n) RETURNS void\nLANGUAGE plpgsql\nAS $$\nDECLARE\n    v_rowcount integer := 0;\n    v_TraceID integer;\n    v_TraceFil"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_useritemda_srchitemnameidbytype",
+      "error": "错误:  语法错误 在 \"p_item_name_id\" 或附近的 | LINE 30: ...house=3 or t1.warehouse=4 or t1.warehouse=5) ' IF p_item_nam... |                                                               ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION gm_useritemda_srchitemnameidbytype(\n    p_item_name_id varchar(2000),\n    p_enchant_count_from varchar(30),\n    p_enchant_count_to varchar(30),\n    p_amount_from varchar(30)"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_today_abyss_kill",
+      "error": "错误:  语法错误 在 \"IF\" 或附近的 | LINE 36:     END IF; |                  ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION aion_today_abyss_kill(\n) RETURNS SETOF record\nLANGUAGE plpgsql\nAS $$\nDECLARE\n    -- TODO: MANUAL REVIEW NEEDED - Table variable: DECLARE @temp TABLE ( user_id int, user_name"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_forbiddenwordda_srchforbiddenword",
+      "error": "错误:  语法错误 在 \"v_sql\" 或附近的 | LINE 17: ...ord where world_id=''' || p_world_id || ''' ' set v_sql = v_... |                                                               ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION gm_forbiddenwordda_srchforbiddenword(\n    p_world_id varchar(3),\n    p_forbidden_word varchar(30),\n    p_forbidden_type varchar(2),\n    p_is_like varchar(2),\n    p_forbidden"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_setinstanceextracountabyssop",
+      "error": "错误:  语法错误 在 \";\" 或附近的 | LINE 18: END; |             ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION aion_setinstanceextracountabyssop(\n    p_charId integer,\n    p_mapNumber integer,\n    p_extraCount smallint,\n    p_nextResetTime bigint\n) RETURNS void\nLANGUAGE plpgsql\nAS $$"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_registergamemoneytradephase2",
+      "error": "错误:  语法错误 在 \"ELSE\" 或附近的 | LINE 19:     ELSE |              ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION aion_registergamemoneytradephase2(\n    p_id bigint,\n    p_seller integer,\n    p_qina bigint,\n    p_request_id varchar(64)\n) RETURNS integer\nLANGUAGE plpgsql\nAS $$\nDECLARE\n  "
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_forbiddenwordda_srchreservechar",
+      "error": "错误:  语法错误 在 \"v_sql\" 或附近的 | LINE 14: ...har where world_id=''' || p_world_id || ''' ' set v_sql = v_... |                                                               ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION gm_forbiddenwordda_srchreservechar(\n    p_world_id varchar(3),\n    p_forbidden_char varchar(30),\n    p_status varchar(1),\n    p_view_count varchar(5),\n    p_top_count varcha"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_guildda_srchguildapplicationslist",
+      "error": "错误:  语法错误 在 \"AS\" 或附近的 | LINE 9: ...last_login_time != '1970-01-01 00:00:00.000' THEN AS black L... |                                                              ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION gm_guildda_srchguildapplicationslist(\n    p_guild_id varchar(10),\n    p_view_count integer,\n    p_top_count integer\n) RETURNS void\nLANGUAGE plpgsql\nAS $$\nBEGIN\n    PERFORM  "
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_finishgamemoneytrade",
+      "error": "错误:  语法错误 在 \"ELSE\" 或附近的 | LINE 47:     ELSE |              ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION aion_finishgamemoneytrade(\n    p_request_id varchar(64),\n    p_eventType smallint,\n    p_seller integer,\n    p_buyer integer,\n    OUT p_state smallint,\n    OUT p_return_code"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_removebuddy_inter",
+      "error": "错误:  语法错误 在 \"WHERE\" 或附近的 | LINE 13:     DELETE WHERE char_id = p_nCharId and buddy_id = p_nBuddy... |                     ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION aion_removebuddy_inter(\n    p_nCharId integer,\n    p_nBuddyId integer,\n    p_flag smallint,\n    p_serverId integer\n) RETURNS void\nLANGUAGE plpgsql\nAS $$\nBEGIN\n    IF (p_flag"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_getabnormalstatuslist",
+      "error": "错误:  语法错误 在 \"WHERE\" 或附近的 | LINE 19:     DELETE WHERE skill_id = v_sk AND char_id = p_nCharId; |                     ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION aion_getabnormalstatuslist(\n    p_nCharId integer\n) RETURNS SETOF record\nLANGUAGE plpgsql\nAS $$\nDECLARE\n    v_useTime integer;\n    v_cd integer;\n    v_sk integer := 12885;\n "
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_guildda_srchguildmembers",
+      "error": "错误:  语法错误 在 \"AS\" 或附近的 | LINE 9: ...last_login_time != '1970-01-01 00:00:00.000' THEN AS black L... |                                                              ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION gm_guildda_srchguildmembers(\n    p_guild_id varchar(10),\n    p_view_count integer,\n    p_top_count integer\n) RETURNS void\nLANGUAGE plpgsql\nAS $$\nBEGIN\n    PERFORM  t1.org_se"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_getitemchargepointlistall",
+      "error": "错误:  语法错误 在 \"option\" 或附近的 | LINE 7: ...char_id = p_char_id and user_item.warehouse != 10 option(loo... |                                                              ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION aion_getitemchargepointlistall(\n    p_char_id integer\n) RETURNS SETOF record\nLANGUAGE plpgsql\nAS $$\nBEGIN\n    RETURN QUERY SELECT\tuser_item_charge.id, user_item_charge.charg"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_house_give",
+      "error": "错误:  语法错误 在 \"ELSE\" 或附近的 | LINE 30:     ELSE |              ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION gm_house_give(\n    p_addrId integer,\n    p_ownerId integer,\n    OUT p_ownerName varchar(32),\n    OUT p_return_code integer\n) RETURNS record\nLANGUAGE plpgsql\nAS $$\nDECLARE\n  "
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_addedservice_type4_movechar_checkorgchar_local_ors",
+      "error": "错误:  语法错误 在 \"v_ret\" 或附近的 | LINE 53: ... not null and v_lev < v_level_restrict_value) set v_ret = -1... |                                                               ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION aion_addedservice_type4_movechar_checkorgchar_local_ors(\n    p_fromServerId integer,\n    p_toServerId integer,\n    p_orgCharId integer,\n    p_orgCharName varchar(20),\n    p_"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_useritemda_srchmysealeditems",
+      "error": "错误:  语法错误 在 \"=\" 或附近的 | LINE 7: ...d = a.id WHERE i.char_id = p_char_id and  i.warehouse! = 10; |                                                                   ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION gm_useritemda_srchmysealeditems(\n    p_char_id varchar(20)\n) RETURNS SETOF record\nLANGUAGE plpgsql\nAS $$\nBEGIN\n    RETURN QUERY SELECT i.id, i.char_id, i.name_id, slot_id, a"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_addedservice_type4_movechar_checkorgchar_ors",
+      "error": "错误:  语法错误 在 \"p_ret\" 或附近的 | LINE 36:     IF 0 /* @v_ERROR */ <> 0 set p_ret = -10102 THEN |                                           ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION aion_addedservice_type4_movechar_checkorgchar_ors(\n    p_fromServerId integer,\n    p_toServerId integer,\n    p_db_userId varchar(64),\n    p_db_passwd varchar(64),\n    p_orgC"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_addedservice_type4_movechar_online_execute_ors",
+      "error": "错误:  语法错误 在 \":\" 或附近的 | LINE 67:     p_err_str := 'success' UpdateRetVal:; |                                                 ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION aion_addedservice_type4_movechar_online_execute_ors(\n    p_serviceId integer,\n    p_db_userId varchar(64),\n    p_db_passwd varchar(64),\n    OUT p_ret integer,\n    OUT p_err_"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_addedservice_type4_movechar_ors",
+      "error": "错误:  语法错误 在 \":\" 或附近的 | LINE 80:     v_retStatus := 1 UpdateRetVal:; |                                           ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION aion_addedservice_type4_movechar_ors(\n    p_serverId integer,\n    p_db_userId varchar(64),\n    p_db_passwd varchar(64)\n) RETURNS void\nLANGUAGE plpgsql\nAS $$\nDECLARE\n    v_fe"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_addedservice_type4_movechar_ors_direct_test",
+      "error": "错误:  语法错误 在 \":\" 或附近的 | LINE 55:     v_retStatus := 1 UpdateRetVal:; |                                           ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION aion_addedservice_type4_movechar_ors_direct_test(\n    p_serverId integer,\n    p_db_userId varchar(64),\n    p_db_passwd varchar(64),\n    p_service_db_idx integer\n) RETURNS vo"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_addedservice_type4_movechar_ors_direct_test_by_venny",
+      "error": "错误:  语法错误 在 \":\" 或附近的 | LINE 55:     v_retStatus := 1 UpdateRetVal:; |                                           ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION aion_addedservice_type4_movechar_ors_direct_test_by_venny(\n    p_serverId integer,\n    p_db_userId varchar(64),\n    p_db_passwd varchar(64),\n    p_service_db_idx integer\n) R"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_setabyssguildrank",
+      "error": "错误:  语法错误 在 \"AS\" 或附近的 | LINE 9: ...d set rank = RankList.rnk from (SELECT  id, RANK( AS rnk) ov... |                                                              ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION aion_setabyssguildrank(\n    p_nRace integer\n) RETURNS void\nLANGUAGE plpgsql\nAS $$\nBEGIN\n    UPDATE guild SET old_rank = rank where race = p_nRace;\n    UPDATE guild SET rank="
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_addedservice_type4_movechar_ors_test",
+      "error": "错误:  语法错误 在 \":\" 或附近的 | LINE 75:     v_retStatus := 1 UpdateRetVal:; |                                           ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION aion_addedservice_type4_movechar_ors_test(\n    p_serverId integer,\n    p_db_userId varchar(64),\n    p_db_passwd varchar(64)\n) RETURNS void\nLANGUAGE plpgsql\nAS $$\nDECLARE\n   "
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_setabyssinfonew_20140401",
+      "error": "错误:  语法错误 在 \"ELSE\" 或附近的 | LINE 52:     ELSE |              ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION aion_setabyssinfonew_20140401(\n    p_nAbyssId integer,\n    p_nOwnerServer integer,\n    p_nOwnerGuild integer,\n    p_nOwnerRace smallint,\n    p_nDefenseCnt integer,\n    p_nRe"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_addedservice_type4_movechar_process_ors",
+      "error": "错误:  语法错误 在 \"SVR_MOVE_TRADER\" 或附近的 | LINE 196: ...M aion_MailWrite(p_newCharId, p_toCharName, 0, '$$SVR_MOVE_T... |                                                                ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION aion_addedservice_type4_movechar_process_ors(\n    p_db_userId varchar(64),\n    p_db_passwd varchar(64),\n    p_fromServer integer,\n    p_fromCharId integer,\n    p_fromCharNam"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_setabyssinfonew_20160520",
+      "error": "错误:  语法错误 在 \"ELSE\" 或附近的 | LINE 54:     ELSE |              ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION aion_setabyssinfonew_20160520(\n    p_nAbyssId integer,\n    p_nOwnerServer integer,\n    p_nOwnerGuild integer,\n    p_nOwnerRace smallint,\n    p_nDefenseCnt integer,\n    p_nRe"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_isexist",
+      "error": "错误:  语法错误 在 \";\" 或附近的 | LINE 14: END; |             ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION aion_isexist(\n    p_uCharName varchar(20)\n) RETURNS integer\nLANGUAGE plpgsql\nAS $$\nDECLARE\n    v_rowcount integer := 0;\nBEGIN\n    PERFORM char_id FROM user_data WHERE user_i"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_legiondominionda_srch",
+      "error": "错误:  括号不匹配 在 \";\" 或附近的 | LINE 29: ...-1)*p_view_count AS varchar) || ' order by ' || p_order_col; |                                                                        ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION gm_legiondominionda_srch(\n    p_world_id integer,\n    p_legion_id integer DEFAULT 0,\n    p_legion_name varchar(32) DEFAULT '',\n    p_dominion_id integer DEFAULT 0,\n    p_pag"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_avataraddedservice_clearuserdata",
+      "error": "错误:  \"avataraddedservice_clearvendorlog\" 不是一个已知变量 | LINE 17: ...ed.id, deleted.warehouse, inserted.warehouse into AvatarAdde... |                                                               ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION aion_avataraddedservice_clearuserdata(\n    p_char_id integer\n) RETURNS void\nLANGUAGE plpgsql\nAS $$\nDECLARE\n    v_rowcount integer := 0;\n    v_rowcnt integer;\nBEGIN\n    v_row"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_avataraddedservice_type4_movechar_checkorgchar_local_ors",
+      "error": "错误:  语法错误 在 \"v_ret\" 或附近的 | LINE 52: ... not null and v_lev < v_level_restrict_value) set v_ret = -1... |                                                               ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION aion_avataraddedservice_type4_movechar_checkorgchar_local_ors(\n    p_fromServerId integer,\n    p_toServerId integer,\n    p_orgCharId integer,\n    p_orgCharName varchar(20),\n"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_restricteditemda_srchinfo",
+      "error": "错误:  语法错误 在 \"IF\" 或附近的 | LINE 27:     v_sql_etc := v_sql_etc || ' and (' END IF p_ing != 'null... |                                                     ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION gm_restricteditemda_srchinfo(\n    p_type varchar(4),\n    p_restrict_status varchar(4),\n    p_ing varchar(4),\n    p_will_be_ing varchar(4),\n    p_end varchar(4),\n    p_cur_da"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_avataraddedservice_type4_movechar_checkorgchar_ors",
+      "error": "错误:  语法错误 在 \"p_ret\" 或附近的 | LINE 36:     IF 0 /* @v_ERROR */ <> 0 set p_ret = -10102 THEN |                                           ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION aion_avataraddedservice_type4_movechar_checkorgchar_ors(\n    p_fromServerId integer,\n    p_toServerId integer,\n    p_db_userId varchar(64),\n    p_db_passwd varchar(64),\n    "
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_avataraddedservice_type4_movechar_ors",
+      "error": "错误:  语法错误 在 \":\" 或附近的 | LINE 81:     v_retStatus := 1 UpdateRetVal:; |                                           ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION aion_avataraddedservice_type4_movechar_ors(\n    p_serverId integer,\n    p_db_userId varchar(64),\n    p_db_passwd varchar(64)\n) RETURNS void\nLANGUAGE plpgsql\nAS $$\nDECLARE\n  "
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_avataraddedservice_type4_movechar_process_ors",
+      "error": "错误:  语法错误 在 \"SVR_MOVE_TRADER\" 或附近的 | LINE 384: ...M aion_MailWrite(p_newCharId, p_toCharName, 0, '$$SVR_MOVE_T... |                                                                ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION aion_avataraddedservice_type4_movechar_process_ors(\n    p_db_userId varchar(64),\n    p_db_passwd varchar(64),\n    p_fromServer integer,\n    p_fromCharId integer,\n    p_fromC"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "sp_whale_fall_execute",
+      "error": "错误:  语法错误 在 \"v_fall_mode\" 或附近的 | LINE 35:     IF v_killer_char_id IS NULL SET v_fall_mode = 'BROKER' T... |                                              ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION sp_whale_fall_execute(\n    p_char_id integer,\n    p_force_mode varchar(20) DEFAULT NULL\n) RETURNS integer\nLANGUAGE plpgsql\nAS $$\nDECLARE\n    v_race smallint;\n    v_level int"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_mailgetitem",
+      "error": "错误:  语法错误 在 \";\" 或附近的 | LINE 54: END; |             ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION aion_mailgetitem(\n    p_char_id integer,\n    p_mail_id integer,\n    p_warehouse integer,\n    p_flag integer\n) RETURNS integer\nLANGUAGE plpgsql\nAS $$\nDECLARE\n    v_rowcount i"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_useritemdao_regacyrecovery",
+      "error": "错误:  语法错误 在 \"user_item\" 或附近的 | LINE 13:     set IDENTITY_INSERT user_item on; |                                  ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION gm_useritemdao_regacyrecovery(\n    p_char_id varchar(20)\n) RETURNS void\nLANGUAGE plpgsql\nAS $$\nDECLARE\n    v_rowcount integer := 0;\n    v_sql varchar(2000);\n    v_rs_item_le"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_getitempolishpointlistall",
+      "error": "错误:  语法错误 在 \"option\" 或附近的 | LINE 7: ...char_id = p_char_id and user_item.warehouse != 10 option(loo... |                                                              ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION aion_getitempolishpointlistall(\n    p_char_id integer\n) RETURNS SETOF record\nLANGUAGE plpgsql\nAS $$\nBEGIN\n    RETURN QUERY SELECT\tuser_item_polish.id, user_item_polish.name_"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_userbuddyda_srchmybuddy",
+      "error": "错误:  语法错误 在 \"AS\" 或附近的 | LINE 8: ....last_login_time != '1970-01-01 00:00:00.000' THEN AS black; |                                                               ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION gm_userbuddyda_srchmybuddy(\n    p_char_id varchar(20),\n    p_world_id varchar(5)\n) RETURNS void\nLANGUAGE plpgsql\nAS $$\nBEGIN\n    PERFORM\t0 is_what, t2.delete_date, t2.char_i"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_userchataccusedda_srch",
+      "error": "错误:  括号不匹配 在 \";\" 或附近的 | LINE 29: ..._data u  ON u.char_id = c.char_id ' || ' WHERE ' || v_where; |                                                                        ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION gm_userchataccusedda_srch(\n    p_top_count integer,\n    p_page_num integer,\n    p_user_id varchar(30),\n    p_account_name varchar(30),\n    p_account_id integer,\n    p_char_i"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_movetolegacyalluserdata",
+      "error": "错误:  语法错误 在 \"'),0)'\" 或附近的 | LINE 20: ...imeWithUTCAdjust((CURRENT_TIMESTAMP AT TIME ZONE 'UTC'),0)'; |                                                                  ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION aion_movetolegacyalluserdata(\n    p_ncount integer\n) RETURNS integer\nLANGUAGE plpgsql\nAS $$\nDECLARE\n    v_fetch_found boolean := true;\n    v_table_name varchar(50);\n    v_le"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_movetolegacyalluserdata_olduseroflowlevel",
+      "error": "错误:  语法错误 在 \"'),0) AND lev < '\" 或附近的 | LINE 26: ...WithUTCAdjust((CURRENT_TIMESTAMP AT TIME ZONE 'UTC'),0) AND ... |                                                               ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION aion_movetolegacyalluserdata_olduseroflowlevel(\n    p_check_days integer,\n    p_low_level integer,\n    p_ncount integer\n) RETURNS integer\nLANGUAGE plpgsql\nAS $$\nDECLARE\n    "
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_movetolegacyitems",
+      "error": "错误:  语法错误 在 \"'),0) AND item_legacy = 0)'\" 或附近的 | LINE 23: ...WithUTCAdjust((CURRENT_TIMESTAMP AT TIME ZONE 'UTC'),0) AND ... |                                                               ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION aion_movetolegacyitems(\n    p_ncount integer,\n    p_offset integer\n) RETURNS integer\nLANGUAGE plpgsql\nAS $$\nDECLARE\n    v_fetch_found boolean := true;\n    v_legacytbl varcha"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_orderingabyssranking",
+      "error": "错误:  语法错误 在 \"WHERE\" 或附近的 | LINE 23:     delete WHERE glory_point<=0 and ownership_bonus_gp<=0; |                     ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION aion_orderingabyssranking(\n    p_nServerId integer,\n    p_nRace integer,\n    p_nTime bigint,\n    p_nNum integer,\n    p_nDeductionForRank10 integer,\n    p_nDeductionForRank11"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_orderingabyssranking_20140827",
+      "error": "错误:  语法错误 在 \"WHERE\" 或附近的 | LINE 25:     delete WHERE glory_point<=0 and ownership_bonus_gp<=0; |                     ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION aion_orderingabyssranking_20140827(\n    p_isSpecialSvr integer,\n    p_nServerId integer,\n    p_nRace integer,\n    p_nTime bigint,\n    p_nNum integer,\n    p_nDeductionForRank"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_chargecharrace",
+      "error": "错误:  语法错误 在 \"identity\" 或附近的 | LINE 20:     CREATE TEMP TABLE tempcharid ( pid int identity(1,1), ac... |                                                     ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION aion_chargecharrace(\n    p_account varchar(20),\n    p_race smallint\n) RETURNS void\nLANGUAGE plpgsql\nAS $$\nDECLARE\n    v_n integer;\n    v_rows integer;\n    v_char_id integer;"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_processlegiondominiontakeover",
+      "error": "错误:  语法错误 在 \"WHERE\" 或附近的 | LINE 14:     delete WHERE take_over_processed_time < (p_nTakeOverTime... |                     ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION aion_processlegiondominiontakeover(\n    p_nTakeOverTime bigint,\n    p_nServerId integer\n) RETURNS void\nLANGUAGE plpgsql\nAS $$\nDECLARE\n    v_lastestTakeOverTime bigint;\nBEGIN"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_userdatada_countcharbyworldoruseridoraccountnmorcnt",
+      "error": "错误:  语法错误 在 \"ELSE\" 或附近的 | LINE 33:     ELSE |              ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION gm_userdatada_countcharbyworldoruseridoraccountnmorcnt(\n    p_user_id varchar(10),\n    p_account_name varchar(50),\n    p_builder varchar(5)\n) RETURNS void\nLANGUAGE plpgsql\nA"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_checkpersonalinstanthousinguserrace",
+      "error": "错误:  语法错误 在 \"ELSE\" 或附近的 | LINE 31:     ELSE |              ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION aion_checkpersonalinstanthousinguserrace(\n    p_user_id integer,\n    p_requiredQuestLight integer,\n    p_requiredQuestDark integer\n) RETURNS integer\nLANGUAGE plpgsql\nAS $$\nD"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_usermacroda_srchmacroids",
+      "error": "错误:  语法错误 在 \"v_sql\" 或附近的 | LINE 10: ...where char_id=''' || p_char_id || ''' and ( ' set v_sql = v_... |                                                               ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION gm_usermacroda_srchmacroids(\n    p_char_id varchar(20),\n    p_slot_ids varchar(400)\n) RETURNS void\nLANGUAGE plpgsql\nAS $$\nDECLARE\n    v_sql varchar(1000);\nBEGIN\n    v_sql :="
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_setcharlocalrank_all_byrating",
+      "error": "错误:  语法错误 在 \"CAST\" 或附近的 | LINE 8:     UPDATE user_rank SET local_ranking = num, CAST( AS point... |                                                       ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION aion_setcharlocalrank_all_byrating(\n    p_rateId integer\n) RETURNS void\nLANGUAGE plpgsql\nAS $$\nBEGIN\n    UPDATE user_rank SET local_old_ranking = local_ranking, local_rankin"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_usermailda_srchmymailbycharid",
+      "error": "错误:  语法错误 在 \"p_mail_type\" 或附近的 | LINE 18: ... top ' || p_top_count || ' id from user_mail ' IF p_mail_typ... |                                                               ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION gm_usermailda_srchmymailbycharid(\n    p_char_id varchar(20),\n    p_mail_type integer,\n    p_view_count varchar(5),\n    p_top_count varchar(5)\n) RETURNS void\nLANGUAGE plpgsql"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_userdatada_srchcharbyaccountid",
+      "error": "错误:  语法错误 在 \"AS\" 或附近的 | LINE 8: ... last_login_time != '1970-01-01 00:00:00.000' THEN AS black; |                                                               ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION gm_userdatada_srchcharbyaccountid(\n    p_account_id varchar(20),\n    p_world_id varchar(5)\n) RETURNS void\nLANGUAGE plpgsql\nAS $$\nBEGIN\n    PERFORM\tdelete_type, delete_comple"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_userdatada_srchcharbyworldoruseridoraccountnmorcnt",
+      "error": "错误:  语法错误 在 \"ELSE\" 或附近的 | LINE 61:     ELSE |              ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION gm_userdatada_srchcharbyworldoruseridoraccountnmorcnt(\n    p_world_id varchar(5),\n    p_user_id varchar(30),\n    p_account_name varchar(50),\n    p_builder varchar(5),\n    p_"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_setusecp",
+      "error": "错误:  语法错误 在 \"IF\" 或附近的 | LINE 17:     END IF; |                  ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION aion_setusecp(\n    p_char_id integer,\n    p_category smallint,\n    p_enchant_object_id integer,\n    p_value smallint,\n    p_accumulated_cp smallint,\n    p_data_id integer\n) "
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_dbreindex_all",
+      "error": "错误:  \"tablecursor\" 不是一个已知变量 | LINE 13:     OPEN TableCursor; |                   ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION aion_dbreindex_all(\n    p_fillfactor smallint\n) RETURNS void\nLANGUAGE plpgsql\nAS $$\nDECLARE\n    v_fetch_found boolean := true;\n    v_Table varchar(255);\n    v_cmd varchar(50"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_getdbprofile_blockquery",
+      "error": "错误:  括号不匹配 在 \";\" 或附近的 | LINE 6: ...et / 2) + 1, ((case d.statement_end_offset when -1; dataleng... |                                                              ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION aion_getdbprofile_blockquery(\n) RETURNS SETOF record\nLANGUAGE plpgsql\nAS $$\nBEGIN\n    RETURN QUERY SELECT   a.session_id AS BlockedSessionID, b.blocking_session_id ,        "
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_userpetdao_changepetname",
+      "error": "错误:  语法错误 在 \"tran\" 或附近的 | LINE 9:     tran; |             ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION gm_userpetdao_changepetname(\n    p_dbid bigint,\n    p_char_id integer,\n    p_name varchar(20)\n) RETURNS integer\nLANGUAGE plpgsql\nAS $$\nBEGIN\n    tran;\n    IF EXISTS (select "
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_userdatada_srchusebotchannellist",
+      "error": "错误:  括号不匹配 在 \";\" 或附近的 | LINE 36: ...-1)*p_view_count AS varchar) || ' order by ' || v_order_col; |                                                                        ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION gm_userdatada_srchusebotchannellist(\n    p_world_id integer,\n    p_char_id integer,\n    p_user_id varchar(20),\n    p_account_id integer,\n    p_account_name varchar(20),\n    "
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_getdbprofile_queryfrom",
+      "error": "错误:  语法错误 在 \"Name\" 或附近的 | LINE 10:     RETURN QUERY SELECT  p.name AS SP Name,qs.execution_coun... |                                                ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION aion_getdbprofile_queryfrom(\n    p_before_sec integer\n) RETURNS SETOF record\nLANGUAGE plpgsql\nAS $$\nDECLARE\n    v_from_check_time timestamp;\nBEGIN\n    v_from_check_time := ("
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_getdbprofile_running_query",
+      "error": "错误:  括号不匹配 在 \";\" 或附近的 | LINE 6: ...et / 2) + 1, ((case b.statement_end_offset when -1; dataleng... |                                                              ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION aion_getdbprofile_running_query(\n) RETURNS SETOF record\nLANGUAGE plpgsql\nAS $$\nBEGIN\n    RETURN QUERY SELECT  a.session_id, a.host_name, a.client_interface_name, a.login_nam"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_getdbprofile_statisticscpuave",
+      "error": "错误:  语法错误 在 \"used\" 或附近的 | LINE 6:     PERFORM  Average CPU used = total_worker_time / qs.execu... |                                  ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION aion_getdbprofile_statisticscpuave(\n) RETURNS void\nLANGUAGE plpgsql\nAS $$\nBEGIN\n    PERFORM  Average CPU used = total_worker_time / qs.execution_count ,Total CPU used = tota"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_getdbprofile_statisticscpusum",
+      "error": "错误:  语法错误 在 \"'_statements'\" 或附近的 | LINE 6: ..._count) as total_execution_count_sum, count(*) as '_statemen... |                                                              ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION aion_getdbprofile_statisticscpusum(\n) RETURNS SETOF record\nLANGUAGE plpgsql\nAS $$\nBEGIN\n    RETURN QUERY SELECT  sum(qs.total_worker_time) as total_cpu_time_sum, sum(qs.exec"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_getdbprofile_statisticsiototal",
+      "error": "错误:  语法错误 在 \"apply\" 或附近的 | LINE 6: ...')  AS OBJName from sys.dm_exec_query_stats cross apply sys.... |                                                              ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION aion_getdbprofile_statisticsiototal(\n) RETURNS SETOF record\nLANGUAGE plpgsql\nAS $$\nBEGIN\n    RETURN QUERY SELECT  (total_logical_reads/execution_count) as avg_logical_reads "
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_syncitemlegacytbl",
+      "error": "错误:  语法错误 在输入的末尾 | LINE 36: ...  THEN 'varchar(' || CAST(v_typesize AS varchar(10)) || ')'; |                                                                        ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION aion_syncitemlegacytbl(\n    p_legacytbl varchar(50)\n) RETURNS integer\nLANGUAGE plpgsql\nAS $$\nDECLARE\n    v_fetch_found boolean := true;\n    v_ret integer;\n    v_sql varchar("
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_userrankda_srchuserlistbyrankid",
+      "error": "错误:  语法错误 在 \"||\" 或附近的 | LINE 22:     SET v_sql = v_sql || ' ORDER BY r.local_ranking ASC'; |                                ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION gm_userrankda_srchuserlistbyrankid(\n    p_rank_id integer,\n    p_cvs_race varchar(100),\n    p_cvs_class varchar(100),\n    p_rank_from integer,\n    p_rank_to integer\n) RETURN"
+    },
+    {
+      "db": "aion_account_db",
+      "func": "account_input",
+      "error": "错误:  括号不匹配 在 \")\" 或附近的 | LINE 18: ...ey,27,4,v_accountNo,v_genderCode,v_legalBirthday,v_retCode); |                                                                       ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION account_input(\n    p_allianceUserKey varchar(255)\n) RETURNS void\nLANGUAGE plpgsql\nAS $$\nDECLARE\n    v_accountNo integer;\n    v_genderCode smallint;\n    v_legalBirthday times"
+    },
+    {
+      "db": "aion_account_db",
+      "func": "ap_gpwdwithflag",
+      "error": "错误:  在SQL表达式的结尾处丢失\"THEN\" | LINE 9: ...ccount from AccountAuth where gameAccount=p_account)) begin; |                                                                       ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION ap_gpwdwithflag(\n    p_account varchar(16),\n    OUT p_pwd bytea,\n    OUT p_flag smallint\n) RETURNS record\nLANGUAGE plpgsql\nAS $$\nBEGIN\n    if(not exists(select gameAccount f"
+    },
+    {
+      "db": "aion_account_db",
+      "func": "ap_setaccountrestirction",
+      "error": "错误:  语法错误 在输入的末尾 | LINE 21: ...trictionCode := CASE p_restrictionReasonCode WHEN 0 THEN 43; |                                                                        ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION ap_setaccountrestirction(\n    p_gameAccountNo integer,\n    p_restrictionReasonCode smallint,\n    OUT p_gameAccount varchar(32),\n    OUT p_restrictionNo integer,\n    OUT p_re"
+    },
+    {
+      "db": "aion_account_cache_db",
+      "func": "aion_getplaytimesforpolls",
+      "error": "错误:  语法错误 在 \"IF\" 或附近的 | LINE 34:     END IF; |                  ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION aion_getplaytimesforpolls(\n    p_pollIds text,\n    p_account_id integer\n) RETURNS SETOF record\nLANGUAGE plpgsql\nAS $$\nDECLARE\n    v_S_VAL text;\n    v_S_SPLIT_CHAR varchar(1)"
+    },
+    {
+      "db": "aion_account_cache_db",
+      "func": "aion_querycancreatejumpingcharacter",
+      "error": "错误:  语法错误 在 \"ELSE\" 或附近的 | LINE 31:     ELSE |              ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION aion_querycancreatejumpingcharacter(\n    p_account_id integer,\n    p_server_id integer,\n    p_from_special smallint,\n    OUT p_can_create_num integer,\n    OUT p_satisfy_date"
+    },
+    {
+      "db": "aion_account_cache_db",
+      "func": "aion_querycancreatejumpingcharacter_20170428",
+      "error": "错误:  语法错误 在 \"ELSE\" 或附近的 | LINE 38:     ELSE |              ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION aion_querycancreatejumpingcharacter_20170428(\n    p_account_id integer,\n    p_server_id integer,\n    p_from_special smallint,\n    OUT p_can_create_num integer,\n    OUT p_sat"
+    },
+    {
+      "db": "aion_account_cache_db",
+      "func": "aion_updateplaytimesforpolls",
+      "error": "错误:  语法错误 在 \"IF\" 或附近的 | LINE 50:     END IF; |                  ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION aion_updateplaytimesforpolls(\n    p_pollIds text,\n    p_playTimes text,\n    p_account_id integer\n) RETURNS integer\nLANGUAGE plpgsql\nAS $$\nDECLARE\n    v_S_VAL text;\n    v_S_V"
+    },
+    {
+      "db": "aion_gm",
+      "func": "tbladminuserda_srchgmbyidornmorisdel",
+      "error": "错误:  语法错误 在 \"ELSE\" 或附近的 | LINE 29:     ELSE |              ^ | ",
+      "sql_preview": "CREATE OR REPLACE FUNCTION tbladminuserda_srchgmbyidornmorisdel(\n    p_login_id varchar(30),\n    p_login_nm varchar(50),\n    p_is_deleted varchar(5),\n    p_is_correct varchar(10)\n) RETURNS void\nLANGUA"
+    }
+  ],
+  "runtime_failures": [
+    {
+      "db": "aion_world_live",
+      "func": "aion_adderrorignore",
+      "code": "42804",
+      "error": "错误:  字段 \"id\" 的类型为 integer, 但表达式的类型为 character varying | LINE 1: insert into error_ignore values(p_ignore) |                                         ^ | HINT:  你需要重写或转换表达式 | QUERY:  insert into error_ignore values(p_ignore) | CONTEXT:  在SQL语句的第9行的PL/pgSQL函数aion_adderrorignore(character varying) | "
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_deleteeventitem",
+      "code": "42703",
+      "error": "错误:  字段 \"object_id\" 不存在 | LINE 1: NOT EXISTS (SELECT object_id FROM information_schema.tables ... |                            ^ | QUERY:  NOT EXISTS (SELECT object_id FROM information_schema.tables WHERE name = 'aionDeletedEventItemCount') | CONTEXT:  在IF的第5行的PL/pgSQL函数aion_deleteeventitem(bigint) "
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_deleteguildmemberall",
+      "code": "42703",
+      "error": "错误:  字段 \"guild_id\" 不存在 | LINE 1: ...ild_update_date = CURRENT_TIMESTAMP FROM ( SELECT guild_id,c... |                                                              ^ | DETAIL:  表\"user_data\"中存在一列,名为\"guild_id\", 但是这个表名并不能从这部分查询里引用. | QUERY:  UPDATE user_data SET guild_id=0, guild_rank=0, guild_intro='',"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_deletepvpenv",
+      "code": "42883",
+      "error": "错误:  操作符不存在: character = smallint | LINE 1: DELETE FROM pvp_env WHERE (type=p_nType and entity_a=p_nEnti... |                                        ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  DELETE FROM pvp_env WHERE (type=p_nType and entity_a=p_nEntityA and entity_b=p_nEntityB) or (ty"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_getaccountextrainfo",
+      "code": "42P01",
+      "error": "错误:  关系 \"account_extra_info\" 不存在 | LINE 1: SELECT COALESCE(hidden_fatigue_point, 0) from account_extra_... |                                                       ^ | QUERY:  SELECT COALESCE(hidden_fatigue_point, 0) from account_extra_info where account_id = p_accountId | CONTEXT:  在RETURN QUERY的第3行"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_getcharplayblockpunishinfo",
+      "code": "42703",
+      "error": "错误:  字段 \"hh\" 不存在 | LINE 1: v_utc_adjust_hour := DATEDIFF(HH, (CURRENT_TIMESTAMP AT TIME... |                                       ^ | QUERY:  v_utc_adjust_hour := DATEDIFF(HH, (CURRENT_TIMESTAMP AT TIME ZONE 'UTC'), CURRENT_TIMESTAMP) | CONTEXT:  在赋值的第5行的PL/pgSQL函数aion_getcharplayblockpunishinfo(in"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_getdbprofile_statisticsiowaittime",
+      "code": "42P01",
+      "error": "错误:  关系 \"sys.dm_os_wait_stats\" 不存在 | LINE 1: ..._time_ms, wait_time_ms / waiting_tasks_count from sys.dm_os_... |                                                              ^ | QUERY:  SELECT  wait_type, waiting_tasks_count, wait_time_ms, signal_wait_time_ms, wait_time_ms / waiting_tasks_count fro"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_getfinishedquestlist_20130516",
+      "code": "42703",
+      "error": "错误:  字段 \"quest_id\" 不存在 | LINE 1: SELECT quest_id, quest_count, quest_branch, COALESCE(quest_f... |                ^ | QUERY:  SELECT quest_id, quest_count, quest_branch, COALESCE(quest_finishedtime, 0), repeat_quest_count, repeat_quest_resetnum WHERE char_id=p_nUserId | CONTEXT:  在RETURN QUERY的第4行的P"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_getmovesvrcharlist",
+      "code": "42883",
+      "error": "错误:  操作符不存在: timestamp without time zone >= text | LINE 1: ...serviceFlag = 0 and serviceType = 4 and applyDate >= ('1970-... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT fromCharacterId from AionAddedService where from"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_getsplist",
+      "code": "42P01",
+      "error": "错误:  关系 \"sys.procedures\" 不存在 | LINE 1: SELECT name, create_date, modify_date FROM sys.procedures wh... |                                                    ^ | QUERY:  SELECT name, create_date, modify_date FROM sys.procedures where name not like 'GM_%' AND name != 'AIONMO_CharacterInfo_SrchCharListB"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_orderingabyssranking_20160415",
+      "code": "42P01",
+      "error": "错误:  对于表 \"abyss_ranking\"的FROM子句项的引用无效  | LINE 1: ...and b.update_time = v_update_time and b.char_id = abyss_rank... |                                                              ^ | HINT:  可能您是要引用表的化名 \"b\". | QUERY:  UPDATE abyss_ranking AS b SET old_ranking = COALESCE((select b.abyss_ranking FROM a"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_putchar_20120516",
+      "code": "42804",
+      "error": "错误:  字段 \"gender\" 的类型为 boolean, 但表达式的类型为 integer | LINE 1: ..._nAccountID, p_strAccountName, p_nRace, p_nClass, p_nGender,... |                                                              ^ | HINT:  你需要重写或转换表达式 | QUERY:  INSERT INTO user_data (user_id,account_id, account_name, race, class, gender, h"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_putchar_20151013",
+      "code": "42804",
+      "error": "错误:  字段 \"gender\" 的类型为 boolean, 但表达式的类型为 integer | LINE 1: ..._nAccountID, p_strAccountName, p_nRace, p_nClass, p_nGender,... |                                                              ^ | HINT:  你需要重写或转换表达式 | QUERY:  INSERT INTO user_data (user_id,account_id, account_name, race, class, gender, h"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_putchar_20160303",
+      "code": "42804",
+      "error": "错误:  字段 \"gender\" 的类型为 boolean, 但表达式的类型为 integer | LINE 1: ..._nAccountID, p_strAccountName, p_nRace, p_nClass, p_nGender,... |                                                              ^ | HINT:  你需要重写或转换表达式 | QUERY:  INSERT INTO user_data (user_id,account_id, account_name, race, class, gender, h"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_putchar_20160620",
+      "code": "42804",
+      "error": "错误:  字段 \"gender\" 的类型为 boolean, 但表达式的类型为 integer | LINE 1: ..._nAccountID, p_strAccountName, p_nRace, p_nClass, p_nGender,... |                                                              ^ | HINT:  你需要重写或转换表达式 | QUERY:  INSERT INTO user_data (user_id,account_id, account_name, race, class, gender, h"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_putitemcompoundedtwohand_20121105",
+      "code": "42703",
+      "error": "错误:  字段 \"char_id\" 不存在 | LINE 1: SELECT char_id               WHERE id = p_dbId |                ^ | QUERY:  SELECT char_id               WHERE id = p_dbId | CONTEXT:  在SQL语句的第11行的PL/pgSQL函数aion_putitemcompoundedtwohand_20121105(bigint,bigint,integer) | "
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_putqinamanipulate",
+      "code": "42804",
+      "error": "错误:  字段 \"currentqina\" 的类型为 bigint, 但表达式的类型为 timestamp with time zone | LINE 1: ..., p_warehouseType, p_previousQina, p_currentQina, CURRENT_TI... |                                                              ^ | HINT:  你需要重写或转换表达式 | QUERY:  insert into qina_manipulate values (p_acctId, p_charId, p_"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_setcaptchainfo",
+      "code": "42703",
+      "error": "错误:  关系 \"user_captcha\" 的 \"user_captcha\" 字段不存在 | LINE 1: ...SERT INTO user_captcha(char_id, prohibition_flag, user_captc... |                                                              ^ | QUERY:  INSERT INTO user_captcha(char_id, prohibition_flag, user_captcha.count, prohibition_time, elapsed_time"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_setcharbanned",
+      "code": "42804",
+      "error": "错误:  字段 \"is_banned\" 的类型为 boolean, 但表达式的类型为 integer | LINE 1: UPDATE user_data SET is_banned=1, change_info_time = GetUnix... |                                        ^ | HINT:  你需要重写或转换表达式 | QUERY:  UPDATE user_data SET is_banned=1, change_info_time = GetUnixtimeWithUTCAdjust((CURRENT_TIMESTAMP AT T"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_setcharlogintime_20120516",
+      "code": "42P01",
+      "error": "错误:  关系 \"accountetc\" 不存在 | LINE 1: SELECT hardware                 FROM AccountETC WHERE gameAc... |                                              ^ | QUERY:  SELECT hardware                 FROM AccountETC WHERE gameAccountNo = v_accountNo | CONTEXT:  在SQL语句的第13行的PL/pgSQL函数aion_setcharlogintime_2012"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_setequipmentchange",
+      "code": "42P01",
+      "error": "错误:  关系 \"user_equipment_change\" 不存在 | LINE 1: UPDATE user_equipment_change SET option_flags = p_option_fla... |                ^ | QUERY:  UPDATE user_equipment_change SET option_flags = p_option_flags, item_ids = p_item_ids WHERE char_id = p_char_id and set_id = p_set_id | CONTEXT:  在SQL语句的第5行的PL/p"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_setguildmember",
+      "code": "42703",
+      "error": "错误:  字段 \"guild_id\" 不存在 | LINE 1: SELECT guild_id            WHERE char_id = p_nCharId |                ^ | QUERY:  SELECT guild_id            WHERE char_id = p_nCharId | CONTEXT:  在SQL语句的第6行的PL/pgSQL函数aion_setguildmember(integer,integer) | "
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_setmonsterachievementrewardreceived",
+      "code": "42703",
+      "error": "错误:  关系 \"user_monster_achievement\" 的 \"p_outgradeofreward\" 字段不存在 | LINE 1: ...evement SET  reward_received = p_reward_received, p_outGrade... |                                                              ^ | QUERY:  UPDATE\tuser_monster_achievement SET\t\treward_received = p_reward_received, p_outGrade"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_setpetitionmsg",
+      "code": "42804",
+      "error": "错误:  字段 \"petition_sv_id\" 的类型为 integer, 但表达式的类型为 character varying | LINE 1: ... user_petition_msg VALUES (p_nCharId, p_nPetSvId, p_sPetMsg) |                                                              ^ | HINT:  你需要重写或转换表达式 | QUERY:  INSERT INTO user_petition_msg VALUES (p_nCharId, p_nPetSvId, p_s"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "aion_setvipicon",
+      "code": "42804",
+      "error": "错误:  字段 \"use_bot_channel_update_date\" 的类型为 timestamp without time zone, 但表达式的类型为 integer | LINE 1: ..._date, account_id, vip_Icon) values (p_charId, 0, 0, 0, p_ic... |                                                              ^ | HINT:  你需要重写或转换表达式 | QUERY:  insert into user_extra_info (char_id, "
+    },
+    {
+      "db": "aion_world_live",
+      "func": "convert",
+      "code": "42804",
+      "error": "错误:  无法确定多态类型, 因为输入类型为unknown | "
+    },
+    {
+      "db": "aion_world_live",
+      "func": "get_constraint_name",
+      "code": "42P01",
+      "error": "错误:  对于表\"all_columns\",丢失FROM子句项 | LINE 1: ...a.columns inner join information_schema.tables on all_column... |                                                              ^ | QUERY:  SELECT default_constraints.name                FROM information_schema.columns inner join information_schema.tables "
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_abyssda_srchabysscontributor",
+      "code": "42883",
+      "error": "错误:  操作符不存在: character varying + character varying | LINE 1: v_sql := v_sql + v_sql_where |                        ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  v_sql := v_sql + v_sql_where | CONTEXT:  在赋值的第15行的PL/pgSQL函数gm_abyssda_srchabysscontributor(character varying,character varying,c"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_abyssda_srchabyssdefender",
+      "code": "42883",
+      "error": "错误:  操作符不存在: character varying + character varying | LINE 1: v_sql := v_sql + v_sql_where |                        ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  v_sql := v_sql + v_sql_where | CONTEXT:  在赋值的第15行的PL/pgSQL函数gm_abyssda_srchabyssdefender(character varying,character varying,char"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_abyssda_srchabyssranking",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ..._updatedate, gp from abyss_ranking  where char_id = p_char_i... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT abyss_ranking, abyss_point, update_time, rank, rank_upda"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_abyssda_srchcharabysscontributor",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...te_time from abyss_user_owner  where owner_char_id=p_char_id... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT  abyss_id, owner_share_amount, owner_rank, update_time f"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_abyssda_srchcharabyssdefender",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...e from abyss_user_defender  where defender_char_id=p_char_id... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT  abyss_id, defender_share_amount, defender_rank, update_"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_bookmarkda_srchbookmarkbycharid",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...kmark, world, x, y, z from bookmark where char_id = p_char_i... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT bookmark_id, char_id, bookmark, world, x, y, z from book"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_guildda_srchguildapplicationscount",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...m user_guild_join_application t1 where t1.guild_id=p_guild_i... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT count(*) guild_application_cnt from user_guild_join_appl"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_guildda_srchguildbycharid",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...d = (select guild_id from user_data where char_id = p_char_i... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT\tu.class, u.user_id, u.account_id, u.account_name, u.org_"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_guildda_srchguildbyid",
+      "code": "42804",
+      "error": "错误:  COALESCE 的类型 character varying 和 integer 不匹配 | LINE 1: ....noticetime6, g.noticetime7 , COALESCE(u.user_id, 0) as user... |                                                              ^ | QUERY:  SELECT\tg.level, g.officer_right, g.member_right, g.id, g.name, g.master_id, g.rank, g.point, g.fun"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_guildda_srchguildemblembyid",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...mg_last_version,emblem_bgcolor from guild where id=p_guild_i... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT emblem,emblem_img,emblem_img_version,emblem_img_last_ver"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_guildda_srchguildhistory",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...ram, eventparam2 from guild_history where guild_id=p_guild_i... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT  id, guild_id, eventdate, eventtype, eventparam, eventpa"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_guildda_srchguilditem",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ... user_item_attribute a  on i.id = a.id WHERE g.id = p_guild_... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT\ti.producer, i.tid, i.expired_time, i.buy_amount, i.buy_d"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_guildda_srchguildmemberscount",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...ild_member_cnt from user_data t1 where t1.guild_id=p_guild_i... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT count(*) guild_member_cnt from user_data t1 where t1.gui"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_guildda_srchguildwarehousehistory",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...param2 from guild_warehouse_history where guild_id=p_guild_i... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT  id, guild_id, eventdate, eventtype, eventparam, eventpa"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_houseda_srchallhouselist",
+      "code": "42883",
+      "error": "错误:  操作符不存在: character varying <> integer | LINE 1: p_obj_id != 0 |                  ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  p_obj_id != 0 | CONTEXT:  在IF的第25行的PL/pgSQL函数gm_houseda_srchallhouselist(character varying,character varying,character varying,character varying,character vary"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_joinannounceda_getjoinannounce",
+      "code": "42883",
+      "error": "错误:  操作符不存在: smallint = character varying | LINE 1: ...OS_TYPE, regdate from join_announce where world_id=p_world_i... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT  notice_id, notice_status, LOGIN_ID, LOGIN_NM, NOTICE_I"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_pollanswerda_srchpollrsbyidanddate",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...MI:SS') answer_time from poll_answer where poll_id=p_poll_id... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT\tpoll_id,char_id,user_id, account_id, account_name, class"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_restricteditemda_srchbystatus",
+      "code": "42883",
+      "error": "错误:  操作符不存在: smallint = character varying | LINE 1: ...S_TYPE from restricted_item  where restrict_status=p_restric... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT\tTO_CHAR(regdate, 'YYYY-MM-DD HH24:MI:SS') regdate,TO_CH"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_serverinfoda_srchserverinfo",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...value, str_value from server_info  where server_id=p_server_... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT\tserver_id, info_name, int_value, int64_value, str_value "
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_serverinfoda_srchserverinfobycond",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...value, str_value from server_info  where server_id=p_server_... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT\tserver_id, info_name, int_value, int64_value, str_value "
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_userchangelogda_srchallbycharid",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ..., intervaltime from user_change_log  where char_id=p_char_id |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT\tTO_CHAR(change_time, 'YYYY-MM-DD HH24:MI:SS') change_time, "
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_userchangelogda_srchbycharid",
+      "code": "42883",
+      "error": "错误:  操作符不存在: smallint = text | LINE 1: ...change_log where char_id=p_char_id and change_type='' || p_c... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT\t* from\tuser_change_log where\tchar_id=p_char_id and change_type='' ||"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_usercommentda_srchmymemolistbycharid",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: SELECT * from user_comment where char_id=p_char_id order by ... |                                                 ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT\t* from\tuser_comment where\tchar_id=p_char_id order by comment_id desc | C"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_usercreativityda_resetmycpusagebycharid",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ... 0, accumulated_cp = 0, data_id = 0 WHERE char_id = p_char_i... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  UPDATE\tuser_use_cp SET\t\tvalue = 0, accumulated_cp = 0, data_id "
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_usercreativityda_srchmyusecreativitybycharid",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...ulated_cp ,data_id FROM user_use_cp where char_id = p_char_i... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT category ,enchant_object_id ,value ,accumulated_cp ,data"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_usercustomizehistoryda_srchmycustomizehistory",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...ELECT * from user_customize_history  where char_id=p_char_id... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT\t* from\tuser_customize_history  where\tchar_id=p_char_id o"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_userdatada_srchabuseqina",
+      "code": "42883",
+      "error": "错误:  操作符不存在: character varying + character varying | LINE 1: v_sql := v_sql + v_sql_etc |                        ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  v_sql := v_sql + v_sql_etc | CONTEXT:  在赋值的第18行的PL/pgSQL函数gm_userdatada_srchabuseqina(character varying,character varying,character"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_userdatada_srchcharbyaccountidandstatus",
+      "code": "42883",
+      "error": "错误:  操作符不存在: character varying + character varying | LINE 1: v_query := v_query + v_where_or |                            ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  v_query := v_query + v_where_or | CONTEXT:  在赋值的第19行的PL/pgSQL函数gm_userdatada_srchcharbyaccountidandstatus(integer,integer,"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_userdatada_srchcharbycharid",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...t  ude on u.char_id = ude.char_id where u.char_id = p_char_i... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT\tTO_CHAR(create_date, 'YYYY-MM-DD HH24:MI:SS') create_dat"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_userdatada_srchitemranking",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...a t2 where t1.char_id = t2.char_id and  t1.name_id=p_item_id... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT  sum(t1.amount) amount,t2.char_id, t2.user_id, t2.accoun"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_userdatada_srchstat",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: SELECT * from user_stat  where character_id = p_char_id |                                                     ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT\t* from\tuser_stat  where\tcharacter_id = p_char_id | CONTEXT:  在RETURN QUERY的第"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_userdatadao_updatecustomdata",
+      "code": "42883",
+      "error": "错误:  操作符不存在: boolean <> integer | LINE 1: ...E user_data SET race = p_race, gender = (p_gender != 0), nam... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  UPDATE\tuser_data SET race = p_race, gender = (p_gender != 0), name_id = "
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_userfactionfriendshipda_srchmyfactionbycharid",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...dcount from user_faction_friendship where char_id = p_char_i... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT\tchar_id, faction_id, friendship, jointime, factionquest_"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_useritemda_srchallattributesofitembydbid",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...er_item_option o1 ON i1.id = o1.id and o1.char_id = p_char_i... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT  i1.id, i1.char_id, i1.name_id, i1.slot_id, i1.amount, i"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_useritemda_srchchargeitems",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...user_item t1, user_item_charge t2 where t1.char_id=p_char_id... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT t2.id, t2.charge_point from user_item t1, user_item_char"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_useritemda_srchcheckvendoritems",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: SELECT  id from vendor_item_light where char_id = p_char_id ... |                                                         ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT  id from vendor_item_light where char_id = p_char_id union all S"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_useritemda_srchcountbynameidandcreatedateto",
+      "code": "42883",
+      "error": "错误:  操作符不存在: timestamp without time zone <= character varying | LINE 1: ...R (warehouse between 60 and 79)) and  create_date <= p_creat... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT\t(SUM(amount) + v_vendor_log_dark_qi"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_useritemda_srchcurdarkvendoritems",
+      "code": "42883",
+      "error": "错误:  操作符不存在: character varying + character varying | LINE 1: v_sql := v_sql + v_sql_where_etc |                        ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  v_sql := v_sql + v_sql_where_etc | CONTEXT:  在赋值的第20行的PL/pgSQL函数gm_useritemda_srchcurdarkvendoritems(character varying,charac"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_useritemda_srchcurlightvendoritems",
+      "code": "42883",
+      "error": "错误:  操作符不存在: character varying + character varying | LINE 1: v_sql := v_sql + v_sql_where_etc |                        ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  v_sql := v_sql + v_sql_where_etc | CONTEXT:  在赋值的第20行的PL/pgSQL函数gm_useritemda_srchcurlightvendoritems(character varying,chara"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_useritemda_srchdarkvendorsolditems",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: SELECT * from vendor_log_dark where char_id=p_char_id |                                                    ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT * from vendor_log_dark where char_id=p_char_id | CONTEXT:  在RETURN QUERY的第3行的PL"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_useritemda_srchlightvendorsolditems",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: SELECT * from vendor_log_light  where char_id=p_char_id |                                                      ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT\t* from\tvendor_log_light  where\tchar_id=p_char_id | CONTEXT:  在RETURN QUERY的"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_useritemda_srchmycompounditems",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...m i2  ON i1.id = i2.main_item_dbid and i2.char_id = p_char_i... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT i1.id, i1.char_id, i1.name_id, i1.slot_id, i1.amount, i1"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_useritemda_srchmyitembycharid",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...item_attribute a  on i.id = a.id WHERE (i.char_id = p_char_i... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT\t1 AS sort, i.id, i.char_id, i.name_id, slot_id, amount, "
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_useritemda_srchmyitembycharidandamount",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: SELECT id from user_item where char_id = p_char_id and amoun... |                                                ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT id from user_item where char_id = p_char_id and amount<=p_amount and ware"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_useritemda_srchmyitembycharidanddbid",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ..._item_attribute a  on i.id = a.id WHERE i.char_id = p_char_i... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT  i.id, i.char_id, i.name_id , slot_id, amount, slot, war"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_useritemda_srchmyitembycharidanditemid",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: SELECT id, amount from user_item where char_id = p_char_id a... |                                                        ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT id, amount from user_item where char_id = p_char_id and name_id=p"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_useritemda_srchmyitembycharidandwarehouserange",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ..._item_attribute a  on i.id = a.id WHERE i.char_id = p_char_i... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT i.id, i.char_id, i.name_id, slot_id, amount, slot, wareh"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_useritemda_srchmypetitem",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ..._item_attribute a  on i.id = a.id WHERE i.char_id = p_char_i... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT i.id, i.char_id, i.name_id, slot_id, amount, slot, wareh"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_useritemda_srchmypolisheditems",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ..._item_attribute a  on i.id = a.id WHERE i.char_id = p_char_i... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT i.id, i.char_id, i.name_id, slot_id, amount, slot, wareh"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_useritemda_srchmypolisheditemsforcopy",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...user_item t1, user_item_polish t2 where t1.char_id=p_char_id... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT t2.id, t2.name_id, t2.random_id, t2.polish_point from us"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_useritemda_srchsealeditems",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...me, sealState from user_item_sealed  where char_id=p_char_id |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT\tid, sealExpiredTime, sealState from\tuser_item_sealed  where"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_useritemda_srchvendoritems",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: SELECT * from vendor_item_light where char_id = p_char_id un... |                                                       ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT * from vendor_item_light where char_id = p_char_id union all selec"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_useritemda_srchvendorlog",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: SELECT * from vendor_log_light where char_id = p_char_id uni... |                                                      ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT * from vendor_log_light where char_id = p_char_id union all select "
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_usermacroda_srchmacrolist",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ..._id, slot_id, data from user_macro  where char_id = p_char_i... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT\tchar_id, slot_id, data from\tuser_macro  where\tchar_id = "
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_usermailda_srchmymail",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...item_tid, abyss_point from user_mail  where to_id = p_char_i... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT\tid, to_id, to_name, from_id, from_name, title, content, "
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_usermailda_srchmymailbycharidandid",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...oin user_item t2 on t1.item_id=t2.id where (t1.id = p_mail_i... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT\tCOALESCE(t2.name_id, 0) name_id, t1.id, t1.to_id, t1.to_"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_usermailda_srchmymailitemmoney",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...xpress_mail, item_tid from user_mail  where to_id = p_char_i... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT\tid, to_id, to_name, from_id, from_name, title, content, "
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_usermoveservicelogda_srchmovedcharinfo",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ... * from user_move_service_log where server_id_from=p_server_... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT  * from user_move_service_log where server_id_from=p_ser"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_usermoveservicelogda_srchmymovedcharlog",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: SELECT * from user_move_service_log where char_id=p_char_id ... |                                                          ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT * from user_move_service_log where char_id=p_char_id order by i"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_userpunishmentda_srchcheck",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: SELECT  ID from user_punishment  where char_id = p_char_id a... |                                                        ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT  ID from user_punishment  where char_id = p_char_id and status = "
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_userpunishmentda_srchhistorybyaccountid",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...ata u on u.char_id = p.char_id where p.account_id = p_accoun... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT\tlogin_id, login_nm, id, p.account_id, p.char_id, play_bl"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_userpunishmentda_srchpunishinuse",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: SELECT  id from user_punishment where account_id=p_account_i... |                                                         ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT  id from\tuser_punishment where\taccount_id=p_account_id and char_"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_userpunishmentda_srchpunishlistinuse",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...unish_reason from user_punishment where account_id=p_account... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT\tlogin_id, login_nm, id, account_id, char_id, play_block,"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_userquestdao_finishedquestaddanddel",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ... quest_id FROM user_finished_quest  WHERE  char_id=p_char_id... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  EXISTS (SELECT quest_id FROM user_finished_quest  WHERE  char_i"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_userquestdao_questaddanddel",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...S (SELECT quest_id FROM user_quest  WHERE  char_id=p_char_id... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  EXISTS (SELECT quest_id FROM user_quest  WHERE  char_id=p_char_"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_userrateda_srchuserlist_del",
+      "code": "3F000",
+      "error": "错误:  模式 \"v_xml\" 不存在 | LINE 1: ... IN (SELECT n.value('.', 'tinyint') as class from v_xml.node... |                                                              ^ | QUERY:  SELECT  r.id, r.mu, r.sigma, u.char_id, u.user_id, u.account_id, u.account_name, u.race, u.class, u.guild_id, g.id AS guild_id, "
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_userrecipeda_srchrecipe",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...e_id, remain_count from user_recipe  where char_id=p_char_id |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT recipe_id, remain_count from user_recipe  where char_id=p_c"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_userrecipedao_addorupdate",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...STS (SELECT char_id FROM user_recipe WHERE char_id=p_char_id... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  not EXISTS (SELECT char_id FROM user_recipe WHERE char_id=p_cha"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_userskillda_srchmyskillbycharid",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ..._data1, skill_data2 from user_skill where char_id = p_char_i... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT\tchar_id, skill_id, skill_data1, skill_data2 from\tuser_sk"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_usertitleda_srchmyalltitlesbycharid",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ..._have, expired_time from user_title where char_id = p_char_i... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT\tchar_id, title_id, is_have, expired_time from\tuser_title"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_usertitleda_srchmytitlesbycharid",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...le_id, expired_time from user_title where char_id = p_char_i... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT\ttitle_id, expired_time from\tuser_title where\tchar_id = p"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "gm_usertitledao_addorupdate",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...STS (SELECT char_id FROM user_title  WHERE char_id=p_char_id... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  EXISTS (SELECT char_id FROM user_title  WHERE char_id=p_char_id"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "rename_constraint",
+      "code": "42883",
+      "error": "错误:  函数 get_constraint_name(character varying, character varying, character varying) 不存在 | LINE 1: SELECT get_constraint_name(p_table, p_column, v_oldName) |                ^ | HINT:  没有匹配指定名称和参数类型的函数. 您也许需要增加明确的类型转换. | QUERY:  SELECT get_constraint_name(p_table, p_column, v_oldName) | CONTEXT:  在PE"
+    },
+    {
+      "db": "aion_world_live",
+      "func": "sp_whale_fall_record_kill",
+      "code": "42P01",
+      "error": "错误:  关系 \"character_name\" 不存在 | LINE 1: SELECT cn.name                    FROM character_name cn JOI... |                                                ^ | QUERY:  SELECT cn.name                    FROM character_name cn JOIN user_data ud ON cn.name_id = ud.name_id WHERE ud.char_id = p_killer_char_i"
+    },
+    {
+      "db": "aion_account_db",
+      "func": "aop_getaccountnoticelist",
+      "code": "42P01",
+      "error": "错误:  关系 \"commondb.commoncode\" 不存在 | LINE 1: ..., ALN.noticeEndDate FROM accountLoginNotice ALN , commondb.c... |                                                              ^ | QUERY:  SELECT ALN.gameAccountNo, ALN.noticeTypeCode, CC.codeName, ALN.noticeStartDate, ALN.noticeEndDate FROM accountLogi"
+    },
+    {
+      "db": "aion_account_db",
+      "func": "aop_getgameserverchargegrouplist",
+      "code": "42P01",
+      "error": "错误:  关系 \"sn.gameserverchargegroup\" 不存在 | LINE 1: SELECT gameServerNo, gameServerChargeGroupNo FROM SN.GameSer... |                                                           ^ | QUERY:  SELECT\tgameServerNo, gameServerChargeGroupNo FROM\tSN.GameServerChargeGroup ORDER BY gameServerNo | CONTEXT:  在RETUR"
+    },
+    {
+      "db": "aion_account_db",
+      "func": "ap_autoreg",
+      "code": "42846",
+      "error": "错误:  无法把类型 integer 转换为 bytea | LINE 1: ...e, authLimitTypeBitSet) VALUES (v_ssn, p_account, CAST(0 AS ... |                                                              ^ | QUERY:  INSERT INTO AccountAuth (gameAccountNo, gameAccount, password, cryptographTypeCode, legalBirthday, genderCode, authLimi"
+    },
+    {
+      "db": "aion_account_db",
+      "func": "ap_gstat",
+      "code": "42883",
+      "error": "错误:  函数 fn_ap_getloginflag(integer, boolean, integer, smallint, timestamp with time zone) 不存在 | LINE 1: SELECT AA.gameAccountNo, 0, fn_ap_GetLoginFlag (AA.gameAccou... |                                     ^ | HINT:  没有匹配指定名称和参数类型的函数. 您也许需要增加明确的类型转换. | QUERY:  SELECT AA.gameAccountNo, 0, fn_ap_GetLo"
+    },
+    {
+      "db": "aion_account_db",
+      "func": "ap_slog",
+      "code": "42703",
+      "error": "错误:  字段 \"hardware\" 不存在 | LINE 1: SELECT hardware                 WHERE gameAccountNo = p_uid |                ^ | QUERY:  SELECT hardware                 WHERE gameAccountNo = p_uid | CONTEXT:  在SQL语句的第6行的PL/pgSQL函数ap_slog(integer,timestamp without time zone,timestamp without time zone,integer,small"
+    },
+    {
+      "db": "aion_account_db",
+      "func": "ap_suserdata",
+      "code": "42P01",
+      "error": "错误:  关系 \"ae\" 不存在 | LINE 1: UPDATE AE SET  accountCustomizeBitSet = p_userdata FROM Acco... |                ^ | QUERY:  UPDATE\tAE SET\t\taccountCustomizeBitSet = p_userdata FROM\tAccountAuth AA INNER JOIN AccountETC AE ON (AA.gameAccountNo = AE.gameAccountNo) WHERE\tAA.gameAccount = p_account | CONTEXT:"
+    },
+    {
+      "db": "aion_account_db",
+      "func": "convert",
+      "code": "42804",
+      "error": "错误:  无法确定多态类型, 因为输入类型为unknown | "
+    },
+    {
+      "db": "aion_account_db",
+      "func": "pap_getaccountbyuserid",
+      "code": "42883",
+      "error": "错误:  函数 pap_getaccount(character varying, integer, bytea, smallint, timestamp without time zone, smallint) 不存在 | LINE 1: v_ret := pap_GetAccount(p_account, p_uid, p_password, p_pass... |                  ^ | HINT:  没有匹配指定名称和参数类型的函数. 您也许需要增加明确的类型转换. | QUERY:  v_ret := pap_GetAccount(p_account, p_uid,"
+    },
+    {
+      "db": "aion_account_db",
+      "func": "pap_getgameinfo",
+      "code": "42883",
+      "error": "错误:  操作符不存在: boolean = integer | LINE 1: v_isNoticed = 1 |                     ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  v_isNoticed = 1 | CONTEXT:  在IF的第22行的PL/pgSQL函数pap_getgameinfo(integer) | "
+    },
+    {
+      "db": "aion_account_db",
+      "func": "write_gameuser_counts",
+      "code": "42883",
+      "error": "错误:  操作符不存在: character varying + character varying | LINE 1: v_txt := v_txt + v_gamename || '=' || CAST(v_cnt AS varchar(... |                        ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  v_txt := v_txt + v_gamename || '=' || CAST(v_cnt AS varchar(10)) || '; ' | CONTEXT:  在赋值的第13行的"
+    },
+    {
+      "db": "aion_account_cache_db",
+      "func": "aion_getoldestcreatedate",
+      "code": "42804",
+      "error": "错误:  COALESCE 的类型 timestamp without time zone 和 integer 不匹配 | LINE 1: SELECT COALESCE(min(create_date), 0) FROM global_user_data W... |                                           ^ | QUERY:  SELECT COALESCE(min(create_date), 0) FROM global_user_data WHERE account_id = p_accountId | CONTEXT:  在RETURN "
+    },
+    {
+      "db": "aion_account_cache_db",
+      "func": "aion_loadlunaprice",
+      "code": "42P01",
+      "error": "错误:  关系 \"user_luna_price\" 不存在 | LINE 1: ...et_week_value, reset_time_value, create_time from user_luna_... |                                                              ^ | QUERY:  SELECT luna_id, use_count, reset_type, reset_week_value, reset_time_value, create_time from user_luna_price where char"
+    },
+    {
+      "db": "aion_account_cache_db",
+      "func": "aion_updatelunaprice",
+      "code": "42P01",
+      "error": "错误:  关系 \"user_luna_price\" 不存在 | LINE 1: update user_luna_price set use_count = p_use_count, update_t... |                ^ | QUERY:  update user_luna_price set use_count = p_use_count, update_time = CURRENT_TIMESTAMP where char_id = p_char_id and luna_id = p_luna_id and create_time != 0 | CONTEXT:  "
+    },
+    {
+      "db": "aion_account_cache_db",
+      "func": "ap_getservers",
+      "code": "42P01",
+      "error": "错误:  关系 \"aion_myserver\" 不存在 | LINE 1: SELECT * FROM aion_myserver |                       ^ | QUERY:  SELECT * FROM aion_myserver | CONTEXT:  在RETURN QUERY的第3行的PL/pgSQL函数ap_getservers(integer) | "
+    },
+    {
+      "db": "aion_account_cache_db",
+      "func": "convert",
+      "code": "42804",
+      "error": "错误:  无法确定多态类型, 因为输入类型为unknown | "
+    },
+    {
+      "db": "aion_account_cache_db",
+      "func": "gm_accountcacheda_srchhiddenfatiguelist",
+      "code": "42883",
+      "error": "错误:  操作符不存在: timestamp without time zone >= bytea | LINE 1: ...WHERE server_id = p_world_id AND  last_login_time >= binary(... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT\ta.account_id, hidden_fatigue_point, hidden_fati"
+    },
+    {
+      "db": "aion_account_cache_db",
+      "func": "gm_accountcacheda_srchhiddenfatiguelistforexcel",
+      "code": "42883",
+      "error": "错误:  操作符不存在: timestamp without time zone >= bytea | LINE 1: ...WHERE server_id = p_world_id AND  last_login_time >= binary(... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT\ta.account_id, hidden_fatigue_point, hidden_fati"
+    },
+    {
+      "db": "aion_gm",
+      "func": "commit_test",
+      "code": "42P01",
+      "error": "错误:  关系 \"test\" 不存在 | LINE 1: insert into test values('222','ok','10') |                     ^ | QUERY:  insert into test values('222','ok','10') | CONTEXT:  在SQL语句的第4行的PL/pgSQL函数commit_test() | "
+    },
+    {
+      "db": "aion_gm",
+      "func": "convert",
+      "code": "42804",
+      "error": "错误:  无法确定多态类型, 因为输入类型为unknown | "
+    },
+    {
+      "db": "aion_gm",
+      "func": "dbmanager_dbmanager",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...ver_url from tbl_world_server_info where world_id = p_world_... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT server_url from tbl_world_server_info where world_id = p"
+    },
+    {
+      "db": "aion_gm",
+      "func": "gm_userdatada_srchabuseqina",
+      "code": "42883",
+      "error": "错误:  操作符不存在: character varying + character varying | LINE 1: v_sql := v_sql + v_sql_etc |                        ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  v_sql := v_sql + v_sql_etc | CONTEXT:  在赋值的第18行的PL/pgSQL函数gm_userdatada_srchabuseqina(character varying,character varying,character"
+    },
+    {
+      "db": "aion_gm",
+      "func": "gm_useritemda_srchmycompounditems",
+      "code": "42P01",
+      "error": "错误:  关系 \"user_item\" 不存在 | LINE 1: ..., t2.stat_enchant_val5 sub_stat_enchant_val5 from user_item ... |                                                              ^ | QUERY:  SELECT t1.tid, t1.obtain_skin_type, t1.expire_skin_time, t1.expired_time, t1.buy_amount, t1.buy_duration, t1.option_count, t"
+    },
+    {
+      "db": "aion_gm",
+      "func": "gm_useritemdao_addcompound",
+      "code": "42P01",
+      "error": "错误:  关系 \"user_item\" 不存在 | LINE 1: EXISTS (select id from user_item where id = p_main_item_dbid... |                                ^ | QUERY:  EXISTS (select id from user_item where id = p_main_item_dbid and main_item_dbid != 0 and char_id = p_char_id) | CONTEXT:  在IF的第4行的PL/pgSQL函数gm_useritemdao_ad"
+    },
+    {
+      "db": "aion_gm",
+      "func": "gm_useritemdao_delcompoundrecovery",
+      "code": "42P01",
+      "error": "错误:  关系 \"user_item\" 不存在 | LINE 1: SELECT main_item_dbid                       FROM user_item w... |                                                          ^ | QUERY:  SELECT main_item_dbid                       FROM user_item where id = p_item_id and char_id = p_char_id | CONTEXT:  在SQL语句的第7行的PL/p"
+    },
+    {
+      "db": "aion_gm",
+      "func": "tbladminorganizationda_srchorganizationbyid",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...FROM TBL_ADMIN_ORGANIZATION where organization_id = p_organi... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT organization_id, organization_nm, organization_info FROM"
+    },
+    {
+      "db": "aion_gm",
+      "func": "tbladminuserda_srchbyadminid",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...user t1, TBL_ADMIN_ORGANIZATION t2 where admin_id = p_admin_... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT \tt1.admin_id, t1.login_id, t1.login_nm, t1.login_pw, t1."
+    },
+    {
+      "db": "aion_gm",
+      "func": "tbladminuserda_srchbyloginidandpw",
+      "code": "42704",
+      "error": "错误:  编码 \"UTF8\" 中的排序规则 \"korean_wansung_cs_as\" 不存在 | LINE 1: ...nd login_id = '' || p_login_id || '' and login_pw COLLATE KO... |                                                              ^ | QUERY:  SELECT admin_level, (EXTRACT(EPOCH FROM (CURRENT_TIMESTAMP)::timestamp - (PWDATE)::timestamp) / 864"
+    },
+    {
+      "db": "aion_gm",
+      "func": "tbladminuserdao_creategm",
+      "code": "42804",
+      "error": "错误:  字段 \"organization_id\" 的类型为 integer, 但表达式的类型为 character varying | LINE 1: ...p_login_id, p_login_pw, p_login_nm, p_login_email,p_organiza... |                                                              ^ | HINT:  你需要重写或转换表达式 | QUERY:  INSERT INTO TBL_ADMIN_USER (login_id, login_pw, login_nm, lo"
+    },
+    {
+      "db": "aion_gm",
+      "func": "tbladminuserdao_updategmstate",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...TH_UPDATE_DATE = CURRENT_TIMESTAMP WHERE ADMIN_ID = p_admin_... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  UPDATE TBL_ADMIN_USER SET IS_DELETED = p_is_deleted, AUTH_UPDAT"
+    },
+    {
+      "db": "aion_gm",
+      "func": "tbladminuserdao_updatemygm",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...email = p_login_email, etc = p_etc WHERE ADMIN_ID = p_admin_... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  UPDATE TBL_ADMIN_USER SET PWDATE=CURRENT_TIMESTAMP, login_pw = "
+    },
+    {
+      "db": "aion_gm",
+      "func": "tbladminuserdao_updatemygmfornopassword",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...email = p_login_email, etc = p_etc WHERE ADMIN_ID = p_admin_... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  UPDATE TBL_ADMIN_USER SET login_email = p_login_email, etc = p_"
+    },
+    {
+      "db": "aion_gm",
+      "func": "tbladminuserhistoryda_srchhistory",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...2 WHERE T1.ADMIN_ID = T2.ADMIN_ID AND (T2.ADMIN_ID=p_admin_i... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT  T1.LOGIN_NM, T2.*, (SELECT LOGIN_NM FROM TBL_ADMIN_USER"
+    },
+    {
+      "db": "aion_gm",
+      "func": "tblapprovaldefaultstageda_srchbyworkflowcdandorganizationid",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...orkflow_cd = p_workflow_cd and t1.organization_id = p_organi... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT t1.approval_group, t1.approval_default_stage_id, t1.appr"
+    },
+    {
+      "db": "aion_gm",
+      "func": "tblapprovaldefaultstageda_srchmystagenumbyworkflowcdandorganiza",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...e workflow_cd = p_workflow_cd and organization_id = p_organi... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT approval_stage_num from TBL_APPROVAL_DEFAULT_STAGE where"
+    },
+    {
+      "db": "aion_gm",
+      "func": "tblapprovalinfoda_srchqinaadddeldoc",
+      "code": "42883",
+      "error": "错误:  操作符不存在: character varying = integer | LINE 1: ...roval_type!='GRQ_ITEMMOVE' and t1.approval_char_id=p_char_id... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT t1.approval_checkinout_status, t3.login_nm,t1.approval_i"
+    },
+    {
+      "db": "aion_gm",
+      "func": "tblapprovalinfoda_srchqinamovedoc",
+      "code": "42883",
+      "error": "错误:  操作符不存在: character varying = integer | LINE 1: ...approval_type='GRQ_ITEMMOVE' and t2.target_char_id=p_char_id... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT t1.approval_checkinout_status, t3.login_nm,t1.approval_i"
+    },
+    {
+      "db": "aion_gm",
+      "func": "tblapprovalinfoda_srchuserdoc",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...pproval_account_id = p_account_id and t1.world_id =p_world_i... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT T1.DOC_TYPE, (EXTRACT(EPOCH FROM (CURRENT_TIMESTAMP)::ti"
+    },
+    {
+      "db": "aion_gm",
+      "func": "tblbotpointrankingda_srchaccountpunishhistory",
+      "code": "42883",
+      "error": "错误:  操作符不存在: timestamp without time zone >= character varying | LINE 1: ...e_str FROM TBL_BOT_ACCOUNT_PUNISH  WHERE reg_date BETWEEN p_... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT\tpunish_id, punish_group_id, punish_"
+    },
+    {
+      "db": "aion_gm",
+      "func": "tblbuildercommandscheduleda_srchschedule",
+      "code": "42883",
+      "error": "错误:  操作符不存在: timestamp without time zone = bytea | LINE 1: ...TBL_BUILDER_COMMAND_SCHEDULE  WHERE SCHEDULE_DATE = binary(p... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT\tID, COMMAND_SUBJECT, COMMAND_TEXT, SCHEDULE_TYPE"
+    },
+    {
+      "db": "aion_gm",
+      "func": "tblbuildercommandscheduleda_srchschedulebydate",
+      "code": "42883",
+      "error": "错误:  操作符不存在: timestamp without time zone >= bytea | LINE 1: ...TBL_BUILDER_COMMAND_SCHEDULE  WHERE SCHEDULE_DATE BETWEEN bi... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT\tID, COMMAND_SUBJECT, COMMAND_TEXT, SCHEDULE_TYP"
+    },
+    {
+      "db": "aion_gm",
+      "func": "tblgamenoticehistorydao_insertnoticehistory",
+      "code": "42804",
+      "error": "错误:  字段 \"notice_history_id\" 的类型为 integer, 但表达式的类型为 character varying | LINE 1: INSERT INTO TBL_GAME_NOTICE_HISTORY VALUES(p_notice_id, p_wo... |                                                    ^ | HINT:  你需要重写或转换表达式 | QUERY:  INSERT INTO TBL_GAME_NOTICE_HISTORY VALUES(p_notice_id, p_world_id, p_c"
+    },
+    {
+      "db": "aion_gm",
+      "func": "tblgamenoticescheduleda_srchreservedschedule",
+      "code": "42883",
+      "error": "错误:  操作符不存在: timestamp without time zone >= character varying | LINE 1: ...e from TBL_GAME_NOTICE_SCHEDULE where ((NOTICE_TO >= p_curre... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT NOTICE_RACE, NOTICE_CLASS, notice_p"
+    },
+    {
+      "db": "aion_gm",
+      "func": "tblgamenoticescheduleda_srchtranshistory",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...and t1.notice_id = p_notice_id and t1.period_hour = p_period... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT count(*) sendable from tbl_game_notice_schedule t1, tbl_"
+    },
+    {
+      "db": "aion_gm",
+      "func": "tblgameworldinfoda_srchchannel",
+      "code": "42883",
+      "error": "错误:  操作符不存在: smallint = character varying | LINE 1: ...annel_num from tbl_game_world_info where world_id = p_world_... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT world_type, zone_id, zone_nm, channel_num from tbl_game"
+    },
+    {
+      "db": "aion_gm",
+      "func": "tbllogfilesdao_insertfile",
+      "code": "42804",
+      "error": "错误:  字段 \"logfile_id\" 的类型为 integer, 但表达式的类型为 character varying | LINE 1: INSERT INTO TBL_LOG_FILES VALUES(p_logfile_type, p_logfile_n... |                                          ^ | HINT:  你需要重写或转换表达式 | QUERY:  INSERT INTO TBL_LOG_FILES VALUES(p_logfile_type, p_logfile_name, p_logfile_size, p_logfi"
+    },
+    {
+      "db": "aion_gm",
+      "func": "tblmyworldda_srchmyworldserverstatusformaxmin",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ... from TBL_WORLD_STATUS_INFO t1 where t1.server_nm = p_server... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT t1.WORLD_STATUS_INFO_ID, t1.WORLD_ID, t1.SERVER_NM, t1.c"
+    },
+    {
+      "db": "aion_gm",
+      "func": "tblpollda_pollsrchwillbedeletedlist",
+      "code": "42883",
+      "error": "错误:  操作符不存在: timestamp without time zone <= character varying | LINE 1: ... where POLL_STATUS=p_poll_status and POLL_END_DATE<=p_poll_e... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT poll_id FROM tbl_poll where POLL_ST"
+    },
+    {
+      "db": "aion_gm",
+      "func": "tblpollserverda_polldiff",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer <= text | LINE 1: ... - (t1.gathering_date)::timestamp) / 60)::integer <= '' || p... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT t1.poll_id, t1.world_id, t1.pub_status, t1.RS_FILE_NAME, t1.poll_cnt"
+    },
+    {
+      "db": "aion_gm",
+      "func": "tblpollserverda_pollserversrchbydateandstatus",
+      "code": "42883",
+      "error": "错误:  操作符不存在: timestamp without time zone <= text | LINE 1: ...tatus='' || p_pub_status || '') and t1.start_date <='' || p_... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT t1.poll_id, t1.world_id, t1.pub_status, t1.RS_FI"
+    },
+    {
+      "db": "aion_gm",
+      "func": "tblquestda_srchmyquest",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: SELECT * from TBL_QUEST where world_id = p_world_id and char... |                                                ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT * from TBL_QUEST where world_id = p_world_id and char_id = p_char_id and "
+    },
+    {
+      "db": "aion_gm",
+      "func": "tblquestda_srchmyquestbyreqid",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ... where quest_req_id = p_quest_req_id and world_id = p_world_... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT * from TBL_QUEST where quest_req_id = p_quest_req_id and"
+    },
+    {
+      "db": "aion_gm",
+      "func": "tblstatisticsda_srchpollrs",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...IME,ANSWER from TBL_STATISTICS_POLL where world_id=p_world_i... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT WORLD_ID,POLL_ID,CHAR_ID,USER_ID,ACCOUNT_ID,ACCOUNT_NAME"
+    },
+    {
+      "db": "aion_gm",
+      "func": "tblstatisticsscheduleda_srchreservedschedule",
+      "code": "42883",
+      "error": "错误:  操作符不存在: timestamp without time zone >= character varying | LINE 1: ...rom TBL_STATISTICS_SCHEDULE where ((STATISTICS_TO >= p_curre... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT * from TBL_STATISTICS_SCHEDULE wher"
+    },
+    {
+      "db": "aion_gm",
+      "func": "tblstatisticsscheduleda_srchtranshistory",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer = character varying | LINE 1: ...tatistics_id = p_statistics_id and t1.period_hour = p_period... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT count(*) sendable from TBL_STATISTICS_SCHEDULE t1, TBL_S"
+    },
+    {
+      "db": "aion_gm",
+      "func": "tblworldinfoda_srchgameftworlds",
+      "code": "42883",
+      "error": "错误:  操作符不存在: integer >= character varying | LINE 1: ...zone_id=0 and t1.world_status='Y' and t1.world_id between p_... |                                                              ^ | HINT:  没有匹配指定名称和参数类型的操作符. 您也许需要增加明确的类型转换. | QUERY:  SELECT T1.WORLD_ID, T1.WORLD_NM, T1.WORLD_DESC, T1.WORLD_STATU"
+    }
+  ],
+  "deploy_categories": {
+    "OTHER": 53,
+    "UNBALANCED_PARENS": 9,
+    "IF_ELSE_MISMATCH": 18,
+    "UNKNOWN_VARIABLE": 2,
+    "RETURN_SYNTAX": 1,
+    "UNEXPECTED_EOF": 2
+  },
+  "runtime_categories": {
+    "42804_OTHER": 18,
+    "42703_COLUMN": 9,
+    "42883_OPERATOR": 105,
+    "42P01_TABLE": 18,
+    "3F000_SCHEMA": 1,
+    "42883_FUNCTION": 3,
+    "42846_CAST": 1,
+    "42704_TYPE": 1
+  }
+}
