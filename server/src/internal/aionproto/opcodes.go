@@ -65,6 +65,11 @@ const (
 	// CM_DELETE_CHARACTER requests character deletion.
 	CM_DELETE_CHARACTER uint16 = 0x14
 
+	// SM_DELETE_CHARACTER_RESPONSE carries the deletion result (Phase S-18b).
+	// Sent in reply to CM_DELETE_CHARACTER (0x14). AION 5.8 uses a soft-delete
+	// 7-day grace window; the client shows the character with a countdown.
+	SM_DELETE_CHARACTER_RESPONSE uint16 = 0x17
+
 	// CM_ENTER_WORLD requests world entry with a selected character.
 	CM_ENTER_WORLD uint16 = 0x15
 

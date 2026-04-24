@@ -1,5 +1,7 @@
 # AionCore 5.8
 
+中文文档: [README-zh.md](README-zh.md)
+
 Go + Lua reimplementation of the NCSoft AION 5.8 distributed game server.
 
 ## Architecture

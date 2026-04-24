@@ -22,15 +22,7 @@ import (
 // Cipher operates in ECB mode (each 8-byte block independently).
 // The first 2 bytes of an AION packet (length header) are never encrypted.
 type BlowfishLE struct {
-	inner stdBlowfishBlock
-}
-
-// stdBlowfishBlock is the interface satisfied by golang.org/x/crypto/blowfish.Cipher.
-// Declared here so tests can inject stubs if needed.
-type stdBlowfishBlock interface {
-	Encrypt(dst, src []byte)
-	Decrypt(dst, src []byte)
-	BlockSize() int
+	inner *stdblowfish.Cipher
 }
 
 // NewBlowfishLE creates a BlowfishLE cipher initialised with key.

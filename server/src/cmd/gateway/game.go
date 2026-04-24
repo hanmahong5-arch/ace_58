@@ -137,7 +137,7 @@ func handleGameConn(conn net.Conn, deps gameConnDeps) {
 // runCMRelayLoop reads CM_* packets from the client, publishes them to NATS.
 // Exits when the client disconnects or the read times out.
 func runCMRelayLoop(s *Session, events *ipc.Client) {
-	cmSubject := fmt.Sprintf("player.cm.%d", s.id)
+	cmSubject := fmt.Sprintf("%s.%d", ipc.SubjectPlayerCM, s.id)
 	const readTimeout = 60 * time.Second
 
 	for {

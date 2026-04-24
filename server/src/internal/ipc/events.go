@@ -29,6 +29,12 @@ const (
 	// SubjectWorldSM is the prefix for World→Gateway SM_* packet delivery.
 	// Full subject: "world.sm.{gatewaySessionID}"
 	SubjectWorldSM = "world.sm"
+
+	// SubjectPlayerCM is the prefix for Gateway→World CM_* packet delivery.
+	// Full subject: "player.cm.{gatewaySessionID}"
+	// Use instead of hard-coding the literal at publish/subscribe sites so a
+	// future rename cannot desynchronize producer and consumer.
+	SubjectPlayerCM = "player.cm"
 )
 
 // PlayerLoginEvent is published after the auth port handshake completes.

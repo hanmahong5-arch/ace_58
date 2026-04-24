@@ -58,7 +58,7 @@ func (d *Dispatcher) onPlayerEnter(ev ipc.PlayerEnterEvent) {
 	})
 
 	// 2. Subscribe to CM_* packets for this session.
-	cmSubject := fmt.Sprintf("player.cm.%d", ev.GatewaySeqID)
+	cmSubject := fmt.Sprintf("%s.%d", ipc.SubjectPlayerCM, ev.GatewaySeqID)
 	unsub, err := ipc.Subscribe[ipc.PacketEvent](d.nc, cmSubject,
 		func(pkt ipc.PacketEvent) {
 			d.dispatchCM(ev.GatewaySeqID, entityID, pkt)
