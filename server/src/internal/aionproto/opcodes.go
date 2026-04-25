@@ -369,6 +369,65 @@ const (
 	//   int64 listing_id, byte event (0=registered, 1=outbid, 2=sold,
 	//     3=expired_unsold, 4=cancelled), int64 amount.
 	SM_AUCTION_NOTIFY uint16 = 0xCE
+
+	// Instance / dungeon opcodes — Phase S-19.
+	// NOTE: opcodes and payload formats are best-effort; adjust after packet
+	// capture against the 5.8 client.
+
+	// CM_INSTANCE_ENTER is sent by the party leader (or a solo player with a
+	// 1-member party) to enter an instanced dungeon. The server checks group
+	// eligibility + per-member cooldowns via aion_getuserinstance_20171122,
+	// then spawns a fresh run and teleports every member to the spawn point.
+	// Payload (LE): int32 template_id.
+	CM_INSTANCE_ENTER uint16 = 0xCF
+
+	// SM_INSTANCE_ENTER_RESULT acknowledges a CM_INSTANCE_ENTER request.
+	// Payload (LE):
+	//   byte result (0=OK, 1=cooldown, 2=bad_level, 3=bad_group_size,
+	//     4=not_leader, 5=already_in_instance, 6=db_error, 7=template_unknown),
+	//   int64 run_id (0 on error),
+	//   int32 cooldown_remaining_sec (>0 if result=1).
+	SM_INSTANCE_ENTER_RESULT uint16 = 0xD0
+
+	// CM_INSTANCE_LEAVE is sent when the player voluntarily exits the current
+	// instance. The server teleports the caller back to their bind point but
+	// leaves the run alive so party members can continue.
+	// Payload: empty.
+	CM_INSTANCE_LEAVE uint16 = 0xD1
+
+	// SM_INSTANCE_STATE broadcasts an instance state transition
+	// (LOBBY/ACTIVE/CLEARED/EXPIRED) to all members of the run.
+	// Payload (LE): int64 run_id, byte state.
+	SM_INSTANCE_STATE uint16 = 0xD2
+
+	// SM_INSTANCE_REWARD notifies a member of rewards granted at boss clear.
+	// Payload (LE):
+	//   int64 run_id, int64 kinah,
+	//   int32 item_count, then for each item: int32 id, int32 count.
+	SM_INSTANCE_REWARD uint16 = 0xD3
+
+	// CM_INSTANCE_RESET clears the caller's cooldown on a template in exchange
+	// for a kinah fee. The player must not currently be inside that run.
+	// Payload (LE): int32 template_id.
+	CM_INSTANCE_RESET uint16 = 0xD4
+
+	// SM_INSTANCE_COOLDOWNS carries the full list of the player's active
+	// instance cooldowns (sent after login, reset, or explicit refresh).
+	// Payload (LE):
+	//   int32 count, then for each entry: int32 template_id,
+	//     int32 next_allowed_at_unix.
+	SM_INSTANCE_COOLDOWNS uint16 = 0xD5
+
+	// SM_INSTANCE_MEMBER_JOIN notifies existing members that a new participant
+	// entered (or rejoined) the run. Carries the entering entity's display name
+	// so the party UI can render the roster without a follow-up query.
+	// Payload (LE): int64 run_id, int32 member_eid, utf16_null name.
+	SM_INSTANCE_MEMBER_JOIN uint16 = 0xD6
+
+	// SM_INSTANCE_MEMBER_LEAVE notifies remaining members that a participant
+	// exited the run (voluntary leave, disconnect, group-kick, or expire).
+	// Payload (LE): int64 run_id, int32 member_eid.
+	SM_INSTANCE_MEMBER_LEAVE uint16 = 0xD7
 )
 
 // LoginFailReason enumerates SM_LOGIN_FAIL reason codes.

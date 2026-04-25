@@ -343,6 +343,94 @@ If you need strict parsing, check `r:remaining()` before each read.
 
 ---
 
+## Global: `instance.*` (Phase S-19)
+
+Instance / dungeon state machine. Persistent membership (`_char_run`) survives
+disconnect and full wipes; the run is disposed only by `validity_hours` expiry
+or manual reset — last-member-leave does **not** dispose (prevents "black
+cooldown" lockout). Created via a two-phase SP commit (validate all members
+read-only, then write cooldowns with compensation rollback on mid-loop SP
+failure). See
+`C:\Users\Administrator\.claude\plans\proud-questing-raven.md` for the
+complete design, including six rounds of plan-critic-driven hardening.
+
+### Templates
+
+Register at script load from `scripts/instances/inst_*.lua`:
+
+```lua
+instance.register({
+    template_id     = 300040000,
+    display_name    = "Haramel Training Grounds",
+    world_id        = 300040000,
+    min_level       = 1,  max_level    = 10,
+    min_members     = 1,  max_members  = 1,
+    reentrance_sec  = 14400,          -- 4h cooldown
+    validity_hours  = 2,              -- auto-expire after 2h
+    reset_fee_kinah = 1000,
+    spawn_x = 1024, spawn_y = 1024, spawn_z = 300,
+    boss_template = 215001,
+    boss_x = 1060, boss_y = 1060, boss_z = 300,
+    rewards = { kinah = 5000, items = { { id = 110000001, count = 1 } } },
+    on_boss_kill = function(inst, boss_eid) ... end,  -- optional custom hook
+})
+```
+
+### Lifecycle API
+
+`instance.create(leader_eid, template_id) -> run_id | nil, reason[, blocking_cid]`
+Two-phase-commit create. Returns an int64 `run_id` on success or
+`(nil, reason)` on rejection. Reasons: `"template_unknown"`, `"not_leader"`,
+`"bad_group_size"`, `"bad_level"`, `"member_offline"`, `"member_dead"`,
+`"member_out_of_range"`, `"member_no_char_id"`, `"cooldown"` (with
+`blocking_cid` as third return), `"db_error"`, `"already_in_instance"`.
+
+`instance.rejoin(eid, template_id) -> ok, reason` — reconnect after disconnect
+without re-bumping cooldown. `cm_instance_enter.lua` calls this automatically
+when `_char_run[char_id]` is set for the matching template.
+
+`instance.leave(eid) -> ok, reason` — voluntary exit. Teleports to bind via
+`aion_GetBindPoint`, keeps `_char_run` intact so re-entry is free.
+
+`instance.reset(eid, template_id) -> ok, reason` — spend `reset_fee_kinah` to
+clear the cooldown row. Rejected with `"currently_in_run"` if the player is
+inside the matching run; with `"no_kinah"` if the balance is insufficient.
+
+`instance.on_boss_kill(victim_eid, killer_eid) -> bool` — returns `true` if
+the victim was the boss of an active run and rewards were dispatched. Called
+from `scripts/events/on_kill.lua` for every NPC death.
+
+`instance.on_expire(run_id, created_at_unix)` — jobq expiry callback.
+Rejects with a warn log if `created_at_unix` mismatches the in-memory record
+(stale-fire guard against recycled run_ids after a server restart).
+
+### Read-only accessors
+
+- `instance.get(run_id) -> inst | nil`
+- `instance.get_by_eid(eid) -> inst | nil`
+- `instance.has_char_run(char_id) -> run_id | nil`
+- `instance.get_template(template_id) -> template | nil`
+- `instance.member_gateways(inst) -> { gw, gw, ... }`
+- `instance.send_cooldowns(eid)` — push SM_INSTANCE_COOLDOWNS (0xD5)
+
+### SPs called
+
+- `aion_getuserinstance_20171122(char_id)` — read cooldown rows
+- `aion_setuserinstance_20171122(cid, world_id, instance_id, reentrance_time, server_id, count_variate, kina_inc, item_inc, spinel_inc)` — write / clear cooldown
+- `aion_initinstancecooltime_170817()` — daily sweep (called from `on_daily_reset`)
+- `aion_GetBindPoint(char_id)` — bind-point lookup for leave-teleport
+
+All four exist in the NCSoft catalog — no new SPs needed.
+
+### Group coupling
+
+`group.register_kick_handler(cb)` and `group.register_leave_handler(cb)` let
+`instance.lua` force-eject a player from their run when they are kicked or
+leave their party. Without this a ghost member could remain on the roster and
+keep collecting rewards.
+
+---
+
 ## Global: `jobq.*`
 
 Async job dispatch backed by `internal/jobq.Bundle` (asynq under the hood).
@@ -413,6 +501,7 @@ Go code dispatches into Lua through `VMPool.CallGlobal(fnName, args...)`
 | `LuaFnDailyReset`             | `on_daily_reset`           | —                              |
 | `LuaFnPvpAPBatch`             | `on_pvp_ap_batch`          | —                              |
 | `LuaFnWorldBossSpawn`         | `on_world_boss_spawn`      | —                              |
+| `LuaFnInstanceExpire`         | `on_instance_expire`       | `run_id, created_at_unix`      |
 
 Canonical files live under `server/scripts/events/`. Creating the matching
 `.lua` file is the only step to bind a new job kind to Lua — no Go change.

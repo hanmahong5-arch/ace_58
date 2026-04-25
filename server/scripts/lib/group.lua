@@ -18,6 +18,40 @@
 
 group = {}
 
+-- ----------------------------------------------------------------------------
+-- Hook registry (Phase S-19).
+--
+-- Downstream systems (instance.lua) need to react when a member leaves the
+-- group — either voluntarily, by being kicked, or via a disband. Without a
+-- hook a player kicked mid-instance would remain on the instance roster and
+-- keep collecting rewards (plan-critic round 2 issue #6).
+--
+-- Callbacks are called with (eid, group_id) and wrapped in pcall so a bad
+-- subscriber cannot break group semantics. Invocation order follows
+-- registration order; each callback is a side-effect on a different subsystem
+-- so order dependence must NOT be relied upon.
+-- ----------------------------------------------------------------------------
+group._kick_callbacks  = {}
+group._leave_callbacks = {}
+
+group.register_kick_handler = function(cb)
+    if type(cb) ~= "function" then return end
+    group._kick_callbacks[#group._kick_callbacks + 1] = cb
+end
+
+group.register_leave_handler = function(cb)
+    if type(cb) ~= "function" then return end
+    group._leave_callbacks[#group._leave_callbacks + 1] = cb
+end
+
+local function _fire_kick(eid, gid)
+    for _, cb in ipairs(group._kick_callbacks) do pcall(cb, eid, gid) end
+end
+
+local function _fire_leave(eid, gid)
+    for _, cb in ipairs(group._leave_callbacks) do pcall(cb, eid, gid) end
+end
+
 local MAX_MEMBERS = 6
 
 -- GroupID is an incrementing counter; starts at 1 so 0 means "no group".
@@ -175,6 +209,7 @@ end
 group.leave = function(member_eid)
     local g = group.get(member_eid)
     if not g then return false, "not_in_group" end
+    local gid = g.id
 
     -- Remove member from roster.
     for i, m in ipairs(g.members) do
@@ -184,11 +219,14 @@ group.leave = function(member_eid)
         end
     end
     _member_group[member_eid] = nil
+    _fire_leave(member_eid, gid)
 
     -- Disband if the party is now a solo shell.
     if #g.members < 2 then
         if #g.members == 1 then
-            _member_group[g.members[1]] = nil
+            local last = g.members[1]
+            _member_group[last] = nil
+            _fire_leave(last, gid)
         end
         _groups[g.id] = nil
         return true
@@ -212,9 +250,50 @@ group.disband = function(leader_eid)
     if not g then return false, "not_in_group" end
     if g.leader ~= leader_eid then return false, "not_leader" end
 
+    local gid = g.id
     for _, m in ipairs(g.members) do
         _member_group[m] = nil
     end
     _groups[g.id] = nil
+    -- Fire leave for every ex-member so downstream systems (instance.lua)
+    -- can sweep roster entries.
+    for _, m in ipairs(g.members) do _fire_leave(m, gid) end
+    return true
+end
+
+-- ----------------------------------------------------------------------------
+-- group.kick — leader removes a specific member. Fires the kick hook so
+-- downstream systems (e.g. instance.lua) can react. Leader-only.
+-- ----------------------------------------------------------------------------
+group.kick = function(leader_eid, target_eid)
+    local g = group.get(leader_eid)
+    if not g then return false, "not_in_group" end
+    if g.leader ~= leader_eid then return false, "not_leader" end
+    if leader_eid == target_eid then return false, "self" end
+
+    local found = false
+    for i, m in ipairs(g.members) do
+        if m == target_eid then
+            table.remove(g.members, i)
+            found = true
+            break
+        end
+    end
+    if not found then return false, "not_member" end
+
+    _member_group[target_eid] = nil
+    _fire_kick(target_eid, g.id)
+
+    if #g.members < 2 then
+        -- Collapsed to one — disband.
+        if #g.members == 1 then
+            local last = g.members[1]
+            _member_group[last] = nil
+            _fire_leave(last, g.id)
+        end
+        _groups[g.id] = nil
+        return true
+    end
+    broadcast_group_info(g)
     return true
 end

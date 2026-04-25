@@ -37,6 +37,16 @@ function on_entity_killed(killer_id, victim_id)
     -- 1. Broadcast SM_DIE before any state mutation (position must still exist).
     broadcast_die(victim_id)
 
+    -- 1a. Phase S-19 instance boss-kill hook. Must run BEFORE the NPC despawn
+    -- below because instance.on_boss_kill reads victim_eid from live ECS tables.
+    -- Returns true if the victim was the boss of some active run; rewards are
+    -- dispatched inside that call and we continue normal death processing (the
+    -- victim is still despawned like any other NPC — the instance stays alive
+    -- in CLEARED state and members keep their run_id stat).
+    if not victim_is_player and instance and instance.on_boss_kill then
+        instance.on_boss_kill(victim_id, killer_id)
+    end
+
     -- 2. Update victim state.
     if victim_is_player then
         entity.set_stat(victim_id, "dead", 1)

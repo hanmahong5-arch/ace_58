@@ -318,6 +318,79 @@
 --   r:remaining() -> int
 
 -- ============================================================
+-- instance.*  — Dungeon / instance state machine (Phase S-19)
+-- ============================================================
+--   instance.register(template_table)
+--     Registered at script load from scripts/instances/inst_*.lua. Each
+--     template declares template_id, level range, member bounds, cooldown
+--     duration, validity_hours, reset_fee_kinah, spawn/boss coordinates,
+--     rewards, and an optional on_boss_kill hook.
+--
+--   instance.create(leader_eid, template_id) -> run_id | nil, reason[, blocking_cid]
+--     Two-phase-commit entry. Phase 1 validates every party member
+--     (online, alive, within 50m, level in range, no conflicting cooldown).
+--     Phase 2 writes aion_setuserinstance_20171122 with compensation rollback
+--     on mid-loop SP failure. Crash-recovery re-entry (DB cooldown row with
+--     no in-memory run) skips the re-write. Returns the new int64 run_id
+--     or (nil, reason).
+--
+--   instance.rejoin(eid, template_id) -> ok, reason
+--     Reconnect after disconnect into the same run; does NOT re-bump the
+--     cooldown. cm_instance_enter.lua calls this automatically when the
+--     caller already owns a _char_run slot for the matching template.
+--
+--   instance.leave(eid) -> ok, reason
+--     Voluntary exit. Teleports the caller to bind via aion_GetBindPoint,
+--     keeps _char_run intact so re-entry is free. Does NOT dispose the run
+--     even on #members==0 (black-cooldown fix).
+--
+--   instance.reset(eid, template_id) -> ok, reason
+--     Spend reset_fee_kinah to clear the cooldown row. Rejects with
+--     "currently_in_run" if the player is inside the matching run; with
+--     "no_kinah" if balance is insufficient.
+--
+--   instance.on_boss_kill(victim_eid, killer_eid) -> bool
+--     Hook invoked from on_kill.lua for every NPC death. Returns true if the
+--     victim was the boss of an active run; rewards are dispatched via
+--     player.add_kinah / player.add_item + SM_INSTANCE_REWARD broadcasts.
+--
+--   instance.on_expire(run_id, created_at_unix)
+--     jobq callback. Disposes the run ONLY if created_at_unix matches the
+--     in-memory record, guarding against stale post-restart fires that
+--     reference a recycled run_id.
+--
+--   instance.send_cooldowns(eid)
+--     Push SM_INSTANCE_COOLDOWNS (0xD5) to the caller's gateway.
+--
+-- Read-only accessors:
+--   instance.get(run_id) -> inst | nil
+--   instance.get_by_eid(eid) -> inst | nil
+--   instance.has_char_run(char_id) -> run_id | nil
+--   instance.get_template(template_id) -> template | nil
+--   instance.member_gateways(inst) -> {gw, gw, ...}
+--
+-- State constants:
+--   instance.STATE_LOBBY   = 0   allocated but boss not yet spawned
+--   instance.STATE_ACTIVE  = 1   boss up, members inside
+--   instance.STATE_CLEARED = 2   boss dead, rewards dispatched
+--   instance.STATE_EXPIRED = 3   validity_hours elapsed; GC'd
+--
+-- Result codes for SM_INSTANCE_ENTER_RESULT (cm_instance_enter uses these):
+--   instance.R_OK / R_COOLDOWN / R_BAD_LEVEL / R_BAD_GROUP_SIZE /
+--   R_NOT_LEADER / R_ALREADY_IN_INSTANCE / R_DB_ERROR / R_TEMPLATE_UNKNOWN
+
+-- ============================================================
+-- group hook registry (Phase S-19)
+-- ============================================================
+--   group.register_kick_handler(cb)   -- cb(kicked_eid, group_id)
+--   group.register_leave_handler(cb)  -- cb(left_eid, group_id)
+--     Subscribe to party-roster changes. Callbacks fire inside pcall so a
+--     misbehaving subscriber cannot break group semantics. Used by
+--     instance.lua to force-eject players mid-run when they are removed
+--     from their party (exploit guard against collecting rewards after
+--     being kicked).
+
+-- ============================================================
 -- Global state (updated each tick by on_tick.lua)
 -- ============================================================
 --   current_tick  (number) monotonically increasing game tick counter.

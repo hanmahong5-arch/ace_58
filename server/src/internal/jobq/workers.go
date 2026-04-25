@@ -31,6 +31,15 @@ const (
 	// with delay = duration_hours * 3600 seconds. The handler delegates to
 	// the Lua global `on_auction_expire(listing_id)` which settles via SP.
 	KindAuctionExpire = "aion58.auction.expire"
+
+	// KindInstanceExpire is a one-shot delayed task scheduled by instance.create
+	// with delay = validity_hours * 3600 seconds. The handler delegates to the
+	// Lua global `on_instance_expire(run_id, created_at_unix)`. The payload
+	// carries the creation timestamp so a stale task that fires after a server
+	// restart (when run_id counters have reset and been recycled) can be
+	// rejected as a mismatch instead of tearing down an unrelated new run.
+	// See plan-critic round 2 issue #1 in the S-19 plan.
+	KindInstanceExpire = "aion58.instance.expire"
 )
 
 // Lua global function names invoked by workers. Keep these in sync with
@@ -42,6 +51,7 @@ const (
 	LuaFnDailyReset        = "on_daily_reset"
 	LuaFnPvpAPBatch        = "on_pvp_ap_batch"
 	LuaFnWorldBossSpawn    = "on_world_boss_spawn"
+	LuaFnInstanceExpire    = "on_instance_expire"
 )
 
 // --- River workers -------------------------------------------------------
@@ -143,6 +153,23 @@ func decodeListingID(payload []byte) int64 {
 	return obj.ListingID
 }
 
+// decodeInstanceExpire pulls the (run_id, created_at_unix) pair out of a JSON
+// payload produced by Lua `instance.create`. Missing fields yield zeros so the
+// Lua side can surface an explicit stale-expire reject path.
+func decodeInstanceExpire(payload []byte) (runID int64, createdAtUnix int64) {
+	if len(payload) == 0 {
+		return 0, 0
+	}
+	var obj struct {
+		RunID         int64 `json:"run_id"`
+		CreatedAtUnix int64 `json:"created_at_unix"`
+	}
+	if err := json.Unmarshal(payload, &obj); err != nil {
+		return 0, 0
+	}
+	return obj.RunID, obj.CreatedAtUnix
+}
+
 // DefaultAsynqMux builds the asynq ServeMux with the default World Engine
 // handlers. A nil logger is replaced with slog.Default(); a nil invoker
 // causes handlers to log-and-return-nil without dispatching into Lua so
@@ -185,6 +212,17 @@ func DefaultAsynqMux(logger *slog.Logger, invoker LuaInvoker) *asynq.ServeMux {
 			return nil
 		}
 		return invoker.CallGlobal(LuaFnAuctionExpire, listingID)
+	})
+
+	mux.HandleFunc(KindInstanceExpire, func(ctx context.Context, t *asynq.Task) error {
+		runID, createdAt := decodeInstanceExpire(t.Payload())
+		logger.Info("jobq: instance expire tick",
+			"run_id", runID, "created_at_unix", createdAt,
+			"payload_len", len(t.Payload()))
+		if invoker == nil {
+			return nil
+		}
+		return invoker.CallGlobal(LuaFnInstanceExpire, runID, createdAt)
 	})
 
 	return mux

@@ -27,10 +27,31 @@ register_handler(0x15, function(ctx, payload)
     local info = rows[1]
 
     -- Set world position in ECS (x, y, z, heading).
-    local x       = info.xlocation or 0
-    local y       = info.ylocation or 0
-    local z       = info.zlocation or 0
-    local heading = info.dir       or 0
+    local x        = info.xlocation or 0
+    local y        = info.ylocation or 0
+    local z        = info.zlocation or 0
+    local heading  = info.dir       or 0
+    local world_id = info.world     or 0
+
+    -- Phase S-19 crash-recovery guard: if the persisted coordinates land in
+    -- the NCSoft instance WorldID range (>= 300000000) but no in-memory run
+    -- currently owns this character, the server crashed while the player was
+    -- inside a dungeon. Strand-proof the player by routing them to their
+    -- bind-point instead of spawning them inside a phantom map. The SP
+    -- cooldown row is untouched so they can re-enter via the entrance NPC.
+    if world_id >= 300000000 and instance and not instance.has_char_run(char_id) then
+        local bind, berr = db.call("aion_GetBindPoint", char_id)
+        if not berr and bind and bind[1] then
+            x        = tonumber(bind[1].x or bind[1].X or 0) or 0
+            y        = tonumber(bind[1].y or bind[1].Y or 0) or 0
+            z        = tonumber(bind[1].z or bind[1].Z or 0) or 0
+            world_id = tonumber(bind[1].world or bind[1].world_id or 0) or world_id
+            heading  = 0
+            log.warn("CM_ENTER_WORLD: stranded instance recovery char_id="
+                .. tostring(char_id) .. " → bind-point teleport")
+        end
+    end
+
     entity.set_position(ctx.entity_id, x, y, z, heading)
 
     -- Cache frequently-read stats in ECS for O(1) access during gameplay.
@@ -44,7 +65,7 @@ register_handler(0x15, function(ctx, payload)
     entity.set_stat(ctx.entity_id, "max_hp",   info.max_hit    or info.now_hit    or 1000)
     entity.set_stat(ctx.entity_id, "max_mp",   info.max_mana   or info.now_mana   or 1000)
     entity.set_stat(ctx.entity_id, "max_fp",   info.max_flight or info.now_flight or 6000)
-    entity.set_stat(ctx.entity_id, "world_id", info.world      or 0)
+    entity.set_stat(ctx.entity_id, "world_id", world_id)
     entity.set_stat(ctx.entity_id, "map_num",  info.world_map_number or 0)
 
     -- Phase S-11: PvP faction + abyss-point hydration.
@@ -91,7 +112,7 @@ register_handler(0x15, function(ctx, payload)
     local buf = bytes.new()
     buf:write_byte(0)                              -- result: 0 = success
     buf:write_int32(char_id)
-    buf:write_int32(info.world             or 0)   -- world_id
+    buf:write_int32(world_id)                      -- world_id (post-recovery)
     buf:write_int32(info.world_map_number  or 0)   -- map_num
     buf:write_float32(x)
     buf:write_float32(y)

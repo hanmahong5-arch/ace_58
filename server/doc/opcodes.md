@@ -3,7 +3,7 @@
 Source: `server/src/internal/aionproto/opcodes.go`
 Handlers: `server/scripts/handlers/cm_*.lua` (Lua) + `server/src/cmd/gateway/` (Go).
 
-Total opcodes: **CM = 39, SM = 33** (72 total).
+Total opcodes: **CM = 42, SM = 39** (81 total).
 
 All integers are little-endian. Game packets use `uint16` opcodes; auth packets use `uint8`.
 Payload is BF-LE encrypted from byte 2; XOR stream cipher is applied on top for client→server.
@@ -164,6 +164,22 @@ Payload is BF-LE encrypted from byte 2; XOR stream cipher is applied on top for 
 | 0xCD | SM_AUCTION_SEARCH_RESULT | S→C | `scripts/lib/auction.lua`                 | Search rows. |
 | 0xCE | SM_AUCTION_NOTIFY        | S→C | `scripts/lib/auction.lua`                 | Listing state change. |
 
+### Phase S-19: Instance / Dungeon (0xCF–0xD7)
+
+| Hex  | Name                      | Dir | Handler / Sender                           | Notes |
+|------|---------------------------|-----|--------------------------------------------|-------|
+| 0xCF | CM_INSTANCE_ENTER         | C→S | `scripts/handlers/cm_instance_enter.lua`   | Party leader (or solo) requests entry; payload int32 template_id. |
+| 0xD0 | SM_INSTANCE_ENTER_RESULT  | S→C | `scripts/handlers/cm_instance_enter.lua`   | byte result + int64 run_id + int32 cooldown_remaining. |
+| 0xD1 | CM_INSTANCE_LEAVE         | C→S | `scripts/handlers/cm_instance_leave.lua`   | Caller exits the run; bind-point teleport. |
+| 0xD2 | SM_INSTANCE_STATE         | S→C | `scripts/lib/instance.lua`                 | State transition (LOBBY/ACTIVE/CLEARED/EXPIRED). |
+| 0xD3 | SM_INSTANCE_REWARD        | S→C | `scripts/lib/instance.lua`                 | Boss-clear payout (kinah + items). |
+| 0xD4 | CM_INSTANCE_RESET         | C→S | `scripts/handlers/cm_instance_reset.lua`   | Pay kinah to clear a template's cooldown. |
+| 0xD5 | SM_INSTANCE_COOLDOWNS     | S→C | `scripts/lib/instance.lua`                 | Full cooldown list (on login / post-reset). |
+| 0xD6 | SM_INSTANCE_MEMBER_JOIN   | S→C | `scripts/lib/instance.lua`                 | New participant joined the run. |
+| 0xD7 | SM_INSTANCE_MEMBER_LEAVE  | S→C | `scripts/lib/instance.lua`                 | Participant exited (leave / kick / expire). |
+
+Reserved: 0xD8 (future boss-phase state broadcast).
+
 ---
 
 ## Alphabetical Index (CM_)
@@ -186,6 +202,9 @@ Payload is BF-LE encrypted from byte 2; XOR stream cipher is applied on top for 
 | CM_EMOTION              | 0x41 | S-3   | ⚠ unhandled |
 | CM_ENTER_WORLD          | 0x15 | S-2   | cm_enter_world.lua |
 | CM_EQUIP_ITEM           | 0xBB | S-12  | cm_equip_item.lua |
+| CM_INSTANCE_ENTER       | 0xCF | S-19  | cm_instance_enter.lua |
+| CM_INSTANCE_LEAVE       | 0xD1 | S-19  | cm_instance_leave.lua |
+| CM_INSTANCE_RESET       | 0xD4 | S-19  | cm_instance_reset.lua |
 | CM_FLIGHT_PATH_SELECT   | 0x75 | S-7   | cm_flight_path_select.lua |
 | CM_FLIGHT_TOGGLE        | 0x71 | S-7   | cm_flight_toggle.lua |
 | CM_GLIDE_END            | 0x73 | S-7   | cm_glide_end.lua |
@@ -240,6 +259,12 @@ Payload is BF-LE encrypted from byte 2; XOR stream cipher is applied on top for 
 | SM_FLY_STATE                  | 0x74 | S-7   | scripts/lib/flight.lua |
 | SM_GROUP_INFO                 | 0x63 | S-5   | scripts/lib/group.lua |
 | SM_GROUP_MEMBER_UPDATE        | 0x64 | S-5   | scripts/lib/group.lua |
+| SM_INSTANCE_COOLDOWNS         | 0xD5 | S-19  | scripts/lib/instance.lua |
+| SM_INSTANCE_ENTER_RESULT      | 0xD0 | S-19  | cm_instance_enter.lua |
+| SM_INSTANCE_MEMBER_JOIN       | 0xD6 | S-19  | scripts/lib/instance.lua |
+| SM_INSTANCE_MEMBER_LEAVE      | 0xD7 | S-19  | scripts/lib/instance.lua |
+| SM_INSTANCE_REWARD            | 0xD3 | S-19  | scripts/lib/instance.lua |
+| SM_INSTANCE_STATE             | 0xD2 | S-19  | scripts/lib/instance.lua |
 | SM_INVENTORY_INFO             | 0x54 | S-3   | enter-world + inventory change |
 | SM_KEY                        | 0x00 | S-0   | cmd/gateway/handshake.go |
 | SM_LEGION_INFO                | 0xB6 | S-10  | scripts/lib/legion.lua |
@@ -267,7 +292,7 @@ Payload is BF-LE encrypted from byte 2; XOR stream cipher is applied on top for 
 
 ## Unused / Reserved Ranges
 
-Available opcode slots (suitable for future phases S-17+):
+Available opcode slots (suitable for future phases S-20+):
 
 | Range        | Size | Suggested Use |
 |--------------|------|---------------|
@@ -291,15 +316,16 @@ Available opcode slots (suitable for future phases S-17+):
 | 0x8F, 0x91–0x9C | 13 | Skill expansion |
 | 0x9E–0xAA    | 13   | Free block |
 | 0xAC–0xAF    | 4    | Logout / system expansion |
-| 0xCF–0xFF    | 49   | **Large free block for S-17+** — recommended for instances, pets, housing, BGs |
+| 0xD8         | 1    | Reserved for instance boss-phase state (S-19 reserved) |
+| 0xD9–0xFF    | 39   | **Large free block for S-20+** — recommended for pets, housing, BGs, P2P trade |
 
-Grand total reserved: ~175 free slots before hitting opcode exhaustion at 0x100.
+Grand total reserved: ~165 free slots before hitting opcode exhaustion at 0x100.
 
 ---
 
 ## Collision Detection
 
-Automated scan of the 72 constants against duplicate hex values: **zero collisions**. Each opcode maps to exactly one name.
+Automated scan of the 81 constants against duplicate hex values: **zero collisions**. Each opcode maps to exactly one name.
 
 Verification method: sort all `uint16` literals in `opcodes.go`, compare adjacent values. Closest neighbors (0x0A→0x0B, 0x62→0x63, 0xBB→0xBC, etc.) are distinct by design — no overlap within ±0.
 
