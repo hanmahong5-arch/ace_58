@@ -231,7 +231,9 @@ mail.claim = function(reader_eid, mail_id)
     end
 
     if iid > 0 and icnt > 0 then
-        player.add_item(gw, iid, icnt)
+        -- Round 6 C4 — entropy v0 wiring: 系统邮件附件视为 weapon/common 等级。
+        -- 邮件群发量大，common tier 给 3 槽 manastone，feel "OK 三个小 buff"。
+        entropy.add_item_with_stones(gw, iid, icnt, "weapon", "common", season_seed())
     end
     if kinah > 0 then
         player.add_kinah(gw, kinah)

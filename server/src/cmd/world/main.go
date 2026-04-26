@@ -67,6 +67,19 @@ func main() {
 	} else {
 		defer db.Close()
 		slog.Info("world: database connected")
+
+		// Sprint -1 Track B: apply embedded SQL migrations (sql/schema/*).
+		// In production a migration failure aborts startup so the runtime
+		// never speaks to a half-deployed schema. AIONCORE_SKIP_MIGRATIONS
+		// is provided for emergency overrides only — never set it on prod.
+		if os.Getenv("AIONCORE_SKIP_MIGRATIONS") == "" {
+			if mErr := database.Migrate(ctx, worldCfg.Database.DSN()); mErr != nil {
+				slog.Error("world: migrations failed — aborting", "err", mErr)
+				os.Exit(1)
+			}
+		} else {
+			slog.Warn("world: AIONCORE_SKIP_MIGRATIONS set — skipping schema migrations")
+		}
 	}
 
 	dbAdapter := dbBridgeAdapter{db: db}

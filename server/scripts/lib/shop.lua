@@ -36,8 +36,9 @@ shop.buy = function(ctx, shop_table, item_id, count)
         return false, "no_kinah"
     end
 
-    -- player.add_item has no return value; treat missing DB as ok in dev.
-    player.add_item(ctx.gateway_seq_id, item_id, count)
+    -- Round 6 C4 — entropy v0 wiring: 商店购买默认 weapon/common 等级。
+    -- 玩家自己花钱买，feel 不应过度 wow（避免商店秒杀玩法），common tier。
+    entropy.add_item_with_stones(ctx.gateway_seq_id, item_id, count, "weapon", "common", season_seed())
 
     log.info("shop.buy: entity=" .. tostring(ctx.entity_id)
         .. " item=" .. tostring(item_id) .. " x" .. tostring(count)

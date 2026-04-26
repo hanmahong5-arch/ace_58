@@ -2,12 +2,17 @@ package luahost
 
 import (
 	"context"
+	"crypto/sha1"
 	"encoding/binary"
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"log/slog"
 	"math"
 	"math/rand"
+	"sort"
+	"strconv"
+	"strings"
 	"sync/atomic"
 	"time"
 
@@ -110,6 +115,238 @@ func (b *Bridge) Register(L *lua.LState) {
 	b.registerConfig(L)
 	b.registerBytes(L)
 	b.registerJobq(L)
+	b.registerEntropy(L)
+}
+
+// --- entropy.* ---
+//
+// Round 7 C5 — entropy v2 工具函数族。
+//
+// 当前注册两个函数：
+//
+//   entropy.forge_id(spec) -> string
+//     spec 是一个 Lua 表，可包含 item_id / count / race / season_seed / stones
+//     (number array) / attrs (array of {attr_id, value}) — 全部 optional。
+//     函数把 spec 序列化为 deterministic 字节串，SHA1 取前 4 字节，hex 大写
+//     得到 8 字符的"锻造编号"，作玩家可见 + LLM 叙事可引用的稳定 ID。
+//     同一 spec 必产生同一 ID（同序列化路径）；不同 spec 极大概率产生不同 ID
+//     （SHA1 截断 32-bit collision 期望在 2^16 输入后才发生）。
+//
+//   entropy.detect_synergy(stones, attrs) -> string[]
+//     传一个可选 stones 表 + 可选 attrs 表，返回命中的预设 set 名字列表。
+//     v2 阶段不改变实际属性；只 log + 持久化备注（B 轨提供 SP 后再生效）。
+//     当前 5 set: 雷霆重击 / 魔泉涌动 / 钢铁意志 / 刺客之眼 / 全能。
+func (b *Bridge) registerEntropy(L *lua.LState) {
+	mod := L.NewTable()
+
+	L.SetField(mod, "forge_id", L.NewFunction(func(L *lua.LState) int {
+		spec, ok := L.Get(1).(*lua.LTable)
+		if !ok {
+			// 容错: 缺参时返回稳定哨兵 ID，方便上游只 log 不崩。
+			L.Push(lua.LString("00000000"))
+			return 1
+		}
+		L.Push(lua.LString(forgeIDFromSpec(L, spec)))
+		return 1
+	}))
+
+	L.SetField(mod, "detect_synergy", L.NewFunction(func(L *lua.LState) int {
+		stones := decodeStoneTable(L.Get(1))
+		attrs := decodeAttrTable(L, L.Get(2))
+		hits := detectSynergies(stones, attrs)
+		out := L.NewTable()
+		for i, name := range hits {
+			out.RawSetInt(i+1, lua.LString(name))
+		}
+		L.Push(out)
+		return 1
+	}))
+
+	L.SetGlobal("entropy", mod)
+}
+
+// forgeIDFromSpec 把 Lua spec 表序列化为固定顺序字节串后 SHA1 截断 hash。
+//
+// 序列化格式（每段以 '|' 分隔，段内 'k=v'）：
+//
+//	iid=<int>|cnt=<int>|race=<int>|seed=<int>|stones=a,b,c,d,e,f|attrs=id1:v1,id2:v2,...
+//
+// 关键决定：
+//   - stones 按 1..6 槽位顺序保留（顺序本身就是含义，不能 sort）
+//   - attrs 按 attr_id 字典序排序后再串接 — Lua table 遍历无序，必须强制
+//     字典序才能保证同 attrs 集合每次产生同 ID
+//   - 所有数字走 strconv.FormatInt 而非 %v 防止 float 印不一致（如 "1" vs "1.0"）
+func forgeIDFromSpec(L *lua.LState, spec *lua.LTable) string {
+	var sb strings.Builder
+	itoa := func(name string, v int64) {
+		sb.WriteString(name)
+		sb.WriteByte('=')
+		sb.WriteString(strconv.FormatInt(v, 10))
+		sb.WriteByte('|')
+	}
+	itoa("iid", optInt(spec, "item_id"))
+	itoa("cnt", optInt(spec, "count"))
+	itoa("race", optInt(spec, "race"))
+	itoa("seed", optInt(spec, "season_seed"))
+
+	sb.WriteString("stones=")
+	if stonesTbl, ok := L.GetField(spec, "stones").(*lua.LTable); ok {
+		// 槽位顺序保留: 取索引 1..stonesTbl.Len()，缺位写 0
+		n := stonesTbl.Len()
+		for i := 1; i <= n; i++ {
+			if i > 1 {
+				sb.WriteByte(',')
+			}
+			if v, ok := stonesTbl.RawGetInt(i).(lua.LNumber); ok {
+				sb.WriteString(strconv.FormatInt(int64(v), 10))
+			} else {
+				sb.WriteByte('0')
+			}
+		}
+	}
+	sb.WriteByte('|')
+
+	sb.WriteString("attrs=")
+	if attrsTbl, ok := L.GetField(spec, "attrs").(*lua.LTable); ok {
+		type pair struct {
+			id  string
+			val int64
+		}
+		var pairs []pair
+		attrsTbl.ForEach(func(_, v lua.LValue) {
+			sub, ok := v.(*lua.LTable)
+			if !ok {
+				return
+			}
+			id, idOK := L.GetField(sub, "attr_id").(lua.LString)
+			val, valOK := L.GetField(sub, "value").(lua.LNumber)
+			if !idOK || !valOK || id == "" {
+				return
+			}
+			pairs = append(pairs, pair{id: string(id), val: int64(val)})
+		})
+		// 字典序: 防 Lua 表遍历无序导致同输入异 ID
+		sort.Slice(pairs, func(i, j int) bool { return pairs[i].id < pairs[j].id })
+		for i, p := range pairs {
+			if i > 0 {
+				sb.WriteByte(',')
+			}
+			sb.WriteString(p.id)
+			sb.WriteByte(':')
+			sb.WriteString(strconv.FormatInt(p.val, 10))
+		}
+	}
+
+	sum := sha1.Sum([]byte(sb.String()))
+	return strings.ToUpper(hex.EncodeToString(sum[:4])) // 4 字节 = 8 hex 字符
+}
+
+// optInt 从 Lua 表读 int64，缺/非数字返回 0。
+func optInt(tbl *lua.LTable, key string) int64 {
+	v := tbl.RawGetString(key)
+	if n, ok := v.(lua.LNumber); ok {
+		return int64(n)
+	}
+	return 0
+}
+
+// decodeStoneTable 把 1..N 的 number 表展平为 []int64。空/非表返回 nil。
+func decodeStoneTable(v lua.LValue) []int64 {
+	tbl, ok := v.(*lua.LTable)
+	if !ok {
+		return nil
+	}
+	n := tbl.Len()
+	if n == 0 {
+		return nil
+	}
+	out := make([]int64, 0, n)
+	for i := 1; i <= n; i++ {
+		if num, ok := tbl.RawGetInt(i).(lua.LNumber); ok {
+			out = append(out, int64(num))
+		}
+	}
+	return out
+}
+
+// attrPair 是 (attr_id, value) 在 Go 内的镜像，给 synergy 检测器消费。
+type attrPair struct {
+	ID    string
+	Value int64
+}
+
+// decodeAttrTable 把 random_attr 风格的 [{attr_id, value}, ...] 表展平。
+func decodeAttrTable(L *lua.LState, v lua.LValue) []attrPair {
+	tbl, ok := v.(*lua.LTable)
+	if !ok {
+		return nil
+	}
+	var out []attrPair
+	tbl.ForEach(func(_, e lua.LValue) {
+		sub, ok := e.(*lua.LTable)
+		if !ok {
+			return
+		}
+		id, idOK := L.GetField(sub, "attr_id").(lua.LString)
+		val, valOK := L.GetField(sub, "value").(lua.LNumber)
+		if !idOK || !valOK || id == "" {
+			return
+		}
+		out = append(out, attrPair{ID: string(id), Value: int64(val)})
+	})
+	return out
+}
+
+// detectSynergies 检测预设 set 命中。返回命中的中文名列表。
+//
+// v2 阶段实现 5 set 中的 2 全功能 + 3 stub（按任务约定）：
+//
+//	"雷霆重击": ≥4 phyAttack 条目                 [全实现]
+//	"魔泉涌动": ≥3 magicalSkillBoost 条目          [全实现]
+//	"钢铁意志": ≥3 physicalDefend 条目             [全实现]
+//	"刺客之眼": ≥2 critical + ≥1 strikeFort        [全实现 — strikeFort 不在 v1 池但留接口]
+//	"全能":     ≥8 不同维度 (attrs + 非空 stone 槽位)  [全实现]
+//	            注: rare tier 已 7 槽 attr 不放回 = 7 dims，故阈值定 8 才需要
+//	            额外 stone/ epic-tier 10 槽 dims，set 才有"难凑齐"质感。
+//
+// 注：所有 5 set 都已实现 — 因为逻辑全是 "数 attr 出现次数"，写一个 counter 即可，
+// stub 路径的成本反而比直接实现高。原任务允许只做 2，但实际产出全 5。
+func detectSynergies(stones []int64, attrs []attrPair) []string {
+	// 按 attr_id 计数: random_attr 走 attrs；manastone 不直接映射 attr_id，
+	// 但一个非零 stone 槽 = 一个 "stone:<id>" 维度，用于"全能"的多样性计数。
+	count := make(map[string]int, 16)
+	for _, a := range attrs {
+		count[a.ID]++
+	}
+	uniqueDims := len(count) // attrs 部分先记下
+	for _, s := range stones {
+		if s == 0 {
+			continue
+		}
+		key := "stone:" + strconv.FormatInt(s, 10)
+		if _, seen := count[key]; !seen {
+			uniqueDims++
+		}
+		count[key]++
+	}
+
+	var hits []string
+	if count["phyAttack"] >= 4 {
+		hits = append(hits, "雷霆重击")
+	}
+	if count["magicalSkillBoost"] >= 3 {
+		hits = append(hits, "魔泉涌动")
+	}
+	if count["physicalDefend"] >= 3 {
+		hits = append(hits, "钢铁意志")
+	}
+	if count["critical"] >= 2 && count["strikeFort"] >= 1 {
+		hits = append(hits, "刺客之眼")
+	}
+	if uniqueDims >= 8 {
+		hits = append(hits, "全能")
+	}
+	return hits
 }
 
 // --- log.* ---
@@ -619,6 +856,155 @@ func (b *Bridge) registerPlayer(L *lua.LState) {
 		if _, err := b.DB.CallSP(context.Background(), "aion_AddItemUser",
 			[]any{int64(charID), itemID, count}); err != nil {
 			b.logger().Warn("[Lua] player.add_item failed",
+				"char_id", charID, "item_id", itemID, "err", err)
+		}
+		return 0
+	}))
+
+	// player.add_item_with_options(gateway_seq_id, item_id, count, stones)
+	//
+	// Round 5 Track C3 — entropy v0 staging hook. Identical contract to
+	// player.add_item TODAY (pass-through), but accepts an extra `stones`
+	// table (1..6 manastone IDs, 0 = empty slot) that will be threaded
+	// to a new SP variant `aion_AddItemUserWithOptions` once Track B3
+	// ports it. Until then, this function simply LOGS the staged stones
+	// and falls through to aion_AddItemUser — preserving full backwards
+	// compatibility for the existing four call sites.
+	//
+	// Why a separate bridge function instead of an optional 4th arg on
+	// add_item? Because gopher-lua treats missing args as LNil with no
+	// type checking; silently widening add_item's signature would mask
+	// arity bugs in existing Lua callers. A new symbol forces every
+	// caller to opt-in explicitly, and lets us flip the SP target at one
+	// site (Round 6) without touching add_item.
+	L.SetField(player, "add_item_with_options", L.NewFunction(func(L *lua.LState) int {
+		gwSeqID := uint64(L.CheckNumber(1))
+		itemID := int32(L.CheckNumber(2))
+		count := int32(L.CheckNumber(3))
+		// Stones arg (4) is optional; nil/missing means "no entropy v0 yet".
+		var stones [6]int64
+		stoneArg := L.Get(4)
+		if tbl, ok := stoneArg.(*lua.LTable); ok {
+			for i := 1; i <= 6; i++ {
+				if v, ok := tbl.RawGetInt(i).(lua.LNumber); ok {
+					stones[i-1] = int64(v)
+				}
+			}
+		}
+		if b.ECS == nil || b.DB == nil {
+			return 0
+		}
+		entityID, ok := b.ECS.GetEntityBySeqID(gwSeqID)
+		if !ok {
+			return 0
+		}
+		charID, ok := b.ECS.GetStat(entityID, "char_id")
+		if !ok {
+			return 0
+		}
+		// Round 5 pass-through: log the staged stones, call legacy SP.
+		// Round 6+ will replace this with aion_AddItemUserWithOptions
+		// taking the 6 stone IDs as additional parameters.
+		b.logger().Debug("[Lua] player.add_item_with_options (entropy v0 staged)",
+			"char_id", charID, "item_id", itemID, "count", count,
+			"stone1", stones[0], "stone2", stones[1], "stone3", stones[2],
+			"stone4", stones[3], "stone5", stones[4], "stone6", stones[5])
+		if _, err := b.DB.CallSP(context.Background(), "aion_AddItemUser",
+			[]any{int64(charID), itemID, count}); err != nil {
+			b.logger().Warn("[Lua] player.add_item_with_options failed",
+				"char_id", charID, "item_id", itemID, "err", err)
+		}
+		return 0
+	}))
+
+	// player.add_item_with_random_attr(gateway_seq_id, item_id, count,
+	//                                  item_class, tier, race, season_seed)
+	//
+	// Round 6 C4 — entropy v1 prototype hook. Identical contract to
+	// player.add_item_with_options TODAY (pass-through to legacy
+	// aion_AddItemUser SP), but additionally accepts a `random_attrs` table
+	// (1..10 {attr_id, value} pairs) generated by Lua-side
+	// entropy.add_item_with_random_attr helper. The bridge currently only
+	// LOGS the rolled attrs; once Track B3 ports
+	// `aion_AddItemUserWithRandomAttr` SP, this function will INSERT the
+	// pairs into user_item_attribute (B3 already created the table).
+	//
+	// Why a separate function instead of widening add_item_with_options?
+	// v0 (manastones, 6 slots) and v1 (random_attr, 10 slots) are
+	// independent affix systems on the same item — a future "fully entropic"
+	// item will get BOTH a stones table AND a random_attrs table threaded
+	// through one SP. Keeping the bridge entrypoints split lets us roll
+	// each system independently and keeps signature size manageable. When
+	// B3 lands, both bridge functions converge on
+	// aion_AddItemUserWithFullEntropy(char_id, item_id, count, stones[6],
+	//   random_attrs[10]) — the Lua call sites are unchanged at that point.
+	L.SetField(player, "add_item_with_random_attr", L.NewFunction(func(L *lua.LState) int {
+		gwSeqID := uint64(L.CheckNumber(1))
+		itemID := int32(L.CheckNumber(2))
+		count := int32(L.CheckNumber(3))
+		// Args 4-7 are the entropy v1 metadata. They are CHECKED on the
+		// Lua side (helper sets defaults if missing) so here we only
+		// snapshot for logging. The random_attrs table is OPTIONAL arg 8;
+		// callers which only want SP grant without attrs may omit it
+		// (matches the "degraded to legacy" contract on missing args).
+		itemClass := L.OptString(4, "weapon")
+		tier := L.OptString(5, "common")
+		race := int(L.OptNumber(6, 0))
+		seasonSeed := int64(L.OptNumber(7, 0))
+		// Decode the random_attrs table (arg 8). Each entry is a sub-table
+		// {attr_id=string, value=number}. Limit to 10 to enforce the v1
+		// design's 10-slot cap. Out-of-shape entries are skipped silently
+		// — better to log degraded entropy than crash the grant path.
+		type attrEntry struct {
+			attrID string
+			value  int32
+		}
+		var attrs []attrEntry
+		if tbl, ok := L.Get(8).(*lua.LTable); ok {
+			tbl.ForEach(func(k, v lua.LValue) {
+				if len(attrs) >= 10 {
+					return
+				}
+				sub, ok := v.(*lua.LTable)
+				if !ok {
+					return
+				}
+				idVal := L.GetField(sub, "attr_id")
+				valVal := L.GetField(sub, "value")
+				idStr, idOK := idVal.(lua.LString)
+				if !idOK || idStr == "" {
+					return
+				}
+				num, numOK := valVal.(lua.LNumber)
+				if !numOK {
+					return
+				}
+				attrs = append(attrs, attrEntry{attrID: string(idStr), value: int32(num)})
+			})
+		}
+
+		if b.ECS == nil || b.DB == nil {
+			return 0
+		}
+		entityID, ok := b.ECS.GetEntityBySeqID(gwSeqID)
+		if !ok {
+			return 0
+		}
+		charID, ok := b.ECS.GetStat(entityID, "char_id")
+		if !ok {
+			return 0
+		}
+		// Round 6 prototype: log the rolled attrs (visible at debug level
+		// so a smoke test can see entropy is live), then call legacy SP.
+		// Round 7+ replaces this with aion_AddItemUserWithRandomAttr.
+		b.logger().Debug("[Lua] player.add_item_with_random_attr (entropy v1 staged)",
+			"char_id", charID, "item_id", itemID, "count", count,
+			"item_class", itemClass, "tier", tier, "race", race,
+			"season_seed", seasonSeed, "attr_count", len(attrs),
+			"attrs", attrs)
+		if _, err := b.DB.CallSP(context.Background(), "aion_AddItemUser",
+			[]any{int64(charID), itemID, count}); err != nil {
+			b.logger().Warn("[Lua] player.add_item_with_random_attr failed",
 				"char_id", charID, "item_id", itemID, "err", err)
 		}
 		return 0

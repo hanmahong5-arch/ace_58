@@ -516,7 +516,10 @@ instance.on_boss_kill = function(victim_eid, killer_eid)
                     if rewards.items then
                         for _, it in ipairs(rewards.items) do
                             if it.id and it.count and it.count > 0 then
-                                player.add_item(gw, it.id, it.count)
+                                -- Round 6 C4 — entropy v0 wiring: 副本 boss 击杀奖励是"巅峰熵刻"，
+                                -- 按 epic tier 放满 6 槽 greater manastone，feel "这把要留着"。
+                                -- TODO Cycle 17: instance template rewards 表应该自带 item_class 字段。
+                                entropy.add_item_with_stones(gw, it.id, it.count, "weapon", "epic", season_seed())
                             end
                         end
                     end

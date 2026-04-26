@@ -1,0 +1,113 @@
+-- Auto-ported from NCSoft T-SQL by tsql_to_pg.py.
+-- Source file: GM_UserItemDA_SrchMyCompoundItems.sql
+-- Review TODOs before deploying.
+
+-- +goose Up
+-- +goose StatementBegin
+CREATE OR REPLACE FUNCTION gm_useritemda_srchmycompounditems(_char_id TEXT)
+RETURNS SETOF RECORD  -- TODO: replace with explicit RETURNS TABLE(col TYPE, ...)
+LANGUAGE plpgsql AS $$
+BEGIN
+set transaction isolation level read uncommitted
+
+
+
+	SELECT	-- user_item (메인무기)
+
+			i1.id, i1.char_id, i1.name_id, i1.slot_id, i1.amount, i1.slot, i1.warehouse, convert(nvarchar,i1.create_date,21 ) AS create_date, convert(nvarchar,i1.update_date,21 ) AS update_date, i1.producer, i1.tid, i1.expired_time, i1.buy_amount, i1.buy_duration, i1.main_item_dbid, i1.dynamic_property, i1.import_id, i1.export_id, i1.server_of_origin
+
+			-- user_item_option
+
+			, o1.soul_bound, o1.enchant_count, o1.skin_name_id, o1.stat_enchant_name0, o1.stat_enchant_name1, o1.stat_enchant_name2, o1.stat_enchant_name3, o1.stat_enchant_name4, o1.stat_enchant_name5, o1.option_count, o1.dye_info, o1.proc_tool_nameid, o1.obtain_skin_type, o1.expire_skin_time, o1.expire_dye_time, COALESCE(o1.random_option,0) AS random_option
+
+			, COALESCE(o1.limit_enchant_count,0) AS limit_enchant_count, COALESCE(o1.reidentify_count,0) AS reidentify_count
+
+			, COALESCE(freetradestate, 0) as freetradestate
+
+			, COALESCE(o1.authorize_count, 0) as authorize_count, COALESCE(o1.vanish_point, 0) as vanish_point
+
+			-- 4.5 17차 깃털
+
+			, COALESCE(attribute1, 0) as attribute1, COALESCE(attribute1value, 0) as attribute1value, COALESCE(attribute2, 0) as attribute2, COALESCE(attribute2value, 0) as attribute2value, COALESCE(attribute3, 0) as attribute3, COALESCE(attribute3value, 0) as attribute3value, COALESCE(attribute4, 0) as attribute4, COALESCE(attribute4value, 0) as attribute4value, COALESCE(attribute5, 0) as attribute5, COALESCE(attribute5value, 0) as attribute5value, COALESCE(attribute6, 0) as attribute6, COALESCE(attribute6value, 0) as attribute6value
+
+			-- [4.71] 모조신석
+
+			, COALESCE(o1.proc_break_count, 0) as proc_break_count, COALESCE(o1.proc_break_flag, 0) as proc_break_flag
+
+			-- [4.75] 돌파스킬
+
+			, COALESCE(o1.exceedState, 0) as exceedState, COALESCE(o1.exceedSkillId1, 0) as exceedSkillId1, COALESCE(o1.exceedSkillId2, 0) as exceedSkillId2, COALESCE(o1.exceedSkillId3, 0) as exceedSkillId3
+
+			-- [4.9] 최강무기스킬
+
+			, COALESCE(o1.baseSkillId, 0) as baseSkillId
+
+			-- [5.0] 아이템으로 스킬 강화
+
+			, COALESCE(o1.enhanceSkillGroup, 0) as enhanceSkillGroup, COALESCE(o1.enhanceSkillLevel, 0) as enhanceSkillLevel
+
+			-- [5.0] 아이템 레벨 다운
+
+			, COALESCE(o1.equipLevelDown, 0) as equipLevelDown
+
+			, COALESCE(o1.wardrobeSlotId, 0) as wardrobeSlotId
+
+			-- [6.2] 아이템 랜덤 옵션 (새로운 것)
+
+			, COALESCE(o1.randomAttr1, 0) as randomAttr1, COALESCE(o1.randomValue1, 0) as randomValue1, COALESCE(o1.randomAttr2, 0) as randomAttr2, COALESCE(o1.randomValue2, 0) as randomValue2, COALESCE(o1.randomAttr3, 0) as randomAttr3, COALESCE(o1.randomValue3, 0) as randomValue3, COALESCE(o1.randomAttr4, 0) as randomAttr4, COALESCE(o1.randomValue4, 0) as randomValue4, COALESCE(o1.randomAttr5, 0) as randomAttr5, COALESCE(o1.randomValue5, 0) as randomValue5
+
+			, COALESCE(o1.randomAttr6, 0) as randomAttr6, COALESCE(o1.randomValue6, 0) as randomValue6, COALESCE(o1.randomAttr7, 0) as randomAttr7, COALESCE(o1.randomValue7, 0) as randomValue7, COALESCE(o1.randomAttr8, 0) as randomAttr8, COALESCE(o1.randomValue8, 0) as randomValue8, COALESCE(o1.randomAttr9, 0) as randomAttr9, COALESCE(o1.randomValue9, 0) as randomValue9, COALESCE(o1.randomAttr10, 0) as randomAttr10, COALESCE(o1.randomValue10, 0) as randomValue10
+
+			-- user_item (보조무기)
+
+			, i2.id sub_id, i2.name_id sub_name_id
+
+			-- user_item_option
+
+			, o2.enchant_count AS sub_enchant_count, o2.skin_name_id AS sub_skin_name_id
+
+			, o2.stat_enchant_name0 AS sub_stat_enchant_name0, o2.stat_enchant_name1 AS sub_stat_enchant_name1, o2.stat_enchant_name2 AS sub_stat_enchant_name2, o2.stat_enchant_name3 AS sub_stat_enchant_name3, o2.stat_enchant_name4 AS sub_stat_enchant_name4, o2.stat_enchant_name5 AS sub_stat_enchant_name5
+
+			, COALESCE(o2.random_option,0) AS sub_random_option
+
+			-- [5.0] 아이템으로 스킬 강화 (보조무기)
+
+			, COALESCE(o2.enhanceSkillGroup, 0) as sub_enhanceSkillGroup, COALESCE(o2.enhanceSkillLevel, 0) as sub_enhanceSkillLevel
+
+			-- [5.0] 아이템 레벨 다운
+
+			, COALESCE(o2.equipLevelDown, 0) as sub_equipLevelDown
+
+			, COALESCE(o2.wardrobeSlotId, 0) as sub_wardrobeSlotId
+
+			-- [6.2] 아이템 랜덤 옵션 (새로운 것)
+
+			, COALESCE(o2.randomAttr1, 0) as sub_randomAttr1, COALESCE(o2.randomValue1, 0) as sub_randomValue1, COALESCE(o2.randomAttr2, 0) as sub_randomAttr2, COALESCE(o2.randomValue2, 0) as sub_randomValue2, COALESCE(o2.randomAttr3, 0) as sub_randomAttr3, COALESCE(o2.randomValue3, 0) as sub_randomValue3, COALESCE(o2.randomAttr4, 0) as sub_randomAttr4, COALESCE(o2.randomValue4, 0) as sub_randomValue4, COALESCE(o2.randomAttr5, 0) as sub_randomAttr5, COALESCE(o2.randomValue5, 0) as sub_randomValue5
+
+			, COALESCE(o2.randomAttr6, 0) as sub_randomAttr6, COALESCE(o2.randomValue6, 0) as sub_randomValue6, COALESCE(o2.randomAttr7, 0) as sub_randomAttr7, COALESCE(o2.randomValue7, 0) as sub_randomValue7, COALESCE(o2.randomAttr8, 0) as sub_randomAttr8, COALESCE(o2.randomValue8, 0) as sub_randomValue8, COALESCE(o2.randomAttr9, 0) as sub_randomAttr9, COALESCE(o2.randomValue9, 0) as sub_randomValue9, COALESCE(o2.randomAttr10, 0) as sub_randomAttr10, COALESCE(o2.randomValue10, 0) as sub_randomValue10
+
+	FROM	user_item i1 (nolock)
+
+	JOIN	user_item i2 (nolock) ON i1.id = i2.main_item_dbid and i2.char_id = _char_id
+
+	LEFT JOIN user_item_option o1 (nolock) ON i1.id = o1.id and o1.char_id = i1.char_id
+
+	LEFT JOIN user_item_option o2 (nolock) ON i2.id = o2.id and o2.char_id = i2.char_id
+
+	LEFT JOIN user_item_freeTrade f (nolock) on i1.id = f.id
+
+	LEFT JOIN user_item_attribute a (nolock) on i1.id = a.id
+
+	WHERE	i1.char_id = _char_id
+
+	and		i2.main_item_dbid != 0
+
+	and		i2.warehouse = 16;
+END;
+$$;
+-- +goose StatementEnd
+
+-- +goose Down
+-- +goose StatementBegin
+DROP FUNCTION IF EXISTS gm_useritemda_srchmycompounditems;
+-- +goose StatementEnd

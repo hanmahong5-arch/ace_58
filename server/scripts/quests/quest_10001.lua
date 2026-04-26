@@ -23,8 +23,10 @@ quest.register({
         -- Award starter gear via player.add_item.
         local gw = entity.get_gateway_id(entity_id)
         if gw then
-            player.add_item(gw, 100000001, 1)  -- Starter Sword
-            player.add_item(gw, 110000001, 1)  -- Starter Armour
+            -- Round 6 C4 — entropy v0 wiring: 新手剧情奖励是"第一印象"装备，
+            -- 按 rare tier 放 5 槽 manastone，让新玩家立刻感受到"哇这把剑有 5 颗石"。
+            entropy.add_item_with_stones(gw, 100000001, 1, "weapon", "rare", season_seed())  -- Starter Sword
+            entropy.add_item_with_stones(gw, 110000001, 1, "armor",  "rare", season_seed())  -- Starter Armour
         end
         log.info("quest 10001: rewards granted entity_id=" .. tostring(entity_id))
         -- TODO Phase S-5: grant EXP via db.call("aion_AddExpUser", char_id, amount).
