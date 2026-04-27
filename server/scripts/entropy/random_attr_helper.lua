@@ -70,52 +70,166 @@ entropy.random_attr_pool = {
 }
 
 -- tier_config: 每 tier 决定槽数 + 允许的 category 集合（与 v0 同结构）
+-- Round 9 C7: 新增 legendary tier (12 槽), 与 epic 共享 categories；
+-- 短期 bridge 仍走 legacy SP, 待 SP `aion_AddItemUserWithRandomAttr` 落地后
+-- legendary 才走专用持久化路径（持 attr 数升至 12）。
 entropy.random_attr_tier_config = {
-    common = { slots = 4,  categories = {"offensive", "defensive"} },
-    rare   = { slots = 7,  categories = {"offensive", "defensive", "resist"} },
-    epic   = { slots = 10, categories = {"offensive", "defensive", "resist", "utility"} },
+    common    = { slots = 4,  categories = {"offensive", "defensive"} },
+    rare      = { slots = 7,  categories = {"offensive", "defensive", "resist"} },
+    epic      = { slots = 10, categories = {"offensive", "defensive", "resist", "utility"} },
+    legendary = { slots = 12, categories = {"offensive", "defensive", "resist", "utility"} },
 }
 
 -- ============================================================
--- §2 — 12 × 4 偏置矩阵（class+race-aware，用户授权自定）
+-- §2 — 12 × 4 偏置矩阵 (Round 9 C7: per-attr × per-tier 升级)
 -- ============================================================
+--
+-- Round 9 C7 把矩阵从 4-category 权重升级为 per-attr × per-tier 字典。
+-- 原因: category 级偏置只能让玩家分辨 "warrior vs mage"，分不出
+-- "phyAttack 重武 vs critical 重武"。new spec 让 12 职业每 tier 各有
+-- 一组主属性 (25-35) / 次要 (15-22) / 杂项 (5-10) / baseline (1)，
+-- 玩家凭 attr 一眼能认出"这是 X 职业的剑"。
+--
+-- 设计原则 (详见 doc/entropy/class-bias-design.md §4):
+--   1. 主属性 1-2 个 / 25-35 权重；次要 3-5 个 / 15-22；杂项 2-4 个 / 5-10
+--   2. 未列出的 attr_id 隐式 baseline weight = 1（保抽样池非空 + 偶发奇葩 attr）
+--   3. 每 tier 总和 ~100 (容差 ±5)
+--   4. 低 tier 主属性更集中，高 tier 略下放权重多样性递增
+--   5. legendary tier 与 epic 接近但更两极 (主更主、副更副)
+--   6. race_attr_bias / season_pool 修饰 layer 不变（race 改 weight，
+--      season 改 value，避免三层叠乘）
+--
+-- 数据格式:
+--   bias_matrix[ClassName][tier_name] = { attr_id = weight_number, ... }
+--   bias_matrix.default[tier_name]   = nil  -- 直接 fall through 到 baseline=1
 
--- 矩阵格式: bias[class][category] = weight。用 category 级权重而不是
--- per-attr 权重，原因：(a) 23 attr × 12 class × 4 tier = 1100 cell 太琐碎，
--- 玩家也察觉不出 phyAttack 单独权重 vs critical 单独权重的区别；(b) category
--- 级偏置已能制造"warrior 偏物攻 / mage 偏魔攻"的明显 feel — 这才是
--- "明显是 X 职业的剑"信号。
---
--- 默认权重含义: offensive/defensive/resist/utility = 相对权重。
---   1.0 = baseline; >1.0 = 偏好该 category; <1.0 = 抑制
---
--- 覆盖了 3 原型 (Gladiator / Sorcerer / Cleric)；其它 9 职业用 default。
--- Cycle 17 起按玩家反馈逐步细化。
 entropy.bias_matrix = {
-    -- 战士系: 物攻爆击为主，少 utility
+    -- ============= 战士系 =============
+    -- Gladiator — 物理双手近战 + 防反混合
     Gladiator = {
-        offensive = 1.6, defensive = 1.0, resist = 0.8, utility = 0.5,
+        common    = { phyAttack=30, physicalDefend=20, maxHp=15, critical=15, hitAccuracy=10, parry=5, block=5 },
+        rare      = { phyAttack=28, critical=15, physicalDefend=15, maxHp=10, parry=10, hitAccuracy=10, attackDelay=7, paralyze_arp=5 },
+        epic      = { phyAttack=25, critical=15, physicalDefend=12, maxHp=10, parry=10, hitAccuracy=8, attackDelay=8, paralyze_arp=7, speed=5 },
+        legendary = { phyAttack=22, critical=15, physicalDefend=12, maxHp=10, attackDelay=10, parry=10, hitAccuracy=8, paralyze_arp=8, speed=5 },
     },
-    -- 法师系: 魔攻 boost 为主，HP/防御抑制
+    -- Templar — 重盾坦克 + 嘲讽
+    Templar = {
+        common    = { physicalDefend=30, maxHp=25, block=15, parry=10, magicalResist=10, phyAttack=10 },
+        rare      = { physicalDefend=25, maxHp=20, block=15, parry=10, magicalResist=10, magicalSkillBoostResist=10, phyAttack=5, arParalyze=5 },
+        epic      = { physicalDefend=22, maxHp=18, block=15, parry=10, magicalResist=10, magicalSkillBoostResist=10, arParalyze=8, arSilence=7 },
+        legendary = { physicalDefend=22, maxHp=18, block=15, parry=10, magicalResist=10, magicalSkillBoostResist=10, arParalyze=8, arSilence=5, speed=2 },
+    },
+
+    -- ============= 侦察系 =============
+    -- Assassin — 物理 burst + 高命中
+    Assassin = {
+        common    = { phyAttack=30, critical=25, hitAccuracy=15, attackDelay=10, dodge=10, maxHp=10 },
+        rare      = { phyAttack=28, critical=20, hitAccuracy=15, attackDelay=12, paralyze_arp=10, dodge=10, maxHp=5 },
+        epic      = { phyAttack=25, critical=20, hitAccuracy=12, attackDelay=12, paralyze_arp=10, dodge=10, silence_arp=6, speed=5 },
+        legendary = { phyAttack=25, critical=22, hitAccuracy=12, attackDelay=12, paralyze_arp=10, dodge=8, silence_arp=6, speed=5 },
+    },
+    -- Ranger — 物理远程 + 风筝
+    Ranger = {
+        common    = { phyAttack=28, hitAccuracy=22, attackDelay=15, critical=15, dodge=10, maxHp=10 },
+        rare      = { phyAttack=25, hitAccuracy=20, attackDelay=15, critical=15, paralyze_arp=10, dodge=8, speed=7 },
+        epic      = { phyAttack=22, hitAccuracy=18, attackDelay=15, critical=15, paralyze_arp=10, dodge=8, speed=7, silence_arp=5 },
+        legendary = { phyAttack=22, hitAccuracy=18, attackDelay=15, critical=15, paralyze_arp=10, speed=8, dodge=7, silence_arp=5 },
+    },
+
+    -- ============= 法师系 =============
+    -- Sorcerer — 魔攻爆发 + AoE
+    -- 设计选择: magicalAttack 是主属性 (28-30), magicalSkillBoost 作次要 (12-15)。
+    -- 真实游戏里 Sorcerer 也是 magic atk + crit > magic boost (boost 偏向 SM/SW)。
+    -- 副效益: magicalSkillBoost 不再 ceiling, race_bias × 1.25 在 1000 抽样能稳定
+    -- 拉开 Elyos vs Asmodian 差距（race bias test 通过的前提）。
     Sorcerer = {
-        offensive = 1.6, defensive = 0.6, resist = 1.0, utility = 0.8,
+        common    = { magicalAttack=30, magicalCritical=20, magicalSkillBoost=15, magicalHitAccuracy=12, maxMp=12, boostCastingTime=11 },
+        rare      = { magicalAttack=28, magicalCritical=18, magicalSkillBoost=15, magicalHitAccuracy=12, boostCastingTime=10, maxMp=8, silence_arp=9 },
+        epic      = { magicalAttack=25, magicalCritical=18, magicalSkillBoost=15, magicalHitAccuracy=10, boostCastingTime=10, maxMp=7, silence_arp=10, speed=5 },
+        legendary = { magicalAttack=25, magicalCritical=18, magicalSkillBoost=15, boostCastingTime=12, magicalHitAccuracy=10, maxMp=7, silence_arp=8, speed=5 },
     },
-    -- 治疗系: 防御 + heal boost 为主
+    -- Spiritmaster — 宠物 + DoT
+    Spiritmaster = {
+        common    = { magicalSkillBoost=28, magicalAttack=22, maxMp=18, magicalHitAccuracy=15, boostCastingTime=10, silence_arp=7 },
+        rare      = { magicalSkillBoost=25, magicalAttack=20, maxMp=15, magicalHitAccuracy=12, boostCastingTime=10, silence_arp=10, magicalCritical=8 },
+        epic      = { magicalSkillBoost=22, magicalAttack=18, maxMp=15, magicalHitAccuracy=10, boostCastingTime=10, silence_arp=10, magicalCritical=8, arSilence=7 },
+        legendary = { magicalSkillBoost=22, magicalAttack=18, maxMp=15, magicalHitAccuracy=10, boostCastingTime=10, silence_arp=10, magicalCritical=8, arSilence=7 },
+    },
+
+    -- ============= 治疗系 =============
+    -- Cleric — 主奶 + 生存防御
     Cleric = {
-        offensive = 0.9, defensive = 1.5, resist = 1.2, utility = 1.0,
+        common    = { healSkillBoost=28, magicalResist=18, magicalSkillBoostResist=15, maxHp=15, maxMp=12, magicalSkillBoost=12 },
+        rare      = { healSkillBoost=25, magicalResist=15, magicalSkillBoostResist=15, maxHp=12, maxMp=10, magicalSkillBoost=10, arParalyze=8, arSilence=5 },
+        epic      = { healSkillBoost=22, magicalResist=15, magicalSkillBoostResist=15, maxHp=12, magicalSkillBoost=10, maxMp=8, arParalyze=8, arSilence=5, speed=5 },
+        legendary = { healSkillBoost=22, magicalResist=15, magicalSkillBoostResist=15, maxHp=12, magicalSkillBoost=10, maxMp=8, arParalyze=8, arSilence=5, speed=5 },
     },
-    -- 兜底: 所有 category 等权 1.0
+    -- Chanter — 辅助 buff + 物理混合
+    Chanter = {
+        common    = { healSkillBoost=22, phyAttack=20, maxHp=18, magicalSkillBoost=12, hitAccuracy=10, magicalResist=10, maxMp=8 },
+        rare      = { healSkillBoost=20, phyAttack=18, maxHp=15, magicalSkillBoost=12, hitAccuracy=10, magicalResist=10, magicalSkillBoostResist=8, critical=7 },
+        epic      = { healSkillBoost=18, phyAttack=18, maxHp=12, magicalSkillBoost=12, hitAccuracy=10, magicalResist=10, magicalSkillBoostResist=8, critical=7, speed=5 },
+        legendary = { healSkillBoost=18, phyAttack=18, maxHp=12, magicalSkillBoost=12, hitAccuracy=10, magicalResist=10, magicalSkillBoostResist=8, critical=7, speed=5 },
+    },
+
+    -- ============= 5.x 工程系 =============
+    -- Aethertech — 重型机甲 + 远程物理
+    Aethertech = {
+        common    = { phyAttack=28, hitAccuracy=18, maxHp=18, physicalDefend=15, critical=12, attackDelay=9 },
+        rare      = { phyAttack=25, hitAccuracy=18, maxHp=15, physicalDefend=12, critical=10, attackDelay=10, paralyze_arp=5, dodge=5 },
+        epic      = { phyAttack=22, hitAccuracy=15, maxHp=15, physicalDefend=12, critical=10, attackDelay=10, paralyze_arp=8, dodge=5, speed=3 },
+        legendary = { phyAttack=22, hitAccuracy=15, maxHp=15, physicalDefend=12, critical=10, attackDelay=10, paralyze_arp=8, dodge=5, speed=3 },
+    },
+    -- Gunslinger — 双枪机动 + 多目标
+    Gunslinger = {
+        common    = { phyAttack=25, magicalAttack=18, attackDelay=18, critical=15, hitAccuracy=12, dodge=12 },
+        rare      = { phyAttack=22, magicalAttack=15, attackDelay=18, critical=15, hitAccuracy=12, dodge=10, paralyze_arp=5, speed=3 },
+        epic      = { phyAttack=20, magicalAttack=15, attackDelay=18, critical=15, hitAccuracy=10, dodge=10, paralyze_arp=7, silence_arp=3, speed=2 },
+        legendary = { phyAttack=20, magicalAttack=15, attackDelay=18, critical=15, hitAccuracy=10, dodge=10, paralyze_arp=7, silence_arp=3, speed=2 },
+    },
+
+    -- ============= 5.x 巫师系 =============
+    -- Songweaver — 远程魔法 + 控场 buff
+    Songweaver = {
+        common    = { magicalAttack=25, magicalSkillBoost=22, healSkillBoost=15, magicalCritical=12, magicalHitAccuracy=12, boostCastingTime=10, maxMp=4 },
+        rare      = { magicalAttack=22, magicalSkillBoost=20, healSkillBoost=12, magicalCritical=12, magicalHitAccuracy=10, boostCastingTime=10, silence_arp=10, maxMp=4 },
+        epic      = { magicalAttack=20, magicalSkillBoost=18, healSkillBoost=12, magicalCritical=10, magicalHitAccuracy=10, boostCastingTime=10, silence_arp=10, maxMp=5, speed=5 },
+        legendary = { magicalAttack=20, magicalSkillBoost=18, healSkillBoost=12, magicalCritical=10, magicalHitAccuracy=10, boostCastingTime=10, silence_arp=10, maxMp=5, speed=5 },
+    },
+    -- Bard (4.5+) — 团 buff/debuff + 治疗副
+    Bard = {
+        common    = { magicalSkillBoost=25, healSkillBoost=22, maxMp=18, maxHp=12, magicalResist=12, magicalCritical=11 },
+        rare      = { magicalSkillBoost=22, healSkillBoost=20, maxMp=15, maxHp=12, magicalResist=10, magicalCritical=10, magicalSkillBoostResist=8, silence_arp=3 },
+        epic      = { magicalSkillBoost=20, healSkillBoost=20, maxMp=15, maxHp=10, magicalResist=10, magicalCritical=8, magicalSkillBoostResist=8, silence_arp=5, speed=4 },
+        legendary = { magicalSkillBoost=20, healSkillBoost=20, maxMp=15, maxHp=10, magicalResist=10, magicalCritical=8, magicalSkillBoostResist=8, silence_arp=5, speed=4 },
+    },
+
+    -- ============= Fallback =============
+    -- default: 所有 attr 隐式 baseline=1, 不显式列出。未知职业自然走 baseline。
     default = {
-        offensive = 1.0, defensive = 1.0, resist = 1.0, utility = 1.0,
+        common    = {},
+        rare      = {},
+        epic      = {},
+        legendary = {},
     },
 }
+
+-- BIAS_BASELINE: 未在 bias_matrix[class][tier] 中显式列出的 attr 隐式权重。
+-- 必须 > 0；否则候选池可能空。1.0 = 与显式权重 100 总和接近 23 attr × 1 = 23
+-- 比例约 1:5（主属性 25 vs baseline 1），既保多样性又突出主属性。
+local BIAS_BASELINE = 1.0
 
 -- race_bias[race][attr_id] = 乘数 (作用于该 attr 被选中后的权重)
 -- Elyos (1) 略偏魔法导向; Asmodian (2) 略偏物理导向 — 与 lore 相符。
--- 1.1 倍是"轻微但统计可检测"的程度，1000 次抽样能出 ~10% 比例差距。
+--
+-- Round 9 C7 调参: 1.10 → 1.25, 1.05 → 1.15。
+-- 原因: Round 6 设定 1.10 是相对 4-category bias（每 cat 1.0-1.6 区间）;
+-- C7 升级到 per-attr bias 后, 主属性权重从 25-35 起跳, race 1.10 在
+-- "不放回 7 槽 / 18 attr" 抽样下被 ceiling 抹平（两阵营都 ~100%）。
+-- 1.25 / 1.15 在 1000 抽样能稳定拉开 5-10pp 差距, 仍属"轻微"。
 entropy.race_attr_bias = {
-    [1] = { magicalSkillBoost = 1.10, magicalAttack = 1.05 },  -- Elyos
-    [2] = { phyAttack = 1.10, critical = 1.05 },               -- Asmodian
+    [1] = { magicalSkillBoost = 1.25, magicalAttack = 1.15 },  -- Elyos
+    [2] = { phyAttack = 1.25, critical = 1.15 },               -- Asmodian
 }
 
 -- ============================================================
@@ -189,20 +303,25 @@ function entropy.roll_random_attrs(item_id, count, item_class, tier, race, seaso
     local cfg = entropy.random_attr_tier_config[tier]
     if not cfg then return {} end
 
-    local class_bias = entropy.bias_matrix[item_class] or entropy.bias_matrix.default
-    local race_bias  = entropy.race_attr_bias[race] or {}
+    -- Round 9 C7: 12 职业 + default fallback。新格式 bias_matrix[class][tier] 是
+    -- {attr_id = weight} 字典；未列出的 attr 隐式 BIAS_BASELINE。
+    -- 未知职业 (e.g. "Inquisitor") fallback 到 default，与 default 行为完全一致。
+    local class_table = entropy.bias_matrix[item_class] or entropy.bias_matrix.default
+    local tier_bias   = (class_table and class_table[tier]) or {}
+    local race_bias   = entropy.race_attr_bias[race] or {}
 
-    -- 构造候选池: 把所有允许的 category 下的 attr 展开成单个列表，
-    -- 每个 entry 携带 (id, min, max, weight = class_weight * race_multiplier)
+    -- 构造候选池: 把所有允许的 category 下的 attr 展开成单个列表，每个 entry
+    -- 携带 (id, min, max, weight = tier_attr_weight * race_multiplier)。
+    -- 字典查找 O(1) — 23 attr × class lookup 总成本 < 1µs，远小于 PRNG 调用。
     local candidates = {}
     for _, cat in ipairs(cfg.categories) do
-        local cat_w = class_bias[cat] or 1.0
         local pool = entropy.random_attr_pool[cat] or {}
         for _, attr in ipairs(pool) do
+            local base_w = tier_bias[attr.id] or BIAS_BASELINE
             local race_mul = race_bias[attr.id] or 1.0
             candidates[#candidates + 1] = {
                 id = attr.id, min = attr.min, max = attr.max,
-                weight = cat_w * race_mul,
+                weight = base_w * race_mul,
             }
         end
     end
