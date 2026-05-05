@@ -122,3 +122,16 @@ lint-strict: ## golangci-lint 跑 .golangci.yml 全 linter (不阻塞 — 仅信
 lint-report: ## 把 lint findings 落到 doc/lint-baseline.txt 给 review
 	@cd $(SRC_DIR) && golangci-lint run --config $(SERVER_ROOT)/.golangci.yml --out-format=tab ./internal/... > $(SERVER_ROOT)/doc/lint-baseline.txt 2>&1 || true
 	@echo ">>> baseline written to doc/lint-baseline.txt"
+
+# -----------------------------------------------------------------
+# Round 13 C3 追加 — DX 自生成 help（参 https://www.thapaliya.com/en/writings/well-documented-makefiles/）
+#
+# 与上方既有 `help` 目标共存：Make 取最末一个定义为准（会有 override 警告但功能正常）。
+# `.DEFAULT_GOAL := help` 让裸 `make` 不再触发 build，而是输出可用 target 列表。
+# -----------------------------------------------------------------
+.DEFAULT_GOAL := help
+
+.PHONY: help
+help: ## 显示所有可用 target（自生成自 ## 注释）
+	@awk 'BEGIN {FS = ":.*?## "; printf "\nAionCore 5.8 Server Makefile — 可用 targets:\n\n"} \
+	     /^[a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-20s\033[0m %s\n", $$1, $$2 }' $(MAKEFILE_LIST)

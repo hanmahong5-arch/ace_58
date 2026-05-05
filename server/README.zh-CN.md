@@ -1,9 +1,17 @@
 # AionCore 5.8 Server (中文索引)
 
+[![CI](https://github.com/<org>/<repo>/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/<org>/<repo>/actions/workflows/ci.yml)
+[![Go Version](https://img.shields.io/badge/go-1.25-blue)](https://go.dev/)
+[![License](https://img.shields.io/badge/license-Internal-lightgrey)](#)
+[![Tests](https://img.shields.io/badge/tests-381%20pass-brightgreen)](#)
+[![Coverage](https://img.shields.io/badge/coverage-69.5%25-yellow)](./doc/coverage.md)
+
+> 中文 README · [English](./README.md) · [Architecture](./doc/architecture.md) · [Changelog](./CHANGELOG.md) · [Contributing](./CONTRIBUTING.md) · [ADRs](./doc/adr/README.md) · [Runbook](./doc/runbook.md)
+
 > Go + Lua + PostgreSQL 自写的 NCSoft AION 5.8 私服核心。
 >
-> 本文是中文主入口。如需英文版本请看 [`CLAUDE.md`](./CLAUDE.md)（角色：Source-of-Truth Index）和
-> [`doc/dev-guide.md`](./doc/dev-guide.md)（角色：硬约束清单）。
+> 本文是中文主入口。英文摘要见 [`README.md`](./README.md)；硬约束清单见
+> [`doc/dev-guide.md`](./doc/dev-guide.md)；AI 协作守则见 [`CLAUDE.md`](./CLAUDE.md)。
 
 ---
 

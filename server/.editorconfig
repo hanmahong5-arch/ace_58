@@ -1,0 +1,25 @@
+# AionCore 5.8 — 跨编辑器统一格式
+# 所有文件 UTF-8 / Unix LF / 末尾换行
+# 参考 https://editorconfig.org
+root = true
+
+[*]
+end_of_line = lf
+insert_final_newline = true
+charset = utf-8
+trim_trailing_whitespace = true
+
+[*.go]
+indent_style = tab
+indent_size = 4
+
+[*.{lua,sql,toml,yml,yaml,md}]
+indent_style = space
+indent_size = 2
+
+[Makefile]
+indent_style = tab
+
+[*.{json}]
+indent_style = space
+indent_size = 2

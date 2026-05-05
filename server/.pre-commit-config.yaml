@@ -1,0 +1,40 @@
+# AionCore 5.8 — pre-commit hooks
+# 安装: pip install pre-commit && pre-commit install
+# 跳过单次（避免使用）: git commit --no-verify
+#
+# 自定义 local hook 是 sample，宁宽勿严：触发误报时调整 exclude，不要为绕过而禁用。
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+        # docker-compose.dev.yml 用了 YAML anchors，简单 parser 会误报
+        exclude: docker-compose\.dev\.yml
+      - id: check-json
+      - id: check-added-large-files
+        args: ['--maxkb=500']
+
+  - repo: https://github.com/dnephin/pre-commit-golang
+    rev: v0.5.1
+    hooks:
+      - id: go-fmt
+      - id: go-vet-mod
+      - id: go-mod-tidy
+
+  - repo: local
+    hooks:
+      - id: forbid-prod-pg-bind
+        name: PG 不能绑 0.0.0.0（红线 — 2026-04-11 勒索教训）
+        entry: 'bind\s*=\s*["'']0\.0\.0\.0'
+        language: pygrep
+        files: '\.toml$'
+
+      - id: no-inline-sql
+        name: Go/Lua 内不写 inline SQL（参 ADR-0003 / dev-guide.md）
+        entry: '\s+(SELECT|INSERT|UPDATE|DELETE)\s+'
+        language: pygrep
+        files: '\.(go|lua)$'
+        # 测试文件 / 迁移脚本 / SP 移植工具自然包含 SQL 字面量
+        exclude: '_test\.go$|migrations/|sql/|migrate\.go$|spsynth/'
