@@ -1,0 +1,180 @@
+src\internal\luahost\s19_test.go:825:2: ineffectual assignment to payload (ineffassign)
+	payload := []byte{0x00, 0x00, 0xE7, 0x11} // 0x11E70000 LE is not right — recompute.
+	^
+src\internal\aionproto\opcodes.go:18:2: ST1003: should not use ALL_CAPS in Go names; use CamelCase instead (staticcheck)
+	SM_KEY uint16 = 0x00
+	^
+src\internal\aionproto\opcodes.go:21:2: ST1003: should not use ALL_CAPS in Go names; use CamelCase instead (staticcheck)
+	CM_AUTH_LOGIN uint16 = 0x01
+	^
+src\internal\aionproto\opcodes.go:24:2: ST1003: should not use ALL_CAPS in Go names; use CamelCase instead (staticcheck)
+	SM_LOGIN_OK uint16 = 0x02
+	^
+src\internal\aionproto\opcodes.go:27:2: ST1003: should not use ALL_CAPS in Go names; use CamelCase instead (staticcheck)
+	SM_LOGIN_FAIL uint16 = 0x03
+	^
+src\internal\aionproto\opcodes.go:30:2: ST1003: should not use ALL_CAPS in Go names; use CamelCase instead (staticcheck)
+	CM_PLAY uint16 = 0x05
+	^
+src\internal\aionproto\opcodes.go:33:2: ST1003: should not use ALL_CAPS in Go names; use CamelCase instead (staticcheck)
+	SM_PLAY_OK uint16 = 0x06
+	^
+src\internal\aionproto\opcodes.go:36:2: ST1003: should not use ALL_CAPS in Go names; use CamelCase instead (staticcheck)
+	SM_PLAY_FAIL uint16 = 0x07
+	^
+src\internal\aionproto\opcodes.go:42:2: ST1003: should not use ALL_CAPS in Go names; use CamelCase instead (staticcheck)
+	CM_VERSION_CHECK uint16 = 0x0B
+	^
+src\internal\aionproto\opcodes.go:45:2: ST1003: should not use ALL_CAPS in Go names; use CamelCase instead (staticcheck)
+	SM_VERSION_CHECK_OK uint16 = 0x0C
+	^
+src\internal\aionproto\opcodes.go:48:2: ST1003: should not use ALL_CAPS in Go names; use CamelCase instead (staticcheck)
+	SM_SESSION_KEY uint16 = 0x1A
+	^
+src\internal\aionproto\opcodes.go:51:2: ST1003: should not use ALL_CAPS in Go names; use CamelCase instead (staticcheck)
+	CM_SESSION_CONFIRM uint16 = 0x1B
+	^
+src\internal\aionproto\opcodes.go:54:2: ST1003: should not use ALL_CAPS in Go names; use CamelCase instead (staticcheck)
+	SM_CHARACTER_LIST uint16 = 0x10
+	^
+src\internal\aionproto\opcodes.go:57:2: ST1003: should not use ALL_CAPS in Go names; use CamelCase instead (staticcheck)
+	CM_CHARACTER_LIST uint16 = 0x11
+	^
+src\internal\aionproto\opcodes.go:60:2: ST1003: should not use ALL_CAPS in Go names; use CamelCase instead (staticcheck)
+	CM_CREATE_CHARACTER uint16 = 0x12
+	^
+src\internal\aionproto\opcodes.go:63:2: ST1003: should not use ALL_CAPS in Go names; use CamelCase instead (staticcheck)
+	SM_CREATE_CHARACTER_RESPONSE uint16 = 0x13
+	^
+src\internal\aionproto\opcodes.go:66:2: ST1003: should not use ALL_CAPS in Go names; use CamelCase instead (staticcheck)
+	CM_DELETE_CHARACTER uint16 = 0x14
+	^
+src\internal\aionproto\opcodes.go:71:2: ST1003: should not use ALL_CAPS in Go names; use CamelCase instead (staticcheck)
+	SM_DELETE_CHARACTER_RESPONSE uint16 = 0x17
+	^
+src\internal\aionproto\opcodes.go:74:2: ST1003: should not use ALL_CAPS in Go names; use CamelCase instead (staticcheck)
+	CM_ENTER_WORLD uint16 = 0x15
+	^
+src\internal\aionproto\opcodes.go:77:2: ST1003: should not use ALL_CAPS in Go names; use CamelCase instead (staticcheck)
+	SM_ENTER_WORLD_RESPONSE uint16 = 0x16
+	^
+src\internal\aionproto\opcodes.go:80:2: ST1003: should not use ALL_CAPS in Go names; use CamelCase instead (staticcheck)
+	CM_MOVE uint16 = 0x0A
+	^
+src\internal\aionproto\opcodes.go:83:2: ST1003: should not use ALL_CAPS in Go names; use CamelCase instead (staticcheck)
+	SM_MOVE uint16 = 0x4C
+	^
+src\internal\aionproto\opcodes.go:86:2: ST1003: should not use ALL_CAPS in Go names; use CamelCase instead (staticcheck)
+	CM_ATTACK uint16 = 0x2C
+	^
+src\internal\aionproto\opcodes.go:89:2: ST1003: should not use ALL_CAPS in Go names; use CamelCase instead (staticcheck)
+	SM_ATTACK uint16 = 0x8E
+	^
+src\internal\aionproto\opcodes.go:92:2: ST1003: should not use ALL_CAPS in Go names; use CamelCase instead (staticcheck)
+	CM_USE_SKILL uint16 = 0x0E
+	^
+src\internal\aionproto\opcodes.go:95:2: ST1003: should not use ALL_CAPS in Go names; use CamelCase instead (staticcheck)
+	SM_SKILL_RESULT uint16 = 0x5E
+	^
+src\internal\aionproto\opcodes.go:98:2: ST1003: should not use ALL_CAPS in Go names; use CamelCase instead (staticcheck)
+	SM_DIE uint16 = 0x44
+	^
+src\internal\aionproto\opcodes.go:111:2: ST1003: should not use ALL_CAPS in Go names; use CamelCase instead (staticcheck)
+	SM_LOOT_AVAILABLE uint16 = 0x55
+	^
+src\internal\aionproto\opcodes.go:117:2: ST1003: should not use ALL_CAPS in Go names; use CamelCase instead (staticcheck)
+	CM_LOOT_ITEM uint16 = 0x57
+	^
+src\internal\aionproto\opcodes.go:130:2: ST1003: should not use ALL_CAPS in Go names; use CamelCase instead (staticcheck)
+	SM_LOOT_ITEMLIST uint16 = 0x58
+	^
+src\internal\aionproto\opcodes.go:133:2: ST1003: should not use ALL_CAPS in Go names; use CamelCase instead (staticcheck)
+	CM_EMOTION uint16 = 0x41
+	^
+src\internal\aionproto\opcodes.go:136:2: ST1003: should not use ALL_CAPS in Go names; use CamelCase instead (staticcheck)
+	CM_CHAT uint16 = 0x46
+	^
+src\internal\aionproto\opcodes.go:139:2: ST1003: should not use ALL_CAPS in Go names; use CamelCase instead (staticcheck)
+	SM_CHAT uint16 = 0x48
+	^
+src\internal\aionproto\opcodes.go:142:2: ST1003: should not use ALL_CAPS in Go names; use CamelCase instead (staticcheck)
+	SM_PLAYER_INFO uint16 = 0x34
+	^
+src\internal\aionproto\opcodes.go:145:2: ST1003: should not use ALL_CAPS in Go names; use CamelCase instead (staticcheck)
+	SM_STAT_INFO uint16 = 0x1E
+	^
+src\internal\aionproto\opcodes.go:148:2: ST1003: should not use ALL_CAPS in Go names; use CamelCase instead (staticcheck)
+	SM_INVENTORY_INFO uint16 = 0x54
+	^
+src\internal\aionproto\opcodes.go:151:2: ST1003: should not use ALL_CAPS in Go names; use CamelCase instead (staticcheck)
+	CM_REVIVE_REQUEST uint16 = 0x56
+	^
+src\internal\aionproto\opcodes.go:155:2: ST1003: should not use ALL_CAPS in Go names; use CamelCase instead (staticcheck)
+	SM_BUFF_INFO uint16 = 0x3C
+	^
+src\internal\aionproto\opcodes.go:160:2: ST1003: should not use ALL_CAPS in Go names; use CamelCase instead (staticcheck)
+	SM_SKILL_FAILED uint16 = 0x90
+	^
+src\internal\aionproto\opcodes.go:163:2: ST1003: should not use ALL_CAPS in Go names; use CamelCase instead (staticcheck)
+	SM_REVIVE uint16 = 0x7A
+	^
+src\internal\aionproto\opcodes.go:167:2: ST1003: should not use ALL_CAPS in Go names; use CamelCase instead (staticcheck)
+	SM_EXP_UPDATE uint16 = 0x19
+	^
+src\internal\aionproto\opcodes.go:171:2: ST1003: should not use ALL_CAPS in Go names; use CamelCase instead (staticcheck)
+	SM_LEVEL_UP uint16 = 0x9D
+	^
+src\internal\aionproto\opcodes.go:174:2: ST1003: should not use ALL_CAPS in Go names; use CamelCase instead (staticcheck)
+	CM_LOGOUT uint16 = 0xAB
+	^
+src\internal\aionproto\opcodes.go:178:2: ST1003: should not use ALL_CAPS in Go names; use CamelCase instead (staticcheck)
+	CM_GROUP_INVITE uint16 = 0x60
+	^
+src\internal\aionproto\opcodes.go:181:2: ST1003: should not use ALL_CAPS in Go names; use CamelCase instead (staticcheck)
+	CM_GROUP_ACCEPT uint16 = 0x61
+	^
+src\internal\aionproto\opcodes.go:184:2: ST1003: should not use ALL_CAPS in Go names; use CamelCase instead (staticcheck)
+	CM_GROUP_LEAVE uint16 = 0x62
+	^
+src\internal\aionproto\opcodes.go:187:2: ST1003: should not use ALL_CAPS in Go names; use CamelCase instead (staticcheck)
+	SM_GROUP_INFO uint16 = 0x63
+	^
+src\internal\aionproto\opcodes.go:191:2: ST1003: should not use ALL_CAPS in Go names; use CamelCase instead (staticcheck)
+	SM_GROUP_MEMBER_UPDATE uint16 = 0x64
+	^
+src\internal\aionproto\opcodes.go:196:2: ST1003: should not use ALL_CAPS in Go names; use CamelCase instead (staticcheck)
+	CM_DIALOG_REQUEST uint16 = 0x6A
+	^
+src\internal\aionproto\opcodes.go:199:2: ST1003: should not use ALL_CAPS in Go names; use CamelCase instead (staticcheck)
+	CM_DIALOG_SELECT uint16 = 0x6B
+	^
+src\internal\aionproto\opcodes.go:202:2: ST1003: should not use ALL_CAPS in Go names; use CamelCase instead (staticcheck)
+	CM_BUY_ITEM uint16 = 0x6C
+	^
+src\internal\crypto\rsa.go:93:14: QF1008: could remove embedded field "PublicKey" from selector (staticcheck)
+	b := k.priv.PublicKey.N.Bytes()
+	            ^
+src\internal\crypto\rsa.go:102:16: QF1008: could remove embedded field "PublicKey" from selector (staticcheck)
+	return k.priv.PublicKey.E
+	              ^
+src\internal\database\sp_get_char_id_by_name_test.go:23:6: ST1003: func charIdByNameCleanup should be charIDByNameCleanup (staticcheck)
+func charIdByNameCleanup(t *testing.T, ctx context.Context, p *Pool) {
+     ^
+src\internal\database\sp_pve_round7_test.go:381:6: QF1001: could apply De Morgan's law (staticcheck)
+		if !(r1 == 1 && r2 == 2 && r3 == 3) {
+		   ^
+src\internal\database\sp_pve_round9_test.go:244:5: QF1003: could use tagged switch on iid (staticcheck)
+				if iid == 9500011 {
+				^
+src\internal\ecs\world_buff_test.go:56:2: SA4006: this value of snapshot is never used (staticcheck)
+	snapshot = snapshot[:0]
+	^
+src\internal\luahost\s19_test.go:276:2: SA9003: empty branch (staticcheck)
+	if err := L.DoString(`_rid, _r = instance.create(EID, 300040000)`); err == nil && L.GetGlobal("_rid") == lua.LNil {
+	^
+src\internal\spsynth\prompt.go:46:4: QF1012: Use fmt.Fprintf(...) instead of WriteString(fmt.Sprintf(...)) (staticcheck)
+			b.WriteString(fmt.Sprintf(
+			^
+59 issues:
+* ineffassign: 1
+* staticcheck: 58
