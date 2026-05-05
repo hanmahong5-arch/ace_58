@@ -84,3 +84,25 @@ stop: ## 停止 5 进程 + nats + devredis（不动 PostgreSQL 服务）
 
 help: ## 显示本帮助
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  %-20s %s\n", $$1, $$2}'
+
+# -----------------------------------------------------------------
+# Round 13 A1 追加 — CI 本地等价目标
+#
+# 作用域: 只跑 ./internal/... — cmd/spike 和 cmd/director 当前是 WIP，
+# 用 ./... 会被它们带红。这与 .github/workflows/ci.yml 的 go-ci job 对齐。
+# 详见 doc/ci.md。
+# -----------------------------------------------------------------
+.PHONY: lint test cover bench
+
+lint: ## go vet on internal/
+	cd $(SRC_DIR) && go vet ./internal/...
+
+test: ## unit tests on internal/ (含 -race)
+	cd $(SRC_DIR) && go test ./internal/... -count=1 -race -timeout=5m
+
+cover: ## coverage report (打 coverage.out + 末行总覆盖率)
+	cd $(SRC_DIR) && go test ./internal/... -count=1 -coverprofile=coverage.out -covermode=atomic
+	cd $(SRC_DIR) && go tool cover -func=coverage.out | tail -1
+
+bench: ## micro-benchmarks (crypto / luahost / database)
+	cd $(SRC_DIR) && go test -run='^$$' -bench=. -benchtime=1x -benchmem ./internal/crypto ./internal/luahost ./internal/database 2>&1 | grep -E "(Benchmark|ns/op|ok)"

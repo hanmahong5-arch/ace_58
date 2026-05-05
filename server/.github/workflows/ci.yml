@@ -1,0 +1,141 @@
+# AionCore 5.8 server CI — Round 13 A1 baseline
+#
+# 设计要点（functional comments）：
+#   - 仓位作用域: server/src/internal/... + 5 个稳定的 cmd/* + tinyclient
+#     （cmd/spike 和 cmd/director 是 WIP，编译会失败 — 详见 server/doc/ci.md）
+#   - 触发: push 到 main + 所有 PR
+#   - Go 版本: 1.25.7（与 server/src/go.mod 对齐）
+#   - 并发: 同分支取消旧 run，避免堆 minutes
+#   - 权限: 只读 contents（不发 release / 不写 packages）
+#   - Lua 语法检查: 仅在 runner 提供 luac 时跑；缺则跳过（不阻塞主门）
+#
+# 与仓库根 .github/workflows/ci.yml 的差异：
+#   根 CI 跑 `go ./...`（包含 spike 等 WIP 路径，已知会红）
+#   本 CI 是 server 子仓的"绿色基线"，给 R13 后续 round 提供稳定信号
+#
+# 失败语义（fail-fast）：
+#   - lint / build / test 任何一步红 → workflow 红
+#   - lua-syntax 是 best-effort，soft-fail（continue-on-error）
+
+name: AionCore server (internal-only)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'ACE_5.8/server/**'
+      - '.github/workflows/ci.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'ACE_5.8/server/**'
+
+# 同分支只跑最新一次，先前的 in-flight run 取消，节省 CI 配额
+concurrency:
+  group: aioncore-server-${{ github.ref }}
+  cancel-in-progress: true
+
+# 最小权限：CI 只读源码即可
+permissions:
+  contents: read
+
+env:
+  GO_VERSION: '1.25.7'
+  WORK_DIR: ACE_5.8/server/src
+  # 显式列出可编译的 cmd 目标，把 WIP 的 spike/director 隔离在外
+  STABLE_CMDS: ./cmd/gateway ./cmd/world ./cmd/chat ./cmd/logd ./cmd/admin ./cmd/tinyclient
+
+jobs:
+  # -----------------------------------------------------------------
+  # go-ci — vet + build + test + coverage（一条流水，失败即停）
+  # -----------------------------------------------------------------
+  go-ci:
+    name: go (vet + build + test + cover)
+    runs-on: ubuntu-latest
+    # 单 job 内子步骤天然 fail-fast：上一步红就停
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: setup go (with module cache)
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GO_VERSION }}
+          cache: true
+          cache-dependency-path: ${{ env.WORK_DIR }}/go.sum
+
+      - name: go mod download
+        working-directory: ${{ env.WORK_DIR }}
+        run: go mod download
+
+      - name: go vet (internal only)
+        working-directory: ${{ env.WORK_DIR }}
+        run: go vet ./internal/...
+
+      # 显式列出每个稳定的 cmd 目标 — 不要 ./cmd/...，那会带上 spike/director（WIP）
+      - name: go build (internal + 6 stable cmds)
+        working-directory: ${{ env.WORK_DIR }}
+        run: go build ./internal/... ${{ env.STABLE_CMDS }}
+
+      # -race 需要 cgo 在 Linux runner 上是默认开的；不显式写 CGO_ENABLED=1
+      - name: go test (race + coverage)
+        working-directory: ${{ env.WORK_DIR }}
+        run: |
+          go test ./internal/... \
+            -count=1 \
+            -race \
+            -timeout=5m \
+            -coverprofile=coverage.out \
+            -covermode=atomic
+
+      - name: coverage summary (stdout)
+        working-directory: ${{ env.WORK_DIR }}
+        run: go tool cover -func=coverage.out | tail -1
+
+      - name: upload coverage artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-internal
+          path: ${{ env.WORK_DIR }}/coverage.out
+          retention-days: 14
+          if-no-files-found: error
+
+  # -----------------------------------------------------------------
+  # lua-syntax — best-effort 语法检查，不阻塞主门
+  # 只在 runner 上恰好有 luac 时跑；缺则 step 内 echo 跳过
+  # -----------------------------------------------------------------
+  lua-syntax:
+    name: lua syntax (best-effort)
+    runs-on: ubuntu-latest
+    # 不依赖 go-ci，与之并行；失败也不阻塞 PR
+    continue-on-error: true
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      # 检测 luac 是否可用，输出布尔到后续 step
+      - name: detect luac
+        id: detect
+        run: |
+          if command -v luac >/dev/null 2>&1; then
+            echo "have_luac=1" >> "$GITHUB_OUTPUT"
+            luac -v
+          else
+            echo "have_luac=0" >> "$GITHUB_OUTPUT"
+            echo "luac not on PATH — skipping syntax check"
+          fi
+
+      # 仅在检测到 luac 时跑；批量编译所有 *.lua 到 /dev/null
+      - name: luac -p over scripts/**/*.lua
+        if: steps.detect.outputs.have_luac == '1'
+        working-directory: ACE_5.8/server
+        run: |
+          fail=0
+          # 使用 find 而非 shell glob，跨深度安全
+          while IFS= read -r f; do
+            if ! luac -p "$f"; then
+              echo "::error file=$f::lua syntax error"
+              fail=1
+            fi
+          done < <(find scripts -name '*.lua' -type f)
+          exit $fail
