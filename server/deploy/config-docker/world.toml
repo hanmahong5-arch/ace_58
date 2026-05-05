@@ -1,0 +1,37 @@
+# World Engine — Docker overlay
+#
+# 与 ../../config/world.toml 的唯一差别：
+#   - database.host:   127.0.0.1  →  postgres
+#   - redis.addr:      127.0.0.1  →  redis:6379
+#   - nats.url:        127.0.0.1  →  nats:4222
+#   - lua.scripts_dir: scripts/   →  /app/scripts (镜像内绝对路径)
+
+[server]
+tick_rate   = 20
+max_players = 1800
+
+[database]
+host         = "postgres"
+port         = 5432
+name         = "aion_world_live"
+user         = "postgres"
+password_env = "AIONCORE_DB_PASS"
+pool_size    = 20
+
+[redis]
+addr = "redis:6379"
+db   = 1
+
+[nats]
+url = "nats://nats:4222"
+
+[lua]
+# 容器内 Lua 脚本根。Dockerfile 阶段已 COPY scripts/ 至 /app/scripts。
+scripts_dir         = "/app/scripts"
+hot_reload          = true
+reload_interval_ms  = 1000
+
+[world]
+max_user_level = 80
+drop_multiple  = 200
+spawn_version  = "040014200"

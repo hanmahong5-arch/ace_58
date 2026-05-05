@@ -1,0 +1,216 @@
+# docker-compose.dev.yml — AionCore 5.8 一键 dev 拉起
+#
+# 用法:
+#   cd server
+#   docker compose -f docker-compose.dev.yml up -d --build
+#   docker compose -f docker-compose.dev.yml logs -f world
+#   docker compose -f docker-compose.dev.yml down            # 保留 PG 数据
+#   docker compose -f docker-compose.dev.yml down -v         # 清掉 PG 数据卷
+#
+# 拓扑:
+#   postgres :5432  — 唯一持久化进程，volume = ./deploy/data/pg
+#   redis    :6379  — 无持久化（dev 重启即清）
+#   nats     :4222  + 8222 monitor — JetStream 开启
+#   gateway  :2208  + :7877 — 暴露给本机/launcher
+#   world  / chat / logd / admin — 仅集群内可见
+#
+# 与 make boot 的关系:
+#   语义等价（PG + Redis + NATS + 5 svc），但跨平台、零 Windows-side 路径折腾。
+#   prod 部署蓝本由本文件衍生（生产会用 secrets/、TLS、k8s manifests）。
+
+# -----------------------------------------------------------------------------
+# YAML anchor: 5 个 AionCore 容器共用的 build/env/network/depends 配置。
+# 只在一处定义连接信息，避免一个端口改动要改 5 个 service 块。
+# -----------------------------------------------------------------------------
+x-aion-build: &aion-build
+  context: .
+  dockerfile: Dockerfile
+
+x-aion-env: &aion-env
+  AIONCORE_CONFIG_DIR: /etc/aioncore
+  AIONCORE_DB_PASS: ${AIONCORE_DB_PASS:-postgres}
+  # JSON log → stdout，docker logs 直读
+
+x-aion-deps: &aion-deps
+  postgres:
+    condition: service_healthy
+  redis:
+    condition: service_healthy
+  nats:
+    condition: service_started
+
+x-aion-mounts: &aion-mounts
+  # Docker 专用 overlay 配置（hostname=postgres/redis/nats）
+  - type: bind
+    source: ./deploy/config-docker
+    target: /etc/aioncore
+    read_only: true
+  # RSA 私钥从 host config/ 挂入容器，避免 PEM 进镜像
+  - type: bind
+    source: ./config/rsa_private.pem
+    target: /etc/aioncore/rsa_private.pem
+    read_only: true
+
+services:
+
+  # ---------------- 中间件 ----------------
+
+  postgres:
+    image: postgres:17-alpine
+    container_name: aion-postgres
+    restart: on-failure:5
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${AIONCORE_DB_PASS:-postgres}
+      POSTGRES_DB: aion_world_live    # 其余 3 个 DB 由 init 脚本创建
+      # 显式锁 UTF8，避免容器宿主 locale 漂移（中文 NPC 名 → mojibake 防线）
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=C"
+    volumes:
+      - ./deploy/data/pg:/var/lib/postgresql/data
+      # 首启 hook：建另外 3 个数据库
+      - ./deploy/pg-init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      # 用 pg_isready，比 psql 轻量且不污染日志
+      test: ["CMD-SHELL", "pg_isready -U postgres -d aion_world_live"]
+      interval: 5s
+      timeout: 3s
+      retries: 12         # ≈ 1 分钟 grace；老笔记本 cold start 也能撑
+      start_period: 10s
+    networks: [aioncore-net]
+    # 只 expose 给同网络的容器；不向宿主开 5432，符合"PG 永远不暴露互联网"红线
+    expose:
+      - "5432"
+
+  redis:
+    image: redis:7-alpine
+    container_name: aion-redis
+    restart: on-failure:5
+    command:
+      - redis-server
+      - --save             # dev: 关掉 RDB 落盘；重启即清
+      - ""
+      - --appendonly
+      - "no"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 2s
+      retries: 6
+    networks: [aioncore-net]
+    ports:
+      # 暴露到 host 方便 redis-cli 调试；prod 部署去掉 ports 即可
+      - "127.0.0.1:6379:6379"
+
+  nats:
+    image: nats:2-alpine
+    container_name: aion-nats
+    restart: on-failure:5
+    # -js 启用 JetStream（gateway↔world 事件总线必须）
+    # -m 8222 启用 HTTP monitor
+    command: ["-js", "-m", "8222"]
+    healthcheck:
+      # nats:alpine 自带 nats-server 但没 nats-cli；用 wget 探 monitor 端点
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8222/healthz || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 6
+    networks: [aioncore-net]
+    ports:
+      - "127.0.0.1:4222:4222"
+      - "127.0.0.1:8222:8222"
+
+  # ---------------- AionCore 5 进程 ----------------
+
+  gateway:
+    build: *aion-build
+    image: aioncore:dev
+    container_name: aion-gateway
+    restart: on-failure:5
+    environment:
+      <<: *aion-env
+      SERVICE: gateway
+    depends_on: *aion-deps
+    volumes: *aion-mounts
+    networks: [aioncore-net]
+    # 玩家入口端口，按 dev profile (2208/7877) 暴露到 host
+    ports:
+      - "2208:2108"     # auth 监听 (host 2208 → container 2108)
+      - "7877:7777"     # game 监听 (host 7877 → container 7777)
+
+  world:
+    build: *aion-build
+    image: aioncore:dev
+    container_name: aion-world
+    restart: on-failure:5
+    environment:
+      <<: *aion-env
+      SERVICE: world
+      # 留作紧急逃生闸: 设置 1 跳过 goose migrate（不要在 prod 用）
+      AIONCORE_SKIP_MIGRATIONS: ${AIONCORE_SKIP_MIGRATIONS:-}
+    depends_on: *aion-deps
+    volumes:
+      - type: bind
+        source: ./deploy/config-docker
+        target: /etc/aioncore
+        read_only: true
+      # world 不需要 RSA key，省掉那个 mount
+    networks: [aioncore-net]
+
+  chat:
+    build: *aion-build
+    image: aioncore:dev
+    container_name: aion-chat
+    restart: on-failure:5
+    environment:
+      <<: *aion-env
+      SERVICE: chat
+    depends_on: *aion-deps
+    volumes:
+      - type: bind
+        source: ./deploy/config-docker
+        target: /etc/aioncore
+        read_only: true
+    networks: [aioncore-net]
+
+  logd:
+    build: *aion-build
+    image: aioncore:dev
+    container_name: aion-logd
+    restart: on-failure:5
+    environment:
+      <<: *aion-env
+      SERVICE: logd
+    depends_on: *aion-deps
+    volumes:
+      - type: bind
+        source: ./deploy/config-docker
+        target: /etc/aioncore
+        read_only: true
+    networks: [aioncore-net]
+
+  admin:
+    build: *aion-build
+    image: aioncore:dev
+    container_name: aion-admin
+    restart: on-failure:5
+    environment:
+      <<: *aion-env
+      SERVICE: admin
+    depends_on: *aion-deps
+    volumes:
+      - type: bind
+        source: ./deploy/config-docker
+        target: /etc/aioncore
+        read_only: true
+    networks: [aioncore-net]
+    ports:
+      # admin 是 GM REST API，暴露到 host 便于 curl 调试
+      - "127.0.0.1:8080:8080"
+
+# -----------------------------------------------------------------------------
+# 单一 bridge 网络。所有服务靠服务名互相寻址 (postgres/redis/nats/gateway/...)。
+# -----------------------------------------------------------------------------
+networks:
+  aioncore-net:
+    driver: bridge
+    name: aioncore-net

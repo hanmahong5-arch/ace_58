@@ -1,0 +1,65 @@
+# .dockerignore — AionCore 5.8
+#
+# 控制 docker build context 大小。当前仓库含 35 GB AION 客户端，必须排除，
+# 否则 docker build 会因为传输 context 卡死或 OOM。
+
+# === 巨型资产（必须排除）===
+# 5.8 官方游戏客户端（35 GB），Docker 镜像零需求
+client/
+# 反编译/桌面工具，不进容器
+tools/
+
+# === 构建/运行时产物 ===
+bin/
+logs/
+prod/bin/
+prod/logs/
+dev/bin/
+dev/logs/
+deploy/data/
+
+# === IDE / VCS / OS ===
+.git/
+.github/
+.idea/
+.vscode/
+.vs/
+*.swp
+.DS_Store
+Thumbs.db
+
+# === 文档 / 设计稿 ===
+# README / CLAUDE.md / doc/ 不影响运行，且改动频繁会废掉 build cache
+*.md
+doc/
+
+# === 测试代码 ===
+# Go test 不需要进运行镜像，剥掉省体积 + 避免误执行
+**/*_test.go
+**/testdata/
+
+# === 本地配置覆盖 ===
+# config/ 不 COPY 进镜像，是 compose volume 挂载的。这里多一层保险:
+# 即使有人不小心 COPY config/，*.local.toml 这种本地覆盖也不会泄露
+config/*.local.toml
+config/local/
+
+# === Lua 调试日志、缓存 ===
+scripts/**/*.luac
+scripts/**/_cache/
+
+# === SQL 迁移 ===
+# sql/schema/ 已经被 go:embed 嵌进 world 二进制 (internal/database/migrate.go)，
+# 运行时不读磁盘 sql/，所以从 docker context 排除是安全的。
+sql/
+
+# === Go module 临时文件 ===
+**/go.work
+**/go.work.sum
+
+# === 启动器（Tauri，单独打包）===
+launcher/
+
+# === Lua 数据备份 ===
+# 项目根 lua/ 是脚本工作区备份，scripts/ 才是运行时目录
+lua/

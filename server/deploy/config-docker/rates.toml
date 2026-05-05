@@ -1,0 +1,30 @@
+# Game rates — Docker dev overlay
+#
+# 与原 config/rates.toml 数值相同（dev 不调倍率，避免与本机 make boot 行为分叉）。
+# 真要做 10x 倍率请单独维护 deploy/config-docker-loadtest/rates.toml。
+
+[exp]
+solo     = 1.0
+group    = 1.5
+quest    = 1.0
+crafting = 1.0
+
+[drop]
+normal = 2.0
+boss   = 3.0
+event  = 5.0
+
+[kinah]
+mob   = 1.0
+quest = 1.0
+sell  = 1.0
+
+[pvp]
+ap_gain     = 1.0
+ap_loss     = 1.0
+glory_gain  = 1.0
+
+[misc]
+chat_cooldown_ms    = 1000
+trade_level_req     = 10
+legion_create_cost  = 100000

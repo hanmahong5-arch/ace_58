@@ -106,3 +106,19 @@ cover: ## coverage report (打 coverage.out + 末行总覆盖率)
 
 bench: ## micro-benchmarks (crypto / luahost / database)
 	cd $(SRC_DIR) && go test -run='^$$' -bench=. -benchtime=1x -benchmem ./internal/crypto ./internal/luahost ./internal/database 2>&1 | grep -E "(Benchmark|ns/op|ok)"
+
+# -----------------------------------------------------------------
+# Round 13 B4 追加 — golangci-lint 严格门 (debt ratchet 模式)
+#
+# 当前不强制 (CI 不 gate, 见 doc/lint.md); 提供本地命令让开发者按节奏修。
+# 找到 baseline finding 数后写进 doc/lint.md TODO 段, 用户决策何时收紧。
+# 安装: go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+# -----------------------------------------------------------------
+.PHONY: lint-strict lint-report
+lint-strict: ## golangci-lint 跑 .golangci.yml 全 linter (不阻塞 — 仅信号)
+	@cd $(SRC_DIR) && golangci-lint run --config $(SERVER_ROOT)/.golangci.yml ./internal/... 2>&1 \
+		|| (echo ">>> lint findings exist; see doc/lint.md for ratchet plan" && exit 0)
+
+lint-report: ## 把 lint findings 落到 doc/lint-baseline.txt 给 review
+	@cd $(SRC_DIR) && golangci-lint run --config $(SERVER_ROOT)/.golangci.yml --out-format=tab ./internal/... > $(SERVER_ROOT)/doc/lint-baseline.txt 2>&1 || true
+	@echo ">>> baseline written to doc/lint-baseline.txt"

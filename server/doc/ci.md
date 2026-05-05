@@ -142,3 +142,80 @@ WIP 全部修完之后，建议合并两个工作流为一个，避免双跑。
 | lua-syntax skip | runner 没装 luac | 正常行为，不阻塞 |
 
 如需手动重跑：GitHub Actions UI → Re-run failed jobs（不会重跑成功的）。
+
+---
+
+## 9. PG 集成测试 / `db-integration` job
+
+### 9.1 为什么需要 / Why
+
+`internal/database/` 下有 19 个 SP 集成测试（`sp_*_test.go`、`migrate_test.go`、`bench_test.go`），全部通过 `testDSN()` 走 **`AION_TEST_PG_HOST/PORT/DB/USER/PASS` 五元组 env-gate**：
+
+- 任何环境变量缺失 → `t.Skipf("integration skipped: ...")` 干净跳过
+- 默认 `go test ./...` 在没本地 PG 的贡献者机器上不会红，也不会跑
+
+后果：`go-ci` 把这些测试 `SKIP` 掉，`internal/database` 包的 coverage 报告显示 **0%**。19 个测试全是真打 PG、真跑 135 个嵌入 migration、真过 SP 签名 — 不跑就是 0% 信号。
+
+`db-integration` job 在 CI 里把这层 env-gate 注入进去，把 `internal/database` 覆盖率从 0% 拉到 ~80%+，是单包 ROI 最高的一档。
+
+### 9.2 为什么用 service container（vs self-hosted PG）/ Why Service Container
+
+| 选项 | CI 隔离 | fresh DB | 配置漂移 | 暴露面 | 与 ransomware 教训冲突 |
+|------|---------|----------|----------|--------|----------------------|
+| **GitHub Actions service container** | ✅ 每 run 独立 | ✅ 每次 fresh | ✅ 无 | runner localhost 5432 | ❌ 不沾边 |
+| self-hosted PG (本机 / 远端) | ❌ 跨 run 污染 | ❌ 需手 reset | ❌ 易漂 | 可能公网 | ⚠️ 与 2026-04-11 教训冲突 |
+
+仓库铁律 "PG 仅 127.0.0.1" 是针对**生产数据**的；service container 启在 GitHub runner 本机上，外部完全不可达，符合精神。
+
+### 9.3 配置注入 / Env Vars Injected
+
+`.github/workflows/ci.yml` 的 `db-integration.steps[*].env` 段：
+
+```yaml
+AION_TEST_PG_HOST: localhost
+AION_TEST_PG_PORT: '5432'
+AION_TEST_PG_USER: aion_test
+AION_TEST_PG_PASS: aion_test
+AION_TEST_PG_DB:   aion_test
+```
+
+对应 service container 的 `POSTGRES_USER/PASSWORD/DB` 全部 `aion_test`（CI 用临时账号，不与生产任何凭据复用）。
+
+### 9.4 Migration 自动跑 / Migrations Are Auto-Applied
+
+不在 CI 里独立加一步 `go run ./cmd/migrate`，原因：
+
+1. `Migrate()` 是包内函数，没有独立 cmd 入口（embed.FS 已经把 135 个 `*.sql` 编进去）
+2. 所有依赖 schema 的 Test 都按既定 pattern 自己调 `Migrate(ctx, dsn)`（见 `migrate_test.go`、`sp_bind_point_test.go` 第 41 行）
+3. `goose` 的版本表 `goose_db_version` 让重复 `Migrate` 是 **no-op**（详见 `TestMigrateIdempotent`）
+4. 保持与本地 `go test` 行为一致 — 最小化"CI 绿本地红"或反过来的风险
+
+第一个 Test 调 `Migrate()` 会把 135 个 `*.sql` 全跑一遍（约几秒），之后所有 Test 共享 schema。
+
+### 9.5 工件 / Artifacts
+
+`db-integration` 单独上传 `db-coverage.out`，与 `go-ci` 的 `coverage-internal.zip` **不冲突**：
+
+- 工件名 `db-coverage`（vs `coverage-internal`）
+- 内容只覆盖 `./internal/database/...`
+- 想合并两个报表：本地下载两个 `.out`，`go tool cover -func` 分别看，或拼成一个
+
+### 9.6 故障排查 / Troubleshooting
+
+| 现象 | 可能原因 | 处置 |
+|------|---------|------|
+| step "Initialize containers" 红 | service container `pg_isready` 探测 10 次 (50s) 仍失败 | 看 GitHub Actions UI 的 service container 日志；多半是 `postgres:17-alpine` 镜像 pull 失败或 GitHub 临时故障，re-run 即可 |
+| `go test` 直接 ECONNREFUSED 5432 | env vars 没注进 step（YAML 缩进错） | 检查 `db-integration.steps[*].env` 段；`localhost:5432` 必达 |
+| `goose: failed to apply migration` | embed 的某 `*.sql` 在 PG17 上行为变化 | 本地 `make test` 复现：`AION_TEST_PG_*` 指 PG17 容器；多半是某 SP DDL 写法在新版本 PG 严格化了 |
+| Test 红 "function aion_xxx does not exist" | migration 没跑成功，但前面没在 step 里报错 | 调 `go test -v` 看第一个 Test 的 `Migrate` log；afterVer 应该是 135（当前 migration 数）|
+| 端口冲突 5432 | runner 本身极少占用，但若发生 | 改 `ports: 15432:5432` + `AION_TEST_PG_PORT: '15432'` |
+| 跑得太慢（>10m timeout） | 19 个 Test 平均应 ~1-2min；明显超过说明 SP 死锁或 PG 资源不足 | 查最后一个开始的 Test，多半是 `sp_pve_round*` 的 cleanup 没收尾 |
+
+### 9.7 与本地 `make test` 的关系
+
+本地有 PG 时（`AION_TEST_PG_*` 已 export），`make test` 同样会跑全 19 个 SP 集成测试。
+CI 的 `db-integration` job 是 **本地行为在 runner 上的复刻**，不引入额外 magic。
+
+如果本地绿、CI 红：
+- 99% 是 PG 版本不一致 — 本地可能是 PG14/15，CI 是 PG17
+- 1% 是 timezone / locale — service container 默认 UTC，本地可能是 Asia/Shanghai

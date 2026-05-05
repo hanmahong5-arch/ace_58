@@ -227,6 +227,38 @@ no match.
 Calls SP `aion_AddItemUser(char_id, item_id, count)`. Silent no-op on failure
 (logs a warning). SP name **unverified** against deployed `aion_world_live`.
 
+### `player.add_item_with_options(gwSeqID, item_id, count [, stones_table])` (entropy v0)
+Round-5 prototype hook for the manastone-affix system. Optional 4th arg is a
+Lua array of up to 6 stone IDs (`{id1, id2, ..., id6}`); missing slots become
+`0`. Currently logs the staged stones at DEBUG level and falls through to
+legacy `aion_AddItemUser` — Track B6 will replace the SP call with
+`aion_AddItemUserWithOptions` taking the 6 IDs as additional parameters.
+
+```lua
+-- scripts/lib/loot.lua  -- pseudo
+player.add_item_with_options(gw, 110000001, 1, {61011, 0, 0, 0, 0, 0})
+```
+
+### `player.add_item_with_random_attr(gwSeqID, item_id, count, item_class, tier, race, season_seed [, attrs_table])` (entropy v1)
+Round-6 prototype hook for the random_attr-affix system (10-slot cap). The
+`attrs_table` is an optional array of `{attr_id=string, value=number}` pairs.
+Currently logs the rolled attrs at DEBUG and calls legacy `aion_AddItemUser`;
+Track B3 already created `user_item_attribute` and will land
+`aion_AddItemUserWithRandomAttr` to persist the pairs.
+
+```lua
+local attrs = {
+    {attr_id = "atk_phys",  value = 17},
+    {attr_id = "crit_rate", value = 4},
+}
+player.add_item_with_random_attr(gw, 100000855, 1, "weapon", "rare", 1, season_seed, attrs)
+```
+
+> v0 (manastones, 6 slots) and v1 (random_attrs, 10 slots) are independent
+> affix systems on the same item — a "fully entropic" item will be granted via
+> a single converged SP `aion_AddItemUserWithFullEntropy(char_id, item_id,
+> count, stones[6], random_attrs[10])` once both tracks land.
+
 ### `player.remove_item(gwSeqID, item_id, count) -> bool`
 Calls SP `aion_RemoveItemUser`. Returns `true` on SP success.
 
@@ -340,6 +372,59 @@ player.send_packet(gw, 0xC8, buf:to_string())
 
 All read-past-EOF calls return the type's zero value — they do **not** raise.
 If you need strict parsing, check `r:remaining()` before each read.
+
+---
+
+## Global: `entropy.*` (Round 7 C5 — entropy v2)
+
+High-entropy item affix utilities. Both functions are pure (no DB / NATS),
+so they are safe to call from any context including hot paths.
+
+### `entropy.forge_id(spec) -> string`
+Deterministically derives an 8-character "锻造编号" (forge ID) from a spec
+table. Same spec → same ID; different spec → different ID with high
+probability (SHA1 truncated to 4 bytes ≈ 2^16 inputs before collision).
+
+`spec` table fields (all optional):
+
+| Key            | Type       | Meaning                                |
+|----------------|------------|----------------------------------------|
+| `item_id`      | int        | items.xml ID                           |
+| `count`        | int        | stack quantity                         |
+| `race`         | int        | 0 = none / 1 = Elyos / 2 = Asmodian    |
+| `season_seed`  | int        | per-season RNG seed (entropy v1)       |
+| `stones`       | int[1..6]  | manastone IDs in slot order (0 = empty); slot order is meaningful and is **not** sorted |
+| `attrs`        | array of `{attr_id, value}` | random_attr pairs (entropy v1); sorted by `attr_id` before hashing |
+
+```lua
+-- scripts/lib/loot.lua  -- pseudo
+local fid = entropy.forge_id({
+    item_id = 100000855,
+    stones  = {61011, 61012, 0, 0, 0, 0},
+    attrs   = { {attr_id = "atk_phys", value = 17} },
+    season_seed = 20260505,
+})
+-- fid = "5F2A1B0C" (uppercase hex), 8 chars
+```
+
+Returns the ASCII sentinel `"00000000"` when `spec` is missing or not a
+table — callers may log without crashing.
+
+### `entropy.detect_synergy(stones [, attrs]) -> string[]`
+Returns the list of preset set names hit by the supplied stone+attr block.
+v2 stage: **inert** (no stat changes) — fires INFO log + persists for B-track
+SP to pick up. Five sets currently registered: `雷霆重击 / 魔泉涌动 /
+钢铁意志 / 刺客之眼 / 全能`.
+
+```lua
+local hits = entropy.detect_synergy(
+    {61011, 61012, 0, 0, 0, 0},        -- stones
+    { {attr_id = "atk_phys", value = 17} }  -- attrs (optional)
+)
+for _, name in ipairs(hits) do
+    log.info("synergy hit: " .. name)
+end
+```
 
 ---
 
@@ -529,3 +614,27 @@ Canonical files live under `server/scripts/events/`. Creating the matching
   `aion_AddExpUser` are flagged **unverified** in `bridge.go`. Run
   `SELECT proname FROM pg_proc WHERE proname ILIKE 'aion_%'` against
   `aion_world_live` before first live test.
+
+---
+
+## Bridge globals vs Lua-side modules
+
+The globals documented in this file fall into two camps:
+
+| Camp | Where defined | Examples |
+|------|---------------|----------|
+| **Bridge-injected** (Go → Lua) | `src/internal/luahost/bridge.go` `Bridge.Register()` | `log.*`, `db.*`, `entity.*`, `combat.*`, `player.*`, `world.*`, `config.*`, `bytes.*`, `entropy.*`, `jobq.*` |
+| **Lua-side modules** | `server/scripts/lib/*.lua` (auto-loaded by `loadScripts`) | `instance.*`, `mail.*`, `auction.*`, `group.*`, `legion.*`, `warehouse.*`, `dialog.*`, `flight.*`, `pvp.*`, `chat.*`, `equipment.*`, `buff.*`, `skill.*`, `loot.*`, `quest.*`, `shop.*`, `items.*`, `router.*`, `class_names.*`, `exp_table.*`, `starter_kit.*` |
+
+**Why this matters**:
+- Bridge-injected globals can only be added by recompiling Go.
+- Lua-side modules are pure-Lua tables exported by `scripts/lib/foo.lua` —
+  they hot-reload with the rest of the script tree.
+- When extending API surface, ask first: can it be a Lua module? If yes, do
+  that; only push to the Bridge when you need to call Go primitives (DB
+  pool / NATS / RNG seeded from Go / ECS mutation).
+
+---
+
+*Last verified against `src/internal/luahost/bridge.go` (and `vm.go` sandbox
+policy) on **2026-05-05**.*

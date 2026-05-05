@@ -139,3 +139,89 @@ jobs:
             fi
           done < <(find scripts -name '*.lua' -type f)
           exit $fail
+
+  # -----------------------------------------------------------------
+  # db-integration — 真打 PG 跑 internal/database 的 19 个 env-gated 测试
+  #
+  # 为什么独立 job（不并入 go-ci）：
+  #   - go-ci 里 internal/database 的 SP 测试都 t.Skip（缺 AION_TEST_PG_*），
+  #     该包覆盖率显示 0%；活化后 ~80%+，是单包覆盖率收益最大的一档。
+  #   - 用 GitHub Actions service container（postgres:17-alpine）保证：
+  #       (a) CI 隔离：每次 fresh DB，无配置漂移；
+  #       (b) 不依赖 self-hosted PG，不与本机 ransomware 教训 (2026-04-11) 沾边；
+  #       (c) 端口仅 runner localhost:5432，不暴露公网。
+  #   - migration 不预跑：testDSN()+Migrate() pattern 由各 Test 自己调（见
+  #     migrate_test.go），goose 幂等，重复 Migrate 是 no-op。
+  #
+  # 失败语义：本 job 红 → 阻塞 PR（与 go-ci 并列）；service container 起不来
+  # 自动 fail-fast，无需手动 health probe step。
+  # -----------------------------------------------------------------
+  db-integration:
+    name: db (PG service container + integration)
+    runs-on: ubuntu-latest
+    # postgres:17-alpine 比 17 小 ~150MB，pull 快；alpine 同样有 pg_isready
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: aion_test
+          POSTGRES_PASSWORD: aion_test
+          POSTGRES_DB: aion_test
+        ports:
+          - 5432:5432
+        # service container 自带 health check 协议；--health-cmd 通过 options 注入
+        # GitHub Actions 在所有 health check 通过前不会启动后续 step
+        options: >-
+          --health-cmd "pg_isready -U aion_test -d aion_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: setup go (with module cache)
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GO_VERSION }}
+          cache: true
+          cache-dependency-path: ${{ env.WORK_DIR }}/go.sum
+
+      - name: go mod download
+        working-directory: ${{ env.WORK_DIR }}
+        run: go mod download
+
+      # 各 Test 内部调 Migrate(ctx, dsn) → goose.UpContext 把 135 个嵌入 SQL 全跑一遍。
+      # 不在这里独立 migrate，原因：
+      #   (1) Migrate() 是包内函数，没有独立 cmd 入口；
+      #   (2) goose 幂等：第二个 Test 再调也 no-op；
+      #   (3) 保持与本地 `go test` 行为一致（最小化"CI 跑得过本地跑不过"风险）。
+      - name: go test (internal/database, env-gated SPs activated)
+        working-directory: ${{ env.WORK_DIR }}
+        env:
+          AION_TEST_PG_HOST: localhost
+          AION_TEST_PG_PORT: '5432'
+          AION_TEST_PG_USER: aion_test
+          AION_TEST_PG_PASS: aion_test
+          AION_TEST_PG_DB: aion_test
+        run: |
+          go test ./internal/database/... \
+            -count=1 \
+            -v \
+            -timeout=10m \
+            -coverprofile=db-coverage.out \
+            -covermode=atomic
+
+      - name: db coverage summary (stdout)
+        working-directory: ${{ env.WORK_DIR }}
+        run: go tool cover -func=db-coverage.out | tail -1
+
+      # 单独工件名 db-coverage，避免与 go-ci 的 coverage-internal 冲突；
+      # 后续如要合并报表，下载两个 .out 用 `go tool cover` 拼。
+      - name: upload db coverage artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: db-coverage
+          path: ${{ env.WORK_DIR }}/db-coverage.out
+          retention-days: 14
+          if-no-files-found: error

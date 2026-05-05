@@ -1,0 +1,36 @@
+# Protocol Gateway — Docker overlay
+#
+# 与 ../../config/gateway.toml 的唯一差别：
+#   - database.host:   127.0.0.1  →  postgres   (compose 服务名)
+#   - redis.addr:      127.0.0.1  →  redis:6379
+#   - nats.url:        127.0.0.1  →  nats:4222
+#
+# RSA / Blowfish 密钥与端口监听均与 host 配置保持一致，便于客户端无差别连接。
+
+[server]
+auth_listen     = "0.0.0.0:2108"
+game_listen     = "0.0.0.0:7777"
+max_connections = 2000
+country         = 5
+server_id       = 10
+
+[crypto]
+bf_static_key = "6B60CB5B82CE90B1CC2B6C556C6C6C6C"
+# 容器内绝对路径：compose 把 config/rsa_private.pem 单独 mount 到此处
+rsa_key_file  = "/etc/aioncore/rsa_private.pem"
+
+[database]
+host         = "postgres"
+port         = 5432
+name         = "aion_account_db"
+user         = "postgres"
+password_env = "AIONCORE_DB_PASS"
+pool_size    = 10
+
+[redis]
+addr      = "redis:6379"
+db        = 0
+pool_size = 10
+
+[nats]
+url = "nats://nats:4222"

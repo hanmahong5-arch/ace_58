@@ -3,7 +3,7 @@
 Source: `server/src/internal/aionproto/opcodes.go`
 Handlers: `server/scripts/handlers/cm_*.lua` (Lua) + `server/src/cmd/gateway/` (Go).
 
-Total opcodes: **CM = 42, SM = 39** (81 total).
+Total opcodes: **CM = 43, SM = 42** (85 total).
 
 All integers are little-endian. Game packets use `uint16` opcodes; auth packets use `uint8`.
 Payload is BF-LE encrypted from byte 2; XOR stream cipher is applied on top for client→server.
@@ -39,11 +39,12 @@ Payload is BF-LE encrypted from byte 2; XOR stream cipher is applied on top for 
 |------|-------------------------------|-----|-------------------------------|-------|
 | 0x10 | SM_CHARACTER_LIST             | S→C | `scripts/handlers/cm_character_list.lua` (response) | Roster + metadata. |
 | 0x11 | CM_CHARACTER_LIST             | C→S | `scripts/handlers/cm_character_list.lua` | |
-| 0x12 | CM_CREATE_CHARACTER           | C→S | —                             | ⚠ unhandled |
-| 0x13 | SM_CREATE_CHARACTER_RESPONSE  | S→C | —                             | Creation result. No sender found. |
-| 0x14 | CM_DELETE_CHARACTER           | C→S | —                             | ⚠ unhandled |
+| 0x12 | CM_CREATE_CHARACTER           | C→S | `scripts/handlers/cm_create_character.lua` | Phase F1 — replies with SM_CREATE_CHARACTER_RESPONSE 0x13. |
+| 0x13 | SM_CREATE_CHARACTER_RESPONSE  | S→C | `scripts/handlers/cm_create_character.lua` (response) | Creation result. |
+| 0x14 | CM_DELETE_CHARACTER           | C→S | `scripts/handlers/cm_delete_character.lua` | Phase F1 — soft-delete, replies with SM_DELETE_CHARACTER_RESPONSE 0x17. |
 | 0x15 | CM_ENTER_WORLD                | C→S | `scripts/handlers/cm_enter_world.lua` | |
 | 0x16 | SM_ENTER_WORLD_RESPONSE       | S→C | `scripts/handlers/cm_enter_world.lua` (response) | Initial world state. |
+| 0x17 | SM_DELETE_CHARACTER_RESPONSE  | S→C | (sender TBD)                  | Phase S-18b: 7-day soft-delete grace window result. |
 
 ### Phase S-3: Movement, Combat, Core Play (0x0A, 0x0E, 0x19–0x9D, 0xAB)
 
@@ -62,7 +63,10 @@ Payload is BF-LE encrypted from byte 2; XOR stream cipher is applied on top for 
 | 0x48 | SM_CHAT           | S→C | `scripts/lib/chat.lua`            | Chat broadcast. |
 | 0x4C | SM_MOVE           | S→C | ECS movement broadcast            | Nearby observer sync. |
 | 0x54 | SM_INVENTORY_INFO | S→C | enter-world + inventory change    | Initial inventory dump. |
+| 0x55 | SM_LOOT_AVAILABLE | S→C | combat death loot path            | Round 11 — corpse drop-bag advert (entity_id + item_count). |
 | 0x56 | CM_REVIVE_REQUEST | C→S | `scripts/handlers/cm_revive.lua`  | File named `cm_revive.lua`. |
+| 0x57 | CM_LOOT_ITEM      | C→S | `scripts/handlers/cm_loot_item.lua` | Round 11 — pull item N from a corpse bag. |
+| 0x58 | SM_LOOT_ITEMLIST  | S→C | loot pipeline                     | Round 11 — granted item + entropy block (forge_id + 6 stones + random_attrs). |
 | 0x5E | SM_SKILL_RESULT   | S→C | `scripts/lib/skill.lua`           | Cast result broadcast. |
 | 0x7A | SM_REVIVE         | S→C | `scripts/handlers/cm_revive.lua` (response) | |
 | 0x8E | SM_ATTACK         | S→C | combat pipeline                   | Attack result broadcast. |
@@ -195,8 +199,8 @@ Reserved: 0xD8 (future boss-phase state broadcast).
 | CM_BUY_ITEM             | 0x6C | S-6   | cm_buy_item.lua |
 | CM_CHARACTER_LIST       | 0x11 | S-2   | cm_character_list.lua |
 | CM_CHAT                 | 0x46 | S-3   | cm_chat.lua |
-| CM_CREATE_CHARACTER     | 0x12 | S-2   | ⚠ unhandled |
-| CM_DELETE_CHARACTER     | 0x14 | S-2   | ⚠ unhandled |
+| CM_CREATE_CHARACTER     | 0x12 | S-2   | cm_create_character.lua |
+| CM_DELETE_CHARACTER     | 0x14 | S-2   | cm_delete_character.lua |
 | CM_DIALOG_REQUEST       | 0x6A | S-6   | cm_dialog_request.lua |
 | CM_DIALOG_SELECT        | 0x6B | S-6   | cm_dialog_select.lua |
 | CM_EMOTION              | 0x41 | S-3   | ⚠ unhandled |
@@ -213,6 +217,7 @@ Reserved: 0xD8 (future boss-phase state broadcast).
 | CM_GROUP_INVITE         | 0x60 | S-5   | cm_group_invite.lua |
 | CM_GROUP_LEAVE          | 0x62 | S-5   | cm_group_leave.lua |
 | CM_LEGION_ACCEPT        | 0xB2 | S-10  | cm_legion_accept.lua |
+| CM_LOOT_ITEM            | 0x57 | R11   | cm_loot_item.lua |
 | CM_LEGION_CREATE        | 0xB0 | S-10  | cm_legion_create.lua |
 | CM_LEGION_INVITE        | 0xB1 | S-10  | cm_legion_invite.lua |
 | CM_LEGION_KICK          | 0xB4 | S-10  | cm_legion_kick.lua |
@@ -250,6 +255,7 @@ Reserved: 0xD8 (future boss-phase state broadcast).
 | SM_CHARACTER_LIST             | 0x10 | S-2   | cm_character_list.lua |
 | SM_CHAT                       | 0x48 | S-3   | scripts/lib/chat.lua |
 | SM_CREATE_CHARACTER_RESPONSE  | 0x13 | S-2   | (sender TBD) |
+| SM_DELETE_CHARACTER_RESPONSE  | 0x17 | S-18b | (sender TBD) |
 | SM_DIALOG_WINDOW              | 0x6F | S-6   | scripts/lib/dialog.lua |
 | SM_DIE                        | 0x44 | S-3   | combat death |
 | SM_ENTER_WORLD_RESPONSE       | 0x16 | S-2   | cm_enter_world.lua |
@@ -270,6 +276,8 @@ Reserved: 0xD8 (future boss-phase state broadcast).
 | SM_LEGION_INFO                | 0xB6 | S-10  | scripts/lib/legion.lua |
 | SM_LEGION_MEMBER_UPDATE       | 0xB7 | S-10  | scripts/lib/legion.lua |
 | SM_LEVEL_UP                   | 0x9D | S-3   | exp / level system |
+| SM_LOOT_AVAILABLE             | 0x55 | R11   | combat death loot path |
+| SM_LOOT_ITEMLIST              | 0x58 | R11   | loot pipeline |
 | SM_LOGIN_FAIL                 | 0x03 | S-0   | cmd/gateway/handshake.go |
 | SM_LOGIN_OK                   | 0x02 | S-0   | cmd/gateway/handshake.go |
 | SM_MAIL_LIST                  | 0xC3 | S-14  | scripts/lib/mail.lua |
@@ -299,7 +307,7 @@ Available opcode slots (suitable for future phases S-20+):
 | 0x04         | 1    | Auth-port expansion |
 | 0x08–0x09    | 2    | Handshake expansion (0x0A/0x0B/0x0C/0x0E already used) |
 | 0x0D, 0x0F   | 2    | — |
-| 0x17–0x18    | 2    | Character management expansion |
+| 0x18         | 1    | Character management expansion (0x17 = SM_DELETE_CHARACTER_RESPONSE) |
 | 0x1C–0x1D    | 2    | Session expansion |
 | 0x1F–0x2B    | 13   | Large free block |
 | 0x2D–0x33    | 7    | Combat expansion |
@@ -309,7 +317,7 @@ Available opcode slots (suitable for future phases S-20+):
 | 0x45, 0x47   | 2    | Chat expansion |
 | 0x49–0x4B    | 3    | — |
 | 0x4D–0x53    | 7    | Movement expansion |
-| 0x55, 0x57–0x5D | 8 | Revive / skill expansion |
+| 0x59–0x5D    | 5    | Skill expansion (0x55/0x57/0x58 used by Round 11 loot) |
 | 0x5F, 0x65–0x69 | 6 | Group / pre-dialog expansion |
 | 0x77–0x79    | 3    | Flight overflow |
 | 0x7B–0x8D    | 19   | Large free block — recommended for S-17 combat/PvE |
@@ -319,13 +327,13 @@ Available opcode slots (suitable for future phases S-20+):
 | 0xD8         | 1    | Reserved for instance boss-phase state (S-19 reserved) |
 | 0xD9–0xFF    | 39   | **Large free block for S-20+** — recommended for pets, housing, BGs, P2P trade |
 
-Grand total reserved: ~165 free slots before hitting opcode exhaustion at 0x100.
+Grand total reserved: ~161 free slots before hitting opcode exhaustion at 0x100.
 
 ---
 
 ## Collision Detection
 
-Automated scan of the 81 constants against duplicate hex values: **zero collisions**. Each opcode maps to exactly one name.
+Automated scan of the 85 constants against duplicate hex values: **zero collisions**. Each opcode maps to exactly one name.
 
 Verification method: sort all `uint16` literals in `opcodes.go`, compare adjacent values. Closest neighbors (0x0A→0x0B, 0x62→0x63, 0xBB→0xBC, etc.) are distinct by design — no overlap within ±0.
 
@@ -337,8 +345,14 @@ The following CM_ opcodes are defined in `opcodes.go` but have **neither a Go ha
 
 | Hex  | Name                 | Impact |
 |------|----------------------|--------|
-| 0x12 | CM_CREATE_CHARACTER  | Character creation broken — blocks new-player onboarding. |
-| 0x14 | CM_DELETE_CHARACTER  | Character deletion broken. |
 | 0x41 | CM_EMOTION           | Emotes do not broadcast. Cosmetic only. |
 
-Action: register Lua handlers in `scripts/handlers/cm_create_character.lua`, `cm_delete_character.lua`, `cm_emotion.lua` in the next phase.
+Action: register a Lua handler in `scripts/handlers/cm_emotion.lua` in the next phase.
+
+Resolved gaps (kept here for traceability):
+- 0x12 `CM_CREATE_CHARACTER` — handled by `scripts/handlers/cm_create_character.lua` (Phase F1).
+- 0x14 `CM_DELETE_CHARACTER` — handled by `scripts/handlers/cm_delete_character.lua` (Phase F1).
+
+---
+
+*Last verified against `src/internal/aionproto/opcodes.go` and `scripts/handlers/` on **2026-05-05**.*

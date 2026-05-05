@@ -1,0 +1,64 @@
+# AionCore 5.8 — golangci-lint 配置
+#
+# 设计原则:
+#   - 保守起步: 只开 6 个高信号 linter, 禁用容易误报的样式类规则
+#   - debt ratchet: 当前不强制 (CI 不 gate), 让团队按节奏修
+#   - 范围限定: 只看 ./internal/...; cmd/spike + cmd/director 是 WIP, 全豁免
+#   - 测试代码豁免 errcheck (test 允许忽略错误以保持简洁)
+#   - schema 兼容 golangci-lint v1.61+ (本仓库未来升 v2 时, default:none + enable 列表语法可平滑迁移)
+#
+# 详见 doc/lint.md
+
+run:
+  timeout: 5m
+  go: "1.25"
+  issues-exit-code: 1
+  modules-download-mode: readonly
+
+linters:
+  disable-all: true
+  enable:
+    - errcheck       # 未检查的 error 返回值 (高信号: 漏 close/漏处理 SP 错)
+    - ineffassign    # 无效赋值 (写了变量但没用上)
+    - staticcheck    # SA* 静态分析全家桶
+    - govet          # go vet (CI 已跑, 这里再叠一层显式声明)
+    - unused         # 未使用的变量/函数/字段 (跨包识别死代码)
+    - gosimple       # 简化建议 (S* 系列, 例: if a == true → if a)
+
+linters-settings:
+  errcheck:
+    # 不强制类型断言检查 (会和 mock 测试代码冲突)
+    check-type-assertions: false
+    # 不强制空标识符赋值 (`_, _ = ...` 是合法的显式忽略)
+    check-blank: false
+  staticcheck:
+    # SA1019 = "deprecated 用法警告"; 暂时关掉避免 pgx/v5 等依赖升级噪音
+    # 等到一轮 deprecation 集中清理周期再开
+    checks: ["all", "-SA1019"]
+
+issues:
+  exclude-rules:
+    # 测试代码允许忽略 error (写 test 时常 `db.Exec(...)` 不接 err)
+    - path: _test\.go
+      linters:
+        - errcheck
+    # cmd/spike 是 WIP (有 int32 overflow), 不参与 lint
+    - path: src/cmd/spike/
+      linters:
+        - typecheck
+        - errcheck
+        - staticcheck
+        - gosimple
+        - unused
+    # cmd/director 是 in-flight round 的, 行为未冻结
+    - path: src/cmd/director/
+      linters:
+        - typecheck
+        - errcheck
+        - staticcheck
+  exclude-dirs:
+    - vendor
+  # 同一类问题最多上报 50 条 (避免一个 finding 把 stdout 刷爆)
+  max-same-issues: 50
+  # 单个 linter 最多上报 100 条
+  max-issues-per-linter: 100
