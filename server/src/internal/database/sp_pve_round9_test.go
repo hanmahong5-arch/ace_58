@@ -241,11 +241,12 @@ func TestPortedSPs_Round9(t *testing.T) {
 			}
 			// Filter to our band — other tests may have inserted rows.
 			if iid >= 9500001 && iid <= 9500999 {
-				if iid == 9500011 {
+				switch iid {
+				case 9500011:
 					if phase != "updated_phase" || sp != 5 || vt != validUntil+100 {
 						t.Fatalf("upsert lost: phase=%q sp=%d vt=%d", phase, sp, vt)
 					}
-				} else if iid == 9500012 {
+				case 9500012:
 					t.Fatalf("expired row 9500012 leaked into result")
 				}
 				n++

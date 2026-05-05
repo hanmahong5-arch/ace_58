@@ -90,7 +90,7 @@ func (k *RSAKeyPair) SavePEM(path string) error {
 // PublicKeyModulus returns the 128-byte big-endian RSA modulus.
 // This is the value transmitted to the client inside SM_KEY.
 func (k *RSAKeyPair) PublicKeyModulus() []byte {
-	b := k.priv.PublicKey.N.Bytes()
+	b := k.priv.N.Bytes()
 	// Pad to CredentialBlockSize bytes (leading zeros if needed).
 	result := make([]byte, CredentialBlockSize)
 	copy(result[CredentialBlockSize-len(b):], b)
@@ -99,7 +99,7 @@ func (k *RSAKeyPair) PublicKeyModulus() []byte {
 
 // PublicKeyExponent returns the RSA public exponent (e.g. 65537).
 func (k *RSAKeyPair) PublicKeyExponent() int {
-	return k.priv.PublicKey.E
+	return k.priv.E
 }
 
 // DecryptCredentials decrypts a CredentialBlockSize-byte block received in

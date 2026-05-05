@@ -51,9 +51,10 @@ func TestGetBuffs_Snapshot(t *testing.T) {
 		t.Fatalf("expected 1 buff, got %d", len(snapshot))
 	}
 
-	// Modify the returned slice and pointer to make sure the internal store is untouched.
+	// Modify the returned slice element to make sure the internal store is untouched
+	// (slice-header truncation is a local-var op and cannot affect the store, so
+	// we only need to mutate via the returned pointer to prove deep-copy isolation).
 	snapshot[0] = &BuffEntry{BuffID: 99, ExpiresAtTick: 1}
-	snapshot = snapshot[:0]
 
 	after := w.GetBuffs(e)
 	if len(after) != 1 {

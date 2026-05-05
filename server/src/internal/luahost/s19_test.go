@@ -272,11 +272,9 @@ func TestCreate_CooldownBlocks_WithLiveRun(t *testing.T) {
 		"aion_getuserinstance_20171122": `{[1]={instance_id=300040000, reentrance_time=9999999999}}`,
 		"aion_setuserinstance_20171122": `{}`,
 	})
-	// First create works and populates _char_run for this cid.
-	if err := L.DoString(`_rid, _r = instance.create(EID, 300040000)`); err == nil && L.GetGlobal("_rid") == lua.LNil {
-		// First call should actually succeed via the skip_sp_write path
-		// because _char_run is empty. Reset state to simulate an already-live run.
-	}
+	// First create populates _char_run via the skip_sp_write path; result
+	// itself is not asserted — the second call below is the actual test target.
+	_ = L.DoString(`_rid, _r = instance.create(EID, 300040000)`)
 	// Force the lib into "live run already exists" state by creating then
 	// checking the block triggers for a second attempt.
 	if err := L.DoString(`_rid2, _r2 = instance.create(EID, 300040000)`); err != nil {
@@ -821,10 +819,8 @@ func TestCmInstanceEnterHandlerRegistered(t *testing.T) {
 	L.SetField(ctx, "account", lua.LString("test"))
 	L.SetGlobal("current_tick", lua.LNumber(1))
 
-	// Payload: int32 template_id = 300040000 (little-endian).
-	payload := []byte{0x00, 0x00, 0xE7, 0x11} // 0x11E70000 LE is not right — recompute.
-	// 300040000 = 0x11E1A300 → LE bytes: 00 A3 E1 11
-	payload = []byte{0x00, 0xA3, 0xE1, 0x11}
+	// Payload: int32 template_id = 300040000 = 0x11E1A300 → LE bytes: 00 A3 E1 11
+	payload := []byte{0x00, 0xA3, 0xE1, 0x11}
 
 	fn := L.GetGlobal("dispatch_packet")
 	if fn == lua.LNil {

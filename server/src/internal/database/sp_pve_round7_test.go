@@ -378,7 +378,7 @@ func TestPortedSPs_Round7(t *testing.T) {
 			`SELECT rank FROM guild WHERE id=9000353`).Scan(&r3); err != nil {
 			t.Fatalf("rank3: %v", err)
 		}
-		if !(r1 == 1 && r2 == 2 && r3 == 3) {
+		if r1 != 1 || r2 != 2 || r3 != 3 {
 			t.Fatalf("rank order wrong: %d %d %d", r1, r2, r3)
 		}
 		// GetAbyssGuildRank should return 3 race-99 entries.

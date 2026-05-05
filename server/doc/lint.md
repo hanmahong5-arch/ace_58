@@ -100,31 +100,39 @@ git diff doc/lint-baseline.txt
 
 ## 6. 当前 Baseline / Current Findings
 
-**首次落地: 2026-05-05** — golangci-lint 装好之后跑出的真实数字 (用 `go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@latest` 装的 v2.12.1)。
+**首次落地: 2026-05-05** — golangci-lint 装好之后跑出的真实数字 (用 `go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@latest` 装的 v2.12.1)。**Ratchet 第一次往下: 59 → 51** (清掉 §6.3 里 8 处真实债)。
 
 | 度量 | 值 | 备注 |
 |------|----|----|
 | golangci-lint 版本 | v2.12.1 (build go1.25.9) | v1 系列已死, 必须 v2 (用 go1.25 编, 与项目 go 版本对齐) |
-| 总 finding 数 | **59** | 见 `doc/lint-baseline.txt` 全文 |
-| Top 1 linter | **staticcheck (58)** | 占 98.3% — 主要是 ST1003 命名规则 |
-| Top 1 文件/包 | **`src/internal/aionproto/opcodes.go` (50)** | 占 84.7% — 全部是 CM_/SM_ 协议常量被判为 ALL_CAPS |
-| Top 1 finding code | **ST1003 (51)** | "should not use ALL_CAPS in Go names" |
-| 跑分耗时 | **5.1s** | `time make lint-strict` (Windows 本机, 8 core) |
-| 测试日期 | 2026-05-05 | Round 13 收尾 |
+| 总 finding 数 (初始) | 59 | 8 处真实债清理前 |
+| 总 finding 数 (当前) | **51** | 见 `doc/lint-baseline.txt` 全文 |
+| Top 1 linter | **staticcheck (51)** | 占 100% — 全是 ST1003 + 1 QF1012 |
+| Top 1 文件/包 | **`src/internal/aionproto/opcodes.go` (50)** | 占 98.0% — 全部是 CM_/SM_ 协议常量被判为 ALL_CAPS |
+| Top 1 finding code | **ST1003 (50)** | "should not use ALL_CAPS in Go names" |
+| 跑分耗时 | **2.4s** | `time make lint-strict` (Windows 本机, 8 core, debt 清理后跑得更快) |
+| 测试日期 | 2026-05-05 | Round 13 收尾 + ratchet down |
 
-### 6.1 Findings 分布 / Distribution
+### 6.1 Findings 分布 / Distribution (当前 51)
 
 ```
-ineffassign  : 1   (s19_test.go 一处 ineffectual assignment)
-staticcheck  : 58
-  ├── ST1003 : 51  ← 全部命名规则: CM_*/SM_* 协议常量
-  ├── QF1008 : 2   (luahost s19_test.go embedded fields)
-  ├── QF1003 : 1
-  ├── QF1001 : 1
-  ├── QF1012 : 1   (spsynth/prompt.go: WriteString(Sprintf) → Fprintf)
-  ├── SA9003 : 1   (s19_test.go: empty branch)
-  └── SA4006 : 1   (crypto/rsa.go: ineffectual write)
+staticcheck  : 51
+  ├── ST1003 : 50  ← 全部 opcodes.go: CM_*/SM_* 协议常量 (领域约定)
+  └── QF1012 : 1   (spsynth/prompt.go: 另一会话 untracked, 暂不动)
 ```
+
+### 6.1.1 已清真实债 (commit 37756e4 之后, ratchet 第一次往下)
+
+| # | 文件:行 | code | 修法 |
+|---|--------|------|----|
+| 1 | `luahost/s19_test.go:825` | ineffassign | 删 dev 注释残留, 直接用正确的 LE 字节 |
+| 2 | `luahost/s19_test.go:276` | SA9003 | 空分支改 `_ = L.DoString(...)` 显式忽略 setup err |
+| 3 | `crypto/rsa.go:93` | QF1008 | `k.priv.PublicKey.N` → `k.priv.N` (embedded field) |
+| 4 | `crypto/rsa.go:102` | QF1008 | `k.priv.PublicKey.E` → `k.priv.E` |
+| 5 | `database/sp_pve_round7_test.go:381` | QF1001 | `if !(a && b && c)` → `if !a \|\| !b \|\| !c` (De Morgan) |
+| 6 | `database/sp_pve_round9_test.go:244` | QF1003 | `if/else if iid==X` → `switch iid { case X }` |
+| 7 | `ecs/world_buff_test.go:56` | SA4006 | 删冗余 `snapshot = snapshot[:0]` (slice 头是局部变量, 不可能影响 store) |
+| 8 | `database/sp_get_char_id_by_name_test.go:23` | ST1003 | `charIdByNameCleanup` → `charIDByNameCleanup` (Go 命名 ID 大写) |
 
 ### 6.2 ST1003 决策建议 / Decision Note
 
@@ -147,21 +155,15 @@ staticcheck  : 58
 
 **当前不动** — 留给下个 round 评审决策, 这一节先把 baseline 锁成 ratchet 起点。
 
-### 6.3 真实债 / True Debt
+### 6.3 真实债 / True Debt — 已清 8/9 ✅
 
-豁免 ST1003 之后还剩 **8 finding**, 是真正应该治理的:
+8 处真实债已在 ratchet 第一次往下时清完 (见 §6.1.1)。当前剩 1 处:
 
-| 文件 | 行 | code | 描述 |
-|------|----|------|------|
-| `s19_test.go` | 825 | ineffassign | 注释自承认 "0x11E70000 LE is not right" |
-| `s19_test.go` | 276 | SA9003 | empty branch (条件判断后无动作) |
-| `s19_test.go` | (2 处) | QF1008 | embedded field 简化 |
-| `crypto/rsa.go` | (1 处) | SA4006 | ineffectual write to err |
-| `spsynth/prompt.go` | 46 | QF1012 | `WriteString(fmt.Sprintf(...))` → `fmt.Fprintf` |
-| `world_buff_test.go` | (1 处) | QF1003 | tagged switch 简化 |
-| `database/sp_*_test.go` | (2 处) | QF1001 | De Morgan 简化 |
+| 文件 | 行 | code | 描述 | 状态 |
+|------|----|------|------|----|
+| `spsynth/prompt.go` | 46 | QF1012 | `WriteString(fmt.Sprintf(...))` → `fmt.Fprintf` | **暂不动** — 另一会话 untracked, 等合流再清 |
 
-8 处都是低风险微调, 可以一次性清理 (1-2 小时), 之后 baseline 数 = 0 (含 ST1003 豁免) 或 51 (ST1003 不豁免) — 看决策。
+清完后 baseline = **51** (含 50 ST1003 领域噪音), 排除 ST1003 后 = **1**。
 
 填完之后这一节就是 ratchet 的起点 — 后续 round 拿这个数对比"今天比上次多还是少"。
 

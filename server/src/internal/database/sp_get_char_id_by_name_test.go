@@ -20,11 +20,11 @@ const (
 	cidNameDeleted = 9000801
 )
 
-func charIdByNameCleanup(t *testing.T, ctx context.Context, p *Pool) {
+func charIDByNameCleanup(t *testing.T, ctx context.Context, p *Pool) {
 	t.Helper()
 	if _, err := p.Inner().Exec(ctx,
 		`DELETE FROM user_data WHERE char_id BETWEEN 9000800 AND 9000899`); err != nil {
-		t.Fatalf("charIdByNameCleanup: %v", err)
+		t.Fatalf("charIDByNameCleanup: %v", err)
 	}
 }
 
@@ -46,8 +46,8 @@ func TestGetCharIdByName(t *testing.T) {
 	}
 	t.Cleanup(pool.Close)
 
-	charIdByNameCleanup(t, ctx, pool)
-	t.Cleanup(func() { charIdByNameCleanup(t, context.Background(), pool) })
+	charIDByNameCleanup(t, ctx, pool)
+	t.Cleanup(func() { charIDByNameCleanup(t, context.Background(), pool) })
 
 	// Seed: live char + soft-deleted char (same name space, distinct names).
 	if _, err := pool.Inner().Exec(ctx,
