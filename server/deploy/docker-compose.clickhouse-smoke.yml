@@ -1,0 +1,128 @@
+# docker-compose.clickhouse-smoke.yml — logd ↔ ClickHouse 端到端冒烟
+#
+# 为什么独立一份文件而不是塞进 docker-compose.dev.yml？
+# ----------------------------------------------------
+# 主 dev compose 启的是"完整 5.8 私服 dev 环境"（PG + Redis + NATS + 5 进程），
+# 起一次至少 30s、占内存 ~2GB。冒烟只关心 NATS + ClickHouse 两个容器，
+# 起停 < 10s，CI / 本地都能频繁触发。两份文件互不干扰、可同时跑（端口都错开）。
+#
+# 用法
+# ----
+#
+#   # 1. 一键起两个容器（ClickHouse 容器 init 时自动跑 sql/clickhouse/001_log_events.sql 建表）
+#   docker compose -f deploy/docker-compose.clickhouse-smoke.yml up -d
+#
+#   # 2. 跑冒烟测试（cmd/logd/integration_smoke_test.go）
+#   cd src
+#   CLICKHOUSE_DSN_TEST=clickhouse://default:@127.0.0.1:9000/aion_test \
+#   NATS_URL_TEST=nats://127.0.0.1:14222 \
+#     go test -tags=integration -v ./cmd/logd/... -run TestSmoke -count=1
+#
+#   # 3. 收尾（-v 删卷，下次 init 重新建表）
+#   docker compose -f deploy/docker-compose.clickhouse-smoke.yml down -v
+#
+# 端口选择
+# --------
+#
+#   ClickHouse: 9000 (native TCP)，与生产蓝图保持一致；本机若有别的 CH 占用，
+#               这里冲突就改成 19000 + 改 CLICKHOUSE_DSN_TEST 即可。
+#   NATS:       14222 (1 + 4222)。刻意错开 docker-compose.dev.yml 的 4222，
+#               保证跑冒烟时不会污染开发者平时挂着的 dev NATS。
+#
+# 资源占用
+# --------
+#
+#   ClickHouse: ~250 MB 内存、~50 MB 磁盘空表。alpine 镜像 + ulimit 已调小。
+#   NATS:       ~30 MB 内存。
+#   合计 < 300 MB，ThinkPad 普通 16G 笔记本完全无感。
+#
+# 与 docker-compose.dev.yml 的关系
+# --------------------------------
+#
+# 这是"补"，不是"替"。R5 swarm 已经把 logd 容器 service 写进 dev compose，
+# 但那个走默认 LOGS stream + 真实 5.8 路径。冒烟 compose 走独立的 LOGS_SMOKE
+# stream + log.smoke.* subject，与 dev 路径完全隔离。
+
+services:
+
+  # ---------------------------------------------------------------------------
+  # ClickHouse — 单节点 + 容器内置 init 脚本建 aion_test 库 + log_events 表
+  # ---------------------------------------------------------------------------
+  clickhouse-smoke:
+    # 24-alpine 与 server/doc/observability.md 332-342 文档约定一致。
+    # alpine 比 ubuntu-based 镜像小 4 倍，冒烟启动快很多。
+    image: clickhouse/clickhouse-server:24-alpine
+    container_name: aion-clickhouse-smoke
+    restart: "no"            # 冒烟用，不需要 restart 策略
+
+    # CH 默认会拼命用 mlock + ulimit nofile=500000，把容器装满
+    # 资源限制内存。这里降到测试合理水平，避免 Docker Desktop OOM。
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+
+    environment:
+      # CLICKHOUSE_DB 创建 aion_test，然后 init 脚本里 CREATE TABLE 默认走它
+      CLICKHOUSE_DB: aion_test
+      CLICKHOUSE_USER: default
+      CLICKHOUSE_PASSWORD: ""        # 空密码，与 DSN 默认值对齐
+      CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: "1"
+
+    volumes:
+      # 自动 init：CH 容器首启时遍历 /docker-entrypoint-initdb.d 跑所有 .sql。
+      # 走 sql/clickhouse/smoke/ 子目录而不是 sql/clickhouse/ 根：
+      #   - 根目录的 001_log_events.sql 是 R5 swarm 已 commit 的"生产 schema"，
+      #     它默认在 default 数据库建表；
+      #   - 冒烟需要的是 aion_test 库 + 同一张 log_events 表；
+      #   - smoke/000_create_smoke_schema.sql 显式 USE aion_test 后再 CREATE，
+      #     与生产 schema 保持字段对齐（任一字段漂移本测试就 FAIL）。
+      - type: bind
+        source: ../sql/clickhouse/smoke
+        target: /docker-entrypoint-initdb.d
+        read_only: true
+
+    ports:
+      # 仅绑 127.0.0.1，避免局域网误连。
+      - "127.0.0.1:9000:9000"   # native TCP（clickhouse-go v2 用这个）
+      - "127.0.0.1:8123:8123"   # HTTP，可选（curl 调试方便）
+
+    healthcheck:
+      # CH 自带 clickhouse-client；query 1 是最便宜的探活
+      test: ["CMD-SHELL", "clickhouse-client --query='SELECT 1' >/dev/null 2>&1 || exit 1"]
+      interval: 3s
+      timeout: 2s
+      retries: 20
+      start_period: 5s
+
+    networks: [aion-smoke-net]
+
+  # ---------------------------------------------------------------------------
+  # NATS — JetStream-only；in-memory 存储（冒烟不需要持久化）
+  # ---------------------------------------------------------------------------
+  nats-smoke:
+    image: nats:2-alpine
+    container_name: aion-nats-smoke
+    restart: "no"
+
+    # -js 启 JetStream；-sd 把 store 目录改成 /tmp（容器删就清）；
+    # -m 8222 monitor 端口，主机不暴露但留着 healthcheck 能用 wget。
+    command: ["-js", "-sd", "/tmp/nats", "-m", "8222"]
+
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8222/healthz || exit 1"]
+      interval: 3s
+      timeout: 2s
+      retries: 10
+      start_period: 3s
+
+    ports:
+      - "127.0.0.1:14222:4222"   # 与 dev compose 的 4222 错开
+
+    networks: [aion-smoke-net]
+
+# 独立 bridge 网络，与 dev compose 的 aioncore-net 隔离。
+networks:
+  aion-smoke-net:
+    driver: bridge
+    name: aion-clickhouse-smoke-net

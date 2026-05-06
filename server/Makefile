@@ -124,6 +124,52 @@ lint-report: ## 把 lint findings 落到 doc/lint-baseline.txt 给 review
 	@echo ">>> baseline written to doc/lint-baseline.txt"
 
 # -----------------------------------------------------------------
+# logd ↔ ClickHouse 端到端冒烟（生产前必跑）
+#
+# 关系: R5 swarm 的 logd 单测仅过 fakeWriter；本目标拉 NATS + ClickHouse
+# 容器，跑 cmd/logd/integration_smoke_test.go (build tag=integration)，
+# 验真实 batcher → clickhouse-go v2 → log_events 表的 byte-for-byte 闭环。
+#
+# 默认值与 deploy/docker-compose.clickhouse-smoke.yml 暴露的端口对齐:
+#   ClickHouse: 127.0.0.1:9000 (native TCP), aion_test 库
+#   NATS:       127.0.0.1:14222 (与 dev 4222 错开)
+#
+# 使用约定:
+#   make smoke-clickhouse-up      # 起 NATS + ClickHouse 容器
+#   make smoke-clickhouse         # 跑测试（默认假设 up 已经先跑）
+#   make smoke-clickhouse-down    # 收尾，删卷
+#   make smoke-clickhouse-all     # up + 等 healthy + 测 + down 一条龙
+# -----------------------------------------------------------------
+.PHONY: smoke-clickhouse smoke-clickhouse-up smoke-clickhouse-down smoke-clickhouse-all
+
+SMOKE_CH_COMPOSE := deploy/docker-compose.clickhouse-smoke.yml
+SMOKE_CH_DSN     ?= clickhouse://default:@127.0.0.1:9000/aion_test
+SMOKE_NATS_URL   ?= nats://127.0.0.1:14222
+
+smoke-clickhouse-up: ## 起 NATS + ClickHouse 冒烟容器（不跑测试）
+	@echo ">>> bringing up NATS + ClickHouse smoke containers..."
+	@docker compose -f $(SMOKE_CH_COMPOSE) up -d
+	@echo ">>> waiting for healthcheck..."
+	@docker compose -f $(SMOKE_CH_COMPOSE) ps
+
+smoke-clickhouse: ## 跑 logd integration smoke (要求容器已 up + healthy)
+	@echo ">>> running logd ↔ ClickHouse integration smoke..."
+	@cd $(SRC_DIR) && \
+		CLICKHOUSE_DSN_TEST="$(SMOKE_CH_DSN)" \
+		NATS_URL_TEST="$(SMOKE_NATS_URL)" \
+		go test -tags=integration -v ./cmd/logd/... -run TestSmoke -count=1
+
+smoke-clickhouse-down: ## 收尾：停容器 + 删卷
+	@echo ">>> tearing down smoke containers (rm volumes)..."
+	@docker compose -f $(SMOKE_CH_COMPOSE) down -v
+
+smoke-clickhouse-all: smoke-clickhouse-up ## up + 测 + down 一条龙
+	@echo ">>> sleeping 8s for ClickHouse first-init..."
+	@sleep 8
+	@$(MAKE) smoke-clickhouse || ($(MAKE) smoke-clickhouse-down && exit 1)
+	@$(MAKE) smoke-clickhouse-down
+
+# -----------------------------------------------------------------
 # Round 13 C3 追加 — DX 自生成 help（参 https://www.thapaliya.com/en/writings/well-documented-makefiles/）
 #
 # 与上方既有 `help` 目标共存：Make 取最末一个定义为准（会有 override 警告但功能正常）。

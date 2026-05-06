@@ -329,19 +329,63 @@ WHERE service = 'gateway' AND ts > now() - INTERVAL 1 HOUR
 GROUP BY min ORDER BY min;
 ```
 
-### 部署前 smoke 清单
+### 部署前 smoke（已自动化，2026-05-06）
 
-R5 swarm 仅过 `fakeWriter` 单测（CI 不依赖 ClickHouse 容器）。生产前必须：
+R5 swarm 单测只过 `fakeWriter`（默认 `go test ./...` 不依赖 ClickHouse）。
+真实 ClickHouse v2 driver / LowCardinality / JSON attrs 入库由
+`cmd/logd/integration_smoke_test.go` 覆盖（`//go:build integration` 隔离）。
 
-1. 起 `clickhouse:24-alpine` 容器，建 `aion` 数据库 + 跑 `001_log_events.sql`
-2. 起 NATS（已在 `make boot`）
-3. 起 logd：`./logd`（默认环境变量都对）
-4. 任一进程 `slog.Info("smoke", "k", "v")` 后：
-   - `clickhouse-client -q "SELECT count() FROM aion.log_events"` 应增长
-   - `aion_slog_dropped_total` 应保持 0（chan 没满）
+**运行（一条龙）**：
+
+```bash
+cd D:/拾光ai/ACE_5.8/server
+make smoke-clickhouse-all
+```
+
+**或分步（CI / 反复跑）**：
+
+```bash
+# 1) 起容器（NATS + ClickHouse；CH 自动跑 sql/clickhouse/smoke/000_*.sql 建表）
+make smoke-clickhouse-up
+
+# 2) 跑测试（要求两容器都 healthy）
+make smoke-clickhouse
+
+# 3) 收尾
+make smoke-clickhouse-down
+```
+
+**底层（手动 / 调试用）**：
+
+```bash
+docker compose -f deploy/docker-compose.clickhouse-smoke.yml up -d
+cd src
+CLICKHOUSE_DSN_TEST=clickhouse://default:@127.0.0.1:9000/aion_test \
+NATS_URL_TEST=nats://127.0.0.1:14222 \
+  go test -tags=integration -v ./cmd/logd/... -run TestSmoke -count=1
+```
+
+**3 条冒烟用例**（覆盖 R5 swarm 设计的所有外部边界）：
+
+| 用例 | 验证点 |
+|------|--------|
+| `TestSmokeClickHouseRoundtrip` | 真 batcher (row-limit 触发) → 真 ClickHouse Insert → SELECT 增长；attrs JSON 完整 |
+| `TestSmokeBatchTimeFlush` | maxAge 触发：稀疏流量经 ticker 也能 flush（不再"压车不发"） |
+| `TestSmokeMultiServiceLowCardinality` | 5 个不同 service 名同时入库，LowCardinality 字典编码正常，ORDER BY 行为符合 |
+
+**专用 env vars**（与生产 `CLICKHOUSE_DSN` / `NATS_URL` 隔离，避免冒烟污染本地 dev）：
+
+| 变量 | 默认值 | 用途 |
+|------|--------|------|
+| `CLICKHOUSE_DSN_TEST` | `clickhouse://default:@127.0.0.1:9000/aion_test` | smoke ClickHouse 连接 |
+| `NATS_URL_TEST` | `nats://127.0.0.1:14222`（与 dev 4222 错开） | smoke NATS 连接 |
+
+任一变量未设 → 测试 `t.Skip()`，CI 默认 `go test ./...` 不会因此失败。
 
 ### 已知限制
 
 - **gateway/world/chat/admin 还没注入 NATSHandler**（路径互斥未合流）
-- **logd ClickHouse 写路径只过 fakeWriter**（无真容器冒烟）
 - **跨进程 trace_id**：未实装；OpenTelemetry 集成是后续工作
+- **smoke schema 与生产 schema 双写**：`sql/clickhouse/smoke/000_*.sql` 与
+  `sql/clickhouse/001_log_events.sql` 必须保持字段一致；CI 可加一条 diff
+  guard 自动检测漂移（暂未做）
