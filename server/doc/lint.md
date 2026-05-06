@@ -100,26 +100,27 @@ git diff doc/lint-baseline.txt
 
 ## 6. 当前 Baseline / Current Findings
 
-**首次落地: 2026-05-05** — golangci-lint 装好之后跑出的真实数字 (用 `go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@latest` 装的 v2.12.1)。**Ratchet 第一次往下: 59 → 51** (清掉 §6.3 里 8 处真实债)。
+**首次落地: 2026-05-05** — golangci-lint 装好之后跑出的真实数字 (用 `go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@latest` 装的 v2.12.1)。**两次 ratchet 往下: 59 → 51 (清 8 处真实债) → 1 (ST1003 在 aionproto 包豁免)**。
 
 | 度量 | 值 | 备注 |
 |------|----|----|
 | golangci-lint 版本 | v2.12.1 (build go1.25.9) | v1 系列已死, 必须 v2 (用 go1.25 编, 与项目 go 版本对齐) |
 | 总 finding 数 (初始) | 59 | 8 处真实债清理前 |
-| 总 finding 数 (当前) | **51** | 见 `doc/lint-baseline.txt` 全文 |
-| Top 1 linter | **staticcheck (51)** | 占 100% — 全是 ST1003 + 1 QF1012 |
-| Top 1 文件/包 | **`src/internal/aionproto/opcodes.go` (50)** | 占 98.0% — 全部是 CM_/SM_ 协议常量被判为 ALL_CAPS |
-| Top 1 finding code | **ST1003 (50)** | "should not use ALL_CAPS in Go names" |
-| 跑分耗时 | **2.4s** | `time make lint-strict` (Windows 本机, 8 core, debt 清理后跑得更快) |
-| 测试日期 | 2026-05-05 | Round 13 收尾 + ratchet down |
+| 总 finding 数 (清债后) | 51 | 全是 ST1003 领域噪音 + 1 QF1012 |
+| 总 finding 数 (豁免后) | **1** | 见 `doc/lint-baseline.txt` 全文 |
+| Top 1 linter | **staticcheck (1)** | 仅剩 spsynth/prompt.go 的 QF1012 |
+| Top 1 文件/包 | **`src/internal/spsynth/prompt.go`** | 另一会话 untracked, 暂不动 |
+| 跑分耗时 | **~2s** | debt 清理 + ST1003 豁免后跑得最快 |
+| 测试日期 | 2026-05-06 | ratchet 二次往下 — ST1003 豁免落地 |
 
-### 6.1 Findings 分布 / Distribution (当前 51)
+### 6.1 Findings 分布 / Distribution (当前 1)
 
 ```
-staticcheck  : 51
-  ├── ST1003 : 50  ← 全部 opcodes.go: CM_*/SM_* 协议常量 (领域约定)
-  └── QF1012 : 1   (spsynth/prompt.go: 另一会话 untracked, 暂不动)
+staticcheck  : 1
+  └── QF1012 : 1   (spsynth/prompt.go: 另一会话 untracked, 等合流再清)
 ```
+
+**距离 baseline = 0 仅 1 步** — 等另一会话 spsynth/ 合流后顺手清, 即可触发 §5.4 条件 1 (任何新 finding 直接 PR red)。
 
 ### 6.1.1 已清真实债 (commit 37756e4 之后, ratchet 第一次往下)
 
@@ -134,26 +135,26 @@ staticcheck  : 51
 | 7 | `ecs/world_buff_test.go:56` | SA4006 | 删冗余 `snapshot = snapshot[:0]` (slice 头是局部变量, 不可能影响 store) |
 | 8 | `database/sp_get_char_id_by_name_test.go:23` | ST1003 | `charIdByNameCleanup` → `charIDByNameCleanup` (Go 命名 ID 大写) |
 
-### 6.2 ST1003 决策建议 / Decision Note
+### 6.2 ST1003 决策 ✅ 已落地 (2026-05-06)
 
-51/59 finding 集中在 `aionproto/opcodes.go` 的 `CM_*` / `SM_*` 协议常量上, 是 staticcheck 报"should not use ALL_CAPS in Go names" (ST1003)。
+50/51 finding (清债后) 集中在 `aionproto/opcodes.go` 的 `CM_*` / `SM_*` 协议常量上, 是 staticcheck 报"should not use ALL_CAPS in Go names" (ST1003)。
 
-**决策建议: 应豁免 ST1003 在 `aionproto` 包内的检查**, 因为:
+**决策: 豁免 ST1003 在 `aionproto` 包内的检查**, 理由:
 - AION 5.8 协议规范本身就用 `CM_AUTH_LOGIN` / `SM_LOGIN_OK` 这种命名, 跨语言 (C++/Rust/Java/Go) 都遵守
 - NCSoft 文档 / 反编译资料 / 1314 SP 全部用此命名风格
 - 改成 CamelCase (`CmAuthLogin`) 反而劣化"我在看协议代码"的领域识别
 - 这是典型的"通用 lint 规则与领域约定冲突"
 
-要落地豁免, 在 `.golangci.yml` `exclusions.rules` 加一条:
+落地的豁免规则 (在 `.golangci.yml` `linters.exclusions.rules` 中):
 
 ```yaml
 - linters:
     - staticcheck
   text: "ST1003"
-  path: src/internal/aionproto/
+  path: internal/aionproto/
 ```
 
-**当前不动** — 留给下个 round 评审决策, 这一节先把 baseline 锁成 ratchet 起点。
+豁免后 baseline 51 → 1, ratchet 二次往下成立。**注意范围**: 仅 `internal/aionproto/` 一个包, 其他包仍查 ST1003 — 万一未来在别处加 ALL_CAPS 的非协议常量, 仍会被抓。
 
 ### 6.3 真实债 / True Debt — 已清 8/9 ✅
 
@@ -163,9 +164,9 @@ staticcheck  : 51
 |------|----|------|------|----|
 | `spsynth/prompt.go` | 46 | QF1012 | `WriteString(fmt.Sprintf(...))` → `fmt.Fprintf` | **暂不动** — 另一会话 untracked, 等合流再清 |
 
-清完后 baseline = **51** (含 50 ST1003 领域噪音), 排除 ST1003 后 = **1**。
+清完 + ST1003 豁免后, baseline = **1**。spsynth 那处合流后清掉 = **0**。
 
-填完之后这一节就是 ratchet 的起点 — 后续 round 拿这个数对比"今天比上次多还是少"。
+ratchet 起点 = 1; 后续 round 拿这个数对比"今天比上次多还是少"。 baseline = 0 即可触发 §5.4 条件 1 (CI gate 收紧)。
 
 ---
 

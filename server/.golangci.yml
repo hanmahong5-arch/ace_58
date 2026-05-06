@@ -56,6 +56,14 @@ linters:
           - errcheck
           - staticcheck
         path: src/cmd/director/
+      # aionproto/opcodes.go 的 CM_*/SM_* 常量名是 NCSoft 5.8 协议规范, 跨
+      # C++/Rust/Java/Go 实现都遵守此命名 (是"我在看协议代码"的领域识别锚)。
+      # ST1003 "should not use ALL_CAPS in Go names" 在此包是误报, 其他包仍查。
+      # 决策日期 2026-05-06, 见 doc/lint.md §6.2。
+      - linters:
+          - staticcheck
+        text: "ST1003"
+        path: internal/aionproto/
     paths:
       - vendor
       - third_party$
