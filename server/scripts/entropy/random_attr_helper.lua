@@ -339,12 +339,19 @@ function entropy.roll_random_attrs(item_id, count, item_class, tier, race, seaso
     local n = math.min(cfg.slots, #candidates)
     for slot = 1, n do
         local state = derive_subseed(item_id, count, race, season_seed, slot)
-        local _, idx = weighted_pick(state, candidates)
+        -- PRNG decorrelation 修复 (2026-05-06 spike WARN-2 根因):
+        --   weighted_pick 内部 lcg_next(state)→r1 用 r1 选 idx; 必须接 s2 (新 state)
+        --   再 lcg_next(s2)→r2 算 value, 否则 idx 和 value 强耦合, 让某 attr 的
+        --   value 钳死在它的 weight 累积区间, 横跨负值的 attr (magicalSkillBoost
+        --   range [-55, 65], weight 累积 [0.272, 0.426)) 平均落到负值, 导致
+        --   season_pool ×1.15 反而 "更削弱" (negative * positive multiplier > 1
+        --   = more negative)。修后 idx/value 用独立 PRNG 序列。
+        local s2, idx = weighted_pick(state, candidates)
         if not idx then break end
 
         local chosen = candidates[idx]
-        -- 在 [min, max] 内用同一 PRNG 滚一个值
-        local _, r = lcg_next(state)
+        -- 在 [min, max] 内用 s2 (decorrelated) 滚一个值
+        local _, r = lcg_next(s2)
         local span = chosen.max - chosen.min
         local value = chosen.min + math.floor(r * (span + 1))
         if value > chosen.max then value = chosen.max end  -- r==1.0 边界保护
