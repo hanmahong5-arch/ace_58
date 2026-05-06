@@ -3,7 +3,7 @@
 > **适用场景**：上线后值班 / 服务异常 / 中间件故障  
 > **目标**：3am page 时，5 分钟内定位 + 处置  
 > **每条 entry 必含**：症状 → 诊断命令 → 处置步骤 → 验证恢复  
-> **配套文档**：[`./architecture.md`](./architecture.md) · [`./dev-boot-checklist.md`](./dev-boot-checklist.md) · [`./observability.md`](./observability.md) · [`./incident-response.md`](./incident-response.md)
+> **配套文档**：[`./architecture.md`](./architecture.md) · [`./dev-boot-checklist.md`](./dev-boot-checklist.md) · [`./observability.md`](./observability.md) · [`./admin-api.md`](./admin-api.md) · [`./loadgen.md`](./loadgen.md) · [`./anti-cheat.md`](./anti-cheat.md) · [`./incident-response.md`](./incident-response.md)
 
 ---
 

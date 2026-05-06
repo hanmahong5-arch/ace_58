@@ -198,3 +198,150 @@ curl -s 127.0.0.1:9090/healthz  # → ok
 - **OpenTelemetry trace 接入** — 跨 5 进程的请求链路追踪；与 Prometheus 互补，不替代。
 
 - **客户端侧指标** — launcher / version-dll 上报需要单独通道（不能直连 Prometheus），考虑通过 admin REST 中转。
+
+---
+
+## 日志管道：slog → NATS → logd → ClickHouse（R5 swarm 实装）
+
+> 上一节讲指标（Prometheus pull），本节讲日志（NATS push + logd 批量入库）。
+> 二者解耦：指标侧抓不到时不影响日志，反之亦然。
+
+### 端到端拓扑
+
+```
+gateway/world/chat/admin   ─┐
+   slog.Logger              │  Publish(subject=log.<service>, JSON line)
+   └─ NATSHandler ──────────┼──▶  NATS JetStream (stream=LOGS, MaxAge=1h, MaxBytes=512MB)
+                            │       ▲
+                            │       │ ExplicitAck + DeliverNew
+                            │       │
+   logd ◀──────────────────┘       │
+   └─ jetstream.Consume ────────────┘
+       └─ batcher (1000 条 OR 5s) ──▶  ClickHouse log_events (TTL 30d)
+```
+
+### NATSHandler（`internal/telemetry/sloghandler.go`）
+
+每个 5 进程把自己的 `slog.Logger` 封一层 `NATSHandler`，特性：
+
+- **异步**：`slog.Record` 序列化后入 chan，worker goroutine 单独 Publish。**热路径不阻塞**。
+- **背压安全**：chan 满时直接丢弃 + 自增 `aion_slog_dropped_total`。日志不能把游戏 tick 拖死。
+- **递归保护**：handler 内部错误用 `fmt.Fprintln(os.Stderr)`，**绝不能** 调 `slog.Default()`（自己给自己发消息死循环）。
+- **Group/WithAttrs 语义**：实现 `slog.Handler.WithAttrs/WithGroup` — 调用 `logger.With("k", v)` / `logger.WithGroup("conn")` 后产生的 child handler 在序列化时把 group 路径还原成嵌套 JSON。
+
+接入示例（`cmd/world/main.go` 还未注入，预留位）：
+
+```go
+import "aion58/internal/telemetry"
+
+pub := nc  // *ipc.Client，本身就是 Publisher（Publish(subject, []byte) error）
+nh := telemetry.NewNATSHandler(pub, telemetry.NATSHandlerConfig{
+    Service:    "world",
+    BufferSize: 4096,
+    Workers:    2,
+    Level:      slog.LevelInfo,
+    AddSource:  true,
+})
+slog.SetDefault(slog.New(nh))
+```
+
+> ⚠️ **R5 swarm 截止时未注入到 gateway/world/chat/admin** — 见 `project_engineering_sweep.md` 第五轮"5 lines waiting for merge" 第 1 项。
+> 各进程的 main.go 改造由另一会话路径同步合流后再做（路径互斥避免 git 撞）。
+
+### logd 服务（`cmd/logd/`）
+
+**职责**：JetStream durable consumer + ClickHouse batch writer + 优雅 shutdown。
+
+| 配置项 | 环境变量 | 默认值 |
+|--------|---------|--------|
+| NATS URL | `NATS_URL` | `nats://127.0.0.1:4222` |
+| ClickHouse DSN | `CLICKHOUSE_DSN` | `clickhouse://default@127.0.0.1:9000/aion` |
+| Batch 行数阈值 | `LOGD_BATCH_ROWS` | `1000` |
+| Batch 时间阈值 | `LOGD_BATCH_AGE` | `5s`（`time.ParseDuration`） |
+| Durable 名 | `LOGD_DURABLE` | `logd-main`（多实例必须改） |
+
+**Stream 配置**（`ensureStream` 自动 Create/Update）：
+
+- `Subjects: ["log.>"]`
+- `Retention: LimitsPolicy`（按时间 / 字节容量丢）
+- `MaxAge: 1h` · `MaxBytes: 512 MB` · `Storage: FileStorage`
+- `Discard: DiscardOld`（满了丢老的，**不阻塞 publisher**）
+
+**Consumer 配置**：
+
+- `AckPolicy: ExplicitAck` — 入 batcher 成功才 Ack；失败 Nak 重投；JSON 烂 Term 永久丢。
+- `DeliverPolicy: DeliverNewPolicy` — logd 重启从新消息开始，不重放历史（历史已经在 ClickHouse 里）。
+- `MaxAckPending: batchRows × 2` — 给 batcher 一倍空间。
+
+**批量落 ClickHouse**：
+
+- 触发条件：`#rows >= 1000` **OR** `now - first_add >= 5s`，**任一先到**。
+- Ticker 频率 = `maxAge / 2`（最少 100ms），保证最坏 1.5×maxAge 内一定 flush。
+- 失败重投：`PrepareBatch` / `Append` / `Send` 任一报错，整 batch 走 Nak（NATS 重投）。
+- Shutdown：SIGINT/SIGTERM 后给 10s 兜底 flush 时间。
+
+### ClickHouse 表（`sql/clickhouse/001_log_events.sql`）
+
+```sql
+CREATE TABLE log_events (
+    ts       DateTime64(3),
+    service  LowCardinality(String),
+    level    LowCardinality(String),
+    msg      String,
+    attrs    String  -- JSON-encoded; query via JSONExtract*
+)
+ENGINE = MergeTree
+PARTITION BY toYYYYMM(ts)
+ORDER BY (service, level, ts)
+TTL toDateTime(ts) + INTERVAL 30 DAY;
+```
+
+**为什么 `attrs` 用 String 不用 JSON 类型**：跨 ClickHouse 版本兼容（22→24 实现来回改过）；
+查询走 `JSONExtractString(attrs, 'char_id')` 即可，对低频查询足够。
+
+**为什么 `ORDER BY (service, level, ts)`**：95% 的查询是"某 service 在某时段的 ERROR/WARN"，
+这个排序让 part skip 力度最大。
+
+**TTL 30 天**：私服规模无合规留存需求，自动 drop 旧 part。
+
+### 常用查询模板
+
+```sql
+-- 最近 1h 的所有 ERROR
+SELECT ts, service, msg, attrs
+FROM log_events
+WHERE level = 'ERROR' AND ts > now() - INTERVAL 1 HOUR
+ORDER BY ts DESC LIMIT 100;
+
+-- 某玩家 char_id 的全链路
+SELECT ts, service, level, msg
+FROM log_events
+WHERE JSONExtractString(attrs, 'char_id') = '12345'
+  AND ts > now() - INTERVAL 1 DAY
+ORDER BY ts;
+
+-- gateway 错误率（按分钟）
+SELECT toStartOfMinute(ts) AS min,
+       countIf(level = 'ERROR') AS errs,
+       count() AS total
+FROM log_events
+WHERE service = 'gateway' AND ts > now() - INTERVAL 1 HOUR
+GROUP BY min ORDER BY min;
+```
+
+### 部署前 smoke 清单
+
+R5 swarm 仅过 `fakeWriter` 单测（CI 不依赖 ClickHouse 容器）。生产前必须：
+
+1. 起 `clickhouse:24-alpine` 容器，建 `aion` 数据库 + 跑 `001_log_events.sql`
+2. 起 NATS（已在 `make boot`）
+3. 起 logd：`./logd`（默认环境变量都对）
+4. 任一进程 `slog.Info("smoke", "k", "v")` 后：
+   - `clickhouse-client -q "SELECT count() FROM aion.log_events"` 应增长
+   - `aion_slog_dropped_total` 应保持 0（chan 没满）
+
+### 已知限制
+
+- **gateway/world/chat/admin 还没注入 NATSHandler**（路径互斥未合流）
+- **logd ClickHouse 写路径只过 fakeWriter**（无真容器冒烟）
+- **跨进程 trace_id**：未实装；OpenTelemetry 集成是后续工作
