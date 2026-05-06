@@ -2,6 +2,7 @@ package jobq
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"sync"
 	"testing"
@@ -139,6 +140,84 @@ func TestDefaultAsynqMuxWithInvoker(t *testing.T) {
 			t.Errorf("%s: expected Lua fn %s, got %s", k.kind, k.wantFn, inv.lastFn())
 		}
 	}
+}
+
+// TestSeasonPoolSwap covers the STORY-21 cron handler end-to-end:
+//   1. payload encode/decode round-trip preserves the int64 season_seed
+//   2. mux dispatch forwards LuaFnSeasonPoolSwap with the seed as arg[0]
+//   3. nil-invoker branch returns nil (dev-environment passthrough)
+func TestSeasonPoolSwap(t *testing.T) {
+	// Case 1: round-trip — encode {"season_seed":N} then decode == N.
+	// Covers both the canonical cron payload shape and the empty/malformed
+	// fall-through (decodeSeasonSeed → 0).
+	t.Run("payload round-trip", func(t *testing.T) {
+		cases := []struct {
+			name string
+			in   []byte
+			want int64
+		}{
+			{"empty", nil, 0},
+			{"malformed", []byte(`{not-json`), 0},
+			{"missing field", []byte(`{}`), 0},
+			{"valid zero", []byte(`{"season_seed":0}`), 0},
+			{"valid mid", []byte(`{"season_seed":2934}`), 2934},
+			{"valid max-uint32", []byte(`{"season_seed":4294967295}`), 4294967295},
+		}
+		for _, tc := range cases {
+			if got := decodeSeasonSeed(tc.in); got != tc.want {
+				t.Errorf("%s: got %d want %d", tc.name, got, tc.want)
+			}
+		}
+
+		// Sanity: the encoder a future producer would use also round-trips.
+		raw, err := json.Marshal(struct {
+			SeasonSeed int64 `json:"season_seed"`
+		}{SeasonSeed: 2934})
+		if err != nil {
+			t.Fatalf("marshal: %v", err)
+		}
+		if got := decodeSeasonSeed(raw); got != 2934 {
+			t.Errorf("encode-then-decode: got %d want 2934", got)
+		}
+	})
+
+	// Case 2: handler forwards the decoded seed verbatim into Lua via
+	// LuaFnSeasonPoolSwap. Asserts both the function name and the single
+	// argument so a future refactor that re-orders arguments fails loudly.
+	t.Run("dispatch forwards seed", func(t *testing.T) {
+		inv := &recordingInvoker{}
+		mux := DefaultAsynqMux(nil, inv)
+		task := asynq.NewTask(KindSeasonPoolSwap, []byte(`{"season_seed":2934}`))
+		if err := mux.ProcessTask(context.Background(), task); err != nil {
+			t.Fatalf("ProcessTask: %v", err)
+		}
+		if inv.lastFn() != LuaFnSeasonPoolSwap {
+			t.Errorf("expected fn=%s, got %s", LuaFnSeasonPoolSwap, inv.lastFn())
+		}
+		inv.mu.Lock()
+		args := inv.calls[len(inv.calls)-1].args
+		inv.mu.Unlock()
+		if len(args) != 1 {
+			t.Fatalf("expected 1 arg, got %d", len(args))
+		}
+		seed, ok := args[0].(int64)
+		if !ok {
+			t.Fatalf("arg[0] type: want int64, got %T", args[0])
+		}
+		if seed != 2934 {
+			t.Errorf("arg[0] value: want 2934, got %d", seed)
+		}
+	})
+
+	// Case 3: nil invoker = dev-environment passthrough; handler must NOT
+	// panic and must return nil so asynq marks the task processed.
+	t.Run("nil invoker passthrough", func(t *testing.T) {
+		mux := DefaultAsynqMux(nil, nil)
+		task := asynq.NewTask(KindSeasonPoolSwap, []byte(`{"season_seed":1}`))
+		if err := mux.ProcessTask(context.Background(), task); err != nil {
+			t.Errorf("nil-invoker dispatch: want nil, got %v", err)
+		}
+	})
 }
 
 // TestEnqueueKindInNilSafe covers both the delay-≤-0 fall-through and the

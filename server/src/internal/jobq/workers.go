@@ -40,6 +40,16 @@ const (
 	// rejected as a mismatch instead of tearing down an unrelated new run.
 	// See plan-critic round 2 issue #1 in the S-19 plan.
 	KindInstanceExpire = "aion58.instance.expire"
+
+	// KindSeasonPoolSwap is a recurring cron task that rotates the global
+	// entropy season_pool (5 themed pools defined in scripts/entropy/season_pool.lua).
+	// Production schedule is "0 6 * * 1" (every Monday 06:00 server-local time)
+	// — a low-traffic window aligned with the ISO-week boundary the
+	// `entropy.season_seed()` derivation already uses. The payload carries an
+	// explicit season_seed so the cron tick is deterministic / replayable
+	// (debugging + offline migration) rather than reading os.time() at
+	// firing-time. STORY-21.
+	KindSeasonPoolSwap = "aion58.cron.season_pool_swap"
 )
 
 // Lua global function names invoked by workers. Keep these in sync with
@@ -52,6 +62,7 @@ const (
 	LuaFnPvpAPBatch        = "on_pvp_ap_batch"
 	LuaFnWorldBossSpawn    = "on_world_boss_spawn"
 	LuaFnInstanceExpire    = "on_instance_expire"
+	LuaFnSeasonPoolSwap    = "on_season_pool_swap"
 )
 
 // --- River workers -------------------------------------------------------
@@ -170,6 +181,23 @@ func decodeInstanceExpire(payload []byte) (runID int64, createdAtUnix int64) {
 	return obj.RunID, obj.CreatedAtUnix
 }
 
+// decodeSeasonSeed pulls the season_seed integer out of a JSON payload
+// scheduled with KindSeasonPoolSwap. An empty / malformed payload returns 0
+// — the Lua handler explicitly validates the value, so feeding it 0 produces
+// a deterministic "first pool" rather than a panic. STORY-21.
+func decodeSeasonSeed(payload []byte) int64 {
+	if len(payload) == 0 {
+		return 0
+	}
+	var obj struct {
+		SeasonSeed int64 `json:"season_seed"`
+	}
+	if err := json.Unmarshal(payload, &obj); err != nil {
+		return 0
+	}
+	return obj.SeasonSeed
+}
+
 // DefaultAsynqMux builds the asynq ServeMux with the default World Engine
 // handlers. A nil logger is replaced with slog.Default(); a nil invoker
 // causes handlers to log-and-return-nil without dispatching into Lua so
@@ -223,6 +251,16 @@ func DefaultAsynqMux(logger *slog.Logger, invoker LuaInvoker) *asynq.ServeMux {
 			return nil
 		}
 		return invoker.CallGlobal(LuaFnInstanceExpire, runID, createdAt)
+	})
+
+	mux.HandleFunc(KindSeasonPoolSwap, func(ctx context.Context, t *asynq.Task) error {
+		seed := decodeSeasonSeed(t.Payload())
+		logger.Info("jobq: season pool swap tick",
+			"season_seed", seed, "payload_len", len(t.Payload()))
+		if invoker == nil {
+			return nil
+		}
+		return invoker.CallGlobal(LuaFnSeasonPoolSwap, seed)
 	})
 
 	return mux
