@@ -3,14 +3,17 @@
 // REST API + Web dashboard for GM operations, player management,
 // server monitoring. Replaces NCSoft's ASP.NET GM tool.
 //
-// 当前阶段：REST 骨架已就位（chi v5 + JWT v5 + token-bucket rate limit）。
-// 实际 GM endpoint（玩家查询、封禁、奖励发放、服务器监控）由 W1 swarm 扩充。
-//
-// 设计要点：
+// 架构（W1 swarm 实装）：
+//   - chi v5 路由 + JWT v5 鉴权 + 自写 token-bucket RateLimit
+//   - 三角色硬编码（superadmin/gm/readonly），TODO 迁 PG admin_users
 //   - 仅监听 127.0.0.1（绝不直暴露公网，外网走反代+TLS）
-//   - JWT secret 走 TOML 配置，启动期校验长度 ≥32B
+//   - JWT secret 走环境变量 AION_ADMIN_JWT_SECRET，启动期校验长度 ≥32B
 //   - middleware 顺序：Recoverer → RequestID → Logger → CORS → RateLimit → Auth → handler
-//   - 三角色硬编码：superadmin / gm / readonly（≤10 GM 规模 RBAC 框架是过度设计）
+//
+// 运行：
+//
+//	export AION_ADMIN_JWT_SECRET="$(openssl rand -hex 32)"   # 64 hex = 32B
+//	./admin
 package main
 
 import (
@@ -22,33 +25,42 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/go-chi/chi/v5"
-	"github.com/go-chi/chi/v5/middleware"
-	_ "github.com/golang-jwt/jwt/v5" // anchored: used by auth middleware (W1)
+	"golang.org/x/time/rate"
 )
 
+// listenAddr 是 admin 监听地址；硬绑 127.0.0.1 拒绝外网直连。
+const listenAddr = "127.0.0.1:8080"
+
 func main() {
-	slog.SetDefault(slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{
-		Level: slog.LevelInfo,
-	})))
+	logger := slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelInfo}))
+	slog.SetDefault(logger)
 
-	r := chi.NewRouter()
-	r.Use(middleware.Recoverer)
-	r.Use(middleware.RequestID)
-	r.Use(middleware.Logger)
+	auth, err := loadAuthStore()
+	if err != nil {
+		// 启动期硬错：JWT 密钥配错就 fatal，远胜于"运行期偶发 401"误诊。
+		logger.Error("admin: 鉴权初始化失败", "err", err)
+		os.Exit(1)
+	}
 
-	// Health check — 公开，无 rate limit / auth（K8s/runbook probe 用）
-	r.Get("/healthz", func(w http.ResponseWriter, _ *http.Request) {
-		w.WriteHeader(http.StatusOK)
-		_, _ = w.Write([]byte(`{"status":"ok"}`))
+	// rate limiter 的 ctx 与进程 ctx 一致；进程退出时 GC goroutine 自动收线。
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	// 登录桶：每 IP 每分钟 5 次（暴力破解防御档），burst=5 允许偶发并发尝试。
+	loginLim := newRateLimiter(ctx, rate.Every(time.Minute/5), 5)
+	// API 桶：每 sub 每秒 1 次，burst=60 — 1 分钟内允许 60 次突发后回到 1Hz 稳态。
+	apiLim := newRateLimiter(ctx, rate.Every(time.Second), 60)
+
+	handler := newRouter(routerDeps{
+		auth:       auth,
+		loginLimit: loginLim,
+		apiLimit:   apiLim,
+		logger:     logger,
 	})
 
-	// 占位：/metrics 由 W1 接 prometheus.Handler；/api/v1/* 由 W1 实装
-	// 暂时保留 admin 进程启动语义不变（健康检查通过 → 5 进程拓扑健全）
-
 	srv := &http.Server{
-		Addr:              "127.0.0.1:8080",
-		Handler:           r,
+		Addr:              listenAddr,
+		Handler:           handler,
 		ReadHeaderTimeout: 5 * time.Second,
 		ReadTimeout:       30 * time.Second,
 		WriteTimeout:      30 * time.Second,
@@ -56,9 +68,9 @@ func main() {
 	}
 
 	go func() {
-		slog.Info("admin: REST listening", "addr", srv.Addr)
+		logger.Info("admin: REST listening", "addr", srv.Addr)
 		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			slog.Error("admin: ListenAndServe", "err", err)
+			logger.Error("admin: ListenAndServe", "err", err)
 		}
 	}()
 
@@ -66,8 +78,8 @@ func main() {
 	signal.Notify(ch, syscall.SIGTERM, syscall.SIGINT)
 	<-ch
 
-	slog.Info("admin: shutting down")
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
-	_ = srv.Shutdown(ctx)
+	logger.Info("admin: shutting down")
+	shutdownCtx, shutdownCancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer shutdownCancel()
+	_ = srv.Shutdown(shutdownCtx)
 }
