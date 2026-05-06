@@ -94,8 +94,23 @@ end
 --   返回 ok(boolean), reason(string|nil)
 --   reason: "speed_hack" | nil
 -- 第一次调用对该 eid（或 reset 后）只刷 baseline，直接 OK。
+--
+-- base_speed 解析顺序（caller override > ECS stat > 兜底常量）：
+--   1) caller 显式传入 → 直接使用（测试 / 特殊载具调用方）
+--   2) ECS 注入 stat "base_speed"（飞行/坐骑切状态时由 flight/mount 写入） → 使用
+--   3) 都没有 → DEFAULT_BASE_SPEED 常量（11.0 m/s 跑步+骑乘保守值）
+-- 注意：Go 的 entity.get_stat binding 在 stat 缺失时返回 0（非 nil），
+--      故用 > 0 守卫排除 0 值，避免静默 0 m/s 把所有移动判成 speed_hack。
 anti_cheat.check_move = function(eid, new_x, new_y, new_z, current_tick, base_speed)
-    base_speed = base_speed or DEFAULT_BASE_SPEED
+    if not base_speed then
+        local stat_speed = (entity and entity.get_stat)
+            and entity.get_stat(eid, "base_speed") or 0
+        if stat_speed > 0 then
+            base_speed = stat_speed
+        else
+            base_speed = DEFAULT_BASE_SPEED
+        end
+    end
     local last = _last_pos[eid]
     -- 首次或 reset 后：写 baseline，免判定。
     if not last then

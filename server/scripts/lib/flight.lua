@@ -68,13 +68,28 @@ flight.broadcast_state = function(eid, state)
     end
 end
 
+-- Movement speed (m/s) per flight state. Read by anti_cheat.check_move via
+-- ECS stat "base_speed". 11.0 is the保守 ground/mount cap; FLY at 15.0 mirrors
+-- AION 5.8 wing-flight authoritative speed (glide reuses ground cap because
+-- glide is momentum-driven, no powered acceleration).
+local SPEED_GROUND = 11.0
+local SPEED_FLY    = 15.0
+
 -- --------------------------------------------------------
 -- flight.set_state(eid, new_state)
 -- Mutates ECS "flight_state" and broadcasts the change.
+-- Also injects per-state ECS stat "base_speed" so anti_cheat.check_move
+-- reads the correct cap (15 m/s while FLY, 11 m/s on ground/glide).
 -- Does NOT consume FP — use flight.takeoff / flight.land for full transitions.
 -- --------------------------------------------------------
 flight.set_state = function(eid, new_state)
     entity.set_stat(eid, "flight_state", new_state)
+    -- 速度上限随状态切换：powered FLY 拔高到 15；GROUND/GLIDE 复位到 11。
+    if new_state == flight.STATE_FLY then
+        entity.set_stat(eid, "base_speed", SPEED_FLY)
+    else
+        entity.set_stat(eid, "base_speed", SPEED_GROUND)
+    end
     flight.broadcast_state(eid, new_state)
 end
 
