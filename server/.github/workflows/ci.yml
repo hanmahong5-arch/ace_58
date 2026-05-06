@@ -42,8 +42,12 @@ permissions:
 env:
   GO_VERSION: '1.25.7'
   WORK_DIR: ACE_5.8/server/src
-  # 显式列出可编译的 cmd 目标，把 WIP 的 spike/director 隔离在外
-  STABLE_CMDS: ./cmd/gateway ./cmd/world ./cmd/chat ./cmd/logd ./cmd/admin ./cmd/tinyclient
+  # 显式列出可编译的 cmd 目标，把 WIP 的 spike/director 隔离在外。
+  # 2026-05-06 R5 swarm 收口加入 ./cmd/loadgen（有 12 测试 + 自身 metrics endpoint）。
+  STABLE_CMDS: ./cmd/gateway ./cmd/world ./cmd/chat ./cmd/logd ./cmd/admin ./cmd/tinyclient ./cmd/loadgen
+  # 含测试的 cmd 子集 — 用于 test step 显式纳入回归门。
+  # gateway/world/chat 是 main 无测试，跑了也是 "[no test files]"，不阻塞但浪费 race 编译时间。
+  TESTABLE_CMDS: ./cmd/admin ./cmd/logd ./cmd/loadgen ./cmd/tinyclient
 
 jobs:
   # -----------------------------------------------------------------
@@ -68,20 +72,22 @@ jobs:
         working-directory: ${{ env.WORK_DIR }}
         run: go mod download
 
-      - name: go vet (internal only)
+      - name: go vet (internal + stable cmds)
         working-directory: ${{ env.WORK_DIR }}
-        run: go vet ./internal/...
+        run: go vet ./internal/... ${{ env.STABLE_CMDS }}
 
       # 显式列出每个稳定的 cmd 目标 — 不要 ./cmd/...，那会带上 spike/director（WIP）
-      - name: go build (internal + 6 stable cmds)
+      - name: go build (internal + 7 stable cmds)
         working-directory: ${{ env.WORK_DIR }}
         run: go build ./internal/... ${{ env.STABLE_CMDS }}
 
       # -race 需要 cgo 在 Linux runner 上是默认开的；不显式写 CGO_ENABLED=1
+      # cmd test 子集 (admin/logd/loadgen/tinyclient) 在 R5 swarm 后纳入回归门，
+      # 之前 doc/ci.md §2 "./cmd 下没有测试文件" 断言已不再成立。
       - name: go test (race + coverage)
         working-directory: ${{ env.WORK_DIR }}
         run: |
-          go test ./internal/... \
+          go test ./internal/... ${{ env.TESTABLE_CMDS }} \
             -count=1 \
             -race \
             -timeout=5m \

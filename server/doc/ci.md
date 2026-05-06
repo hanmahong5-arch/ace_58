@@ -19,29 +19,40 @@ CI 是 **回归门** + **绿色信号源**：
 
 ## 2. 为什么作用域是 `./internal/...` / Scope Rationale
 
-当前 `server/src/cmd/` 下有 8 个目录：
+当前 `server/src/cmd/` 下有 9 个目录：
 
-| cmd | 状态 | 入 CI |
-|-----|------|------|
-| `gateway` | 稳定（5 服务进程之一） | 是 |
-| `world` | 稳定 | 是 |
-| `chat` | 稳定（stub） | 是 |
-| `logd` | 稳定（stub） | 是 |
-| `admin` | 稳定（stub） | 是 |
-| `tinyclient` | 稳定（端到端 smoke 工具） | 是 |
-| **`spike`** | **WIP** — `int32` overflow in `encodeLootItemlist`，编译失败 | **否** |
-| **`director`** | **WIP** — 另一 round 的 in-flight，行为未冻结 | **否** |
+| cmd | 状态 | build | test |
+|-----|------|-------|------|
+| `gateway` | 稳定（5 服务进程之一） | 是 | 无测试文件 |
+| `world` | 稳定 | 是 | 无测试文件 |
+| `chat` | 稳定（stub） | 是 | 无测试文件 |
+| `logd` | 稳定（R5 实装：NATS→ClickHouse pipeline） | 是 | **是 (7)** |
+| `admin` | 稳定（R5 实装：chi REST + JWT + rate limit） | 是 | **是 (25)** |
+| `tinyclient` | 稳定（端到端 smoke 工具） | 是 | 是 (1+) |
+| `loadgen` | 稳定（R5 新增：协议级压测，与 tinyclient 互补） | 是 | **是 (12)** |
+| **`spike`** | **WIP** — `int32` overflow in `encodeLootItemlist`，编译失败 | **否** | — |
+| **`director`** | **WIP** — 另一 round 的 in-flight，行为未冻结 | **否** | — |
 
-`./cmd/...` 通配会把 spike/director 拉进来一起红。CI 因此显式列出 6 个稳定 cmd 目标：
+`./cmd/...` 通配会把 spike/director 拉进来一起红。CI 因此显式列出 7 个稳定 cmd 目标：
 
 ```bash
 go build ./internal/... \
-  ./cmd/gateway ./cmd/world ./cmd/chat ./cmd/logd ./cmd/admin ./cmd/tinyclient
+  ./cmd/gateway ./cmd/world ./cmd/chat ./cmd/logd ./cmd/admin ./cmd/tinyclient ./cmd/loadgen
 ```
 
-**测试同理**：`go test ./internal/...` 只跑库代码测试，`./cmd` 下没有测试文件（cmd/* 是 main，靠 boot-test 在本地验证），所以 internal 范围已经覆盖全部 377 个 Go 测试。
+**测试**（**2026-05-06 修订**）：
+原断言"./cmd 下没有测试文件"在 R5 swarm 后已**不再成立**。当前 cmd 测试分布:
 
-WIP 的 spike/director 修好之后，把目录加回 `STABLE_CMDS` 即可恢复全量门。
+```bash
+go test ./internal/... \
+  ./cmd/admin ./cmd/logd ./cmd/loadgen ./cmd/tinyclient \
+  -race -count=1 -timeout=5m -coverprofile=coverage.out
+```
+
+gateway/world/chat 是 main 无测试，CI 不显式纳入 test step（跑了也是 `[no test files]`，
+浪费 race 编译时间）。覆盖率以 `internal/...` 为主，cmd 子集是回归保护层。
+
+WIP 的 spike/director 修好之后，把目录加回 `STABLE_CMDS`/`TESTABLE_CMDS` 即可恢复全量门。
 
 ---
 
