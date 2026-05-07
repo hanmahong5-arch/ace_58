@@ -83,7 +83,7 @@ Four PostgreSQL databases, all on `127.0.0.1` (NEVER expose to internet):
 
 **Golden Rule**: NEVER write SQL INSERT/UPDATE/DELETE in Go or Lua. Call the existing stored procedures.
 
-**Migration progress** (snapshot 2026-05-07): **240 / 1059 SPs ported** (22.7%) across 23 `feat(database): SP batch N` commits and 46 business domains; Q1 milestone (50 SPs) achieved at 130%+. Latest commit `0051232` (batch 23). Per-batch ledger and "how to append" protocol live in [`doc/migration/STATUS.md`](./doc/migration/STATUS.md).
+**Migration progress** (snapshot 2026-05-07 03:00 EST): **262 / 1059 SPs ported** (24.7%) across 26 `feat(database): SP batch N` commits + 1 auction closure + 1 P1 sweep, covering 54 business domains; Q1 milestone (50 SPs) achieved at 524%+. Latest commit `fdcb1aa` (auction closure, 00269-00275). Per-batch ledger and "how to append" protocol live in [`doc/migration/STATUS.md`](./doc/migration/STATUS.md).
 
 ## Configuration
 

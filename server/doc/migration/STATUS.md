@@ -1,6 +1,6 @@
 # SP Migration Status — AionCore 5.8
 
-> **Last Updated**: 2026-05-07
+> **Last Updated**: 2026-05-07 (post-swarm 03:00 EST)
 > **Source of Truth**: this file tracks every PG SP batch landed on `origin/main`.
 > **Update protocol**: append a new row whenever a new `feat(database): SP batch N` commit ships.
 
@@ -10,11 +10,11 @@
 
 | Metric | Value |
 |--------|-------|
-| **Ported SPs** | **240 / 1059** (22.7%) |
-| **Q1 milestone (50 SPs)** | **超 130%** (achieved at batch 10, commit `de97774`) |
-| **Batches landed** | 23 (batch 1 … batch 23) |
-| **Domains covered** | 46 unique business domains |
-| **Latest batch** | `0051232` — batch 23 (pvp_env + char_exps_reward) |
+| **Ported SPs** | **262 / 1059** (24.7%) |
+| **Q1 milestone (50 SPs)** | **超 524%** (achieved at batch 10, commit `de97774`) |
+| **Batches landed** | 26 + 1 auction closure + 1 P1 sweep |
+| **Domains covered** | 54 unique business domains |
+| **Latest commit** | `fdcb1aa` — auction closure (00269-00275, 7 SPs) |
 
 Total target follows `aion_world_live` SP count (~1063); 1059 is the trimmed deduplicated working set.
 
@@ -47,16 +47,22 @@ Total target follows `aion_world_live` SP count (~1063); 1059 is the trimmed ded
 | 21    | 00239–00243 | bag/warehouse growth_tier_pay_stat                   | `cdeb2e5` | 5         | 5          | +1373      |
 | 22    | 00244–00248 | item_cooltime + combine_cooltime + skill_skin + block_purge + punishment | `10c5fd1` | 5 | 5 | +1859 |
 | 23    | 00249–00253 | pvp_env + char_exps_reward                           | `0051232` | 5         | 2          | +1331      |
+| 24    | 00254–00258 | char_title + virtual_auth + access_allow_account     | `bd9e9a6` | 5         | 2          | +1256      |
+| 25    | 00259–00263 | auction_betting + house_field                        | `eaf5142` | 5         | 2          | +2017      |
+| 26    | 00264–00268 | infinity_season_record + spawn_area_rank             | `9c83eb2` | 5         | 2          | +1374      |
+| 27\*\* | 00269–00275 | auction closure (lib hookup, 7 SPs)                  | `fdcb1aa` | 7         | 1          | +2234      |
+| —     | (P1 sweep)  | re-fix 00210/00250/00192 (idempotency + bug-pin)     | `e0f86c1` | 3 edits   | 0          | small      |
 
 \* batch 10 PG integration tests followed up in `9fea318` (test only commit).
+\*\* batch 27 = auction closure (7 SPs, not 5) — matched `scripts/lib/auction.lua` shape exactly: insert_listing/insert_bid/get_by_id/get_search/cancel/settle/count_active.
 
-Test-coverage soft spots: batch 19 (2/5), batch 20 (0/5), batch 23 (2/5) ship SQL with partial Go integration tests. Tracked as backfill items, not blocking new batches.
+Test-coverage soft spots: batch 19 (2/5), batch 20 (0/5), batch 23 (2/5), batch 24-26 (2/5 each) ship SQL with partial Go integration tests. Tracked as backfill items, not blocking new batches.
 
 Pre-batch baseline (round 9–10 era, commits `5f37fb2` → `0ac9b4f`): an additional **~125 SPs** ported during character-lifecycle / instance-dungeon / mail / warehouse / bind-point work — together with the 115 batched SPs above this gives the 240 / 1059 headline. (The 125 figure is derived from `240 − 115`; precise commit-level audit deferred to next sweep.)
 
 ---
 
-## 46 Domains Touched
+## 54 Domains Touched
 
 instance/dungeon, friend/offline, settings, comment, macro, buddy, bm_pack,
 quest_acquired, legion_announce, petition, house_object, promotion_cooltime,
@@ -65,7 +71,11 @@ quickbar, custom_animation, bingo, challenge_task, char_rank, stigma,
 abnormal_status, item_seal, enslave_stone, wardrobe, reform, recipe-write,
 town, title-write, auction_filter, auction_grace, captcha, error_ignore,
 familiar, growth_tier_pay_stat, item_cooltime, combine_cooltime, skill_skin,
-block_purge, punishment, pvp_env, char_exps_reward.
+block_purge, punishment, pvp_env, char_exps_reward,
+**char_title (write_attr / update / read)**, **virtual_auth_account**,
+**access_allow_account**, **auction_betting (read / delete)**,
+**house_field (put / set / remove)**, **infinity_season_record**,
+**spawn_area_rank (list / set / delete)**, **auction_closure (lib hookup)**.
 
 ---
 
