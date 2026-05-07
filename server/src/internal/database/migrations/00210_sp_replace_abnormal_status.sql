@@ -48,10 +48,24 @@
 -- skill_id) lookup. We add an explicit named constraint anyway so the
 -- ON CONFLICT clause reads with intent and does not depend on PK column
 -- ordering aliasing.
+--
+-- Idempotency: PG does not support ALTER TABLE ADD CONSTRAINT IF NOT EXISTS,
+-- so wrap in DO ... pg_constraint guard. Re-running this migration on a DB
+-- that already has the constraint is a no-op; without the guard it raises
+-- duplicate_object and breaks goose down/up cycles.
 -- ====================================================================
-ALTER TABLE user_abnormal_status
-    ADD CONSTRAINT user_abnormal_status_char_skill_uniq
-    UNIQUE (char_id, skill_id);
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM pg_constraint
+        WHERE conname = 'user_abnormal_status_char_skill_uniq'
+    ) THEN
+        ALTER TABLE user_abnormal_status
+            ADD CONSTRAINT user_abnormal_status_char_skill_uniq
+            UNIQUE (char_id, skill_id);
+    END IF;
+END
+$$;
 -- +goose StatementEnd
 
 -- +goose StatementBegin

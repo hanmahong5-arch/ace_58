@@ -29,10 +29,14 @@
 --     one-shot data clean. Don't unilaterally diverge here — every read
 --     path was written assuming the fan-out shape.
 --   * `(updlock)` hint is T-SQL row-lock-during-read; PG analog is
---     `SELECT ... FOR UPDATE`. We replicate via an explicit advisory
---     check-then-write, but functionally PG's READ COMMITTED + the
---     SELECT-EXISTS pattern races identically to the T-SQL version
---     (NCSoft lived with that race). Acceptable parity.
+--     `SELECT ... FOR UPDATE`. PG's planner can short-circuit FOR UPDATE
+--     inside an EXISTS sub-query (the row need not be fetched to satisfy
+--     EXISTS), which would weaken the lock vs NCSoft's hard `(updlock)`.
+--     We use `PERFORM ... FOR UPDATE; IF FOUND THEN ...` instead, which
+--     forces the row to be fetched and locked before the UPDATE branch
+--     runs. The race window NCSoft lived with is preserved (READ
+--     COMMITTED + non-serializable txns can still interleave) but the
+--     intra-statement lock is now real, matching `(updlock)` intent.
 --   * Returns rows-affected (count of rows the FINAL INSERT inserted,
 --     always 1) so the caller can sanity-check the round-trip. UPDATE
 --     count is intentionally NOT returned (matches T-SQL VOID return
@@ -77,7 +81,14 @@ DECLARE
 BEGIN
     -- Bug-for-bug NCSoft: IF row exists, update it; THEN unconditionally
     -- INSERT a new row. Compounds duplicates on repeated calls.
-    IF EXISTS (SELECT 1 FROM world_bot_channel_info WHERE char_id = _char_id FOR UPDATE) THEN
+    --
+    -- Lock semantics: PERFORM ... FOR UPDATE forces row materialisation
+    -- before locking, mirroring NCSoft (updlock). EXISTS-with-FOR-UPDATE
+    -- could be optimised away by the planner; PERFORM cannot.
+    PERFORM 1 FROM world_bot_channel_info
+        WHERE char_id = _char_id
+        FOR UPDATE;
+    IF FOUND THEN
         UPDATE world_bot_channel_info
            SET world_id = _world_id
          WHERE char_id  = _char_id;

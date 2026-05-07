@@ -23,12 +23,18 @@
 --     PvP-engaged with itself" — useful for sentinel rows).
 --   * `tinyint` (1 byte) in T-SQL → SMALLINT in PG (no TINYINT in PG;
 --     SMALLINT is the strict superset). NCSoft never sends > 127.
---   * RETURNS VOID — caller cannot inspect insert outcome. Duplicate
---     (type, normalised-pair) raises a unique-violation; NCSoft did not
---     have a PK so it would silently dup. We tighten to fail-fast: if
---     callers want idempotency they should call DeletePvPEnv first.
---     This is the SAFER behaviour and matches the convention used by
---     aion_putfamiliar (00234) which also raises on dup.
+--   * RETURNS VOID — caller cannot inspect insert outcome.
+--   * NCSoft pvp_env had NO PK / NO UNIQUE, so duplicate (type,
+--     normalised-pair) silently appended a fan-out row (consistent with
+--     world_bot_channel_info, batch 11). Earlier draft TIGHTENED to PK
+--     (type, entity_a, entity_b) + raised unique_violation on dup —
+--     plan-critic correctly flagged this as a bug-for-bug regression
+--     (callers were written assuming dup is OK). PIN: keep the PK we
+--     added in 00249 (it gives O(log n) symmetric lookups for free),
+--     but use ON CONFLICT DO NOTHING so the SP behaves as a silent
+--     idempotent insert — equivalent to NCSoft's "dup-ok" semantics
+--     when seen from caller's side. This is the strict bug-for-bug
+--     restoration; callers do not need to call DeletePvPEnv first.
 --
 -- Bug-for-bug:
 --   * (entity_a == entity_b) self-pair: stored verbatim. Pinned.
@@ -60,13 +66,16 @@ CREATE OR REPLACE FUNCTION aion_putpvpenv(
 LANGUAGE plpgsql AS $$
 BEGIN
     -- NCSoft IF (a < b): keep order, else swap. (a == b) falls into the
-    -- ELSE branch — pinned.
+    -- ELSE branch — pinned. ON CONFLICT DO NOTHING restores NCSoft's
+    -- silent-dup semantics on top of our PK (00249).
     IF (_entity_a < _entity_b) THEN
         INSERT INTO pvp_env (type, entity_a, entity_b)
-        VALUES (_type, _entity_a, _entity_b);
+        VALUES (_type, _entity_a, _entity_b)
+        ON CONFLICT DO NOTHING;
     ELSE
         INSERT INTO pvp_env (type, entity_a, entity_b)
-        VALUES (_type, _entity_b, _entity_a);
+        VALUES (_type, _entity_b, _entity_a)
+        ON CONFLICT DO NOTHING;
     END IF;
 END;
 $$;
