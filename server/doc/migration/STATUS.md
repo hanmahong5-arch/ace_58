@@ -10,11 +10,12 @@
 
 | Metric | Value |
 |--------|-------|
-| **Ported SPs** | **262 / 1059** (24.7%) |
-| **Q1 milestone (50 SPs)** | **超 524%** (achieved at batch 10, commit `de97774`) |
-| **Batches landed** | 26 + 1 auction closure + 1 P1 sweep |
-| **Domains covered** | 54 unique business domains |
-| **Latest commit** | `fdcb1aa` — auction closure (00269-00275, 7 SPs) |
+| **Ported SPs (file-number)** | **272 / 1059** (25.7%) |
+| **Distinct new PG functions** | **265 / 1059** (25.0%) — 7 SP ports in batch 27/28 are CREATE-OR-REPLACE restates |
+| **Q1 milestone (50 SPs)** | **超 544%** (achieved at batch 10, commit `de97774`) |
+| **Batches landed** | 28 batches + 1 auction closure + 1 P1 sweep + 1 test debt sweep |
+| **Domains covered** | 54 unique business domains (no new domain in batches 27/28) |
+| **Latest commit** | `715a697` — docs sync + 4-commit swarm batch (batch 27/28 + testdebt + docs) |
 
 Total target follows `aion_world_live` SP count (~1063); 1059 is the trimmed deduplicated working set.
 
@@ -50,13 +51,18 @@ Total target follows `aion_world_live` SP count (~1063); 1059 is the trimmed ded
 | 24    | 00254–00258 | char_title + virtual_auth + access_allow_account     | `bd9e9a6` | 5         | 2          | +1256      |
 | 25    | 00259–00263 | auction_betting + house_field                        | `eaf5142` | 5         | 2          | +2017      |
 | 26    | 00264–00268 | infinity_season_record + spawn_area_rank             | `9c83eb2` | 5         | 2          | +1374      |
-| 27\*\* | 00269–00275 | auction closure (lib hookup, 7 SPs)                  | `fdcb1aa` | 7         | 1          | +2234      |
+| AC\*\* | 00269–00275 | auction closure (lib hookup, 7 SPs)                  | `fdcb1aa` | 7         | 1          | +2234      |
 | —     | (P1 sweep)  | re-fix 00210/00250/00192 (idempotency + bug-pin)     | `e0f86c1` | 3 edits   | 0          | small      |
+| 27    | 00276–00280 | char 生命周期清理 (1 fresh + 4 idempotent restate)    | `cdddefb` | 5         | 1          | +1100      |
+| 28    | 00281–00285 | Delete-杂项 (2 fresh + 3 idempotent restate)          | `58f49ac` | 5         | 1          | +1300      |
+| —     | (test debt) | 14 FAIL + 1 STUCK → 0 FAIL (4 SP migration body fix)  | `5521f41` | 4 SP edit | 15 fixes   | +175/-59   |
 
 \* batch 10 PG integration tests followed up in `9fea318` (test only commit).
-\*\* batch 27 = auction closure (7 SPs, not 5) — matched `scripts/lib/auction.lua` shape exactly: insert_listing/insert_bid/get_by_id/get_search/cancel/settle/count_active.
+\*\* AC = auction closure (7 SPs, not 5) — matched `scripts/lib/auction.lua` shape: insert_listing/insert_bid/get_by_id/get_search/cancel/settle/count_active. Listed as `AC` (not `27`) so batch numbering stays sequential.
 
-Test-coverage soft spots: batch 19 (2/5), batch 20 (0/5), batch 23 (2/5), batch 24-26 (2/5 each) ship SQL with partial Go integration tests. Tracked as backfill items, not blocking new batches.
+**Idempotent-restate caveat** (batches 27/28): batch 27 SPs 00276/00277/00279/00280 and batch 28 SPs 00281/00282/00283 are `CREATE OR REPLACE FUNCTION` re-statements of bodies already present from earlier batch ports (00117/00120/00184/00122/00187/00225/00201). Order-independent; safe; counted in headline by file-number metric (272 / 1059) but only 3 distinct new PG functions added in this 10-file pair (00278 fresh + 00284/00285 fresh). Conservative "distinct PG functions" headline = 265 / 1059 (25.0%).
+
+Test-coverage soft spots: batch 19 (2/5), batch 20 (0/5), batch 23 (2/5), batch 24-26 (2/5 each), batch 27/28 (1/5 each) ship SQL with partial Go integration tests. Tracked as backfill items, not blocking new batches.
 
 Pre-batch baseline (round 9–10 era, commits `5f37fb2` → `0ac9b4f`): an additional **~125 SPs** ported during character-lifecycle / instance-dungeon / mail / warehouse / bind-point work — together with the 115 batched SPs above this gives the 240 / 1059 headline. (The 125 figure is derived from `240 − 115`; precise commit-level audit deferred to next sweep.)
 
