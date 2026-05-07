@@ -66,7 +66,7 @@ func TestPutCharInGameBlockPunishInfo(t *testing.T) {
 	t.Cleanup(func() { putPunishCleanup(t, context.Background(), pool) })
 
 	t.Run("first call: zero priors → one active row, end_date in future", func(t *testing.T) {
-		if _, err := pool.CallSP(ctx, "aion_putcharingameblockpunishinfo",
+		if err := pool.CallSPExec(ctx, "aion_putcharingameblockpunishinfo",
 			accPunishA, cidPunishA, punishCodeMute, int(60), "test mute"); err != nil {
 			t.Fatalf("first put: %v", err)
 		}
@@ -102,7 +102,7 @@ func TestPutCharInGameBlockPunishInfo(t *testing.T) {
 
 	t.Run("second call same code: prior row cancelled (status=1), new active inserted", func(t *testing.T) {
 		// (cidPunishA, mute) already has 1 active row from the previous sub-test.
-		if _, err := pool.CallSP(ctx, "aion_putcharingameblockpunishinfo",
+		if err := pool.CallSPExec(ctx, "aion_putcharingameblockpunishinfo",
 			accPunishA, cidPunishA, punishCodeMute, int(120), "second mute"); err != nil {
 			t.Fatalf("second put: %v", err)
 		}
@@ -147,12 +147,12 @@ func TestPutCharInGameBlockPunishInfo(t *testing.T) {
 
 	t.Run("second call DIFFERENT punish_code: prior row stays active (per-code scope)", func(t *testing.T) {
 		// Seed an active mute on cidPunishMulti.
-		if _, err := pool.CallSP(ctx, "aion_putcharingameblockpunishinfo",
+		if err := pool.CallSPExec(ctx, "aion_putcharingameblockpunishinfo",
 			accPunishA, cidPunishMulti, punishCodeMute, int(30), "mute"); err != nil {
 			t.Fatalf("seed mute: %v", err)
 		}
 		// Now apply a kick — different punish_code, so mute MUST stay active.
-		if _, err := pool.CallSP(ctx, "aion_putcharingameblockpunishinfo",
+		if err := pool.CallSPExec(ctx, "aion_putcharingameblockpunishinfo",
 			accPunishA, cidPunishMulti, punishCodeKick, int(15), "kick"); err != nil {
 			t.Fatalf("kick: %v", err)
 		}
@@ -181,7 +181,7 @@ func TestPutCharInGameBlockPunishInfo(t *testing.T) {
 	})
 
 	t.Run("negative remain_minute: end_date < start_date (NCSoft sentinel)", func(t *testing.T) {
-		if _, err := pool.CallSP(ctx, "aion_putcharingameblockpunishinfo",
+		if err := pool.CallSPExec(ctx, "aion_putcharingameblockpunishinfo",
 			accPunishA, cidPunishNeg, punishCodeMute, int(-5), "expired"); err != nil {
 			t.Fatalf("negative remain: %v", err)
 		}
@@ -199,7 +199,7 @@ func TestPutCharInGameBlockPunishInfo(t *testing.T) {
 
 	t.Run("non-ASCII punish_reason round-trips", func(t *testing.T) {
 		reason := "PvP 中文 てすと" // mixed CJK
-		if _, err := pool.CallSP(ctx, "aion_putcharingameblockpunishinfo",
+		if err := pool.CallSPExec(ctx, "aion_putcharingameblockpunishinfo",
 			accPunishA, cidPunishUnicode, punishCodeMute, int(10), reason); err != nil {
 			t.Fatalf("unicode: %v", err)
 		}
@@ -216,7 +216,7 @@ func TestPutCharInGameBlockPunishInfo(t *testing.T) {
 
 	t.Run("distinct chars on same account coexist", func(t *testing.T) {
 		// cidPunishA already has rows. Apply a mute to cidPunishB.
-		if _, err := pool.CallSP(ctx, "aion_putcharingameblockpunishinfo",
+		if err := pool.CallSPExec(ctx, "aion_putcharingameblockpunishinfo",
 			accPunishA, cidPunishB, punishCodeMute, int(45), "B mute"); err != nil {
 			t.Fatalf("char B: %v", err)
 		}

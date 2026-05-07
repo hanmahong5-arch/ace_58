@@ -39,9 +39,10 @@ func setSkillSkinCleanup(t *testing.T, ctx context.Context, p *Pool) {
 }
 
 // seedSkin upserts a skin row for `char_id`, `skin_id` with expire_time=expire and use_skin=0.
+// 使用 CallSPExec — aion_putskillskin RETURNS VOID；CallSP+rs 不 Close 会泄露 conn 直到池耗尽。
 func seedSkin(t *testing.T, ctx context.Context, p *Pool, charID, skinID int, expire int) {
 	t.Helper()
-	if _, err := p.CallSP(ctx, "aion_putskillskin",
+	if err := p.CallSPExec(ctx, "aion_putskillskin",
 		charID, skinID, expire); err != nil {
 		t.Fatalf("seed PutSkillSkin char=%d skin=%d: %v", charID, skinID, err)
 	}
@@ -70,7 +71,7 @@ func TestSetSkillSkin(t *testing.T) {
 	t.Run("command_type=3 USE flips use_skin to 1, leaves expire intact", func(t *testing.T) {
 		seedSkin(t, ctx, pool, cidSetSkin_Use, skinIDA, 1730000000)
 
-		if _, err := pool.CallSP(ctx, "aion_setskillskin",
+		if err := pool.CallSPExec(ctx, "aion_setskillskin",
 			cidSetSkin_Use, skinIDA, int16(3)); err != nil {
 			t.Fatalf("USE: %v", err)
 		}
@@ -94,11 +95,11 @@ func TestSetSkillSkin(t *testing.T) {
 		seedSkin(t, ctx, pool, cidSetSkin_Diuse, skinIDA, 1731000000)
 
 		// First USE so the next DIUSE has something to undo.
-		if _, err := pool.CallSP(ctx, "aion_setskillskin",
+		if err := pool.CallSPExec(ctx, "aion_setskillskin",
 			cidSetSkin_Diuse, skinIDA, int16(3)); err != nil {
 			t.Fatalf("pre-USE: %v", err)
 		}
-		if _, err := pool.CallSP(ctx, "aion_setskillskin",
+		if err := pool.CallSPExec(ctx, "aion_setskillskin",
 			cidSetSkin_Diuse, skinIDA, int16(4)); err != nil {
 			t.Fatalf("DIUSE: %v", err)
 		}
@@ -122,11 +123,11 @@ func TestSetSkillSkin(t *testing.T) {
 		seedSkin(t, ctx, pool, cidSetSkin_Expire, skinIDA, 1732000000)
 
 		// Equip first (use_skin=1) so we can verify EXPIRE clears it.
-		if _, err := pool.CallSP(ctx, "aion_setskillskin",
+		if err := pool.CallSPExec(ctx, "aion_setskillskin",
 			cidSetSkin_Expire, skinIDA, int16(3)); err != nil {
 			t.Fatalf("pre-USE: %v", err)
 		}
-		if _, err := pool.CallSP(ctx, "aion_setskillskin",
+		if err := pool.CallSPExec(ctx, "aion_setskillskin",
 			cidSetSkin_Expire, skinIDA, int16(5)); err != nil {
 			t.Fatalf("EXPIRE: %v", err)
 		}
@@ -149,13 +150,13 @@ func TestSetSkillSkin(t *testing.T) {
 	t.Run("unknown command_type is a silent no-op (NCSoft pin)", func(t *testing.T) {
 		seedSkin(t, ctx, pool, cidSetSkin_Unknown, skinIDA, 1733000000)
 		// Pre-equip so we can prove no branch ran.
-		if _, err := pool.CallSP(ctx, "aion_setskillskin",
+		if err := pool.CallSPExec(ctx, "aion_setskillskin",
 			cidSetSkin_Unknown, skinIDA, int16(3)); err != nil {
 			t.Fatalf("pre-USE: %v", err)
 		}
 
 		// Now apply an unknown command — must NOT raise, must NOT change row.
-		if _, err := pool.CallSP(ctx, "aion_setskillskin",
+		if err := pool.CallSPExec(ctx, "aion_setskillskin",
 			cidSetSkin_Unknown, skinIDA, int16(99)); err != nil {
 			t.Fatalf("unknown command: %v", err)
 		}
@@ -179,7 +180,7 @@ func TestSetSkillSkin(t *testing.T) {
 
 	t.Run("SET on missing (char,skin) is a silent no-op", func(t *testing.T) {
 		// Do NOT seed cidSetSkin_Missing. The SP must not raise.
-		if _, err := pool.CallSP(ctx, "aion_setskillskin",
+		if err := pool.CallSPExec(ctx, "aion_setskillskin",
 			cidSetSkin_Missing, skinIDA, int16(3)); err != nil {
 			t.Fatalf("missing-row USE: %v", err)
 		}

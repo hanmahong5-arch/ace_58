@@ -53,7 +53,7 @@ func TestSetPetitionWebNotify(t *testing.T) {
 
 	for _, cid := range []int{cidPetWebSetA, cidPetWebSetB} {
 		if _, err := pool.Inner().Exec(ctx,
-			`INSERT INTO user_data(char_id, name, user_id) VALUES ($1, 'pws_'||$1::TEXT, 'pwsu_'||$1::TEXT)`,
+			`INSERT INTO user_data(char_id, name, user_id) VALUES ($1::INT, 'pws_'||$1::INT::TEXT, 'pwsu_'||$1::INT::TEXT)`,
 			cid); err != nil {
 			t.Fatalf("seed user_data %d: %v", cid, err)
 		}

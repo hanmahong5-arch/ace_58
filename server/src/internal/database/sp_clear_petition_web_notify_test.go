@@ -55,7 +55,7 @@ func TestClearPetitionWebNotify(t *testing.T) {
 
 	for _, cid := range []int{cidPetWebClearA, cidPetWebClearB} {
 		if _, err := pool.Inner().Exec(ctx,
-			`INSERT INTO user_data(char_id, name, user_id) VALUES ($1, 'pwc_'||$1::TEXT, 'pwcu_'||$1::TEXT)`,
+			`INSERT INTO user_data(char_id, name, user_id) VALUES ($1::INT, 'pwc_'||$1::INT::TEXT, 'pwcu_'||$1::INT::TEXT)`,
 			cid); err != nil {
 			t.Fatalf("seed user_data %d: %v", cid, err)
 		}

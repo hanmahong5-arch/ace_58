@@ -59,7 +59,7 @@ func TestGetPetitionWebNotify(t *testing.T) {
 	// matching cleanup pattern across all SPs assumes user_data parents exist).
 	for _, cid := range []int{cidPetWebOptIn, cidPetWebOptOut, cidPetWebOther} {
 		if _, err := pool.Inner().Exec(ctx,
-			`INSERT INTO user_data(char_id, name, user_id) VALUES ($1, 'pw_'||$1::TEXT, 'pwu_'||$1::TEXT)`,
+			`INSERT INTO user_data(char_id, name, user_id) VALUES ($1::INT, 'pw_'||$1::INT::TEXT, 'pwu_'||$1::INT::TEXT)`,
 			cid); err != nil {
 			t.Fatalf("seed user_data %d: %v", cid, err)
 		}

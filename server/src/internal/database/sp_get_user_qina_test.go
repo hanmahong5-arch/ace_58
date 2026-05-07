@@ -56,7 +56,7 @@ func TestGetUserQina(t *testing.T) {
 	// Seed user_data so any FK / soft-delete filtering elsewhere does not bite.
 	for _, cid := range []int{cidQinaNoKinah, cidQinaHappy, cidQinaWhStacked, cidQinaDup} {
 		if _, err := pool.Inner().Exec(ctx,
-			`INSERT INTO user_data(char_id, name, user_id) VALUES ($1, 'qina_'||$1::TEXT, 'qu_'||$1::TEXT)`,
+			`INSERT INTO user_data(char_id, name, user_id) VALUES ($1::INT, 'qina_'||$1::INT::TEXT, 'qu_'||$1::INT::TEXT)`,
 			cid); err != nil {
 			t.Fatalf("seed user_data %d: %v", cid, err)
 		}

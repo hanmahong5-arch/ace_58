@@ -316,9 +316,13 @@ func TestPortedSPs_R10_CharLifecycle(t *testing.T) {
 
 	t.Run("aion_DeleteAllAbnormalStatus wipes the buff/debuff table", func(t *testing.T) {
 		const cid = 9010050
-		_, _ = pool.Inner().Exec(ctx,
-			`INSERT INTO user_abnormal_status(char_id, abnormal_id, remain_time_ms)
-			 VALUES ($1, 1, 1000), ($1, 2, 2000)`, cid)
+		// 00210 加了 UNIQUE(char_id, skill_id)；裸 INSERT 必须填 skill_id 才不撞约束。
+		_, err := pool.Inner().Exec(ctx,
+			`INSERT INTO user_abnormal_status(char_id, abnormal_id, skill_id, remain_time_ms)
+			 VALUES ($1, 1, 1, 1000), ($1, 2, 2, 2000)`, cid)
+		if err != nil {
+			t.Fatalf("seed buffs: %v", err)
+		}
 		if err := pool.CallSPExec(ctx, "aion_deleteallabnormalstatus", cid); err != nil {
 			t.Fatalf("CallSPExec: %v", err)
 		}
@@ -332,10 +336,14 @@ func TestPortedSPs_R10_CharLifecycle(t *testing.T) {
 
 	t.Run("aion_DeleteEmotion removes emotes of the given type only", func(t *testing.T) {
 		const cid = 9010060
-		// Type 0 has 2 rows; type 1 has 1 row. Wipe type 0 only.
-		_, _ = pool.Inner().Exec(ctx,
+		// 00199 enforces UNIQUE(char_id, emotion_type) — NCSoft 实际语义是
+		// 每个 char 每个 emotion_type 最多 1 行。所以测试只能播种"两个不同
+		// type 各 1 行"，验证 DeleteEmotion 仅清自己 type、不动邻居 type。
+		if _, err := pool.Inner().Exec(ctx,
 			`INSERT INTO user_emotion(char_id, emotion_id, emotion_type) VALUES
-			 ($1, 100, 0), ($1, 101, 0), ($1, 200, 1)`, cid)
+			 ($1, 100, 0), ($1, 200, 1)`, cid); err != nil {
+			t.Fatalf("seed user_emotion: %v", err)
+		}
 		if err := pool.CallSPExec(ctx, "aion_deleteemotion", cid, 0); err != nil {
 			t.Fatalf("CallSPExec: %v", err)
 		}

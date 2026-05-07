@@ -31,6 +31,11 @@
 
 -- +goose Up
 -- +goose StatementBegin
+-- 00115 (round7 scaffold) pre-created the table with a single placeholder
+-- column (next_avail_time TIMESTAMPTZ).  Round 8 / batch 9 finalises the
+-- shape: 4 INTEGER cooldown fields matching the NCSoft T-SQL contract.
+-- We additively migrate the existing table so a fresh DB and an upgraded
+-- DB end up identical.
 CREATE TABLE IF NOT EXISTS user_promotion_cooltime (
     char_id                   INTEGER  NOT NULL,
     promotion_id              SMALLINT NOT NULL,
@@ -40,6 +45,21 @@ CREATE TABLE IF NOT EXISTS user_promotion_cooltime (
     cycle_next_reset_time     INTEGER  NOT NULL DEFAULT 0,
     PRIMARY KEY (char_id, promotion_id)
 );
+-- +goose StatementEnd
+
+-- +goose StatementBegin
+ALTER TABLE user_promotion_cooltime
+    ADD COLUMN IF NOT EXISTS last_promotion_time       INTEGER NOT NULL DEFAULT 0,
+    ADD COLUMN IF NOT EXISTS received_item_count       INTEGER NOT NULL DEFAULT 0,
+    ADD COLUMN IF NOT EXISTS cycle_received_item_count INTEGER NOT NULL DEFAULT 0,
+    ADD COLUMN IF NOT EXISTS cycle_next_reset_time     INTEGER NOT NULL DEFAULT 0;
+-- +goose StatementEnd
+
+-- +goose StatementBegin
+-- 00115's placeholder TIMESTAMPTZ column has no consumers; drop it now that
+-- the canonical INTEGER columns are in place.
+ALTER TABLE user_promotion_cooltime
+    DROP COLUMN IF EXISTS next_avail_time;
 -- +goose StatementEnd
 
 -- +goose StatementBegin

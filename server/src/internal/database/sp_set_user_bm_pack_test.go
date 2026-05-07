@@ -77,7 +77,7 @@ func TestSetUserBMPack(t *testing.T) {
 
 	for _, cid := range []int{cidBMSetFresh, cidBMSetUpdate, cidBMSetIdempot, cidBMSetNeighbor} {
 		if _, err := pool.Inner().Exec(ctx,
-			`INSERT INTO user_data(char_id, name, user_id) VALUES ($1, 'bmset_'||$1::TEXT, 'bs_'||$1::TEXT)`,
+			`INSERT INTO user_data(char_id, name, user_id) VALUES ($1::INT, 'bmset_'||$1::INT::TEXT, 'bs_'||$1::INT::TEXT)`,
 			cid); err != nil {
 			t.Fatalf("seed user_data %d: %v", cid, err)
 		}

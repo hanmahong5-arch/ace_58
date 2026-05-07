@@ -106,7 +106,12 @@ BEGIN
         _skill_id, _skill_level, _target_slot,
         _remain1, _remain2, _remain3, _remain4,
         _interval1, _interval2, _interval3, _interval4,
-        GetUnixtimeWithUTCAdjust(NOW() AT TIME ZONE 'UTC', 0)
+        -- NOW() returns TIMESTAMPTZ; the helper extracts epoch which is
+        -- timezone-invariant.  The earlier `NOW() AT TIME ZONE 'UTC'` cast
+        -- yielded a *naive* TIMESTAMP that PG re-interpreted in the server's
+        -- session zone, drifting by the local UTC offset (e.g. -3h on
+        -- America/Halifax) — the round-trip test caught it.
+        GetUnixtimeWithUTCAdjust(NOW(), 0)
     );
     GET DIAGNOSTICS affected_cnt = ROW_COUNT;
     RETURN affected_cnt;

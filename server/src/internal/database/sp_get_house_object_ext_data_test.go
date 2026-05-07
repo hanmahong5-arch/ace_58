@@ -58,7 +58,7 @@ func TestGetHouseObjectExtData(t *testing.T) {
 
 	for _, cid := range []int{cidHouseExtA, cidHouseExtEmpty, cidHouseExtOther} {
 		if _, err := pool.Inner().Exec(ctx,
-			`INSERT INTO user_data(char_id, name, user_id) VALUES ($1, 'hext_'||$1::TEXT, 'hxu_'||$1::TEXT)`,
+			`INSERT INTO user_data(char_id, name, user_id) VALUES ($1::INT, 'hext_'||$1::INT::TEXT, 'hxu_'||$1::INT::TEXT)`,
 			cid); err != nil {
 			t.Fatalf("seed user_data %d: %v", cid, err)
 		}

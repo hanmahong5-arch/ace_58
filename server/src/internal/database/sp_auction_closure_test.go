@@ -115,8 +115,11 @@ func TestSP_AuctionClosure(t *testing.T) {
 
 	// Future-anchored expires_at（远超测试时间，确保未到期）
 	// + past-anchored expires_at（用于 settle 路径）。
+	// 注意：00269 auction_listing.expires_at 是 INTEGER（int4，max=2147483647 ≈ 2038-01）。
+	// 之前用 4_900_000_000（2125 年）会触发 pgx 'int4 overflow'。改用 2_100_000_000
+	// (2036-07) — 仍然远超 2026 测试时点，但落在 int4 域内，匹配 SP 设计。
 	const (
-		futureExpiry = 4_900_000_000 // 2125 年
+		futureExpiry = 2_100_000_000 // 2036-07
 		pastExpiry   = 1_000_000_000 // 2001 年
 	)
 
@@ -370,11 +373,12 @@ func TestSP_AuctionClosure(t *testing.T) {
 		if err == nil {
 			t.Fatalf("too-low bid 55000 must RAISE; got nil err")
 		}
-		// pgx 把 plpgsql RAISE 包成 pgconn.PgError
+		// pgx 把 plpgsql RAISE 包成 pgconn.PgError。注意：Severity 受 PG 客户端
+		// 区域影响（zh_CN.UTF-8 → "错误"），SeverityUnlocalized 是固定 ASCII 协议字段。
 		if pgErr, ok := err.(*pgconn.PgError); ok {
-			if pgErr.Severity != "ERROR" {
-				t.Errorf("too-low bid: expected severity ERROR, got %s",
-					pgErr.Severity)
+			if pgErr.SeverityUnlocalized != "ERROR" {
+				t.Errorf("too-low bid: expected SeverityUnlocalized=ERROR, got %s (localized=%s)",
+					pgErr.SeverityUnlocalized, pgErr.Severity)
 			}
 		}
 

@@ -56,7 +56,7 @@ func TestPutCombineCoolTime(t *testing.T) {
 	t.Cleanup(func() { putCombineCoolTimeCleanup(t, context.Background(), pool) })
 
 	t.Run("first call inserts, payload round-trips", func(t *testing.T) {
-		if _, err := pool.CallSP(ctx, "aion_putcombinecooltime",
+		if err := pool.CallSPExec(ctx, "aion_putcombinecooltime",
 			cidPCombCT_A, int(40101), int64(1730000000000)); err != nil {
 			t.Fatalf("first insert: %v", err)
 		}
@@ -74,12 +74,12 @@ func TestPutCombineCoolTime(t *testing.T) {
 
 	t.Run("second call with same composite PK UPDATEs in place", func(t *testing.T) {
 		// First insert.
-		if _, err := pool.CallSP(ctx, "aion_putcombinecooltime",
+		if err := pool.CallSPExec(ctx, "aion_putcombinecooltime",
 			cidPCombCT_Updt, int(40201), int64(1000)); err != nil {
 			t.Fatalf("first: %v", err)
 		}
 		// Second call — UPDATE, not duplicate.
-		if _, err := pool.CallSP(ctx, "aion_putcombinecooltime",
+		if err := pool.CallSPExec(ctx, "aion_putcombinecooltime",
 			cidPCombCT_Updt, int(40201), int64(2000)); err != nil {
 			t.Fatalf("upsert: %v", err)
 		}
@@ -110,7 +110,7 @@ func TestPutCombineCoolTime(t *testing.T) {
 		// 3 distinct combine-class throttles for cidPCombCT_A (which already
 		// owns 40101 from the first sub-test).
 		for _, cid := range []int{40102, 40103, 40104} {
-			if _, err := pool.CallSP(ctx, "aion_putcombinecooltime",
+			if err := pool.CallSPExec(ctx, "aion_putcombinecooltime",
 				cidPCombCT_A, cid, int64(1700000000000)); err != nil {
 				t.Fatalf("insert cid=%d: %v", cid, err)
 			}
@@ -128,7 +128,7 @@ func TestPutCombineCoolTime(t *testing.T) {
 	})
 
 	t.Run("distinct chars coexist on same cooltime_id", func(t *testing.T) {
-		if _, err := pool.CallSP(ctx, "aion_putcombinecooltime",
+		if err := pool.CallSPExec(ctx, "aion_putcombinecooltime",
 			cidPCombCT_B, int(40101), int64(9999)); err != nil {
 			t.Fatalf("char B: %v", err)
 		}
@@ -145,7 +145,7 @@ func TestPutCombineCoolTime(t *testing.T) {
 	})
 
 	t.Run("negative expire_cooltime accepted (NCSoft sentinel)", func(t *testing.T) {
-		if _, err := pool.CallSP(ctx, "aion_putcombinecooltime",
+		if err := pool.CallSPExec(ctx, "aion_putcombinecooltime",
 			cidPCombCT_Neg, int(40301), int64(-1)); err != nil {
 			t.Fatalf("negative expire: %v", err)
 		}

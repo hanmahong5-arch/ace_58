@@ -60,11 +60,13 @@ LANGUAGE plpgsql AS $$
 DECLARE
     affected_cnt INTEGER;
 BEGIN
-    -- UPSERT on (char_id, emotion_type). Matches NCSoft's IF EXISTS / UPDATE /
-    -- ELSE INSERT semantics atomically. emotion_id defaults to 0 on insert
-    -- (kept for 00115 PK compat); on conflict we update expire_date only.
+    -- UPSERT on (char_id, emotion_type).  NCSoft 真表无 emotion_id 这一列；
+    -- R7 (00115) 给 PG 加了 (char_id, emotion_id) PK，所以这里把 emotion_id
+    -- 镜像到 emotion_type — 两个键空间是 1:1，PK 冲突 ↔ UNIQUE 冲突 同步发生，
+    -- ON CONFLICT 走两条任一约束都能 UPDATE；emotion_id := emotion_type 让
+    -- 不同 type 的 PUT 落在不同 PK 槽位，多行共存。
     INSERT INTO user_emotion (char_id, emotion_id, emotion_type, expire_date)
-    VALUES (_char_id, 0, _emotion_type, _expire_date)
+    VALUES (_char_id, _emotion_type::INTEGER, _emotion_type, _expire_date)
     ON CONFLICT ON CONSTRAINT user_emotion_char_type_uniq
     DO UPDATE SET expire_date = EXCLUDED.expire_date;
     GET DIAGNOSTICS affected_cnt = ROW_COUNT;

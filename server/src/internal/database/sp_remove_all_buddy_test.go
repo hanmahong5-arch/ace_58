@@ -132,9 +132,18 @@ func TestRemoveAllBuddy(t *testing.T) {
 	})
 
 	t.Run("removing a char with no inbound rows returns 0", func(t *testing.T) {
+		// Use a fresh cid that is on NOBODY's buddy list — the seeded
+		// cidRemBuddyUnrel is referenced by OwnerA→Unrel (control row above)
+		// so RemoveAll(Unrel) would delete 1.  Allocate a 99-banded orphan
+		// solely to verify the "no inbound rows" path returns 0.
+		const cidRemBuddyOrphan = 9001599
+		if _, err := pool.Inner().Exec(ctx,
+			`INSERT INTO user_data(char_id, name, user_id) VALUES ($1, 'RemOrphan', 'rb_orph')`,
+			cidRemBuddyOrphan); err != nil {
+			t.Fatalf("seed orphan: %v", err)
+		}
 		var deleted int
-		// Unrel is on nobody's friend list.
-		if err := pool.CallSPRow(ctx, "aion_removeallbuddy", cidRemBuddyUnrel).Scan(&deleted); err != nil {
+		if err := pool.CallSPRow(ctx, "aion_removeallbuddy", cidRemBuddyOrphan).Scan(&deleted); err != nil {
 			t.Fatalf("CallSPRow: %v", err)
 		}
 		if deleted != 0 {

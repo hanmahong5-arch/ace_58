@@ -57,7 +57,7 @@ func TestPutItemCoolTime(t *testing.T) {
 
 	t.Run("first call inserts a row, payload round-trips", func(t *testing.T) {
 		blob := []byte{0x01, 0x02, 0x03, 0x04, 0x05}
-		if _, err := pool.CallSP(ctx, "aion_putitemcooltime",
+		if err := pool.CallSPExec(ctx, "aion_putitemcooltime",
 			cidPItemCT_A, int16(2), blob); err != nil {
 			t.Fatalf("CallSP insert: %v", err)
 		}
@@ -78,14 +78,14 @@ func TestPutItemCoolTime(t *testing.T) {
 
 	t.Run("second call on same char_id UPDATEs in place (no second row)", func(t *testing.T) {
 		// First insert.
-		if _, err := pool.CallSP(ctx, "aion_putitemcooltime",
+		if err := pool.CallSPExec(ctx, "aion_putitemcooltime",
 			cidPItemCT_Updt, int16(1), []byte{0xAA}); err != nil {
 			t.Fatalf("first insert: %v", err)
 		}
 
 		// Second call — should UPDATE (ON CONFLICT DO UPDATE).
 		blob2 := []byte{0xBB, 0xCC, 0xDD}
-		if _, err := pool.CallSP(ctx, "aion_putitemcooltime",
+		if err := pool.CallSPExec(ctx, "aion_putitemcooltime",
 			cidPItemCT_Updt, int16(3), blob2); err != nil {
 			t.Fatalf("second update: %v", err)
 		}
@@ -116,7 +116,7 @@ func TestPutItemCoolTime(t *testing.T) {
 	})
 
 	t.Run("distinct char_ids coexist (no PK collision)", func(t *testing.T) {
-		if _, err := pool.CallSP(ctx, "aion_putitemcooltime",
+		if err := pool.CallSPExec(ctx, "aion_putitemcooltime",
 			cidPItemCT_B, int16(7), []byte{0x10, 0x20}); err != nil {
 			t.Fatalf("char B: %v", err)
 		}
@@ -134,7 +134,7 @@ func TestPutItemCoolTime(t *testing.T) {
 
 	t.Run("empty blob is accepted (NCSoft contract)", func(t *testing.T) {
 		// NCSoft varbinary(1024) accepts a zero-length blob; PG BYTEA does too.
-		if _, err := pool.CallSP(ctx, "aion_putitemcooltime",
+		if err := pool.CallSPExec(ctx, "aion_putitemcooltime",
 			cidPItemCT_Edge, int16(0), []byte{}); err != nil {
 			t.Fatalf("empty blob: %v", err)
 		}
@@ -157,7 +157,7 @@ func TestPutItemCoolTime(t *testing.T) {
 		for i := range blob {
 			blob[i] = byte(i % 256)
 		}
-		if _, err := pool.CallSP(ctx, "aion_putitemcooltime",
+		if err := pool.CallSPExec(ctx, "aion_putitemcooltime",
 			cidPItemCT_Big, int16(128), blob); err != nil {
 			t.Fatalf("1024-byte blob: %v", err)
 		}

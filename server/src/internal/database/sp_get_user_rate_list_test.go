@@ -55,7 +55,7 @@ func TestGetUserRateList(t *testing.T) {
 
 	for _, cid := range []int{cidRateEmpty, cidRateSingle, cidRateMulti, cidRateOther} {
 		if _, err := pool.Inner().Exec(ctx,
-			`INSERT INTO user_data(char_id, name, user_id) VALUES ($1, 'rate_'||$1::TEXT, 'ru_'||$1::TEXT)`,
+			`INSERT INTO user_data(char_id, name, user_id) VALUES ($1::INT, 'rate_'||$1::INT::TEXT, 'ru_'||$1::INT::TEXT)`,
 			cid); err != nil {
 			t.Fatalf("seed user_data %d: %v", cid, err)
 		}
