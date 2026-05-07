@@ -83,6 +83,8 @@ Four PostgreSQL databases, all on `127.0.0.1` (NEVER expose to internet):
 
 **Golden Rule**: NEVER write SQL INSERT/UPDATE/DELETE in Go or Lua. Call the existing stored procedures.
 
+**Migration progress** (snapshot 2026-05-07): **240 / 1059 SPs ported** (22.7%) across 23 `feat(database): SP batch N` commits and 46 business domains; Q1 milestone (50 SPs) achieved at 130%+. Latest commit `0051232` (batch 23). Per-batch ledger and "how to append" protocol live in [`doc/migration/STATUS.md`](./doc/migration/STATUS.md).
+
 ## Configuration
 
 All config in `config/` as TOML files. Hot-reloadable (world engine watches for changes).
@@ -106,6 +108,7 @@ All config in `config/` as TOML files. Hot-reloadable (world engine watches for 
 | Resource | Path |
 |----------|------|
 | Dev guide (Source of Truth) | `doc/dev-guide.md` |
+| **SP migration ledger** | [`doc/migration/STATUS.md`](./doc/migration/STATUS.md) |
 | NCSoft architecture research | `../../doc/reference/ncsoft-architecture-research.md` |
 | L2Auth reverse engineering | `../../doc/reference/downloads/L2Auth/` |
 | PTS 4.6 SetupGuide | `../../doc/reference/downloads/pts-46-setup-guide.pdf` |

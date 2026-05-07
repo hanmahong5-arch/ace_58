@@ -275,6 +275,42 @@ assert(target.hp > 0, "Target should survive")
 
 ---
 
+## 6.5 SP Migration Progress / 存储过程移植进度
+
+> **Snapshot date**: 2026-05-07. The full batch-by-batch ledger lives in
+> [`migration/STATUS.md`](./migration/STATUS.md) — that file is the source of
+> truth; the table below is just a heartbeat.
+
+| Metric | Value |
+|--------|-------|
+| Ported SPs | **240 / 1059** (22.7%) |
+| Q1 milestone (50 SPs) | **achieved at 130%+** (commit `de97774`, batch 10) |
+| Batches landed (`feat(database): SP batch N`) | 23 |
+| Latest batch | `0051232` — batch 23 (pvp_env + char_exps_reward) |
+| Domains touched | 46 unique business domains |
+
+The 46 domains span: instance/dungeon, friend/offline, settings, comment, macro,
+buddy, bm_pack, quest_acquired, legion_announce, petition, house_object,
+promotion_cooltime, overseas_event, faction_quest, wallet, world_bot, guild,
+emotion, bookmark, quickbar, custom_animation, bingo, challenge_task, char_rank,
+stigma, abnormal_status, item_seal, enslave_stone, wardrobe, reform,
+recipe-write, town, title-write, auction_filter, auction_grace, captcha,
+error_ignore, familiar, growth_tier_pay_stat, item_cooltime, combine_cooltime,
+skill_skin, block_purge, punishment, pvp_env, char_exps_reward.
+
+Per-SP file layout (every batch lands three coordinated files plus one Go test):
+
+```
+server/sql/schema/<NNN>_sp_<name>.sql                              # canonical
+server/src/internal/database/migrations/<NNN>_sp_<name>.sql        # embedded
+server/src/internal/database/sp_<name>_test.go                     # pgx test
+```
+
+To append a new batch see the *How to Append a New Batch* section in
+[`migration/STATUS.md`](./migration/STATUS.md).
+
+---
+
 ## 7. Anti-Patterns / 反模式
 
 | Anti-Pattern | Why Wrong | Do This Instead |

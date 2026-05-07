@@ -99,6 +99,7 @@ Full list with rationale: [`doc/dev-guide.md`](./doc/dev-guide.md).
 | Topic | Doc |
 |-------|-----|
 | Source of Truth (hard constraints) | [`doc/dev-guide.md`](./doc/dev-guide.md) |
+| **SP migration ledger** (240/1059, 23 batches) | [`doc/migration/STATUS.md`](./doc/migration/STATUS.md) |
 | Architecture (process topology, data flow) | [`doc/architecture.md`](./doc/architecture.md) |
 | Lua API surface | [`doc/lua-api.md`](./doc/lua-api.md) |
 | Opcode table | [`doc/opcodes.md`](./doc/opcodes.md) |
