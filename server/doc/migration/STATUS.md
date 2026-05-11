@@ -1,6 +1,6 @@
 # SP Migration Status — AionCore 5.8
 
-> **Last Updated**: 2026-05-07 (post-swarm 03:00 EST)
+> **Last Updated**: 2026-05-11 (post-batch-29)
 > **Source of Truth**: this file tracks every PG SP batch landed on `origin/main`.
 > **Update protocol**: append a new row whenever a new `feat(database): SP batch N` commit ships.
 
@@ -10,12 +10,12 @@
 
 | Metric | Value |
 |--------|-------|
-| **Ported SPs (file-number)** | **272 / 1059** (25.7%) |
-| **Distinct new PG functions** | **265 / 1059** (25.0%) — 7 SP ports in batch 27/28 are CREATE-OR-REPLACE restates |
-| **Q1 milestone (50 SPs)** | **超 544%** (achieved at batch 10, commit `de97774`) |
-| **Batches landed** | 28 batches + 1 auction closure + 1 P1 sweep + 1 test debt sweep |
-| **Domains covered** | 54 unique business domains (no new domain in batches 27/28) |
-| **Latest commit** | `715a697` — docs sync + 4-commit swarm batch (batch 27/28 + testdebt + docs) |
+| **Ported SPs (file-number)** | **277 / 1059** (26.2%) |
+| **Distinct new PG functions** | **270 / 1059** (25.5%) — batch 29 is all-fresh (no restates) |
+| **Q1 milestone (50 SPs)** | **超 554%** (achieved at batch 10, commit `de97774`) |
+| **Batches landed** | 29 batches + 1 auction closure + 1 P1 sweep + 1 test debt sweep |
+| **Domains covered** | 54 unique business domains (batch 29 deepens existing client-data + abnormal-status domains) |
+| **Latest commit** | _pending_ — batch 29 (00286–00290) Delete 单条+客户端 cleanup |
 
 Total target follows `aion_world_live` SP count (~1063); 1059 is the trimmed deduplicated working set.
 
@@ -56,6 +56,7 @@ Total target follows `aion_world_live` SP count (~1063); 1059 is the trimmed ded
 | 27    | 00276–00280 | char 生命周期清理 (1 fresh + 4 idempotent restate)    | `cdddefb` | 5         | 1          | +1100      |
 | 28    | 00281–00285 | Delete-杂项 (2 fresh + 3 idempotent restate)          | `58f49ac` | 5         | 1          | +1300      |
 | —     | (test debt) | 14 FAIL + 1 STUCK → 0 FAIL (4 SP migration body fix)  | `5521f41` | 4 SP edit | 15 fixes   | +175/-59   |
+| 29    | 00286–00290 | abnormal_status (single-row) + client_settings/quickbar/favorite + challenge_task — **5 fresh, 0 restate** | _pending_ | 5         | 1          | +700       |
 
 \* batch 10 PG integration tests followed up in `9fea318` (test only commit).
 \*\* AC = auction closure (7 SPs, not 5) — matched `scripts/lib/auction.lua` shape: insert_listing/insert_bid/get_by_id/get_search/cancel/settle/count_active. Listed as `AC` (not `27`) so batch numbering stays sequential.
