@@ -2,8 +2,8 @@
 -- CM_REVIVE_REQUEST (0x56): client requests character resurrection after death.
 -- Revives the player at their current position with partial HP/MP/FP.
 --
--- Phase S-5 implementation: revive-in-place at 25 % of max stats.
--- Phase S-6 TODO: teleport to bind-point (aion_GetBindPoint SP).
+-- Phase S-5: revive-in-place at 25 % of max stats.
+-- Phase S-6: teleport to bind-point via aion_GetBindPoint (see body).
 --
 -- SM_REVIVE payload (LE, unverified):
 --   byte   result       -- 0 = success

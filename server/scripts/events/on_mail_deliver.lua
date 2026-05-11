@@ -38,6 +38,32 @@ function on_mail_deliver(sender_cid, recipient_cid, subject, body,
         return
     end
 
+    -- Round 11 A8 (patch 05): 系统邮件 mint entropy 占位 LOG。
+    -- sender_cid==0 视为 "新 mint" (event prize / GM comp / world-boss drop)。
+    -- Track B3 落 SP `aion_mailwritesys_with_entropy` 之前不持久 stones/attrs,
+    -- 但已先 LOG 锻造意图供审计 + Forge ID 给 QQ 群机器人引用。
+    -- 区分启发: 100xxx weapon, 110xxx armor; 系统不知 recipient 职业 → "default"。
+    if (sender_cid or 0) == 0 and (item_id or 0) > 0 and entropy then
+        local seed   = (entropy.season_seed and entropy.season_seed()) or 0
+        local iclass = "weapon"
+        local tier   = "common"
+        if item_id >= 100000000 and item_id < 110000000 then
+            iclass, tier = "weapon", "epic"
+        elseif item_id >= 110000000 and item_id < 120000000 then
+            iclass, tier = "armor", "rare"
+        end
+        if entropy.roll_manastones then
+            local stones = entropy.roll_manastones(item_id, iclass, tier, seed)
+            local fid = (entropy.forge_id and entropy.forge_id({
+                item_id = item_id, count = item_count or 1, race = 0,
+                season_seed = seed, stones = stones, attrs = {},
+            })) or "00000000"
+            log.info(string.format(
+                "[forge] mail_mint iid=%d cnt=%d cls=%s tier=%s forge=%s (placeholder; await SP B3)",
+                item_id, item_count or 1, iclass, tier, fid))
+        end
+    end
+
     -- Current time as epoch-seconds int32; NCSoft stores arrive_time as
     -- unix-seconds so the client countdown renders correctly.
     local arrive_time = os.time()

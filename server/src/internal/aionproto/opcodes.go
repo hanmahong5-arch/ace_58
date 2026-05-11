@@ -11,29 +11,39 @@
 // XOR stream cipher is applied on top of BF decryption for client→server.
 package aionproto
 
-// Auth port (:2108) opcodes — exchanged during login handshake.
+// Auth port (:2108) opcodes — NCSoft LoginServer (matches AL-Aion and
+// retail KOR 8.2.22 AQ_*/AC_* names from AionPacketHandlerFactory.java).
 const (
-	// SM_KEY is the first packet sent by the server, unencrypted.
-	// Contains RSA public key modulus and the static Blowfish key.
+	// SM_KEY (AC_PROTOCOL_VER) is the first server packet.
 	SM_KEY uint16 = 0x00
 
-	// CM_AUTH_LOGIN is sent by the client with RSA-encrypted credentials.
-	CM_AUTH_LOGIN uint16 = 0x01
+	// CM_AUTH_GG (AQ_GAMEGUARD) is the client's first response after SM_KEY.
+	// Carries sessionId echo + GameGuard payload.
+	CM_AUTH_GG uint16 = 0x07
 
-	// SM_LOGIN_OK confirms successful authentication and carries server list.
-	SM_LOGIN_OK uint16 = 0x02
+	// SM_AUTH_GG (AC_GAMEGUARD) confirms GameGuard check passed.
+	SM_AUTH_GG uint16 = 0x0B
 
-	// SM_LOGIN_FAIL carries an error code when authentication fails.
-	SM_LOGIN_FAIL uint16 = 0x03
+	// CM_AUTH_LOGIN (AQ_LOGIN) carries RSA-encrypted credentials.
+	CM_AUTH_LOGIN uint16 = 0x00
 
-	// CM_PLAY is sent by the client to select a game server from the list.
-	CM_PLAY uint16 = 0x05
+	// SM_LOGIN_FAIL (AC_LOGIN_FAIL) carries an error code.
+	SM_LOGIN_FAIL uint16 = 0x01
 
-	// SM_PLAY_OK carries the session token for game server entry.
-	SM_PLAY_OK uint16 = 0x06
+	// SM_LOGIN_OK (AC_LOGIN_OK) confirms auth + carries server list.
+	SM_LOGIN_OK uint16 = 0x03
 
-	// SM_PLAY_FAIL is sent when CM_PLAY cannot be serviced.
-	SM_PLAY_FAIL uint16 = 0x07
+	// SM_SERVER_LIST (AC_SEND_SERVER_LIST) carries the server list.
+	SM_SERVER_LIST uint16 = 0x04
+
+	// CM_PLAY (AQ_ABOUT_TO_PLAY) selects a game server.
+	CM_PLAY uint16 = 0x02
+
+	// SM_PLAY_FAIL (AC_PLAY_FAIL) is sent when CM_PLAY cannot be serviced.
+	SM_PLAY_FAIL uint16 = 0x06
+
+	// SM_PLAY_OK (AC_PLAY_OK) carries the session token for game server entry.
+	SM_PLAY_OK uint16 = 0x07
 )
 
 // Game port (:7777) opcodes — exchanged during gameplay after login.
@@ -96,6 +106,38 @@ const (
 
 	// SM_DIE notifies clients of an entity death.
 	SM_DIE uint16 = 0x44
+
+	// Loot opcodes — Round 11 (光辉永恒命题第一次端到端实测).
+	// Allocated from the 0x55 / 0x57–0x5D "Revive / skill expansion" reserved
+	// range (see doc/opcodes.md "Unused / Reserved Ranges"). The full loot
+	// flow allows the server to advertise a corpse's drop bag, the client to
+	// pull individual items, and the server to reply with the item + its
+	// 6-stone manastone tuple — making the high-entropy 命题 visibly演示。
+	//
+	// SM_LOOT_AVAILABLE notifies the killer that a corpse is lootable.
+	// Payload (LE):
+	//   int32 corpse_entity_id
+	//   int32 item_count                    -- number of distinct items in the bag
+	SM_LOOT_AVAILABLE uint16 = 0x55
+
+	// CM_LOOT_ITEM is sent by the client to take a single drop from a corpse.
+	// Payload (LE):
+	//   int32 corpse_entity_id
+	//   int32 item_slot                     -- 0-based index into the bag
+	CM_LOOT_ITEM uint16 = 0x57
+
+	// SM_LOOT_ITEMLIST replies with the looted item plus its entropy block.
+	// Payload (LE):
+	//   int32 corpse_entity_id
+	//   int32 item_id                       -- items.xml ID
+	//   int32 item_count                    -- stack quantity
+	//   int32 item_uid                      -- assigned user_item.id (DB PK)
+	//   8s   forge_id                       -- 8 ASCII chars (entropy.forge_id)
+	//   int32 stone_count                   -- always 6 (matches manastone slots)
+	//   int32[stone_count] stones           -- 0 = empty slot
+	//   int32 attr_count                    -- random_attr pairs (entropy v1)
+	//   for each attr: utf16_null attr_id, int32 value
+	SM_LOOT_ITEMLIST uint16 = 0x58
 
 	// CM_EMOTION carries emote/idle animation.
 	CM_EMOTION uint16 = 0x41

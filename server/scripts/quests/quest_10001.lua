@@ -20,13 +20,22 @@ quest.register({
     end,
 
     on_complete = function(entity_id)
-        -- Award starter gear via player.add_item.
+        -- Round 11 A8 (patch 01): 升级到 entropy v1 random_attr。
+        -- rare tier (7 槽) 让新手"第一件装备"就感受词缀差异 — 同 class 的
+        -- 两个玩家拿到的剑词缀向量不同, 是高熵命题的"第一印象证明"。
+        -- TODO Cycle 17+: 待 entropy.add_item_full(stones+attrs) 落地后,
+        --                同时挂 v0 (5 manastone) + v1 (7 random_attr) — 见
+        --                doc/entropy/wiring-patches/01-quest_10001-add-v1-random-attr.patch。
         local gw = entity.get_gateway_id(entity_id)
         if gw then
-            -- Round 6 C4 — entropy v0 wiring: 新手剧情奖励是"第一印象"装备，
-            -- 按 rare tier 放 5 槽 manastone，让新玩家立刻感受到"哇这把剑有 5 颗石"。
-            entropy.add_item_with_stones(gw, 100000001, 1, "weapon", "rare", season_seed())  -- Starter Sword
-            entropy.add_item_with_stones(gw, 110000001, 1, "armor",  "rare", season_seed())  -- Starter Armour
+            local class_name = class_names and
+                class_names.of_entity(entity_id) or "default"
+            local race       = entity.get_stat(entity_id, "faction") or 0
+            local seed       = season_seed()
+            entropy.add_item_with_random_attr(gw, 100000001, 1,
+                class_name, "rare", race, seed)  -- Starter Sword
+            entropy.add_item_with_random_attr(gw, 110000001, 1,
+                class_name, "rare", race, seed)  -- Starter Armour
         end
         log.info("quest 10001: rewards granted entity_id=" .. tostring(entity_id))
         -- TODO Phase S-5: grant EXP via db.call("aion_AddExpUser", char_id, amount).

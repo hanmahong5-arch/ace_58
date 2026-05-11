@@ -471,13 +471,23 @@ instance.leave = function(eid)
     entity.set_stat(eid, "instance_run_id", 0)
 
     -- Teleport back to bind point (best-effort; if SP missing, leave them put).
+    -- Field names follow the aion_GetBindPoint contract — NCSoft user_data
+    -- column names (xlocation/ylocation/zlocation/world). Also flips the
+    -- world_id stat so the player exits the instance WorldID range; without
+    -- this, leaving an instance leaves the entity stranded inside the dungeon
+    -- map even though its xyz are normal-world coords.
     if db then
         local bind, err = db.call("aion_GetBindPoint", _char_id(eid))
         if not err and bind and bind[1] then
-            local bx = tonumber(bind[1].x or bind[1].X or 0) or 0
-            local by = tonumber(bind[1].y or bind[1].Y or 0) or 0
-            local bz = tonumber(bind[1].z or bind[1].Z or 0) or 0
+            local row = bind[1]
+            local bx = tonumber(row.xlocation) or 0
+            local by = tonumber(row.ylocation) or 0
+            local bz = tonumber(row.zlocation) or 0
+            local bw = tonumber(row.world) or 0
             entity.set_position(eid, bx, by, bz)
+            if bw > 0 then
+                entity.set_stat(eid, "world_id", bw)
+            end
         end
     end
 
@@ -516,10 +526,29 @@ instance.on_boss_kill = function(victim_eid, killer_eid)
                     if rewards.items then
                         for _, it in ipairs(rewards.items) do
                             if it.id and it.count and it.count > 0 then
-                                -- Round 6 C4 — entropy v0 wiring: 副本 boss 击杀奖励是"巅峰熵刻"，
-                                -- 按 epic tier 放满 6 槽 greater manastone，feel "这把要留着"。
-                                -- TODO Cycle 17: instance template rewards 表应该自带 item_class 字段。
-                                entropy.add_item_with_stones(gw, it.id, it.count, "weapon", "epic", season_seed())
+                                -- Round 11 A8 (patch 02): 改为 template 自带元数据。
+                                -- 字段 (默认值与原 Round 6 行为兼容):
+                                --   it.class  ("weapon"|"armor"|"accessory") 默认 "weapon"
+                                --   it.tier   ("common"|"rare"|"epic"|"legendary") 默认 "epic"
+                                --   it.affix  (boolean) 是否走 v1 random_attr (>= rare 推荐 true)
+                                local iclass = it.class or "weapon"
+                                local itier  = it.tier  or "epic"
+                                local seed   = season_seed()
+                                if it.affix then
+                                    -- v1 路径: random_attr (4/7/10/12 槽 by tier)
+                                    -- 拿这位被分到奖励的玩家自己的职业 + 阵营做 bias roll;
+                                    -- 同 boss-kill 的 6 人小队每人 forge_id 不同 (kill_eid 异),
+                                    -- 词缀向量也不同 — 是 "拍卖+晒图" 心流的源头。
+                                    local class_name = class_names and
+                                        class_names.of_entity(m) or "default"
+                                    local race = entity.get_stat(m, "faction") or 0
+                                    entropy.add_item_with_random_attr(gw, it.id, it.count,
+                                        class_name, itier, race, seed)
+                                else
+                                    -- v0 路径: manastone only (legacy, 适合 common tier 入门副本)
+                                    entropy.add_item_with_stones(gw, it.id, it.count,
+                                        iclass, itier, seed)
+                                end
                             end
                         end
                     end

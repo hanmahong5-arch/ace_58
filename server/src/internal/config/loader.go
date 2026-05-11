@@ -32,11 +32,12 @@ type GatewayConfig struct {
 
 // GatewayServer holds listener and identity settings.
 type GatewayServer struct {
-	AuthListen     string `toml:"auth_listen"`     // e.g. "0.0.0.0:2108"
-	GameListen     string `toml:"game_listen"`     // e.g. "0.0.0.0:7777"
-	MaxConnections int    `toml:"max_connections"` // e.g. 2000
-	Country        int    `toml:"country"`         // 5 = China
-	ServerID       int    `toml:"server_id"`       // 10 = NCSoft original
+	AuthListen          string `toml:"auth_listen"`           // e.g. "0.0.0.0:2108"
+	GameListen          string `toml:"game_listen"`           // e.g. "0.0.0.0:7777"
+	MaxConnections      int    `toml:"max_connections"`       // e.g. 2000
+	Country             int    `toml:"country"`               // 5 = China
+	ServerID            int    `toml:"server_id"`             // 1 = NCSoft original
+	GameInternalVersion int    `toml:"game_internal_version"` // opcode obfuscation version (4.8=207, 5.8=TBD)
 }
 
 // GatewayCrypto holds cryptographic parameters.
@@ -116,12 +117,17 @@ type DatabaseConfig struct {
 	PoolSize    int    `toml:"pool_size"`
 }
 
-// DSN returns the pgx connection string for this database.
-// The password is resolved from the environment at call time.
+// DSN returns the base pgx connection string (no pool params).
+// Safe for database/sql, goose migrations, and pgxpool alike.
 func (d DatabaseConfig) DSN() string {
 	pass := os.Getenv(d.PasswordEnv)
-	return fmt.Sprintf("host=%s port=%d dbname=%s user=%s password=%s pool_max_conns=%d",
-		d.Host, d.Port, d.Name, d.User, pass, d.PoolSize)
+	return fmt.Sprintf("host=%s port=%d dbname=%s user=%s password=%s sslmode=disable",
+		d.Host, d.Port, d.Name, d.User, pass)
+}
+
+// PoolDSN returns DSN with pgxpool-specific pool_max_conns appended.
+func (d DatabaseConfig) PoolDSN() string {
+	return fmt.Sprintf("%s pool_max_conns=%d", d.DSN(), d.PoolSize)
 }
 
 // RedisConfig holds Redis connection parameters.

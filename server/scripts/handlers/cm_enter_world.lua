@@ -42,17 +42,28 @@ register_handler(0x15, function(ctx, payload)
     if world_id >= 300000000 and instance and not instance.has_char_run(char_id) then
         local bind, berr = db.call("aion_GetBindPoint", char_id)
         if not berr and bind and bind[1] then
-            x        = tonumber(bind[1].x or bind[1].X or 0) or 0
-            y        = tonumber(bind[1].y or bind[1].Y or 0) or 0
-            z        = tonumber(bind[1].z or bind[1].Z or 0) or 0
-            world_id = tonumber(bind[1].world or bind[1].world_id or 0) or world_id
-            heading  = 0
+            -- Field names follow the aion_GetBindPoint contract — NCSoft
+            -- user_data column names. dir is SMALLINT 0..255.
+            local row = bind[1]
+            x        = tonumber(row.xlocation) or 0
+            y        = tonumber(row.ylocation) or 0
+            z        = tonumber(row.zlocation) or 0
+            world_id = tonumber(row.world)     or world_id
+            heading  = tonumber(row.dir)       or 0
             log.warn("CM_ENTER_WORLD: stranded instance recovery char_id="
                 .. tostring(char_id) .. " → bind-point teleport")
         end
     end
 
     entity.set_position(ctx.entity_id, x, y, z, heading)
+
+    -- Round 11 A8 (patch 07): class_id stat 写入 — entropy v1 / loot.lua /
+    -- quest reward 等路径需要拿玩家职业做 class bias roll。set_stat 仅
+    -- 持 float64 → 存数字 0..14, 调用方用 lib/class_names.lua 翻成字符串。
+    -- 必须早于其他需要它的 stat (例如 patch 06 loot.roll_and_grant 在
+    -- on_kill 触发时即读)。
+    local cls_id = tonumber(info.class or info.class_id or 0) or 0
+    entity.set_stat(ctx.entity_id, "class_id", cls_id)
 
     -- Cache frequently-read stats in ECS for O(1) access during gameplay.
     entity.set_stat(ctx.entity_id, "char_id",  char_id)

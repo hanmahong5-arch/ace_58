@@ -60,7 +60,7 @@ func main() {
 	defer cancel()
 
 	// Connect to PostgreSQL (aion_world_live) for SP calls.
-	db, err := database.NewPool(ctx, worldCfg.Database.DSN())
+	db, err := database.NewPool(ctx, worldCfg.Database.PoolDSN())
 	if err != nil {
 		slog.Warn("world: database unavailable at startup", "err", err)
 		db = nil

@@ -27,9 +27,11 @@ instance.register({
 
     rewards = {
         kinah = 250000,
-        -- Single-roll unique drop for the group (MVP: everyone gets one;
-        -- per-player roll mechanics deferred).
-        items = { { id = 100100501, count = 1 } },
+        -- Round 11 A8 (patch 02): 5.8 末期 6 人本, weapon legendary unique 掉落。
+        -- legendary tier → v1 random_attr (12 槽); per-player roll: 6 人各得
+        -- 一把但 entropy.forge_id 用 char_id mix → 6 把词缀向量必然不同,
+        -- 是 group dungeon 的"晒图心流"主战场。
+        items = { { id = 100100501, count = 1, class = "weapon", tier = "legendary", affix = true } },
     },
 
     on_boss_kill = function(inst, boss_eid)

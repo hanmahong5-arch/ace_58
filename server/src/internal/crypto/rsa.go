@@ -97,6 +97,57 @@ func (k *RSAKeyPair) PublicKeyModulus() []byte {
 	return result
 }
 
+// ScrambledModulus returns the 128-byte RSA modulus with NCSoft's XOR scramble
+// applied. The AION client expects this encoding in SM_KEY/SM_INIT; it
+// reverses the scramble internally before using the key for RSA encryption.
+// Algorithm ported from AL-Aion EncryptedRSAKeyPair.encryptModulus().
+func (k *RSAKeyPair) ScrambledModulus() []byte {
+	mod := make([]byte, CredentialBlockSize)
+	copy(mod, k.PublicKeyModulus())
+
+	// Step 1: swap bytes [0..3] ↔ [0x4d..0x50]
+	for i := 0; i < 4; i++ {
+		mod[i], mod[0x4d+i] = mod[0x4d+i], mod[i]
+	}
+	// Step 2: XOR first half with second half
+	for i := 0; i < 0x40; i++ {
+		mod[i] ^= mod[0x40+i]
+	}
+	// Step 3: XOR mid-block
+	for i := 0; i < 4; i++ {
+		mod[0x0d+i] ^= mod[0x34+i]
+	}
+	// Step 4: XOR second half with (now-modified) first half
+	for i := 0; i < 0x40; i++ {
+		mod[0x40+i] ^= mod[i]
+	}
+	return mod
+}
+
+// UnscrambleModulus reverses the NCSoft XOR scramble on a 128-byte modulus.
+// Used by clients (including tinyclient) after receiving SM_KEY.
+func UnscrambleModulus(mod []byte) []byte {
+	m := make([]byte, CredentialBlockSize)
+	copy(m, mod)
+	// Reverse step 4
+	for i := 0; i < 0x40; i++ {
+		m[0x40+i] ^= m[i]
+	}
+	// Reverse step 3
+	for i := 0; i < 4; i++ {
+		m[0x0d+i] ^= m[0x34+i]
+	}
+	// Reverse step 2
+	for i := 0; i < 0x40; i++ {
+		m[i] ^= m[0x40+i]
+	}
+	// Reverse step 1
+	for i := 0; i < 4; i++ {
+		m[i], m[0x4d+i] = m[0x4d+i], m[i]
+	}
+	return m
+}
+
 // PublicKeyExponent returns the RSA public exponent (e.g. 65537).
 func (k *RSAKeyPair) PublicKeyExponent() int {
 	return k.priv.E

@@ -36,9 +36,12 @@ shop.buy = function(ctx, shop_table, item_id, count)
         return false, "no_kinah"
     end
 
-    -- Round 6 C4 — entropy v0 wiring: 商店购买默认 weapon/common 等级。
-    -- 玩家自己花钱买，feel 不应过度 wow（避免商店秒杀玩法），common tier。
-    entropy.add_item_with_stones(ctx.gateway_seq_id, item_id, count, "weapon", "common", season_seed())
+    -- Round 11 A8 (rollback Round 6 C4): 商店购买不走 entropy。
+    -- 设计校正: 商店购买 = "稳定可预期" 路径 (玩家花钱不应有 RNG 惊喜);
+    -- entropy 集中在 loot/quest/event reward 路径。potion (无装备槽) 也
+    -- 不能挂 manastone (schema 违反)。统一走 player.add_item — 物品按
+    -- "裸身" mint，玩家可后续手动镶嵌 (Q2 manastone socket 系统单独做)。
+    player.add_item(ctx.gateway_seq_id, item_id, count)
 
     log.info("shop.buy: entity=" .. tostring(ctx.entity_id)
         .. " item=" .. tostring(item_id) .. " x" .. tostring(count)

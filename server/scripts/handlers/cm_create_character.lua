@@ -195,6 +195,20 @@ register_handler(0x12, function(ctx, payload)
         new_id = rows[1].char_id or rows[1].p_ncharid or rows[1][1] or 0
     end
 
+    -- Round 11 A8 (patch 10): starter_kit entropy mint。
+    -- 创角成功后立即 grant 2 件 starter 装备 (weapon + armor by class), 让玩家
+    -- 第一次进世界时 SM_INVENTORY_INFO 已带 forge_id 装备 — 高熵命题对新人
+    -- 的"第一印象"。grant 失败不阻断创角主流程 (只 log warn)。
+    -- TODO: 待验 SP `aion_putchar_20160620` 是否已 auto-grant; 若已 grant,
+    --       本 hook 改为"BONUS pack"模式 (额外送 1 件高 tier 礼包)。
+    if starter_kit and new_id > 0 then
+        local n = starter_kit.grant_for_new_char(new_id, race, class_id)
+        if n > 0 then
+            log.info("CM_CREATE_CHARACTER: starter_kit granted "
+                .. tostring(n) .. " items to char_id=" .. tostring(new_id))
+        end
+    end
+
     log.info("CM_CREATE_CHARACTER: created name=" .. name
         .. " account=" .. tostring(ctx.account)
         .. " race=" .. tostring(race) .. " class=" .. tostring(class_id)

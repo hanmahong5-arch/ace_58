@@ -47,6 +47,18 @@ function on_entity_killed(killer_id, victim_id)
         instance.on_boss_kill(victim_id, killer_id)
     end
 
+    -- Round 11 A8 (patch 06): NPC loot drop — 高熵机制核心战场。
+    -- 仅在 victim 是 NPC 且 killer 是玩家时触发, 避开 PvP / DoT 自死。
+    -- 物品分给 killer (group share 走 EXP 不走 loot, Aion 经典设计)。
+    -- 必须早于 world.despawn — despawn 会清 NpcComp, get_npc_template 之后归零。
+    if not victim_is_player and entity.get_gateway_id(killer_id) and loot then
+        local victim_tmpl = entity.get_npc_template(victim_id) or 0
+        if victim_tmpl > 0 and loot.has_table and loot.has_table(victim_tmpl) then
+            local killer_lvl = entity.get_stat(killer_id, "level") or 1
+            loot.roll_and_grant(killer_id, victim_tmpl, killer_lvl)
+        end
+    end
+
     -- 2. Update victim state.
     if victim_is_player then
         entity.set_stat(victim_id, "dead", 1)

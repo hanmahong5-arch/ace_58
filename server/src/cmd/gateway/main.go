@@ -13,8 +13,11 @@ package main
 
 import (
 	"context"
+	"encoding/binary"
 	"encoding/hex"
+	"fmt"
 	"log/slog"
+	mrand "math/rand"
 	"net"
 	"os"
 	"os/signal"
@@ -73,7 +76,7 @@ func main() {
 
 	// Connect to PostgreSQL (aion_account_db) for credential verification.
 	var db *database.Pool
-	db, err = database.NewPool(ctx, gatewayCfg.Database.DSN())
+	db, err = database.NewPool(ctx, gatewayCfg.Database.PoolDSN())
 	if err != nil {
 		// Non-fatal: gateway starts in dev mode, accepts any credentials.
 		slog.Warn("gateway: database unavailable at startup (dev mode active)", "err", err)
@@ -116,9 +119,14 @@ func main() {
 		servers: buildServerList(gatewayCfg),
 		country: gatewayCfg.Server.Country,
 	}
+	gameVersion := gatewayCfg.Server.GameInternalVersion
+	if gameVersion == 0 {
+		gameVersion = 217 // default guess for 5.8
+	}
 	gameDeps := gameConnDeps{
-		store:  tokenStore,
-		events: natsClient,
+		store:           tokenStore,
+		events:          natsClient,
+		internalVersion: gameVersion,
 	}
 
 	// Start auth listener (:2108).
@@ -146,6 +154,7 @@ func main() {
 		handleAuthConn(conn, authDeps)
 	})
 	go acceptLoop(ctx, gameLn, func(conn net.Conn) {
+		slog.Info("gateway: GAME PORT TCP ACCEPT", "addr", conn.RemoteAddr())
 		handleGameConn(conn, gameDeps)
 	})
 
@@ -185,7 +194,7 @@ func handleAuthConn(conn net.Conn, deps authConnDeps) {
 	slog.Debug("gateway: auth connection", "id", s.id, "addr", conn.RemoteAddr())
 
 	// 1. Send SM_KEY (unencrypted — BF not yet active).
-	if err := s.sendSMKey(deps.rsaKP.PublicKeyModulus(), deps.bfKey, deps.country); err != nil {
+	if err := s.sendSMKey(deps.rsaKP.ScrambledModulus(), deps.bfKey, deps.country); err != nil {
 		slog.Warn("gateway: sendSMKey failed", "id", s.id, "err", err)
 		return
 	}
@@ -199,84 +208,152 @@ func handleAuthConn(conn net.Conn, deps authConnDeps) {
 	}
 	s.bfCipher = bf
 
-	// 2. Read CM_AUTH_LOGIN.
-	pkt, err := s.readPacket()
+	// 2. Read first client packet — CM_AUTH_GG (0x07) or CM_AUTH_LOGIN (0x00).
+	//    With -noauthgg flag the client skips GG and sends CM_AUTH_LOGIN directly.
+	firstOpcode, firstPayload, err := s.readAuthPacket()
 	if err != nil {
-		slog.Warn("gateway: read CM_AUTH_LOGIN", "id", s.id, "err", err)
+		slog.Warn("gateway: read first client packet failed", "id", s.id, "err", err)
 		return
 	}
-	if pkt.Opcode() != aionproto.CM_AUTH_LOGIN {
-		slog.Warn("gateway: unexpected opcode after SM_KEY",
-			"id", s.id, "opcode", pkt.Opcode())
+	slog.Info("gateway: first client packet",
+		"id", s.id,
+		"opcode", fmt.Sprintf("0x%02x", firstOpcode),
+		"payload_len", len(firstPayload))
+
+	var loginPayload []byte
+
+	switch firstOpcode {
+	case byte(aionproto.CM_AUTH_GG):
+		// GameGuard echo — parse session ID and respond
+		var clientSessionID uint32
+		if len(firstPayload) >= 4 {
+			clientSessionID = binary.LittleEndian.Uint32(firstPayload[:4])
+		}
+		slog.Info("gateway: CM_AUTH_GG", "id", s.id, "client_session_id", clientSessionID)
+		if err := s.sendSMAuthGG(clientSessionID); err != nil {
+			slog.Warn("gateway: sendSMAuthGG failed", "id", s.id, "err", err)
+			return
+		}
+
+		// 3. Now read CM_AUTH_LOGIN
+		loginOpcode, loginPld, err := s.readAuthPacket()
+		if err != nil {
+			slog.Warn("gateway: read CM_AUTH_LOGIN failed", "id", s.id, "err", err)
+			return
+		}
+		if loginOpcode != byte(aionproto.CM_AUTH_LOGIN) {
+			slog.Warn("gateway: expected CM_AUTH_LOGIN after GG",
+				"id", s.id, "opcode", fmt.Sprintf("0x%02x", loginOpcode))
+			return
+		}
+		loginPayload = loginPld
+
+	case byte(aionproto.CM_AUTH_LOGIN):
+		// Direct login (client launched with -noauthgg)
+		loginPayload = firstPayload
+
+	default:
+		slog.Warn("gateway: unexpected first opcode",
+			"id", s.id, "opcode", fmt.Sprintf("0x%02x", firstOpcode))
 		return
 	}
 
-	account, password, err := s.handleCMAuthLogin(pkt, deps.rsaKP)
+	account, password, err := handleCMAuthLoginRaw(loginPayload, deps.rsaKP)
 	if err != nil {
 		slog.Warn("gateway: credential parse failed", "id", s.id, "err", err)
-		_ = s.sendSMLoginFail(aionproto.LoginFailInvalidCredentials)
+		_ = s.sendSMLoginFailAuth(aionproto.LoginFailInvalidCredentials)
 		return
 	}
 
-	// 3. Verify credentials against the account database.
+	// 4. Verify credentials against the account database.
 	accountID, authErr := verifyAccount(s.ctx, deps.db, account, password)
 	if authErr != nil {
 		slog.Info("gateway: login failed", "account", account, "reason", authErr)
-		_ = s.sendSMLoginFail(aionproto.LoginFailInvalidCredentials)
+		_ = s.sendSMLoginFailAuth(aionproto.LoginFailInvalidCredentials)
 		return
 	}
 
 	s.account = account
 	s.setState(stateAuthed)
+	loginOk := int32(mrand.Uint32())
 	slog.Info("gateway: login OK", "account", account, "id", s.id, "account_id", accountID)
 
-	// 4. Send SM_LOGIN_OK with server list.
-	if err := s.sendSMLoginOK(accountID, deps.servers); err != nil {
-		slog.Warn("gateway: sendSMLoginOK failed", "id", s.id, "err", err)
+	// 5. Send SM_LOGIN_OK (session key only, no server list).
+	if err := s.sendSMLoginOKAuth(int32(accountID), loginOk); err != nil {
+		slog.Warn("gateway: sendSMLoginOKAuth failed", "id", s.id, "err", err)
 		return
 	}
 
-	// 5. Read CM_PLAY (server selection).
-	pkt, err = s.readPacket()
+	// 6. Read CM_SERVER_LIST (0x05) — client requests server list after login OK.
+	slOpcode, _, err := s.readAuthPacket()
+	if err != nil {
+		slog.Warn("gateway: read CM_SERVER_LIST", "id", s.id, "err", err)
+		return
+	}
+	if slOpcode != 0x05 {
+		slog.Warn("gateway: expected CM_SERVER_LIST(0x05)",
+			"id", s.id, "opcode", fmt.Sprintf("0x%02x", slOpcode))
+		return
+	}
+
+	// 7. Send SM_SERVER_LIST (0x04) with available game servers.
+	if err := s.sendSMServerList(deps.servers); err != nil {
+		slog.Warn("gateway: sendSMServerList failed", "id", s.id, "err", err)
+		return
+	}
+
+	// 8. Read CM_PLAY (0x02) — server selection.
+	playOpcode, playPayload, err := s.readAuthPacket()
 	if err != nil {
 		slog.Warn("gateway: read CM_PLAY", "id", s.id, "err", err)
 		return
 	}
-	if pkt.Opcode() != aionproto.CM_PLAY {
-		slog.Warn("gateway: unexpected opcode after SM_LOGIN_OK",
-			"id", s.id, "opcode", pkt.Opcode())
+	if playOpcode != byte(aionproto.CM_PLAY) {
+		slog.Warn("gateway: expected CM_PLAY(0x02)",
+			"id", s.id, "opcode", fmt.Sprintf("0x%02x", playOpcode))
 		return
 	}
 
-	serverID, _ := pkt.ReadUint32()
+	if len(playPayload) < 9 {
+		slog.Warn("gateway: CM_PLAY payload too short", "id", s.id, "len", len(playPayload))
+		return
+	}
+	// CM_PLAY format: accountId(4) + loginOk(4) + serverId(1)
+	serverID := int(playPayload[8])
 
-	// 6. Issue a cryptographically random one-time session token.
-	//    Redis stores it with a 60s TTL; the game port verifies and deletes it
-	//    atomically on CM_SESSION_CONFIRM (prevents replay attacks).
-	rawToken, hexToken, err := deps.store.IssueRaw(s.ctx, session.Data{
+	// 9. Build NCSoft session key token: [accountId|loginOk|playOk1|playOk2].
+	//    Client echoes these 16 bytes in CM_SESSION_CONFIRM on the game port.
+	playOk1 := mrand.Int31()
+	playOk2 := mrand.Int31()
+	var sessionToken [16]byte
+	binary.LittleEndian.PutUint32(sessionToken[0:4], uint32(accountID))
+	binary.LittleEndian.PutUint32(sessionToken[4:8], uint32(loginOk))
+	binary.LittleEndian.PutUint32(sessionToken[8:12], uint32(playOk1))
+	binary.LittleEndian.PutUint32(sessionToken[12:16], uint32(playOk2))
+
+	if err := deps.store.StoreToken(s.ctx, sessionToken, session.Data{
 		AccountID: accountID,
 		Account:   account,
-		ServerID:  int(serverID),
-	})
-	if err != nil {
-		slog.Error("gateway: issue session token failed", "id", s.id, "err", err)
-		_ = s.sendSMLoginFail(aionproto.LoginFailSystemError)
+		ServerID:  serverID,
+	}); err != nil {
+		slog.Error("gateway: store session token failed", "id", s.id, "err", err)
+		_ = s.sendSMLoginFailAuth(aionproto.LoginFailSystemError)
 		return
 	}
+	hexToken := fmt.Sprintf("%x", sessionToken)
 
-	// 7. Notify World Engine about the incoming player login.
-	//    World stores the session state and waits for player.enter from the game port.
+	// 10. Notify World Engine about the incoming player login.
 	deps.events.PublishAsync(ipc.SubjectPlayerLogin, ipc.PlayerLoginEvent{
 		AccountID:  accountID,
 		Account:    account,
-		ServerID:   int(serverID),
+		ServerID:   serverID,
 		TokenHex:   hexToken,
 		RemoteAddr: conn.RemoteAddr().String(),
 	})
 
-	// 8. Send SM_PLAY_OK — client disconnects from :2108 and connects to :7777.
-	if err := s.sendSMPlayOK(int(serverID), rawToken[:]); err != nil {
-		slog.Warn("gateway: sendSMPlayOK failed", "id", s.id, "err", err)
+	// 11. Send SM_PLAY_OK — client disconnects from :2108 and connects to :7777.
+	if err := s.sendSMPlayOKAuth(playOk1, playOk2, serverID); err != nil {
+		slog.Warn("gateway: sendSMPlayOKAuth failed", "id", s.id, "err", err)
 		return
 	}
 

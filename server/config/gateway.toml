@@ -6,7 +6,8 @@ auth_listen = "0.0.0.0:2108"    # Client auth connections
 game_listen = "0.0.0.0:7777"    # Client game connections
 max_connections = 2000
 country = 5                      # China (original NCSoft config)
-server_id = 10                   # Original NCSoft server ID
+server_id = 1                    # Standard first server ID
+game_internal_version = 213      # Game port opcode obfuscation (4.8=207, 5.8=213/0xD5)
 
 [crypto]
 # NCSoft non-standard Blowfish: little-endian block operations

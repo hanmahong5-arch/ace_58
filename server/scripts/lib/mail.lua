@@ -3,7 +3,7 @@
 --
 -- Responsibilities:
 --   * Validate outgoing mail (length caps, recipient existence, send fee).
---   * Persist mail via NCSoft stored procedures (best-effort names, see TODO).
+--   * Persist mail via the real NCSoft stored procedures (Round 13 rename).
 --   * Fetch / read / delete inbox entries.
 --   * Claim attached items and kinah atomically.
 --   * Notify live recipients via SM_MAIL_NEW when they are online.
@@ -21,16 +21,20 @@
 --   mail.delete(reader_eid, mail_id) -> ok, reason
 --     reasons: "sp_failed"
 --
--- Design notes:
---   - The SP names used here (aion_InsertMailUser / aion_GetMailsByUser /
---     aion_UpdateMailRead / aion_ClaimMailAttachment / aion_DeleteMail) are
---     placeholders in the same spirit as S-4 inventory SPs. Verify against
---     the 1314-procedure migration bundle before production use.
---   - This module is deliberately synchronous: player-initiated sends write
---     directly through db.call. System mail (compensation, event rewards,
---     auction-house refunds) should use jobq.enqueue with kind
---     "aion58.mail.deliver" — the S-13 river worker picks those up and calls
---     aion_InsertMailUser inside the worker tx for at-least-once delivery.
+-- SP wiring (Round 13 — rename from Lua-invented to real NCSoft names):
+--   send    -> aion_mailwrite_20160804     (00133 — player-to-player; system mail
+--                                            uses 00031 aion_mailwritesys_20111227 via jobq)
+--   list    -> aion_maillist                (00045)  args: char_id, now_time, max_mail
+--   read    -> aion_mailread                (00046)  args: char_id, mail_id; marks read + returns body
+--   claim   -> aion_mailgetitem             (00132)  args: char_id, mail_id, warehouse, flag(0=item/1=money/2=ap)
+--   delete  -> aion_maildelete              (00048)  args: char_id, mail_id
+--   resolve -> aion_getcharidbyname         (00130)  args: name
+--
+-- This module is deliberately synchronous: player-initiated sends write
+-- directly through db.call. System mail (compensation, event rewards,
+-- auction-house refunds) uses jobq.enqueue with kind "aion58.mail.deliver"
+-- — the S-13 river worker calls aion_mailwritesys_20111227 inside the
+-- worker tx for at-least-once delivery.
 
 mail = {}
 
@@ -38,6 +42,7 @@ mail.MAX_SUBJECT_LEN     = 80
 mail.MAX_BODY_LEN        = 1024
 mail.MAX_ATTACHED_COUNT  = 9999
 mail.SEND_FEE            = 10       -- kinah; NCSoft default for standard mail
+mail.MAX_INBOX_PAGE      = 100      -- aion_maillist's TOP cap (NCSoft 用 100)
 
 -- --- Helpers -------------------------------------------------------------
 
@@ -84,12 +89,12 @@ mail.send = function(sender_eid, recipient_name, subject, body,
     end
     if kinah < 0 then kinah = 0 end
 
-    -- Recipient must be an existing character. Resolve via aion_GetCharIdByName
-    -- (NCSoft SP — name unverified). If the SP is unavailable fall back to
-    -- find_by_name which only returns online players.
+    -- Recipient must be an existing character. Resolve via aion_getcharidbyname
+    -- (00130, PG-only, see SP rationale). Online-fallback covers the rare case
+    -- where DB lookup misses (e.g. very fresh character not yet flushed).
     local recipient_char_id = 0
     if db then
-        local rows, rerr = db.call("aion_GetCharIdByName", recipient_name)
+        local rows, rerr = db.call("aion_getcharidbyname", recipient_name)
         if not rerr and rows and #rows > 0 then
             recipient_char_id = tonumber(rows[1].char_id or rows[1].id or 0) or 0
         end
@@ -118,15 +123,23 @@ mail.send = function(sender_eid, recipient_name, subject, body,
     local sender_name    = player.get_name(sender_gw)
     if sender_name == "" then sender_name = "?" end
 
-    -- Persist. SP signature assumed:
-    --   aion_InsertMailUser(sender_char_id, recipient_char_id, subject, body,
-    --                       attached_item_id, attached_item_count, attached_kinah)
-    -- returning one row with column "mail_id".
+    -- Persist via aion_mailwrite_20160804 (00133, NCSoft signature):
+    --   (to_id, to_name, from_id, from_name, title, content,
+    --    item_id, item_nameid, item_amount, money, abyss_point,
+    --    warehouse, arrive_time, express_mail) -> RETURNS BIGINT mail_id
+    -- 系统邮件（补偿/活动奖励）走 jobq + aion_mailwritesys_20111227。
     local mail_id = 0
     if db then
-        local rows, serr = db.call("aion_InsertMailUser",
-            sender_char_id, recipient_char_id, subject, body,
-            item_id, item_count, kinah)
+        -- arrive_time = now（玩家邮件即时送达；系统邮件可后置）；
+        -- warehouse=2 (cube/inbox attach)；item_nameid=0 (TODO: 待 lookup item 模板)；
+        -- abyss_point=0 (玩家邮件不附 AP)；express_mail=0 (普通邮件)。
+        local now_ts = os.time()
+        local rows, serr = db.call("aion_mailwrite_20160804",
+            recipient_char_id, recipient_name,
+            sender_char_id, sender_name,
+            subject, body,
+            item_id, 0, item_count, kinah, 0,
+            2, now_ts, 0)
         if serr then
             -- Roll back the fee so the sender does not lose kinah to a DB outage.
             if total_cost > 0 then
@@ -135,8 +148,11 @@ mail.send = function(sender_eid, recipient_name, subject, body,
             log.warn("mail.send: SP failed err=" .. tostring(serr))
             return false, "sp_failed"
         end
+        -- aion_mailwrite_20160804 在 NCSoft 不返回 id；本端 PG 端按惯例可让 SP
+        -- RETURNS BIGINT；若运行时未拿到 id，仍允许 SM_MAIL_NEW 推送（id=0）。
         if rows and #rows > 0 then
-            mail_id = tonumber(rows[1].mail_id or rows[1].id or 0) or 0
+            local r = rows[1]
+            mail_id = tonumber(r.mail_id or r.id or r[1] or 0) or 0
         end
     end
 
@@ -165,12 +181,13 @@ end
 -- --- mail.list -----------------------------------------------------------
 
 -- Returns an array of mail row tables. Empty array on SP failure / no mail.
+-- aion_maillist (00045) 签名: (char_id, now_time, max_mail) → 9 列 row。
 mail.list = function(reader_eid)
     local char_id = _char_id_of(reader_eid)
     if char_id == 0 or not db then
         return {}
     end
-    local rows, err = db.call("aion_GetMailsByUser", char_id)
+    local rows, err = db.call("aion_maillist", char_id, os.time(), mail.MAX_INBOX_PAGE)
     if err or not rows then
         if err then log.warn("mail.list: SP err=" .. tostring(err)) end
         return {}
@@ -181,12 +198,13 @@ end
 -- --- mail.read -----------------------------------------------------------
 
 -- Marks a mail as read and returns the row table.
+-- aion_mailread (00046) 内部先 UPDATE state=1 再 SELECT 完整 body（13 列）。
 mail.read = function(reader_eid, mail_id)
     local char_id = _char_id_of(reader_eid)
     if char_id == 0 or not db then
         return false, "sp_failed"
     end
-    local rows, err = db.call("aion_UpdateMailRead", char_id, mail_id)
+    local rows, err = db.call("aion_mailread", char_id, mail_id)
     if err then
         log.warn("mail.read: SP err=" .. tostring(err))
         return false, "sp_failed"
@@ -199,10 +217,11 @@ end
 
 -- --- mail.claim ----------------------------------------------------------
 
--- Claim the attachment (item and/or kinah) of a mail. Calls a composite SP
--- aion_ClaimMailAttachment that returns { item_id, item_count, kinah } for
--- the attachment metadata in a single row; on success those are credited to
--- the player via player.add_item / player.add_kinah.
+-- Claim the attachment of a mail. NCSoft 设计是一次只领一类（item/money/ap），
+-- 由 flag 控制（aion_mailgetitem 00132，4 args，rc + out_item_id/money/ap）。
+-- 客户端 CM_MAIL_CLAIM 0xC1 的 payload 当前只带 mail_id，没有 flag —
+-- 我们顺序尝试 item → money → ap，每次只领一种已存在的资产，发回结果给玩家。
+-- 这保留了 NCSoft "rc=2 表示该类无附件" 的语义，又不要求 client 改 packet。
 mail.claim = function(reader_eid, mail_id)
     local gw = entity.get_gateway_id(reader_eid)
     if not gw then return false, "not_found" end
@@ -211,53 +230,96 @@ mail.claim = function(reader_eid, mail_id)
     if char_id == 0 or not db then
         return false, "sp_failed"
     end
-    local rows, err = db.call("aion_ClaimMailAttachment", char_id, mail_id)
-    if err then
-        log.warn("mail.claim: SP err=" .. tostring(err))
-        return false, "sp_failed"
+
+    -- NCSoft warehouse 编号约定（与 lib/warehouse.lua + 00037 + 00134 一致）：
+    -- 0 = inventory (cube), 1 = char warehouse, 2 = account warehouse。
+    -- 邮件附件领取 → 进玩家背包 (cube)。
+    local WAREHOUSE_CUBE = 0
+
+    -- 单次 SP 调用：按 flag 取一类资产；rc=0 success / 1 invalid_key / 2 no_asset。
+    local function _try(flag)
+        local rows, err = db.call("aion_mailgetitem",
+            char_id, mail_id, WAREHOUSE_CUBE, flag)
+        if err then
+            log.warn("mail.claim: SP err flag=" .. tostring(flag) .. " err=" .. tostring(err))
+            return nil, "sp_failed"
+        end
+        if not rows or #rows == 0 then
+            return nil, "not_found"
+        end
+        local r = rows[1]
+        return {
+            rc      = tonumber(r.rc          or r[1] or -1) or -1,
+            item_id = tonumber(r.out_item_id or r[2] or 0)  or 0,
+            money   = tonumber(r.out_money   or r[3] or 0)  or 0,
+            ap      = tonumber(r.out_ap      or r[4] or 0)  or 0,
+        }
     end
-    if not rows or #rows == 0 then
+
+    -- 1) 先试 item (flag=0)
+    local res, reason = _try(0)
+    if not res then return false, reason end
+    if res.rc == 1 then
         return false, "not_found"
     end
 
-    local row = rows[1]
-    local iid   = tonumber(row.item_id     or 0) or 0
-    local icnt  = tonumber(row.item_count  or 0) or 0
-    local kinah = tonumber(row.kinah       or 0) or 0
+    local granted = false
+    if res.rc == 0 and res.item_id > 0 then
+        -- aion_mailgetitem 已把 user_item.warehouse 切到 cube 完成 DB 转移；
+        -- 仍调 player.add_item 同步 world 的 entity inventory 缓存（不重复 INSERT，
+        -- 仅更新该玩家的 in-memory 物品索引）。amount 走 1：邮件 item 在 NCSoft
+        -- 模型里大多 stack=1，stack 物品（药/材料）走 SM_INVENTORY_INFO 全量推送
+        -- 在 Round 14+ 重写，先按 1 处理（暴露问题再修）。
+        player.add_item(gw, res.item_id, 1)
+        granted = true
+        log.info("mail.claim: item transferred char_id=" .. char_id
+            .. " mail_id=" .. mail_id .. " item_id=" .. res.item_id)
+    end
 
-    -- Nothing left on the attachment means someone already claimed it.
-    if iid == 0 and kinah == 0 then
+    -- 2) 试 money (flag=1)
+    res, reason = _try(1)
+    if not res then return false, reason end
+    if res.rc == 0 and res.money > 0 then
+        player.add_kinah(gw, res.money)
+        granted = true
+        log.info("mail.claim: kinah granted char_id=" .. char_id
+            .. " mail_id=" .. mail_id .. " kinah=" .. res.money)
+    end
+
+    -- 3) 试 abyss_point (flag=2)
+    res, reason = _try(2)
+    if not res then return false, reason end
+    if res.rc == 0 and res.ap > 0 then
+        if player.add_abyss_point then
+            player.add_abyss_point(gw, res.ap)
+        end
+        granted = true
+        log.info("mail.claim: ap granted char_id=" .. char_id
+            .. " mail_id=" .. mail_id .. " ap=" .. res.ap)
+    end
+
+    if not granted then
         return false, "already_claimed"
     end
-
-    if iid > 0 and icnt > 0 then
-        -- Round 6 C4 — entropy v0 wiring: 系统邮件附件视为 weapon/common 等级。
-        -- 邮件群发量大，common tier 给 3 槽 manastone，feel "OK 三个小 buff"。
-        entropy.add_item_with_stones(gw, iid, icnt, "weapon", "common", season_seed())
-    end
-    if kinah > 0 then
-        player.add_kinah(gw, kinah)
-    end
-
-    log.info("mail.claim: char_id=" .. tostring(char_id)
-        .. " mail_id=" .. tostring(mail_id)
-        .. " item_id=" .. tostring(iid)
-        .. " count=" .. tostring(icnt)
-        .. " kinah=" .. tostring(kinah))
     return true, nil
 end
 
 -- --- mail.delete ---------------------------------------------------------
 
+-- aion_maildelete (00048) 返回 (rc, prev_state)。rc=1 表示 mail 不属于 caller。
 mail.delete = function(reader_eid, mail_id)
     local char_id = _char_id_of(reader_eid)
     if char_id == 0 or not db then
         return false, "sp_failed"
     end
-    local _, err = db.call("aion_DeleteMail", char_id, mail_id)
+    local rows, err = db.call("aion_maildelete", char_id, mail_id)
     if err then
         log.warn("mail.delete: SP err=" .. tostring(err))
         return false, "sp_failed"
+    end
+    if rows and #rows > 0 then
+        local rc = tonumber(rows[1].rc or rows[1][1] or 0) or 0
+        if rc == 1 then return false, "not_found" end
     end
     return true, nil
 end

@@ -195,7 +195,7 @@ func TestWarehouseListEmptyWithoutDb(t *testing.T) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// TestWarehouseListReturnsRows — SP aion_GetWarehouseByUser returns 3 rows
+// TestWarehouseListReturnsRows — SP aion_getitemlist_20120102 returns 3 rows
 // and warehouse.list surfaces all 3 with fields intact.
 // ─────────────────────────────────────────────────────────────────────────────
 func TestWarehouseListReturnsRows(t *testing.T) {
@@ -206,7 +206,7 @@ func TestWarehouseListReturnsRows(t *testing.T) {
 	L.SetGlobal("EID", lua.LNumber(float64(eid)))
 
 	installWarehouseDB(t, L, map[string]string{
-		"aion_GetWarehouseByUser": `{
+		"aion_getitemlist_20120102": `{
 			[1]={item_id=100001, item_count=1, slot=0},
 			[2]={item_id=100002, item_count=5, slot=1},
 			[3]={item_id=100003, item_count=9, slot=2}
@@ -242,40 +242,27 @@ _sl3 = _rows[3].slot
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// TestWarehouseDepositBadCount — item_id<=0 or count<=0 yields bad_count and
-// touches neither kinah nor the DB.
+// TestWarehouseDepositBadId — Round 13 rename: count param dropped (NCSoft
+// SetItemWarehouse 是行级 transfer)。item_id<=0 → "bad_id"，副作用零。
 // ─────────────────────────────────────────────────────────────────────────────
-func TestWarehouseDepositBadCount(t *testing.T) {
+func TestWarehouseDepositBadId(t *testing.T) {
 	_, L, world, _ := newS15Bridge(t)
 	defer L.Close()
 
 	eid := spawnS15Player(t, world, 1503, 15004, "BadDep", 1000, 0, 0, 0)
 	L.SetGlobal("EID", lua.LNumber(float64(eid)))
 
-	// count=0 branch
-	if err := L.DoString(`_ok, _r = warehouse.deposit(EID, 100001, 0)`); err != nil {
+	if err := L.DoString(`_ok, _r = warehouse.deposit(EID, 0)`); err != nil {
 		t.Fatalf("DoString failed: %v", err)
 	}
 	if v := L.GetGlobal("_ok"); v != lua.LFalse {
-		t.Errorf("want ok=false on count=0, got %v", v)
-	}
-	if v := L.GetGlobal("_r"); v != lua.LString("bad_count") {
-		t.Errorf("want reason=bad_count, got %v", v)
-	}
-
-	// item_id=0 branch
-	if err := L.DoString(`_ok2, _r2 = warehouse.deposit(EID, 0, 1)`); err != nil {
-		t.Fatalf("DoString failed: %v", err)
-	}
-	if v := L.GetGlobal("_ok2"); v != lua.LFalse {
 		t.Errorf("want ok=false on item_id=0, got %v", v)
 	}
-	if v := L.GetGlobal("_r2"); v != lua.LString("bad_count") {
-		t.Errorf("want reason=bad_count on item_id=0, got %v", v)
+	if v := L.GetGlobal("_r"); v != lua.LString("bad_id") {
+		t.Errorf("want reason=bad_id on item_id=0, got %v", v)
 	}
-
 	if k, _ := world.GetStat(eid, "kinah"); k != 1000 {
-		t.Errorf("kinah must be untouched on bad_count, got %v", k)
+		t.Errorf("kinah must be untouched on bad_id, got %v", k)
 	}
 }
 
@@ -372,7 +359,7 @@ _ok, _r = warehouse.deposit(EID, 100001, 1)
 
 // ─────────────────────────────────────────────────────────────────────────────
 // TestWarehouseDepositHappyPath — session open, NPC in range, 500 kinah.
-// deposit returns true, kinah drops to 490, and aion_DepositItemUser was
+// deposit returns true, kinah drops to 490, and aion_setitemwarehouse_20111227 was
 // invoked on the Go-side DBBridge (observed via programmableDB).
 // ─────────────────────────────────────────────────────────────────────────────
 func TestWarehouseDepositHappyPath(t *testing.T) {
@@ -385,7 +372,7 @@ func TestWarehouseDepositHappyPath(t *testing.T) {
 	L.SetGlobal("EID", lua.LNumber(float64(eid)))
 	L.SetGlobal("NPC", lua.LNumber(float64(npcEid)))
 
-	// Observe SP invocation via programmableDB. aion_DepositItemUser returns
+	// Observe SP invocation via programmableDB. aion_setitemwarehouse_20111227 returns
 	// empty rows (success). The Lua `_G.db.call` call funnels through the
 	// same DBBridge because registerDB forwards to b.DB.
 	pdb := &programmableDB{
@@ -409,14 +396,14 @@ _ok, _r = warehouse.deposit(EID, 100001, 3)
 	if k, _ := world.GetStat(eid, "kinah"); k != 490 {
 		t.Errorf("kinah should drop to 490, got %v", k)
 	}
-	if !pdb.sawCall("aion_DepositItemUser") {
-		t.Errorf("expected aion_DepositItemUser SP call, calls=%v", pdb.calls)
+	if !pdb.sawCall("aion_setitemwarehouse_20111227") {
+		t.Errorf("expected aion_setitemwarehouse_20111227 SP call, calls=%v", pdb.calls)
 	}
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
 // TestWarehouseDepositRollsBackOnSpFail — session open, 500 kinah, but the
-// aion_DepositItemUser SP returns an error. warehouse.deposit must refund the
+// aion_setitemwarehouse_20111227 SP returns an error. warehouse.deposit must refund the
 // FEE_PER_TX via player.add_kinah so kinah is restored to 500.
 // ─────────────────────────────────────────────────────────────────────────────
 func TestWarehouseDepositRollsBackOnSpFail(t *testing.T) {
@@ -430,7 +417,7 @@ func TestWarehouseDepositRollsBackOnSpFail(t *testing.T) {
 	L.SetGlobal("NPC", lua.LNumber(float64(npcEid)))
 
 	installWarehouseDB(t, L, map[string]string{
-		"aion_DepositItemUser!err": "db_outage",
+		"aion_setitemwarehouse_20111227!err": "db_outage",
 	})
 
 	chunk := `
@@ -452,32 +439,33 @@ _ok, _r = warehouse.deposit(EID, 100001, 1)
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// TestWarehouseWithdrawBadCount — count<=0 → bad_count, no side effects.
+// TestWarehouseWithdrawBadId — Round 13 rename: count param dropped。item_id<=0
+// → "bad_id"，副作用零。
 // ─────────────────────────────────────────────────────────────────────────────
-func TestWarehouseWithdrawBadCount(t *testing.T) {
+func TestWarehouseWithdrawBadId(t *testing.T) {
 	_, L, world, _ := newS15Bridge(t)
 	defer L.Close()
 
 	eid := spawnS15Player(t, world, 1509, 15010, "BadWd", 1000, 0, 0, 0)
 	L.SetGlobal("EID", lua.LNumber(float64(eid)))
 
-	if err := L.DoString(`_ok, _r = warehouse.withdraw(EID, 100001, 0)`); err != nil {
+	if err := L.DoString(`_ok, _r = warehouse.withdraw(EID, 0)`); err != nil {
 		t.Fatalf("DoString failed: %v", err)
 	}
 	if v := L.GetGlobal("_ok"); v != lua.LFalse {
-		t.Errorf("want ok=false on count=0, got %v", v)
+		t.Errorf("want ok=false on item_id=0, got %v", v)
 	}
-	if v := L.GetGlobal("_r"); v != lua.LString("bad_count") {
-		t.Errorf("want reason=bad_count, got %v", v)
+	if v := L.GetGlobal("_r"); v != lua.LString("bad_id") {
+		t.Errorf("want reason=bad_id, got %v", v)
 	}
 	if k, _ := world.GetStat(eid, "kinah"); k != 1000 {
-		t.Errorf("kinah must be untouched on bad_count, got %v", k)
+		t.Errorf("kinah must be untouched on bad_id, got %v", k)
 	}
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
 // TestWarehouseWithdrawHappyPath — session + range + 500 kinah → true,
-// kinah→490, aion_WithdrawItemUser SP observed.
+// kinah→490, aion_setitemwarehouse_20111227 SP observed.
 // ─────────────────────────────────────────────────────────────────────────────
 func TestWarehouseWithdrawHappyPath(t *testing.T) {
 	b, L, world, _ := newS15Bridge(t)
@@ -506,8 +494,8 @@ _ok, _r = warehouse.withdraw(EID, 100001, 2)
 	if k, _ := world.GetStat(eid, "kinah"); k != 490 {
 		t.Errorf("kinah should drop to 490, got %v", k)
 	}
-	if !pdb.sawCall("aion_WithdrawItemUser") {
-		t.Errorf("expected aion_WithdrawItemUser SP call, calls=%v", pdb.calls)
+	if !pdb.sawCall("aion_setitemwarehouse_20111227") {
+		t.Errorf("expected aion_setitemwarehouse_20111227 SP call, calls=%v", pdb.calls)
 	}
 }
 
@@ -526,7 +514,7 @@ func TestWarehouseWithdrawRollsBackOnSpFail(t *testing.T) {
 	L.SetGlobal("NPC", lua.LNumber(float64(npcEid)))
 
 	installWarehouseDB(t, L, map[string]string{
-		"aion_WithdrawItemUser!err": "timeout",
+		"aion_setitemwarehouse_20111227!err": "timeout",
 	})
 
 	chunk := `
@@ -560,7 +548,7 @@ func TestCmWarehouseListHandlerRegistered(t *testing.T) {
 
 	// No rows from the SP → count=0 in the SM_WAREHOUSE_LIST response.
 	installWarehouseDB(t, L, map[string]string{
-		"aion_GetWarehouseByUser": `{}`,
+		"aion_getitemlist_20120102": `{}`,
 	})
 
 	sender.packets = nil

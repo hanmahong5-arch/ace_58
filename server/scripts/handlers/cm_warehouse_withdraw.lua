@@ -15,9 +15,10 @@ register_handler(0xC7, function(ctx, payload)
     end
 
     local item_id = payload:read_int32()
-    local count   = payload:read_int32()
+    -- Round 13: count 仍在 wire 但 lib 不再消费（行级 transfer）。
+    local _count  = payload:read_int32()
 
-    local ok, reason = warehouse.withdraw(ctx.entity_id, item_id, count)
+    local ok, reason = warehouse.withdraw(ctx.entity_id, item_id)
     if not ok then
         if chat and chat.send_system then
             chat.send_system(ctx.gateway_seq_id,
@@ -30,6 +31,5 @@ register_handler(0xC7, function(ctx, payload)
     end
 
     log.info("CM_WAREHOUSE_WITHDRAW: ok entity=" .. tostring(ctx.entity_id)
-        .. " item_id=" .. tostring(item_id)
-        .. " count=" .. tostring(count))
+        .. " item_id=" .. tostring(item_id))
 end)

@@ -107,7 +107,7 @@ func spawnS14Player(t *testing.T, world *ecs.World,
 //
 // This is a more flexible variant of the s10 `injectMockDB` helper because
 // mail.send needs to program two different SPs in a single call chain:
-// `aion_GetCharIdByName` (for recipient lookup) and `aion_InsertMailUser`
+// `aion_getcharidbyname` (for recipient lookup) and `aion_mailwrite_20160804`
 // (for persistence).
 func installMailDB(t *testing.T, L *lua.LState, responses map[string]string) {
 	t.Helper()
@@ -253,7 +253,7 @@ func TestMailSendNoRecipient(t *testing.T) {
 
 	// Empty rows for the name lookup; no player named "Ghost" online.
 	installMailDB(t, L, map[string]string{
-		"aion_GetCharIdByName": `{}`,
+		"aion_getcharidbyname": `{}`,
 	})
 
 	if err := L.DoString(
@@ -284,7 +284,7 @@ func TestMailSendNoKinah(t *testing.T) {
 	L.SetGlobal("EID", lua.LNumber(float64(eid)))
 
 	installMailDB(t, L, map[string]string{
-		"aion_GetCharIdByName": `{[1]={char_id=99999}}`,
+		"aion_getcharidbyname": `{[1]={char_id=99999}}`,
 	})
 
 	if err := L.DoString(
@@ -314,8 +314,8 @@ func TestMailSendHappyPath(t *testing.T) {
 	L.SetGlobal("EID", lua.LNumber(float64(eid)))
 
 	installMailDB(t, L, map[string]string{
-		"aion_GetCharIdByName": `{[1]={char_id=88888}}`,
-		"aion_InsertMailUser":  `{[1]={mail_id=777}}`,
+		"aion_getcharidbyname": `{[1]={char_id=88888}}`,
+		"aion_mailwrite_20160804":  `{[1]={mail_id=777}}`,
 	})
 
 	if err := L.DoString(
@@ -332,8 +332,8 @@ func TestMailSendHappyPath(t *testing.T) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// TestMailSendRollsBackKinahOnSpFail — aion_GetCharIdByName succeeds but
-// aion_InsertMailUser returns an error; mail.send must return sp_failed AND
+// TestMailSendRollsBackKinahOnSpFail — aion_getcharidbyname succeeds but
+// aion_mailwrite_20160804 returns an error; mail.send must return sp_failed AND
 // refund the deducted fee so the sender's kinah is restored to its original
 // balance.
 // ─────────────────────────────────────────────────────────────────────────────
@@ -346,8 +346,8 @@ func TestMailSendRollsBackKinahOnSpFail(t *testing.T) {
 
 	// Recipient lookup OK, insert fails.
 	installMailDB(t, L, map[string]string{
-		"aion_GetCharIdByName":    `{[1]={char_id=55555}}`,
-		"aion_InsertMailUser!err": "db_outage",
+		"aion_getcharidbyname":    `{[1]={char_id=55555}}`,
+		"aion_mailwrite_20160804!err": "db_outage",
 	})
 
 	if err := L.DoString(
@@ -380,8 +380,8 @@ func TestMailSendNotifiesOnlineRecipient(t *testing.T) {
 	L.SetGlobal("EID", lua.LNumber(float64(senderEid)))
 
 	installMailDB(t, L, map[string]string{
-		"aion_GetCharIdByName": `{[1]={char_id=14009}}`,
-		"aion_InsertMailUser":  `{[1]={mail_id=321}}`,
+		"aion_getcharidbyname": `{[1]={char_id=14009}}`,
+		"aion_mailwrite_20160804":  `{[1]={mail_id=321}}`,
 	})
 
 	// Clear any packets captured during harness/script load.
@@ -453,7 +453,7 @@ func TestMailListReturnsRows(t *testing.T) {
 	L.SetGlobal("EID", lua.LNumber(float64(eid)))
 
 	installMailDB(t, L, map[string]string{
-		"aion_GetMailsByUser": `{
+		"aion_maillist": `{
 			[1]={mail_id=1, sender_name="A", subject="first",  is_read=0, has_attachment=0, sent_ts=100},
 			[2]={mail_id=2, sender_name="B", subject="second", is_read=1, has_attachment=1, sent_ts=200}
 		}`,
@@ -490,7 +490,7 @@ end
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// TestMailReadSpFail — aion_UpdateMailRead returns an error → false,"sp_failed".
+// TestMailReadSpFail — aion_mailread returns an error → false,"sp_failed".
 // ─────────────────────────────────────────────────────────────────────────────
 func TestMailReadSpFail(t *testing.T) {
 	_, L, world, _ := newS14Bridge(t)
@@ -500,7 +500,7 @@ func TestMailReadSpFail(t *testing.T) {
 	L.SetGlobal("EID", lua.LNumber(float64(eid)))
 
 	installMailDB(t, L, map[string]string{
-		"aion_UpdateMailRead!err": "timeout",
+		"aion_mailread!err": "timeout",
 	})
 
 	if err := L.DoString(`_ok, _r = mail.read(EID, 42)`); err != nil {
@@ -515,8 +515,9 @@ func TestMailReadSpFail(t *testing.T) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// TestMailClaimAlreadyClaimed — SP returns a row where both item_id and kinah
-// are 0 (the attachment has been looted before) → false,"already_claimed".
+// TestMailClaimAlreadyClaimed — Round 13 rename: aion_mailgetitem returns rc=2
+// (no_attached_asset) for all three flag values (item/money/ap) → mail.claim
+// returns false,"already_claimed".
 // ─────────────────────────────────────────────────────────────────────────────
 func TestMailClaimAlreadyClaimed(t *testing.T) {
 	_, L, world, _ := newS14Bridge(t)
@@ -526,7 +527,7 @@ func TestMailClaimAlreadyClaimed(t *testing.T) {
 	L.SetGlobal("EID", lua.LNumber(float64(eid)))
 
 	installMailDB(t, L, map[string]string{
-		"aion_ClaimMailAttachment": `{[1]={item_id=0, item_count=0, kinah=0}}`,
+		"aion_mailgetitem": `{[1]={rc=2, out_item_id=0, out_money=0, out_ap=0}}`,
 	})
 
 	if err := L.DoString(`_ok, _r = mail.claim(EID, 55)`); err != nil {
@@ -541,11 +542,10 @@ func TestMailClaimAlreadyClaimed(t *testing.T) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// TestMailClaimHappyPathItem — SP row {item_id=100001, item_count=1, kinah=0}.
-// Expect mail.claim → true and an aion_AddItemUser SP call to have been
-// issued by the Go-side player.add_item binding. This test uses
-// programmableDB because player.add_item bypasses the Lua `_G.db` override
-// and calls Bridge.DB.CallSP directly.
+// TestMailClaimHappyPathItem — Round 13 rename: aion_mailgetitem with flag=0
+// returns rc=0 + out_item_id=100001; flag=1 and 2 return rc=2. mail.claim
+// must return true and call player.add_item (which routes via Bridge.DB →
+// programmableDB → aion_AddItemUser).
 // ─────────────────────────────────────────────────────────────────────────────
 func TestMailClaimHappyPathItem(t *testing.T) {
 	b, L, world, _ := newS14Bridge(t)
@@ -554,17 +554,25 @@ func TestMailClaimHappyPathItem(t *testing.T) {
 	eid := spawnS14Player(t, world, 1413, 14014, "ItemClaimer", 0)
 	L.SetGlobal("EID", lua.LNumber(float64(eid)))
 
-	// Swap the Go-level DB for one we can observe. This is legal because
-	// Bridge.DB is a plain field; both db.call (Lua) and player.add_item
-	// (Go) funnel through it.
-	pdb := &programmableDB{
-		rows: map[string][]map[string]any{
-			"aion_ClaimMailAttachment": {
-				{"item_id": int64(100001), "item_count": int64(1), "kinah": int64(0)},
-			},
-			// aion_AddItemUser returns empty rows (success).
-		},
+	// Lua-side stub returns aion_mailgetitem rows by flag (4th arg).
+	if err := L.DoString(`
+_G.db = { call = function(name, ...)
+    if name == "aion_mailgetitem" then
+        local args = {...}
+        local flag = args[4]
+        if flag == 0 then
+            return {[1]={rc=0, out_item_id=100001, out_money=0, out_ap=0}}
+        end
+        return {[1]={rc=2, out_item_id=0, out_money=0, out_ap=0}}
+    end
+    return {}
+end }
+`); err != nil {
+		t.Fatalf("DB stub setup failed: %v", err)
 	}
+
+	// Bridge.DB observes player.add_item → aion_AddItemUser side-effect.
+	pdb := &programmableDB{rows: map[string][]map[string]any{}}
 	b.DB = pdb
 
 	if err := L.DoString(`_ok, _r = mail.claim(EID, 10)`); err != nil {
@@ -575,9 +583,6 @@ func TestMailClaimHappyPathItem(t *testing.T) {
 			v, L.GetGlobal("_r"))
 	}
 
-	if !pdb.sawCall("aion_ClaimMailAttachment") {
-		t.Error("expected aion_ClaimMailAttachment to be called")
-	}
 	if !pdb.sawCall("aion_AddItemUser") {
 		t.Errorf("expected aion_AddItemUser SP call on item attachment, calls=%v",
 			pdb.calls)
@@ -585,8 +590,9 @@ func TestMailClaimHappyPathItem(t *testing.T) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// TestMailClaimHappyPathKinah — SP row {item_id=0, kinah=5000} → true and the
-// player's cached kinah stat grows by 5000 (player.add_kinah path).
+// TestMailClaimHappyPathKinah — Round 13 rename: aion_mailgetitem flag=1 returns
+// rc=0 + out_money=5000; flag=0/2 return rc=2. mail.claim returns true and
+// the player's kinah stat grows by 5000 (player.add_kinah path).
 // ─────────────────────────────────────────────────────────────────────────────
 func TestMailClaimHappyPathKinah(t *testing.T) {
 	_, L, world, _ := newS14Bridge(t)
@@ -595,9 +601,21 @@ func TestMailClaimHappyPathKinah(t *testing.T) {
 	eid := spawnS14Player(t, world, 1414, 14015, "KinahClaimer", 1000)
 	L.SetGlobal("EID", lua.LNumber(float64(eid)))
 
-	installMailDB(t, L, map[string]string{
-		"aion_ClaimMailAttachment": `{[1]={item_id=0, item_count=0, kinah=5000}}`,
-	})
+	if err := L.DoString(`
+_G.db = { call = function(name, ...)
+    if name == "aion_mailgetitem" then
+        local args = {...}
+        local flag = args[4]
+        if flag == 1 then
+            return {[1]={rc=0, out_item_id=0, out_money=5000, out_ap=0}}
+        end
+        return {[1]={rc=2, out_item_id=0, out_money=0, out_ap=0}}
+    end
+    return {}
+end }
+`); err != nil {
+		t.Fatalf("DB stub setup failed: %v", err)
+	}
 
 	if err := L.DoString(`_ok = mail.claim(EID, 11)`); err != nil {
 		t.Fatalf("DoString failed: %v", err)
@@ -611,7 +629,7 @@ func TestMailClaimHappyPathKinah(t *testing.T) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// TestMailDeleteOK — aion_DeleteMail succeeds → (true, nil) and the SP is
+// TestMailDeleteOK — aion_maildelete succeeds → (true, nil) and the SP is
 // recorded in the call log.
 // ─────────────────────────────────────────────────────────────────────────────
 func TestMailDeleteOK(t *testing.T) {
@@ -632,7 +650,7 @@ _G.db = {
 _ok, _r = mail.delete(EID, 77)
 _saw_delete = false
 for _, name in ipairs(_sp_calls) do
-    if name == "aion_DeleteMail" then _saw_delete = true end
+    if name == "aion_maildelete" then _saw_delete = true end
 end
 `
 	if err := L.DoString(chunk); err != nil {
@@ -643,7 +661,7 @@ end
 			v, L.GetGlobal("_r"))
 	}
 	if v := L.GetGlobal("_saw_delete"); v != lua.LTrue {
-		t.Error("expected aion_DeleteMail SP call, got none")
+		t.Error("expected aion_maildelete SP call, got none")
 	}
 }
 
@@ -661,7 +679,7 @@ func TestCmMailSendHandlerRegistered(t *testing.T) {
 
 	// Empty row set for every SP → mail.send hits "no_recipient" cleanly.
 	installMailDB(t, L, map[string]string{
-		"aion_GetCharIdByName": `{}`,
+		"aion_getcharidbyname": `{}`,
 	})
 
 	// Build the CM_MAIL_SEND payload:
@@ -722,7 +740,7 @@ func TestCmMailListHandlerRegistered(t *testing.T) {
 	eid := spawnS14Player(t, world, 1417, 14018, "Lister", 0)
 
 	installMailDB(t, L, map[string]string{
-		"aion_GetMailsByUser": `{}`,
+		"aion_maillist": `{}`,
 	})
 
 	sender.packets = nil

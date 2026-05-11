@@ -29,6 +29,9 @@ instance.register({
 
     rewards = {
         kinah = 5000,
-        items = { { id = 110000001, count = 1 } },
+        -- Round 11 A8 (patch 02): 标注 reward 元数据。
+        -- Haramel 是 lv1-10 训练副本, armor 入门级 — common tier (3 manastone,
+        -- affix=false 不进 v1)。新人感受"这是我第一件本掉防具"已足够 wow。
+        items = { { id = 110000001, count = 1, class = "armor", tier = "common", affix = false } },
     },
 })

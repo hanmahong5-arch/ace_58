@@ -125,6 +125,17 @@ func (s *Store) IssueRaw(ctx context.Context, data Data) (rawToken [16]byte, hex
 	return rawToken, hexToken, nil
 }
 
+// StoreToken stores a pre-built 16-byte token (NCSoft session key format).
+func (s *Store) StoreToken(ctx context.Context, rawToken [16]byte, data Data) error {
+	hexToken := hex.EncodeToString(rawToken[:])
+	payload, err := json.Marshal(data)
+	if err != nil {
+		return fmt.Errorf("session: marshal failed: %w", err)
+	}
+	key := keyPrefix + hexToken
+	return s.rdb.Set(ctx, key, payload, s.ttl).Err()
+}
+
 // VerifyRaw looks up a token given as raw bytes (from CM_SESSION_CONFIRM).
 func (s *Store) VerifyRaw(ctx context.Context, rawToken []byte) (Data, error) {
 	return s.Verify(ctx, hex.EncodeToString(rawToken))
@@ -145,6 +156,9 @@ func (n *NilStore) IssueRaw(_ context.Context, data Data) (rawToken [16]byte, he
 	return rawToken, hex.EncodeToString(rawToken[:]), nil
 }
 
+// StoreToken is a no-op in dev mode.
+func (n *NilStore) StoreToken(_ context.Context, _ [16]byte, _ Data) error { return nil }
+
 // VerifyRaw always succeeds with the dev account ID.
 func (n *NilStore) VerifyRaw(_ context.Context, _ []byte) (Data, error) {
 	return Data{AccountID: n.DevAccountID, Account: "dev", ServerID: 10}, nil
@@ -154,5 +168,7 @@ func (n *NilStore) VerifyRaw(_ context.Context, _ []byte) (Data, error) {
 // are interchangeable.
 type TokenStoreIface interface {
 	IssueRaw(ctx context.Context, data Data) (rawToken [16]byte, hexToken string, err error)
+	// StoreToken stores a pre-built 16-byte token (e.g. accountId+loginOk+playOk1+playOk2).
+	StoreToken(ctx context.Context, rawToken [16]byte, data Data) error
 	VerifyRaw(ctx context.Context, rawToken []byte) (Data, error)
 }

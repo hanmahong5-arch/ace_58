@@ -1,0 +1,11 @@
+-- Source: AionWorldLive.dbo.aion_GetGuildId  (type=P)
+-- Created: 2024-03-23 22:29:41.157000
+-- Modified: 2024-03-23 22:29:41.157000
+-- Extracted: 2026-04-25 from 47.104.224.209
+
+CREATE proc [dbo].[aion_GetGuildId]
+	@strGuildName	nvarchar(32)
+as
+set nocount on
+SELECT id FROM guild where name = @strGuildName
+set nocount off
